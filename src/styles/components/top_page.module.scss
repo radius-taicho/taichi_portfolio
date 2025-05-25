@@ -1,0 +1,597 @@
+@use "../common/_variables.scss" as *;
+
+.mainSection,
+.mainSection * {
+  box-sizing: border-box;
+}
+
+.mainSection {
+  padding: 32px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+
+  @include mq(sm) {
+    padding: 64px 0px 0px 0px;
+    gap: 128px;
+  }
+}
+
+.sectionWrapper {
+  padding: 0px 16px 0px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(md) {
+    padding: 0px 192px 0px 192px;
+    width: 1440px;
+    margin: 0 auto;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 80px;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(sm) {
+    height: 104px;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  @include mq(md) {
+    width: 1056px;
+  }
+}
+
+.sectionTitle {
+  color: #000000;
+  text-align: left;
+  font-family: var(--section-title-pc-font-family, "Inter-Regular", sans-serif);
+  font-size: 32px;
+  font-weight: var(--section-title-pc-font-weight, 400);
+  position: relative;
+
+  @include mq(sm) {
+    font-size: var(--section-title-pc-font-size, 48px);
+  }
+}
+
+.sectionContent {
+  padding: 24px 0px 24px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible; // hiddenからvisibleに変更
+
+  @include mq(sm) {
+    padding: 96px 0px;
+    gap: 96px;
+  }
+}
+
+.categorySection {
+  padding: 0px 16px 0px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(sm) {
+    padding: 0px 64px 0px 64px;
+  }
+}
+
+.categoryTitle {
+  color: #000000;
+  text-align: left;
+  font-family: var(--sub-title-pc-font-family, "Inter-Regular", sans-serif);
+  font-size: 24px;
+  font-weight: var(--sub-title-pc-font-weight, 400);
+  position: relative;
+
+  @include mq(sm) {
+    font-size: var(--sub-title-pc-font-size, 36px);
+  }
+}
+
+.worksContainer {
+  padding: 0px 16px 0px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible; // hiddenからvisibleに変更
+
+  @include mq(sm) {
+    padding: 0px 64px 0px 64px;
+  }
+}
+
+.worksGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible; // hiddenからvisibleに変更
+
+  @include mq(sm) {
+    gap: 64px;
+  }
+}
+
+.worksRow {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 100%;
+  position: relative;
+  overflow: visible;
+
+  @include mq(sm) {
+    flex-direction: row;
+    width: 100%;
+    max-width: 928px;
+    height: auto; // 固定高さを削除してautoに変更
+  }
+}
+
+.worksRowContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  align-items: stretch; // flex-startからstretchに変更
+
+  @include mq(sm) {
+    flex-direction: row;
+    gap: 48px;
+    align-items: flex-start; // デスクトップではflex-startに戻す
+  }
+}
+
+.workCard {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+  height: auto; // 高さを明示的にautoに設定
+  position: relative;
+  overflow: visible;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none; // Linkスタイルをリセット
+  color: inherit; // テキスト色を継承
+  cursor: pointer; // ホバー時のカーソル
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    text-decoration: none; // hover時もアンダーラインなし
+  }
+
+  @include mq(sm) {
+    align-self: stretch;
+    width: 440px;
+    min-height: auto; // 最小高さもautoに設定
+  }
+}
+
+.workImageContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  @include mq(sm) {
+  }
+}
+
+.workImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+
+  @include mq(sm) {
+    height: 320px;
+  }
+}
+
+.workImagePlaceholder {
+  background: #bababa;
+  border-radius: 16px;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1rem;
+
+  @include mq(sm) {
+    border-radius: 24px;
+    height: 320px;
+  }
+}
+
+.workInfo {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+
+  @include mq(sm) {
+    padding: 20px;
+    gap: 12px;
+  }
+}
+
+.workTitle {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+
+  @include mq(sm) {
+    font-size: 14px;
+  }
+}
+
+.workType {
+  color: #666666;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+
+  @include mq(sm) {
+    font-size: 12px;
+  }
+}
+
+.loadingPlaceholder {
+  background: #f0f0f0;
+  border-radius: 16px;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include mq(sm) {
+    border-radius: 24px;
+    height: 320px;
+  }
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #ddd;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  background: #f0f0f0;
+  height: 20px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+
+  &:first-child {
+    width: 80%;
+  }
+
+  &:last-child {
+    width: 60%;
+  }
+}
+
+.errorMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+
+  button {
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #5a6fd8;
+    }
+  }
+}
+
+.noWorksMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  width: 100%;
+
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.8;
+  }
+}
+
+.worksRowContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(sm) {
+    gap: 64px;
+  }
+}
+
+.illustrationContainer {
+  padding: 0px 16px 0px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(sm) {
+    padding: 0px 64px 0px 64px;
+    gap: 32px;
+  }
+}
+
+.illustrationContent {
+  background: #bababa;
+  border-radius: 24px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(sm) {
+    border-radius: 48px;
+    height: 640px;
+  }
+}
+
+.paginationContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 120px;
+  height: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.paginationItemContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.paginationItem {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  position: static;
+}
+
+.ellipse6 {
+  background: #333333;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 12px;
+  top: 0px;
+  aspect-ratio: 1;
+}
+
+.ellipse3 {
+  background: #ffffff;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 15px;
+  top: 3px;
+  aspect-ratio: 1;
+}
+
+.ellipse62 {
+  background: #333333;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 52px;
+  top: 0px;
+  aspect-ratio: 1;
+}
+
+.ellipse32 {
+  background: #ffffff;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 55px;
+  top: 3px;
+  aspect-ratio: 1;
+}
+
+.ellipse63 {
+  background: #333333;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 92px;
+  top: 0px;
+  aspect-ratio: 1;
+}
+
+.ellipse33 {
+  background: #ffffff;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 95px;
+  top: 3px;
+  aspect-ratio: 1;
+}
+
+.bottomSection {
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(sm) {
+    height: 240px;
+  }
+}
+
+.decorativeCircle {
+  background: #d9d9d9;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  @include mq(sm) {
+    width: 128px;
+    height: 128px;
+    right: 128px;
+    top: 112px;
+    transform: none;
+  }
+
+  @include mq(md) {
+    left: 1312px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

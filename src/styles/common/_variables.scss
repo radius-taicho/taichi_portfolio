@@ -1,0 +1,37 @@
+// scss編集時に使用する共通項目を以下に記載
+
+// ブレークポイントの設定
+$breakpoints: (
+  'xs': 575px,
+  'sm': 768px,
+  'md': 992px,
+  'lg': 1024px,
+  'xl': 1280px,
+  'xxl': 1300px,
+);
+
+@mixin mq($size) {
+  @media screen and (min-width: #{map-get($breakpoints, $size)}) {
+    @content;
+  }
+}
+
+@mixin max-width($size) {
+  @media screen and (max-width: #{map-get($breakpoints, $size)}) {
+    @content;
+  }
+}
+
+// ポートフォリオ用カラー設定
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$text-color: #1a1a1a;
+$text-secondary: #333333;
+$background-light: #f8f9fa;
+$background-white: #ffffff;
+$border-color: #e5e5e5;
+
+// ヒーロー用のアスペクト比設定
+$hero-aspect-ratio: 1318/824;
+$hero-max-width: 1318px;
+$hero-max-height: 824px;

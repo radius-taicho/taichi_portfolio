@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 読み取り専用でアクセスするモデル
+model Work {
+  id                String   @id @default(cuid())
+  title            String   @db.VarChar(255)
+  client           String?  @db.VarChar(255)
+  type             String   @db.VarChar(100)
+  concept          String?  @db.Text
+  target           String?  @db.Text
+  challenge        String?  @db.Text
+  purpose          String?  @db.Text
+  informationDesign String? @db.Text
+  design           String?  @db.Text
+  planningDays     Int?
+  designDays       Int?
+  codingDays       Int?
+  mainImage        String?  @db.VarChar(500)
+  designImage      String?  @db.VarChar(500)
+  link             String?  @db.VarChar(500)
+  displayOrder     Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("works")
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  subject   String?  @db.VarChar(500)
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
+}
+
+model HeroImage {
+  id          String   @id @default(cuid())
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  imageUrl    String   @db.VarChar(500)
+  publicId    String   @db.VarChar(255)
+  isActive    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("hero_images")
+}

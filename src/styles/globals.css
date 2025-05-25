@@ -1,0 +1,73 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+html {
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+
+/* ポートフォリオのメインコンテナ */
+.pc {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+  position: relative;
+}
+
+/* ヘッダー部分 */
+.header {
+  width: 100%;
+  height: 80px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 0 64px;
+  }
+}
+
+.frame-157 {
+  display: flex;
+  align-items: center;
+}
+
+.taichi {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.frame-161 {
+  display: flex;
+  gap: 48px;
+}
+
+.frame-158,
+.frame-159,
+.frame-160 {
+  cursor: pointer;
+}
+
+.works,
+.about,
+.contact {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333333;
+  transition: color 0.3s ease;
+}
+
+.works:hover,
+.about:hover,
+.contact:hover {
+  color: #0066cc;
+}
