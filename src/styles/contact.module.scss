@@ -49,7 +49,8 @@
   position: relative;
 
   @include mq(sm) {
-    padding: 0px 160px;
+    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
+    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
   }
 }
 
@@ -91,7 +92,8 @@
   overflow: hidden;
 
   @include mq(sm) {
-    padding: 0px 192px;
+    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
+    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     gap: 40px;
     align-items: flex-end;
   }
@@ -108,6 +110,7 @@
     @include mq(sm) {
       gap: 40px;
       align-items: flex-end;
+      margin: 0 auto;
     }
   }
 }
@@ -213,19 +216,10 @@
     outline: none;
     border-color: $primary-color;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    transform: translateY(-2px);
   }
 
   &::placeholder {
     color: #999;
-  }
-
-  &:invalid {
-    border-color: #e74c3c;
-  }
-
-  &:valid {
-    border-color: #27ae60;
   }
 
   @include mq(sm) {
@@ -309,19 +303,10 @@
     outline: none;
     border-color: $primary-color;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    transform: translateY(-2px);
   }
 
   &::placeholder {
     color: #999;
-  }
-
-  &:invalid {
-    border-color: #e74c3c;
-  }
-
-  &:valid {
-    border-color: #27ae60;
   }
 
   @include mq(sm) {

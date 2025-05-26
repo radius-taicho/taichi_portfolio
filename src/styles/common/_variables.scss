@@ -2,12 +2,12 @@
 
 // ブレークポイントの設定
 $breakpoints: (
-  'xs': 575px,
-  'sm': 768px,
-  'md': 992px,
-  'lg': 1024px,
-  'xl': 1280px,
-  'xxl': 1300px,
+  "xs": 575px,
+  "sm": 768px,
+  "md": 992px,
+  "lg": 1024px,
+  "xl": 1280px,
+  "xxl": 1300px,
 );
 
 @mixin mq($size) {
@@ -23,7 +23,7 @@ $breakpoints: (
 }
 
 // ポートフォリオ用カラー設定
-$primary-color: #667eea;
+$primary-color: #333;
 $secondary-color: #764ba2;
 $text-color: #1a1a1a;
 $text-secondary: #333333;

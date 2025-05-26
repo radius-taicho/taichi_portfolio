@@ -685,7 +685,8 @@
   // ===== DESKTOP PAGE TITLE =====
   .desktopPageTitleSection {
     display: flex !important;
-    padding: 0px 160px;
+    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
+    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: row;
     gap: 10px;
     align-items: center;
@@ -700,7 +701,8 @@
     color: #000000;
     text-align: left;
     font-family: var(--font-rubik), "Rubik", sans-serif;
-    font-size: 72px;
+    // レスポンシブ対応: タイトルサイズをclampで調整
+    font-size: clamp(48px, 8vw, 72px);
     font-weight: 800;
     position: relative;
     margin: 0;
@@ -709,7 +711,8 @@
   // ===== DESKTOP SECTION STYLES =====
   .desktopSection {
     display: flex !important;
-    padding: 0px 160px;
+    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
+    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: column;
     gap: 64px;
     align-items: flex-start;
@@ -746,7 +749,8 @@
     color: #000000;
     text-align: left;
     font-family: var(--font-rubik), "Rubik", sans-serif;
-    font-size: 64px;
+    // レスポンシブ対応: セクションタイトルサイズをclampで調整
+    font-size: clamp(36px, 6vw, 64px);
     font-weight: 600;
     position: relative;
     margin: 0;
@@ -784,7 +788,10 @@
 
   .desktopStanceTextContainer {
     flex: 1;
-    width: 325px;
+    // レスポンシブ対応: 固定幅を削除
+    width: 100%;
+    max-width: 400px;
+    min-width: 250px;
     position: relative;
     overflow: hidden;
   }
@@ -792,7 +799,8 @@
   // ===== DESKTOP PROFILE SECTION =====
   .desktopProfileSection {
     display: flex !important;
-    padding: 0px 160px;
+    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
+    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: column;
     gap: 0px;
     align-items: flex-start;
@@ -811,9 +819,10 @@
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    height: 536px;
+    // レスポンシブ対応: 固定heightを削除
+    min-height: 400px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .desktopProfileImageWrapper {
@@ -824,7 +833,10 @@
     justify-content: center;
     align-self: stretch;
     flex-shrink: 0;
-    width: 320px;
+    // レスポンシブ対応: 固定幅を削除
+    min-width: 280px;
+    max-width: 320px;
+    flex: 0 0 auto;
     position: relative;
   }
 
@@ -832,8 +844,11 @@
     background: #d9d9d9;
     border-radius: 24px;
     flex-shrink: 0;
-    width: 296px;
-    height: 320px;
+    // レスポンシブ対応: 固定サイズを最大値として設定
+    width: min(296px, 100%);
+    height: auto;
+    aspect-ratio: 296/320;
+    max-height: 320px;
     position: relative;
     overflow: hidden;
   }
@@ -849,16 +864,19 @@
     position: relative;
   }
 
+  // レスポンシブ対応: 絶対位置を相対位置に変更
   .desktopProfileIcon {
     background: #bababa;
     border-radius: 100px;
     flex-shrink: 0;
-    width: 96px;
-    height: 96px;
+    width: clamp(64px, 6vw, 96px);
+    height: clamp(64px, 6vw, 96px);
     position: absolute;
-    left: 576px;
-    top: 428px;
+    // 相対位置でレスポンシブに調整
+    right: 10%;
+    bottom: -20px;
     overflow: hidden;
+    z-index: 2;
   }
 
   .desktopProfileTextWrapper {
@@ -868,16 +886,21 @@
     align-items: flex-end;
     justify-content: flex-start;
     flex-shrink: 0;
-    width: 640px;
-    height: 320px;
+    // レスポンシブ対応: 固定サイズを削除
+    flex: 1;
+    min-width: 0;
+    max-width: 640px;
     position: relative;
     overflow: hidden;
   }
 
   .desktopProfileNameContainer {
     flex-shrink: 0;
-    width: 640px;
-    height: 56px;
+    // レスポンシブ対応: 固定サイズを削除
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    min-height: 56px;
     position: relative;
   }
 
@@ -887,7 +910,8 @@
     gap: 10px;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 640px;
+    // レスポンシブ対応: 固定幅を削除
+    width: 100%;
     position: absolute;
     left: 0px;
     top: 0px;
@@ -909,7 +933,8 @@
     gap: 10px;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 640px;
+    // レスポンシブ対応: 固定幅を削除
+    width: 100%;
     position: absolute;
     left: 0px;
     top: 25px;
@@ -945,7 +970,8 @@
     font-weight: 400;
     position: relative;
     align-self: stretch;
-    height: 167px;
+    // レスポンシブ対応: 固定heightを削除
+    min-height: 120px;
     line-height: 1.6;
   }
 
@@ -1053,7 +1079,9 @@
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
-    width: 1056px;
+    // レスポンシブ対応: 固定幅を削除してflexを使用
+    flex: 1;
+    max-width: 100%;
     position: relative;
     overflow: hidden;
   }
@@ -1205,7 +1233,8 @@
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    height: 480px;
+    // レスポンシブ対応: 固定heightを削除
+    min-height: 400px;
     position: relative;
     overflow: hidden;
   }
@@ -1218,7 +1247,10 @@
     justify-content: flex-end;
     align-self: stretch;
     flex-shrink: 0;
-    width: 480px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 0 0 auto;
+    max-width: 40%;
+    min-width: 300px;
     position: relative;
     overflow: hidden;
   }
@@ -1226,7 +1258,9 @@
   .desktopCareerBar1 {
     background: #bababa;
     flex-shrink: 0;
-    width: 120px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 1;
+    min-width: 80px;
     height: 40px;
     position: relative;
     overflow: hidden;
@@ -1235,7 +1269,9 @@
   .desktopCareerBar2 {
     background: #bababa;
     flex-shrink: 0;
-    width: 120px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 1;
+    min-width: 80px;
     height: 96px;
     position: relative;
     overflow: hidden;
@@ -1256,7 +1292,8 @@
     align-items: flex-end;
     justify-content: flex-start;
     flex: 1;
-    height: 480px;
+    // レスポンシブ対応: 固定heightを削除
+    min-height: 400px;
     position: relative;
     overflow: hidden;
   }
@@ -1264,7 +1301,11 @@
   .desktopCareerPoint1 {
     background: #bababa;
     flex-shrink: 0;
-    width: 280px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 0 0 auto;
+    max-width: 280px;
+    min-width: 200px;
+    width: clamp(200px, 25%, 280px);
     height: 240px;
     position: relative;
     overflow: hidden;
@@ -1297,7 +1338,10 @@
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    width: 104px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 1;
+    min-width: 80px;
+    max-width: 120px;
     position: relative;
   }
 
@@ -1309,7 +1353,10 @@
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    width: 104px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 1;
+    min-width: 80px;
+    max-width: 120px;
     position: relative;
   }
 
@@ -1321,7 +1368,10 @@
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    width: 160px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 1;
+    min-width: 120px;
+    max-width: 180px;
     position: relative;
   }
 
@@ -1333,7 +1383,10 @@
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    width: 296px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 2;
+    min-width: 200px;
+    max-width: 320px;
     position: relative;
   }
 
@@ -1345,7 +1398,10 @@
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    width: 239px;
+    // レスポンシブ対応: 固定幅をflexで置き換え
+    flex: 2;
+    min-width: 180px;
+    max-width: 280px;
     position: relative;
   }
 
@@ -1357,13 +1413,14 @@
     font-size: 16px;
     font-weight: 400;
     position: relative;
-    width: 104px;
-    height: 99px;
+    // レスポンシブ対応: 固定サイズを削除
+    width: 100%;
+    min-height: 80px;
     line-height: 1.5;
   }
 
   .desktopCareerText2 {
-    height: 120px;
+    min-height: 100px;
   }
 
   .desktopCareerText3 {
@@ -1373,8 +1430,9 @@
     font-size: 16px;
     font-weight: 400;
     position: relative;
-    width: 160px;
-    height: 120px;
+    // レスポンシブ対応: 固定サイズを削除
+    width: 100%;
+    min-height: 100px;
     line-height: 1.5;
   }
 
@@ -1385,8 +1443,9 @@
     font-size: 20px;
     font-weight: 400;
     position: relative;
-    width: 296px;
-    height: 120px;
+    // レスポンシブ対応: 固定サイズを削除
+    width: 100%;
+    min-height: 100px;
     line-height: 1.5;
   }
 
@@ -1397,8 +1456,9 @@
     font-size: 20px;
     font-weight: 400;
     position: relative;
-    width: 239px;
-    height: 120px;
+    // レスポンシブ対応: 固定サイズを削除
+    width: 100%;
+    min-height: 100px;
     line-height: 1.5;
   }
 
