@@ -7,6 +7,7 @@
 html {
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
+  scroll-behavior: smooth; /* スムーズスクロールを有効化 */
 }
 
 /* ポートフォリオのメインコンテナ */
@@ -70,4 +71,35 @@ html {
 .about:hover,
 .contact:hover {
   color: #0066cc;
+}
+
+/* Mobile responsive adjustments */
+@media screen and (max-width: 767px) {
+  .pc {
+    /* Ensure mobile layout takes full width */
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .header {
+    /* Hide desktop header on mobile - will be handled by mobile layout */
+    display: none;
+  }
+  
+  .frame-161 {
+    gap: 24px;
+  }
+  
+  .works,
+  .about,
+  .contact {
+    font-size: 16px;
+  }
+}
+
+/* Very small screens */
+@media screen and (max-width: 375px) {
+  .taichi {
+    font-size: 28px;
+  }
 }

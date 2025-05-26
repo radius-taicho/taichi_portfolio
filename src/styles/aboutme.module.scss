@@ -1,0 +1,1447 @@
+@use "./common/_variables.scss" as *;
+
+// About Me page styles with mobile-first approach
+// Mobile (sm未満) styles are default, desktop (sm以上) styles use @include mq(sm)
+
+// ===== PAGE CONTAINER =====
+.pageContainer,
+.pageContainer * {
+  box-sizing: border-box;
+}
+
+.pageContainer {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100vh;
+}
+
+// ===== MOBILE LAYOUT (Default: sm未満) =====
+.mobileContainer {
+  padding: 112px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+
+  @include mq(sm) {
+    display: none; // Hide on desktop
+  }
+}
+
+.sectionFrame {
+  padding: 0px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.pageTitleContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.pageTitleWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+}
+
+.pageTitle {
+  color: #000000;
+  text-align: left;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  position: relative;
+  line-height: 1.2;
+  margin: 0;
+}
+
+// ===== MOBILE SECTIONS =====
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sectionTitleContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sectionTitle {
+  color: #000000;
+  text-align: left;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  position: relative;
+  line-height: 1.3;
+  margin: 0;
+}
+
+// ===== STANCE ON DESIGN SECTION (Mobile) =====
+.stanceItemContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.stanceImagePlaceholder {
+  background: #bababa;
+  border-radius: 16px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 256px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stanceTextWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.stanceTextContainer {
+  padding: 0px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.stanceText {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  line-height: 1.6;
+}
+
+.stanceSpacer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 54px;
+  position: relative;
+  overflow: hidden;
+}
+
+// ===== PROFILE SECTION (Mobile) =====
+.profileContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.profileImageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 294px;
+  position: relative;
+  overflow: hidden;
+}
+
+.profileImage {
+  background: #d9d9d9;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 240px;
+  height: 240px;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.profileTextContainer {
+  padding: 1px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.profileText {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  line-height: 180%;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+
+// ===== SKILLS SECTION (Mobile) =====
+.skillsContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 294px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skillsRowContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+// Skill circles with different sizes per row
+.skillCircleSmall {
+  background: #bababa;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.skillCircleMedium1 {
+  background: #d9d9d9;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.skillCircleMedium2 {
+  background: #d9d9d9;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 68px;
+  height: 68px;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.skillCircleLarge {
+  background: #d9d9d9;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+// ===== STRENGTH & WEAKNESS SECTION (Mobile) =====
+.strengthWeaknessTitle {
+  color: #000000;
+  text-align: left;
+  position: relative;
+  margin: 0;
+}
+
+.strengthTitleSpan {
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.weaknessTitleSpan {
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.strengthWeaknessContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.strengthHeaderWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.strengthHeaderText {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 180%;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  position: relative;
+}
+
+.strengthList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.strengthItem {
+  padding: 0px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.strengthNameContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  width: 120px;
+  position: relative;
+}
+
+.strengthName {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 180%;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  position: relative;
+  width: 83px;
+}
+
+.strengthDescContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 181px;
+  position: relative;
+}
+
+.strengthDescription {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 180%;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+}
+
+.weaknessButtonWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.weaknessButtonContainer {
+  background: #bababa;
+  border-radius: 12px;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.weaknessButtonText {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: relative;
+}
+
+// ===== CAREER SECTION (Mobile) =====
+.careerTimelineContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.careerStep1 {
+  background: #d9d9d9;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 192px;
+  position: relative;
+  padding: 16px;
+}
+
+.careerStep2 {
+  background: #d9d9d9;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 176px;
+  position: relative;
+  padding: 16px;
+}
+
+.careerStep3 {
+  background: #bababa;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 160px;
+  position: relative;
+  padding: 16px;
+}
+
+.careerStep4 {
+  background: #bababa;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 88px;
+  position: relative;
+  padding: 16px;
+}
+
+.careerStep5 {
+  background: #bababa;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 80px;
+  position: relative;
+  padding: 16px;
+}
+
+.careerText1 {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  line-height: 1.4;
+}
+
+.careerText2 {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  line-height: 1.4;
+}
+
+.careerText3 {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  line-height: 1.5;
+}
+
+.careerText4 {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  line-height: 1.4;
+}
+
+.careerText5 {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  line-height: 1.5;
+}
+
+// ===== MOBILE PROFILE & FOOTER SECTIONS =====
+.bottomProfileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 240px;
+  position: relative;
+}
+
+.bottomProfileImage {
+  background: #d9d9d9;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 128px;
+  height: 128px;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.footerSection {
+  background: #d9d9d9;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+// ===== DESKTOP LAYOUT (sm以上) =====
+@include mq(sm) {
+  // Hide mobile layout and show desktop layout
+  .mobileContainer {
+    display: none !important;
+  }
+
+  .bottomProfileSection,
+  .footerSection {
+    display: none !important;
+  }
+
+  // Show desktop elements
+  .desktopContainer {
+    display: flex !important;
+    padding: 64px 0px 0px 0px;
+    flex-direction: column;
+    gap: 200px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  // ===== DESKTOP PAGE TITLE =====
+  .desktopPageTitleSection {
+    display: flex !important;
+    padding: 0px 160px;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    height: 104px;
+    position: relative;
+  }
+
+  .desktopPageTitle {
+    color: #000000;
+    text-align: left;
+    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    position: relative;
+    margin: 0;
+  }
+
+  // ===== DESKTOP SECTION STYLES =====
+  .desktopSection {
+    display: flex !important;
+    padding: 0px 160px;
+    flex-direction: column;
+    gap: 64px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopSectionHeader {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopSectionTitleContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .desktopSectionTitle {
+    color: #000000;
+    text-align: left;
+    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-size: 64px;
+    font-weight: 600;
+    position: relative;
+    margin: 0;
+  }
+
+  // ===== DESKTOP STANCE SECTION =====
+  .desktopStanceContent {
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStanceItem {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStanceImage {
+    background: #bababa;
+    align-self: stretch;
+    flex-shrink: 0;
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStanceTextContainer {
+    flex: 1;
+    width: 325px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  // ===== DESKTOP PROFILE SECTION =====
+  .desktopProfileSection {
+    display: flex !important;
+    padding: 0px 160px;
+    flex-direction: column;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopProfileContent {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    height: 536px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopProfileImageWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    width: 320px;
+    position: relative;
+  }
+
+  .desktopProfileMainImage {
+    background: #d9d9d9;
+    border-radius: 24px;
+    flex-shrink: 0;
+    width: 296px;
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopProfileInfoWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+  }
+
+  .desktopProfileIcon {
+    background: #bababa;
+    border-radius: 100px;
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    position: absolute;
+    left: 576px;
+    top: 428px;
+    overflow: hidden;
+  }
+
+  .desktopProfileTextWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 640px;
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopProfileNameContainer {
+    flex-shrink: 0;
+    width: 640px;
+    height: 56px;
+    position: relative;
+  }
+
+  .desktopNameEnglishContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 640px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+  }
+
+  .desktopNameEnglish {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .desktopNameJapaneseContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 640px;
+    position: absolute;
+    left: 0px;
+    top: 25px;
+    overflow: hidden;
+  }
+
+  .desktopNameJapanese {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .desktopProfileDescContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopProfileDescription {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    position: relative;
+    align-self: stretch;
+    height: 167px;
+    line-height: 1.6;
+  }
+
+  // ===== DESKTOP SKILLS SECTION =====
+  .desktopSkillsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopSkillsRow {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopSkillCircle1 {
+    background: #bababa;
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .desktopSkillCircle2 {
+    background: #d9d9d9;
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .desktopSkillCircle3 {
+    background: #d9d9d9;
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: 88px;
+    height: 88px;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .desktopSkillCircle4 {
+    background: #d9d9d9;
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  // ===== DESKTOP STRENGTH & WEAKNESS SECTION =====
+  .desktopStrengthWeaknessTitle {
+    color: #000000;
+    text-align: left;
+    position: relative;
+    margin: 0;
+  }
+
+  .desktopStrengthSpan {
+    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+  }
+
+  .desktopWeaknessSpan {
+    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .desktopStrengthWeaknessContent {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStrengthContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 1056px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStrengthHeader {
+    padding: 0px 32px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStrengthTitle {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .desktopStrengthList {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .desktopStrengthItem {
+    padding: 0px 56px;
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStrengthNameWrapper {
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStrengthName {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .desktopStrengthDescWrapper {
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopStrengthDescription {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    flex: 1;
+    line-height: 1.6;
+  }
+
+  .desktopWeaknessHeader {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopWeaknessContainer {
+    background: #bababa;
+    border-radius: 16px;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .desktopWeaknessTitle {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    position: relative;
+  }
+
+  // ===== DESKTOP CAREER SECTION =====
+  .desktopCareerList {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .desktopCareerContent {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    height: 480px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerIndicators {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: flex-end;
+    justify-content: flex-end;
+    align-self: stretch;
+    flex-shrink: 0;
+    width: 480px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerBar1 {
+    background: #bababa;
+    flex-shrink: 0;
+    width: 120px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerBar2 {
+    background: #bababa;
+    flex-shrink: 0;
+    width: 120px;
+    height: 96px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerBar3 {
+    background: #bababa;
+    flex: 1;
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerPoints {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex: 1;
+    height: 480px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerPoint1 {
+    background: #bababa;
+    flex-shrink: 0;
+    width: 280px;
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerPoint2 {
+    background: #bababa;
+    flex: 1;
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerTexts {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopCareerTextItem1 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    width: 104px;
+    position: relative;
+  }
+
+  .desktopCareerTextItem2 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    width: 104px;
+    position: relative;
+  }
+
+  .desktopCareerTextItem3 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    width: 160px;
+    position: relative;
+  }
+
+  .desktopCareerTextItem4 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    width: 296px;
+    position: relative;
+  }
+
+  .desktopCareerTextItem5 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    width: 239px;
+    position: relative;
+  }
+
+  .desktopCareerText1,
+  .desktopCareerText2 {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    width: 104px;
+    height: 99px;
+    line-height: 1.5;
+  }
+
+  .desktopCareerText2 {
+    height: 120px;
+  }
+
+  .desktopCareerText3 {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    width: 160px;
+    height: 120px;
+    line-height: 1.5;
+  }
+
+  .desktopCareerText4 {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    position: relative;
+    width: 296px;
+    height: 120px;
+    line-height: 1.5;
+  }
+
+  .desktopCareerText5 {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    position: relative;
+    width: 239px;
+    height: 120px;
+    line-height: 1.5;
+  }
+
+  // ===== DESKTOP BOTTOM SECTION =====
+  .desktopBottomSection {
+    display: flex !important;
+    align-self: stretch;
+    flex-shrink: 0;
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopBottomCircle {
+    background: #d9d9d9;
+    border-radius: 50%;
+    width: 128px;
+    height: 128px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .desktopFooter {
+    display: flex !important;
+    background: #d9d9d9;
+    align-self: stretch;
+    flex-shrink: 0;
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+// デスクトップ要素はデフォルトで非表示（mobile-first）
+// sm以上で@include mq(sm)内で表示される
+.desktopContainer,
+.desktopPageTitleSection,
+.desktopSection,
+.desktopProfileSection,
+.desktopBottomSection,
+.desktopFooter {
+  display: none;
+
+  // sm以上では自動的にdisplay: flex !important;が適用される
+}

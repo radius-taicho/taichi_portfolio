@@ -1,7 +1,6 @@
 @use "../common/_variables.scss" as *;
 
 .heroSection {
-  background: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +30,7 @@
   max-width: 1318px;
   max-height: 824px;
   position: relative; // fillプロパティのために必要
-  
+
   /* レスポンシブ対応 */
   @media screen and (max-width: 1350px) {
     width: min(calc(100vw - 32px), 1318px);
@@ -61,12 +60,12 @@
   text-align: center;
   padding: 2rem;
   color: #666;
-  
+
   /* レスポンシブ対応 */
   @media screen and (max-width: 1350px) {
     height: min(calc((100vw - 32px) * 0.625), 824px);
   }
-  
+
   > span {
     font-size: 1.5rem;
     font-weight: 300;
@@ -102,7 +101,7 @@
   cursor: pointer;
   margin-top: 1rem;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: #5a6fd8;
     transform: translateY(-2px);
@@ -110,8 +109,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @include mq(sm) {
@@ -129,20 +132,27 @@
     min-height: 300px;
     max-height: 500px;
   }
-  
+
   .heroContainer {
     width: calc(100vw - 1rem);
     height: calc((100vw - 1rem) * 0.625);
     max-height: 400px;
   }
-  
+
   .heroImagePlaceholder {
     padding: 1rem;
     height: calc((100vw - 1rem) * 0.625);
     max-height: 400px;
-    
+
     > span {
       font-size: 1.2rem;
     }
+  }
+}
+
+// Mobile-specific overrides - Hero is handled by mobile layout
+@media screen and (max-width: 767px) {
+  .heroSection {
+    display: none;
   }
 }

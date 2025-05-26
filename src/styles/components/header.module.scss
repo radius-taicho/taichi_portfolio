@@ -1,0 +1,175 @@
+@use "../common/_variables.scss" as *;
+
+// Mobile Header Styles
+.mobileHeader,
+.mobileHeader * {
+  box-sizing: border-box;
+}
+
+.mobileHeader {
+  background: #ffffff;
+  padding: 0px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 72px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  // Hide mobile header on desktop
+  @include mq(sm) {
+    display: none;
+  }
+}
+
+.logoContainer {
+  padding: 9px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.logoText {
+  color: #000000;
+  text-align: center;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+}
+
+.hamburgerMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 33px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  // SVG styles
+  path {
+    transition: stroke 0.3s ease;
+  }
+
+  &:hover path {
+    stroke: #333;
+  }
+}
+
+// Desktop Header (existing styles maintained)
+.desktopHeader {
+  background: #ffffff;
+  padding: 0px 64px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  // Hide mobile header styles on mobile
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
+// Desktop Header Components
+.desktopLogoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.desktopNavigation {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #000000;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.worksNavItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #000000;
+  background: none;
+  border: none;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// Responsive adjustments
+@media screen and (max-width: 375px) {
+  .mobileHeader {
+    padding: 0px 12px;
+  }
+
+  .logoText {
+    font-size: 28px;
+  }
+
+  .hamburgerMenu {
+    width: 30px;
+    height: 22px;
+  }
+}

@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "@/components/Header";
-import Controls from "@/components/Controls";
 import MainSection from "@/components/top/MainSection";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
@@ -13,7 +12,6 @@ export default function HomePage() {
 
   return (
     <div className={`pc ${theme === "retro" ? "retro-style" : "modern-style"}`}>
-      <Controls />
       <Header />
 
       {/* ヒーローセクション */}

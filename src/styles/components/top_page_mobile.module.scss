@@ -1,0 +1,435 @@
+@use "../common/_variables.scss" as *;
+
+// Mobile-first styles for screens below sm (768px)
+// This file adds mobile-specific styles to complement the existing top_page.module.scss
+
+// Mobile Layout Container
+.mobileLayout {
+  box-sizing: border-box;
+  
+  &,
+  * {
+    box-sizing: border-box;
+  }
+
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100vh;
+
+  @include mq(sm) {
+    display: none; // Hide mobile layout on larger screens
+  }
+}
+
+// Mobile Hero/Main Content Area (combined header area)
+.mobileHeroContent {
+  background: #bababa;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 560px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+// Main Content Container
+.mobileMainContainer {
+  padding: 56px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+}
+
+// Mobile Section Frame
+.mobileSectionFrame {
+  padding: 0px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+// Section Title Container
+.mobileSectionTitleContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileSectionTitleWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+}
+
+.mobileSectionTitle {
+  color: #000000;
+  text-align: left;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  position: relative;
+  line-height: 1.2;
+}
+
+// Category Section
+.mobileCategorySection {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mobileCategoryHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileCategoryTitleContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileCategoryTitle {
+  color: #000000;
+  text-align: left;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: relative;
+  line-height: 1.3;
+}
+
+// Works Content Area
+.mobileWorksContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+// Individual Work Item
+.mobileWorkItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mobileWorkImageContainer {
+  background: #bababa;
+  border-radius: 16px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 214.38px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 343/214.38;
+}
+
+.mobileWorkInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mobileWorkTextContainer {
+  padding: 0px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileWorkText {
+  color: #000000;
+  text-align: left;
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  line-height: 1.5;
+}
+
+// Illustration Section
+.mobileIllustrationContainer {
+  background: #bababa;
+  border-radius: 16px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 560px;
+  position: relative;
+  overflow: hidden;
+}
+
+// Bottom Profile Section
+.mobileProfileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 240px;
+  position: relative;
+}
+
+.mobileProfileImage {
+  background: #d9d9d9;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 128px;
+  height: 128px;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+// Mobile Footer
+.mobileFooter {
+  background: #d9d9d9;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+// Enhanced Mobile Styles - More descriptive naming
+.mobileWorksGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  width: 100%;
+}
+
+.mobileWorkCard {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+  }
+}
+
+.mobileWorkCardImage {
+  width: 100%;
+  height: 214px;
+  background: #bababa;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileWorkCardContent {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobileWorkCardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.mobileWorkCardDescription {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+// Responsive adjustments for very small screens
+@media screen and (max-width: 375px) {
+  .mobileSectionFrame {
+    padding: 0px 12px;
+    max-width: 100%;
+  }
+  
+  .mobileSectionTitle {
+    font-size: 32px;
+  }
+  
+  .mobileCategoryTitle {
+    font-size: 20px;
+  }
+  
+  .mobileWorkItem {
+    gap: 12px;
+  }
+  
+  .mobileWorkImageContainer {
+    height: 180px;
+  }
+  
+  .mobileWorkText {
+    font-size: 14px;
+  }
+}
+
+// Loading states for mobile
+.mobileLoadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.mobileLoadingCard {
+  background: #f8f9fa;
+  border-radius: 16px;
+  overflow: hidden;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.mobileLoadingImage {
+  width: 100%;
+  height: 214px;
+  background: #e9ecef;
+}
+
+.mobileLoadingContent {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobileLoadingText {
+  height: 16px;
+  background: #e9ecef;
+  border-radius: 4px;
+  
+  &:first-child {
+    width: 80%;
+  }
+  
+  &:last-child {
+    width: 60%;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// Error states for mobile
+.mobileErrorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #666;
+  min-height: 200px;
+}
+
+.mobileErrorMessage {
+  font-size: 16px;
+  margin-bottom: 1rem;
+  color: #dc3545;
+}
+
+.mobileRetryButton {
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  
+  &:hover {
+    background: #5a6fd8;
+  }
+}
