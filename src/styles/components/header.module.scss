@@ -39,7 +39,7 @@
 }
 
 .logoText {
-  color: #000000;
+  color: $text-color;
   text-align: center;
   font-family: var(--font-rubik), "Rubik", sans-serif;
   font-size: 42px;
@@ -129,7 +129,7 @@
   font-family: var(--font-rubik), "Rubik", sans-serif;
   font-size: 24px;
   font-weight: 600;
-  color: #000000;
+  color: $text-color;
   text-decoration: none;
   transition: opacity 0.3s ease;
   cursor: pointer;
@@ -147,7 +147,7 @@
   font-family: var(--font-rubik), "Rubik", sans-serif;
   font-size: 24px;
   font-weight: 600;
-  color: #000000;
+  color: $text-color;
   background: none;
   border: none;
   transition: opacity 0.3s ease;

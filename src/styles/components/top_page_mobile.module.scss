@@ -93,7 +93,7 @@
 }
 
 .mobileSectionTitle {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: var(--font-rubik), "Rubik", sans-serif;
   font-size: 40px;
@@ -139,7 +139,7 @@
 }
 
 .mobileCategoryTitle {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: var(--font-rubik), "Rubik", sans-serif;
   font-size: 24px;
@@ -209,7 +209,7 @@
 }
 
 .mobileWorkText {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: 'Inter-Regular', sans-serif;
   font-size: 16px;
@@ -310,7 +310,7 @@
 .mobileWorkCardTitle {
   font-size: 16px;
   font-weight: 600;
-  color: #000;
+  color: $text-color;
   line-height: 1.4;
   margin: 0;
 }

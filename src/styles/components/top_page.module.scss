@@ -78,17 +78,12 @@
 }
 
 .sectionTitle {
-  display: none;
-
-  @include mq(sm) {
-    display: block;
-    color: #000000;
-    text-align: center;
-    font-family: var(--font-rubik), "Rubik", sans-serif;
-    font-size: 64px;
-    font-weight: 800;
-    position: relative;
-  }
+  color: $text-color;
+  text-align: center;
+  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-size: clamp(48px, 8vw, 72px);
+  font-weight: 800;
+  position: relative;
 }
 
 .sectionContent {
@@ -130,7 +125,7 @@
 
   @include mq(sm) {
     display: block;
-    color: #000000;
+    color: $text-color;
     text-align: center;
     font-family: var(--font-rubik), "Rubik", sans-serif;
     font-size: 36px;
@@ -292,7 +287,7 @@
 
   @include mq(sm) {
     display: block;
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 18px;

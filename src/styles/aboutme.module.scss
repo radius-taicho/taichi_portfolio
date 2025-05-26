@@ -76,7 +76,7 @@
 }
 
 .pageTitle {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: var(--font-rubik), "Rubik", sans-serif;
   font-size: 40px;
@@ -123,7 +123,7 @@
 }
 
 .sectionTitle {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: var(--font-rubik), "Rubik", sans-serif;
   font-size: 24px;
@@ -181,7 +181,7 @@
 }
 
 .stanceText {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 18px;
@@ -254,7 +254,7 @@
 }
 
 .profileText {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 18px;
@@ -333,7 +333,7 @@
 
 // ===== STRENGTH & WEAKNESS SECTION (Mobile) =====
 .strengthWeaknessTitle {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   position: relative;
   margin: 0;
@@ -374,7 +374,7 @@
 }
 
 .strengthHeaderText {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 20px;
@@ -421,7 +421,7 @@
 }
 
 .strengthName {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 16px;
@@ -444,7 +444,7 @@
 }
 
 .strengthDescription {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 14px;
@@ -480,7 +480,7 @@
 }
 
 .weaknessButtonText {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 32px;
@@ -571,7 +571,7 @@
 }
 
 .careerText1 {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 24px;
@@ -582,7 +582,7 @@
 }
 
 .careerText2 {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 24px;
@@ -593,7 +593,7 @@
 }
 
 .careerText3 {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 16px;
@@ -604,7 +604,7 @@
 }
 
 .careerText4 {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 24px;
@@ -615,7 +615,7 @@
 }
 
 .careerText5 {
-  color: #000000;
+  color: $text-color;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
   font-size: 16px;
@@ -698,7 +698,7 @@
   }
 
   .desktopPageTitle {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: var(--font-rubik), "Rubik", sans-serif;
     // レスポンシブ対応: タイトルサイズをclampで調整
@@ -746,7 +746,7 @@
   }
 
   .desktopSectionTitle {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: var(--font-rubik), "Rubik", sans-serif;
     // レスポンシブ対応: セクションタイトルサイズをclampで調整
@@ -919,7 +919,7 @@
   }
 
   .desktopNameEnglish {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 14px;
@@ -942,7 +942,7 @@
   }
 
   .desktopNameJapanese {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 24px;
@@ -963,7 +963,7 @@
   }
 
   .desktopProfileDescription {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 20px;
@@ -1042,7 +1042,7 @@
 
   // ===== DESKTOP STRENGTH & WEAKNESS SECTION =====
   .desktopStrengthWeaknessTitle {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     position: relative;
     margin: 0;
@@ -1100,7 +1100,7 @@
   }
 
   .desktopStrengthTitle {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 32px;
@@ -1147,7 +1147,7 @@
   }
 
   .desktopStrengthName {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 16px;
@@ -1169,7 +1169,7 @@
   }
 
   .desktopStrengthDescription {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 16px;
@@ -1205,7 +1205,7 @@
   }
 
   .desktopWeaknessTitle {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 40px;
@@ -1407,7 +1407,7 @@
 
   .desktopCareerText1,
   .desktopCareerText2 {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 16px;
@@ -1424,7 +1424,7 @@
   }
 
   .desktopCareerText3 {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 16px;
@@ -1437,7 +1437,7 @@
   }
 
   .desktopCareerText4 {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 20px;
@@ -1450,7 +1450,7 @@
   }
 
   .desktopCareerText5 {
-    color: #000000;
+    color: $text-color;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
     font-size: 20px;

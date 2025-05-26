@@ -4,6 +4,16 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
+:root {
+  --text-color: #252525;
+  --text-secondary: #252525;
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --background-light: #f8f9fa;
+  --background-white: #ffffff;
+  --border-color: #e5e5e5;
+}
+
 html {
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
@@ -44,7 +54,7 @@ html {
 .taichi {
   font-size: 32px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-color);
 }
 
 .frame-161 {
@@ -63,7 +73,7 @@ html {
 .contact {
   font-size: 18px;
   font-weight: 500;
-  color: #333333;
+  color: var(--text-color);
   transition: color 0.3s ease;
 }
 
