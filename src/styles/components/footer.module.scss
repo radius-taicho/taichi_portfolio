@@ -3,6 +3,555 @@
 /* フッター */
 .footer {
   width: 100%;
-  height: 320px;
-  background-color: #1a1a1a;
+  background-color: #1e1e1e;
+  position: relative;
+  overflow: hidden;
+}
+
+// ===== モバイル版レイアウト（デフォルト） =====
+.mobileLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center; // 中央配置に変更
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+
+  @include max-width(sm) {
+    padding: 16px 120px;
+  }
+
+  @include max-width(xs) {
+    padding: 16px 48px;
+  }
+
+  @include max-width(xxs) {
+    padding: 16px clamp(12px, 4vw, 32px);
+  }
+
+  @include mq(xs) {
+    display: none; // デスクトップで非表示
+  }
+}
+
+// モバイル ヘッダー部分
+.mobileHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileBrandSection {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mobileBrandContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mobileBrandName {
+  color: #ffffff;
+  text-align: center;
+  font-family: var(--font-rubik), "Rubik-Black", sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileAvatar {
+  background: #d9d9d9;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.mobileSocialIcons {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  height: 72px;
+  position: relative;
+  overflow: hidden;
+}
+
+// モバイル メインコンテンツ
+.mobileMainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  align-items: center; // 中央配置に変更
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+}
+
+.mobileNavigation {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center; // 中央配置に変更
+  justify-content: flex-start; // 中央配置に変更
+  flex-shrink: 0;
+  position: relative;
+  width: 100%;
+  max-width: 100%; // 最大幅を確保
+}
+
+.mobileNavLink {
+  color: #ffffff;
+  text-align: left; // 左寄せに変更
+  font-family: var(--font-rubik), "Rubik-SemiBold", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; // 左寄せ配置
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  min-width: 80px; // 最小幅を設定してレイアウトを安定化
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @include max-width(xxs) {
+    font-size: 18px;
+  }
+  @include max-width(mic) {
+    font-size: 16px;
+  }
+}
+
+.mobileSettings {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start; // より均等な配置
+  flex-shrink: 0;
+  gap: clamp(32px, 8vw, 56px); // レスポンシブギャップ
+  position: relative;
+  flex-wrap: wrap; // 小さい画面で折り返し
+  width: 100%;
+  max-width: 100%; // 最大幅を拡張
+
+  @include mq(xxs) {
+    justify-content: space-between;
+  }
+}
+
+.mobileLanguageSettings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center; // 中央配置に変更
+  justify-content: flex-start;
+  flex-shrink: 0;
+  flex: 1; // 均等分割
+  min-width: 100px; // 最小幅を設定
+  max-width: 150px; // 最大幅を制限
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileThemeSettings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center; // 中央配置に変更
+  justify-content: flex-start;
+  flex-shrink: 0;
+  flex: 1; // 均等分割
+  min-width: 100px; // 最小幅を設定
+  max-width: 150px; // 最大幅を制限
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileSettingTitle {
+  color: #ffffff;
+  text-align: left; // 左寄せに変更
+  font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; // 左寄せ配置
+  width: 100%; // 幅を確保
+  @include max-width(xxs) {
+    font-size: 16px;
+  }
+  @include max-width(mic) {
+    font-size: 14px;
+  }
+}
+
+.mobileSettingOption {
+  color: #ffffff;
+  text-align: left; // 左寄せに変更
+  font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; // 左寄せ配置
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  width: 100%; // 幅を確保
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @include max-width(xxs) {
+    font-size: 14px;
+  }
+  @include max-width(mic) {
+    font-size: 12px;
+  }
+}
+
+// モバイル 著作権
+.mobileCopyright {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileCopyrightText {
+  color: #ffffff;
+  text-align: center;
+  font-family: var(--font-rubik), "Rubik-Regular", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ===== デスクトップ版レイアウト =====
+.desktopLayout {
+  display: none; // モバイルで非表示
+
+  @include mq(xs) {
+    background: #1e1e1e;
+    padding: 16px clamp(24px, 5vw, 80px); // レスポンシブパディング
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+.desktopMainContent {
+  @include mq(xs) {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 4vh, 48px); // レスポンシブギャップ
+    align-items: center; // 中央配置
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-grow: 1; // 余ったスペースを埋める
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1200px; // 最大幅を制限
+  }
+}
+
+// デスクトップ ブランドセクション（上部）
+.desktopBrandSection {
+  @include mq(xs) {
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+}
+
+.desktopBrandContainer {
+  @include mq(xs) {
+    padding: 7px 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 42px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+  }
+}
+
+.desktopBrandName {
+  @include mq(xs) {
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-rubik), "Rubik-Black", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.desktopAvatar {
+  @include mq(xs) {
+    background: #d9d9d9;
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    position: relative;
+  }
+}
+
+.desktopSocialIcons {
+  @include mq(xs) {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    height: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+// デスクトップ コンテンツエリア（中央）
+.desktopContentArea {
+  @include mq(xs) {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(32px, 6vw, 64px); // レスポンシブギャップ
+    align-items: flex-start;
+    justify-content: space-between; // 均等配置
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    width: 100%;
+  }
+}
+
+.desktopNavigation {
+  @include mq(xs) {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    flex: 1; // フレックス成長で自動幅
+    max-width: 400px; // 最大幅制限
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.desktopNavContainer {
+  @include mq(xs) {
+    padding: 32px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 100%; // 親コンテナに合わせる
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.desktopNavLink {
+  @include mq(xs) {
+    color: #ffffff;
+    text-align: left;
+    font-family: var(--font-rubik), "Rubik-SemiBold", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+// デスクトップ 設定セクション（右側）
+.desktopSettings {
+  @include mq(xs) {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(16px, 4vw, 32px); // レスポンシブギャップ
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    flex: 1; // フレックス成長で自動幅
+    max-width: 500px; // 最大幅制限
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.desktopLanguageSettings {
+  @include mq(xs) {
+    padding: 32px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    flex: 1; // 均等分割
+    min-width: 120px; // 最小幅を保証
+    position: relative;
+  }
+}
+
+.desktopThemeSettings {
+  @include mq(xs) {
+    padding: 32px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    flex: 1; // 均等分割
+    min-width: 120px; // 最小幅を保証
+    position: relative;
+  }
+}
+
+.desktopSettingTitle {
+  @include mq(xs) {
+    color: #ffffff;
+    text-align: left;
+    font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+
+.desktopSettingOption {
+  @include mq(xs) {
+    color: #ffffff;
+    text-align: left;
+    font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+// デスクトップ 著作権（下部）
+.desktopCopyright {
+  @include mq(xs) {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.desktopCopyrightText {
+  @include mq(xs) {
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-rubik), "Rubik-Regular", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// ===== 共通要素 =====
+.socialIcon {
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }

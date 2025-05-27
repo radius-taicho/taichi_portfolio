@@ -1,7 +1,13 @@
 // scss編集時に使用する共通項目を以下に記載
 
+// フォントファミリー設定
+$font-rubik: var(--font-rubik), "Rubik", sans-serif;
+$font-japanese: "HiraginoMaruGothicPro-W4", sans-serif;
+
 // ブレークポイントの設定
 $breakpoints: (
+  "mic": 320px,
+  "xxs": 375px,
   "xs": 575px,
   "sm": 768px,
   "md": 992px,
@@ -23,7 +29,7 @@ $breakpoints: (
 }
 
 // ポートフォリオ用カラー設定
-$primary-color: #667eea;
+$primary-color: #333;
 $secondary-color: #764ba2;
 $text-color: #252525;
 $text-secondary: #252525;

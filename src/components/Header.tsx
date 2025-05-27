@@ -106,10 +106,7 @@ interface NavItemProps {
 
 function NavItem({ href, label }: NavItemProps) {
   return (
-    <Link
-      href={href}
-      className={styles.navItem}
-    >
+    <Link href={href} className={styles.navItem}>
       {label}
     </Link>
   );
@@ -123,10 +120,7 @@ interface WorksNavItemProps {
 
 function WorksNavItem({ onClick, label }: WorksNavItemProps) {
   return (
-    <button
-      onClick={onClick}
-      className={styles.worksNavItem}
-    >
+    <button onClick={onClick} className={styles.worksNavItem}>
       {label}
     </button>
   );

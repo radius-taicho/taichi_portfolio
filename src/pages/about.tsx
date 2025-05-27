@@ -20,10 +20,22 @@ export default function AboutPage() {
         {/* モバイルレイアウト（デフォルト: sm未満） */}
         <div className={styles.mobileContainer}>
           <div className={styles.sectionFrame}>
-            {/* About Me タイトル */}
-            <div className={styles.pageTitleContainer}>
-              <div className={styles.pageTitleWrapper}>
-                <h1 className={styles.pageTitle}>About Me</h1>
+            {/* About Me タイトル + Heroグループ */}
+            <div className={styles.titleHeroGroup}>
+              {/* About Me タイトル */}
+              <div className={styles.pageTitleContainer}>
+                <div className={styles.pageTitleWrapper}>
+                  <h1 className={styles.pageTitle}>About Me</h1>
+                </div>
+              </div>
+
+              {/* Hero セクション */}
+              <div className={styles.heroContainer}>
+                <div className={styles.heroImageContainer}>
+                  <div className={styles.heroImage}>
+                    {/* ここにヒーロー画像を配置 */}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -91,11 +103,7 @@ export default function AboutPage() {
               </div>
               <div className={styles.profileContentContainer}>
                 <div className={styles.strengthWeaknessContentContainer}>
-                  <div className={styles.sectionTitleContainer}>
-                    <div className={styles.strengthHeaderWrapper}>
-                      <div className={styles.strengthHeaderText}>strength</div>
-                    </div>
-                  </div>
+                  <div className={styles.sectionTitleContainer}></div>
                   <div className={styles.strengthList}>
                     <div className={styles.strengthItem}>
                       <div className={styles.strengthNameContainer}>
@@ -186,9 +194,21 @@ export default function AboutPage() {
 
         {/* デスクトップレイアウト（sm以上） */}
         <div className={styles.desktopContainer}>
-          {/* About Me タイトルセクション */}
-          <div className={styles.desktopPageTitleSection}>
-            <h1 className={styles.desktopPageTitle}>About Me</h1>
+          {/* About Me タイトル + Heroグループ */}
+          <div className={styles.desktopTitleHeroGroup}>
+            {/* About Me タイトルセクション */}
+            <div className={styles.desktopPageTitleSection}>
+              <h1 className={styles.desktopPageTitle}>About Me</h1>
+            </div>
+
+            {/* Hero セクション */}
+            <div className={styles.desktopHeroSection}>
+              <div className={styles.desktopHeroContainer}>
+                <div className={styles.desktopHeroImage}>
+                  {/* ここにヒーロー画像を配置 */}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Profile セクション */}
@@ -200,10 +220,10 @@ export default function AboutPage() {
             </div>
             <div className={styles.desktopProfileContent}>
               <div className={styles.desktopProfileImageWrapper}>
+                <div className={styles.desktopProfileIcon}></div>
                 <div className={styles.desktopProfileMainImage}></div>
               </div>
               <div className={styles.desktopProfileInfoWrapper}>
-                <div className={styles.desktopProfileIcon}></div>
                 <div className={styles.desktopProfileTextWrapper}>
                   <div className={styles.desktopProfileNameContainer}>
                     <div className={styles.desktopNameEnglishContainer}>
@@ -268,9 +288,6 @@ export default function AboutPage() {
             </div>
             <div className={styles.desktopStrengthWeaknessContent}>
               <div className={styles.desktopStrengthContainer}>
-                <div className={styles.desktopStrengthHeader}>
-                  <div className={styles.desktopStrengthTitle}>strength</div>
-                </div>
                 <div className={styles.desktopStrengthList}>
                   <div className={styles.desktopStrengthItem}>
                     <div className={styles.desktopStrengthNameWrapper}>

@@ -24,7 +24,7 @@
 
 // ===== MOBILE LAYOUT (Default: sm未満) =====
 .mobileContainer {
-  padding: 112px 0px;
+  padding: 64px 0px;
   display: flex;
   flex-direction: column;
   gap: 56px;
@@ -43,15 +43,31 @@
   padding: 0px 16px;
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 96px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
   width: 100%;
-  max-width: 375px;
+  max-width: 575px;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    gap: 72px;
+    padding: 0px 12px;
+  }
+
+  @include max-width(xxs) {
+    gap: 56px;
+    padding: 0px 8px;
+  }
+
+  @include max-width(mic) {
+    gap: 48px;
+    padding: 0px 6px;
+  }
 }
 
 .pageTitleContainer {
@@ -78,12 +94,91 @@
 .pageTitle {
   color: $text-color;
   text-align: left;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik;
   font-size: 40px;
   font-weight: 700;
   position: relative;
   line-height: 1.2;
   margin: 0;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    font-size: 32px;
+  }
+
+  @include max-width(xxs) {
+    font-size: 28px;
+  }
+
+  @include max-width(mic) {
+    font-size: 24px;
+  }
+}
+
+// ===== MOBILE TITLE + HERO GROUP =====
+.titleHeroGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 32px; // About Meタイトルとヒーロー間の狭いギャップ
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    gap: 24px;
+  }
+
+  @include max-width(xxs) {
+    gap: 20px;
+  }
+
+  @include max-width(mic) {
+    gap: 16px;
+  }
+}
+
+// ===== MOBILE HERO SECTION =====
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.heroImageContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroImage {
+  background: #bababa;
+  border-radius: 16px;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
+  width: 100%;
+  height: auto;
+
+  // iPad向け（768px-1024px）: 4:3比率
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    aspect-ratio: 4/3;
+  }
 }
 
 // ===== MOBILE SECTIONS =====
@@ -96,6 +191,19 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    gap: 32px;
+  }
+
+  @include max-width(xxs) {
+    gap: 24px;
+  }
+
+  @include max-width(mic) {
+    gap: 20px;
+  }
 }
 
 .sectionHeader {
@@ -125,12 +233,25 @@
 .sectionTitle {
   color: $text-color;
   text-align: left;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik;
   font-size: 24px;
   font-weight: 600;
   position: relative;
   line-height: 1.3;
   margin: 0;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    font-size: 20px;
+  }
+
+  @include max-width(xxs) {
+    font-size: 18px;
+  }
+
+  @include max-width(mic) {
+    font-size: 16px;
+  }
 }
 
 // ===== STANCE ON DESIGN SECTION (Mobile) =====
@@ -183,12 +304,25 @@
 .stanceText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 18px;
   font-weight: 400;
   position: relative;
   align-self: stretch;
   line-height: 1.6;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    font-size: 16px;
+  }
+
+  @include max-width(xxs) {
+    font-size: 15px;
+  }
+
+  @include max-width(mic) {
+    font-size: 14px;
+  }
 }
 
 .stanceSpacer {
@@ -215,6 +349,19 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    gap: 24px;
+  }
+
+  @include max-width(xxs) {
+    gap: 20px;
+  }
+
+  @include max-width(mic) {
+    gap: 16px;
+  }
 }
 
 .profileImageContainer {
@@ -238,6 +385,22 @@
   height: 240px;
   position: relative;
   aspect-ratio: 1;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    width: 200px;
+    height: 200px;
+  }
+
+  @include max-width(xxs) {
+    width: 180px;
+    height: 180px;
+  }
+
+  @include max-width(mic) {
+    width: 160px;
+    height: 160px;
+  }
 }
 
 .profileTextContainer {
@@ -256,13 +419,29 @@
 .profileText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 18px;
   line-height: 180%;
   letter-spacing: 0.04em;
   font-weight: 400;
   position: relative;
   align-self: stretch;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    font-size: 16px;
+    line-height: 170%;
+  }
+
+  @include max-width(xxs) {
+    font-size: 15px;
+    line-height: 165%;
+  }
+
+  @include max-width(mic) {
+    font-size: 14px;
+    line-height: 160%;
+  }
 }
 
 // ===== SKILLS SECTION (Mobile) =====
@@ -277,6 +456,22 @@
   height: 294px;
   position: relative;
   overflow: hidden;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    height: 260px;
+    gap: 6px;
+  }
+
+  @include max-width(xxs) {
+    height: 240px;
+    gap: 5px;
+  }
+
+  @include max-width(mic) {
+    height: 220px;
+    gap: 4px;
+  }
 }
 
 .skillsRowContainer {
@@ -299,6 +494,22 @@
   height: 60px;
   position: relative;
   aspect-ratio: 1;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    width: 50px;
+    height: 50px;
+  }
+
+  @include max-width(xxs) {
+    width: 45px;
+    height: 45px;
+  }
+
+  @include max-width(mic) {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .skillCircleMedium1 {
@@ -309,6 +520,22 @@
   height: 64px;
   position: relative;
   aspect-ratio: 1;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    width: 54px;
+    height: 54px;
+  }
+
+  @include max-width(xxs) {
+    width: 48px;
+    height: 48px;
+  }
+
+  @include max-width(mic) {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .skillCircleMedium2 {
@@ -319,6 +546,22 @@
   height: 68px;
   position: relative;
   aspect-ratio: 1;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    width: 58px;
+    height: 58px;
+  }
+
+  @include max-width(xxs) {
+    width: 52px;
+    height: 52px;
+  }
+
+  @include max-width(mic) {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .skillCircleLarge {
@@ -329,6 +572,22 @@
   height: 72px;
   position: relative;
   aspect-ratio: 1;
+
+  // モバイルレスポンシブ対応
+  @include max-width(xs) {
+    width: 62px;
+    height: 62px;
+  }
+
+  @include max-width(xxs) {
+    width: 56px;
+    height: 56px;
+  }
+
+  @include max-width(mic) {
+    width: 52px;
+    height: 52px;
+  }
 }
 
 // ===== STRENGTH & WEAKNESS SECTION (Mobile) =====
@@ -340,13 +599,13 @@
 }
 
 .strengthTitleSpan {
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik;
   font-size: 24px;
   font-weight: 600;
 }
 
 .weaknessTitleSpan {
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik;
   font-size: 16px;
   font-weight: 400;
 }
@@ -376,7 +635,7 @@
 .strengthHeaderText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 20px;
   line-height: 180%;
   letter-spacing: 0.04em;
@@ -423,7 +682,7 @@
 .strengthName {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 16px;
   line-height: 180%;
   letter-spacing: 0.04em;
@@ -446,7 +705,7 @@
 .strengthDescription {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 14px;
   line-height: 180%;
   letter-spacing: 0.04em;
@@ -482,7 +741,7 @@
 .weaknessButtonText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 32px;
   font-weight: 400;
   position: relative;
@@ -573,7 +832,7 @@
 .careerText1 {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 24px;
   font-weight: 400;
   position: relative;
@@ -584,7 +843,7 @@
 .careerText2 {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 24px;
   font-weight: 400;
   position: relative;
@@ -595,7 +854,7 @@
 .careerText3 {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 16px;
   font-weight: 400;
   position: relative;
@@ -606,7 +865,7 @@
 .careerText4 {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 24px;
   font-weight: 400;
   position: relative;
@@ -617,7 +876,7 @@
 .careerText5 {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 16px;
   font-weight: 400;
   position: relative;
@@ -672,7 +931,7 @@
   // Show desktop elements
   .desktopContainer {
     display: flex !important;
-    padding: 64px 0px 0px 0px;
+    padding: 96px 0px 0px 0px;
     flex-direction: column;
     gap: 200px;
     align-items: flex-start;
@@ -700,12 +959,63 @@
   .desktopPageTitle {
     color: $text-color;
     text-align: left;
-    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-family: $font-rubik;
     // レスポンシブ対応: タイトルサイズをclampで調整
     font-size: clamp(48px, 8vw, 72px);
     font-weight: 800;
     position: relative;
     margin: 0;
+  }
+
+  // ===== DESKTOP TITLE + HERO GROUP =====
+  .desktopTitleHeroGroup {
+    display: flex !important;
+    flex-direction: column;
+    gap: 48px; // About Meタイトルとヒーロー間の狭いギャップ
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  // ===== DESKTOP HERO SECTION =====
+  .desktopHeroSection {
+    display: flex !important;
+    // aboutmeページ共通のパディングを使用
+    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
+    flex-direction: column;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopHeroContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopHeroImage {
+    background: #bababa;
+    border-radius: 48px;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/10; // Mac/デスクトップ向けの16:10比率
+    width: 100%;
+    height: auto;
   }
 
   // ===== DESKTOP SECTION STYLES =====
@@ -748,7 +1058,7 @@
   .desktopSectionTitle {
     color: $text-color;
     text-align: left;
-    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-family: $font-rubik;
     // レスポンシブ対応: セクションタイトルサイズをclampで調整
     font-size: clamp(36px, 6vw, 64px);
     font-weight: 600;
@@ -802,7 +1112,7 @@
     // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
     padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: column;
-    gap: 0px;
+    gap: 64px;
     align-items: flex-start;
     justify-content: flex-start;
     align-self: stretch;
@@ -829,8 +1139,8 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     // レスポンシブ対応: 固定幅を削除
@@ -846,9 +1156,7 @@
     flex-shrink: 0;
     // レスポンシブ対応: 固定サイズを最大値として設定
     width: min(296px, 100%);
-    height: auto;
-    aspect-ratio: 296/320;
-    max-height: 320px;
+    height: 100%;
     position: relative;
     overflow: hidden;
   }
@@ -857,7 +1165,7 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     align-self: stretch;
     flex: 1;
@@ -873,8 +1181,8 @@
     height: clamp(64px, 6vw, 96px);
     position: absolute;
     // 相対位置でレスポンシブに調整
-    right: 10%;
-    bottom: -20px;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
     z-index: 2;
   }
@@ -921,7 +1229,7 @@
   .desktopNameEnglish {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 14px;
     font-weight: 400;
     position: relative;
@@ -944,7 +1252,7 @@
   .desktopNameJapanese {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 24px;
     font-weight: 400;
     position: relative;
@@ -965,7 +1273,7 @@
   .desktopProfileDescription {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 20px;
     font-weight: 400;
     position: relative;
@@ -1049,13 +1357,13 @@
   }
 
   .desktopStrengthSpan {
-    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-family: $font-rubik;
     font-size: 40px;
     font-weight: 600;
   }
 
   .desktopWeaknessSpan {
-    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-family: $font-rubik;
     font-size: 24px;
     font-weight: 600;
   }
@@ -1102,7 +1410,7 @@
   .desktopStrengthTitle {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 32px;
     font-weight: 400;
     position: relative;
@@ -1149,7 +1457,7 @@
   .desktopStrengthName {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 16px;
     font-weight: 400;
     position: relative;
@@ -1171,7 +1479,7 @@
   .desktopStrengthDescription {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 16px;
     font-weight: 400;
     position: relative;
@@ -1207,7 +1515,7 @@
   .desktopWeaknessTitle {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 40px;
     font-weight: 400;
     position: relative;
@@ -1496,7 +1804,9 @@
 // デスクトップ要素はデフォルトで非表示（mobile-first）
 // sm以上で@include mq(sm)内で表示される
 .desktopContainer,
+.desktopTitleHeroGroup,
 .desktopPageTitleSection,
+.desktopHeroSection,
 .desktopSection,
 .desktopProfileSection,
 .desktopBottomSection,

@@ -8,18 +8,22 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    contents: ""
+    contents: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
-  const [messageType, setMessageType] = useState<'success' | 'error' | 'warning'>('success');
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning"
+  >("success");
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -29,10 +33,10 @@ export default function ContactPage() {
     setSubmitMessage("");
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -40,22 +44,30 @@ export default function ContactPage() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessageType('success');
-        setSubmitMessage(data.message || "メッセージを送信いたしました。ありがとうございます！");
+        setMessageType("success");
+        setSubmitMessage(
+          data.message || "メッセージを送信いたしました。ありがとうございます！"
+        );
         setFormData({ name: "", email: "", contents: "" });
       } else {
         // エラーメッセージの表示
-        setMessageType(response.status === 429 ? 'warning' : 'error');
+        setMessageType(response.status === 429 ? "warning" : "error");
         if (data.details && Array.isArray(data.details)) {
-          setSubmitMessage(`入力内容をご確認ください: ${data.details.join(', ')}`);
+          setSubmitMessage(
+            `入力内容をご確認ください: ${data.details.join(", ")}`
+          );
         } else {
-          setSubmitMessage(data.error || "送信に失敗しました。もう一度お試しください。");
+          setSubmitMessage(
+            data.error || "送信に失敗しました。もう一度お試しください。"
+          );
         }
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      setMessageType('error');
-      setSubmitMessage("ネットワークエラーが発生しました。しばらく経ってから再度お試しください。");
+      console.error("Form submission error:", error);
+      setMessageType("error");
+      setSubmitMessage(
+        "ネットワークエラーが発生しました。しばらく経ってから再度お試しください。"
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -80,13 +92,30 @@ export default function ContactPage() {
           {/* コンタクトフォーム */}
           <section className={styles.contactForm}>
             <form onSubmit={handleSubmit}>
+              {/* ソーシャルリンクセクション */}
+              <div className={styles.socialLinksSection}>
+                <div className={styles.socialIconsContainer}>
+                  <div className={styles.socialIconsGroup}>
+                    <div className={styles.socialIcon}></div>
+                    <div className={styles.socialIcon}></div>
+                    <div className={styles.socialIcon}></div>
+                    <div className={styles.socialIcon}></div>
+                  </div>
+                </div>
+                <div className={styles.socialTextContainer}>
+                  <div className={styles.socialText}>コチラからもどうぞ</div>
+                </div>
+              </div>
+
               <div className={styles.formFields}>
                 {/* 名前フィールド */}
                 <div className={styles.nameFieldGroup}>
                   <div className={styles.nameFieldContainer}>
                     <div className={styles.nameLabelContainer}>
                       <div className={styles.labelWrapper}>
-                        <label htmlFor="name" className={styles.fieldLabel}>Name</label>
+                        <label htmlFor="name" className={styles.fieldLabel}>
+                          Name
+                        </label>
                       </div>
                     </div>
                     <input
@@ -99,12 +128,14 @@ export default function ContactPage() {
                       required
                     />
                   </div>
-                  
+
                   {/* メールアドレスフィールド */}
                   <div className={styles.emailFieldGroup}>
                     <div className={styles.emailLabelContainer}>
                       <div className={styles.labelWrapper}>
-                        <label htmlFor="email" className={styles.fieldLabel}>E-mail Address</label>
+                        <label htmlFor="email" className={styles.fieldLabel}>
+                          E-mail Address
+                        </label>
                       </div>
                     </div>
                     <input
@@ -117,12 +148,14 @@ export default function ContactPage() {
                       required
                     />
                   </div>
-                  
+
                   {/* 内容フィールド */}
                   <div className={styles.contentsFieldGroup}>
                     <div className={styles.contentsLabelContainer}>
                       <div className={styles.labelWrapper}>
-                        <label htmlFor="contents" className={styles.fieldLabel}>Contents</label>
+                        <label htmlFor="contents" className={styles.fieldLabel}>
+                          Contents
+                        </label>
                       </div>
                     </div>
                     <textarea
@@ -140,8 +173,8 @@ export default function ContactPage() {
 
               {/* 送信ボタン */}
               <div className={styles.submitButtonContainer}>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className={styles.submitButton}
                   disabled={isSubmitting}
                 >
@@ -153,26 +186,18 @@ export default function ContactPage() {
 
               {/* 送信メッセージ */}
               {submitMessage && (
-                <div className={`${styles.submitMessage} ${messageType === 'error' ? styles.error : messageType === 'warning' ? styles.warning : ''}`}>
+                <div
+                  className={`${styles.submitMessage} ${
+                    messageType === "error"
+                      ? styles.error
+                      : messageType === "warning"
+                      ? styles.warning
+                      : ""
+                  }`}
+                >
                   {submitMessage}
                 </div>
               )}
-              
-              {/* ソーシャルリンクセクション */}
-              <div className={styles.socialLinksSection}>
-                <div className={styles.socialIconsContainer}>
-                  <div className={styles.socialIconsGroup}>
-                    <div className={styles.socialIcon}></div>
-                    <div className={styles.socialIcon}></div>
-                    <div className={styles.socialIcon}></div>
-                    <div className={styles.socialIcon}></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className={styles.socialTextContainer}>
-                <div className={styles.socialText}>コチラからもどうぞ</div>
-              </div>
             </form>
           </section>
 

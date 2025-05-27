@@ -2,21 +2,21 @@
 
 .heroSection {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
-  height: auto; // 100vhからautoに変更
-  min-height: 600px; // 最小高さを設定
-  max-height: 900px; // 最大高さを制限
-  padding: 2rem 1rem; // パディングを追加
+  height: auto;
+  min-height: 400px; // モバイル向け最小高さ
+  max-height: 900px;
+  padding: 1.5rem; // モバイル向けパディング
   overflow: hidden;
   width: 100%;
 
-  @media screen and (max-width: 768px) {
-    min-height: 400px;
-    max-height: 600px;
-    padding: 1rem 0.5rem;
+  // iPad以上でのパディング調整
+  @include mq(sm) {
+    min-height: 600px;
+    padding: 3rem;
   }
 }
 
@@ -24,53 +24,84 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 824px; // 明示的な高さ指定
-  aspect-ratio: 1318/824;
-  max-width: 1318px;
-  max-height: 824px;
+  width: 100%; // 親要素の横幅いっぱい
+  height: auto; // 縦幅は比率に応じて自動調整
+  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
+  max-width: 100%;
   position: relative; // fillプロパティのために必要
+  border-radius: 16px; // iPhone向けの角丸（デフォルト）
+  overflow: hidden; // 角丸を確実に適用
 
-  /* レスポンシブ対応 */
-  @media screen and (max-width: 1350px) {
-    width: min(calc(100vw - 32px), 1318px);
-    height: min(calc((100vw - 32px) * 0.625), 824px);
+  // iPad向け（768px-1024px）: 4:3比率と角丸調整
+  @include mq(sm) {
+    @include max-width(lg) {
+      aspect-ratio: 4/3;
+      border-radius: 24px; // iPad向け角丸
+    }
+  }
+
+  // Mac/デスクトップ向け（1025px以上）: 16:9比率と角丸調整
+  @media screen and (min-width: 1025px) {
+    aspect-ratio: 16/9;
+    max-width: 1200px; // 最大幅を制限
+    border-radius: 24px; // デスクトップ向け角丸
   }
 }
 
 .heroImage {
-  border-radius: 24px;
-  overflow: hidden;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); // モバイル向けシャドウ（デフォルト）
+  // border-radiusは親要素のoverflow: hiddenに任せる
+
+  // iPad以上でのシャドウ調整
+  @include mq(sm) {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .heroImagePlaceholder {
   background: #bababa;
-  border-radius: 24px;
-  width: 100%;
-  height: 824px; // コンテナと同じ高さに制限
-  max-height: 824px;
+  border-radius: 16px; // iPhone向けの角丸（デフォルト）
+  width: 100%; // 親要素の横幅いっぱい
+  height: auto; // 縦幅は比率に応じて自動調整
+  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem; // モバイル向けパディング（デフォルト）
   color: #666;
+  overflow: hidden; // 角丸を確実に適用
 
-  /* レスポンシブ対応 */
-  @media screen and (max-width: 1350px) {
-    height: min(calc((100vw - 32px) * 0.625), 824px);
+  // iPad向け（768px-1024px）: 4:3比率とスタイル調整
+  @include mq(sm) {
+    @include max-width(lg) {
+      aspect-ratio: 4/3;
+      border-radius: 24px;
+      padding: 2rem;
+    }
+  }
+
+  // Mac/デスクトップ向け（1025px以上）: 16:9比率とスタイル調整
+  @media screen and (min-width: 1025px) {
+    aspect-ratio: 16/9;
+    border-radius: 24px;
+    padding: 2rem;
   }
 
   > span {
-    font-size: 1.5rem;
+    font-size: 1.2rem; // モバイル向けフォントサイズ（デフォルト）
     font-weight: 300;
     margin-bottom: 1rem;
     color: #888;
+
+    // iPad以上でのフォントサイズ調整
+    @include mq(sm) {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -114,45 +145,5 @@
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@include mq(sm) {
-  .heroContainer {
-    /* sm以上では絶対値を使用 */
-    width: 1318px;
-    height: 824px;
-  }
-}
-
-/* 小画面対応 */
-@media screen and (max-width: 480px) {
-  .heroSection {
-    padding: 0.5rem;
-    min-height: 300px;
-    max-height: 500px;
-  }
-
-  .heroContainer {
-    width: calc(100vw - 1rem);
-    height: calc((100vw - 1rem) * 0.625);
-    max-height: 400px;
-  }
-
-  .heroImagePlaceholder {
-    padding: 1rem;
-    height: calc((100vw - 1rem) * 0.625);
-    max-height: 400px;
-
-    > span {
-      font-size: 1.2rem;
-    }
-  }
-}
-
-// Mobile-specific overrides - Hero is handled by mobile layout
-@media screen and (max-width: 767px) {
-  .heroSection {
-    display: none;
   }
 }

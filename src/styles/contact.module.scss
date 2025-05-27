@@ -20,7 +20,7 @@
 
 // ===== MAIN CONTENT (Mobile First) =====
 .mainContent {
-  padding: 32px 0px 0px 0px;
+  padding: 64px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -31,7 +31,7 @@
   position: relative;
 
   @include mq(sm) {
-    padding: 64px 0px 0px 0px;
+    padding: 96px 0px 0px 0px;
     gap: 64px;
   }
 }
@@ -74,7 +74,7 @@
   margin: 0;
 
   @include mq(sm) {
-    font-size: 64px;
+    font-size: 72px;
   }
 }
 
@@ -438,7 +438,7 @@
   flex-direction: row;
   gap: 10px;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
   align-self: stretch;
   flex-shrink: 0;
   height: 160px;
@@ -449,7 +449,6 @@
 
   @include mq(sm) {
     height: 200px;
-    justify-content: flex-end;
   }
 }
 
@@ -481,8 +480,8 @@
   aspect-ratio: 1;
 
   @include mq(sm) {
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 172px;
   }
 }
 
@@ -560,15 +559,16 @@
   flex-shrink: 0;
   width: 160px;
   height: 36px;
-  position: relative;
-  margin-top: 16px;
+  position: absolute;
+  right: 200px;
+  top: 0;
 
   @include mq(sm) {
     width: 180px;
     height: 40px;
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 220px;
+    top: 0;
     margin-top: 0;
   }
 }
