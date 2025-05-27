@@ -377,7 +377,12 @@ export default function WorkDetailPage() {
             </div>
           )}
 
-          {/* プロフィールセクション */}
+          {/* sm以上用装飾セクション */}
+          <div className={styles.bottomSection}>
+            <div className={styles.decorativeCircle}></div>
+          </div>
+
+          {/* sm未満用プロフィールセクション */}
           <div className={mobileStyles.mobileProfileSection}>
             <div className={mobileStyles.mobileProfileImage} />
           </div>

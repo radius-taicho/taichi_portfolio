@@ -212,7 +212,7 @@
 .mobileWorkText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 16px;
   font-weight: 400;
   position: relative;
@@ -250,6 +250,10 @@
   flex-shrink: 0;
   height: 240px;
   position: relative;
+
+  @include mq(sm) {
+    display: none;
+  }
 }
 
 .mobileProfileImage {

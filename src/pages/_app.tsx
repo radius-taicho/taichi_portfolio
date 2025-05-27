@@ -1,11 +1,11 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Inter, Rubik } from 'next/font/google'
+import { Rubik } from 'next/font/google'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { LanguageProvider } from '@/components/providers/LanguageProvider'
 import Head from 'next/head'
 
-const inter = Inter({ subsets: ['latin'] })
+// Rubikフォントのみ読み込み（HiraginoMaruGothicはシステムフォントとして指定）
 const rubik = Rubik({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -17,9 +17,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${inter.className} ${rubik.className}`} style={{
-        '--font-inter': inter.style.fontFamily,
+      <main className={rubik.className} style={{
         '--font-rubik': rubik.style.fontFamily,
+        '--font-japanese': '"Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif',
+        fontFamily: '"Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif',
       } as React.CSSProperties}>
         <LanguageProvider>
           <ThemeProvider>

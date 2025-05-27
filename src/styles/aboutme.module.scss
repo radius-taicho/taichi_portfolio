@@ -52,22 +52,6 @@
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    gap: 72px;
-    padding: 0px 12px;
-  }
-
-  @include max-width(xxs) {
-    gap: 56px;
-    padding: 0px 8px;
-  }
-
-  @include max-width(mic) {
-    gap: 48px;
-    padding: 0px 6px;
-  }
 }
 
 .pageTitleContainer {
@@ -100,19 +84,6 @@
   position: relative;
   line-height: 1.2;
   margin: 0;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    font-size: 32px;
-  }
-
-  @include max-width(xxs) {
-    font-size: 28px;
-  }
-
-  @include max-width(mic) {
-    font-size: 24px;
-  }
 }
 
 // ===== MOBILE TITLE + HERO GROUP =====
@@ -125,19 +96,6 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    gap: 24px;
-  }
-
-  @include max-width(xxs) {
-    gap: 20px;
-  }
-
-  @include max-width(mic) {
-    gap: 16px;
-  }
 }
 
 // ===== MOBILE HERO SECTION =====
@@ -191,19 +149,6 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    gap: 32px;
-  }
-
-  @include max-width(xxs) {
-    gap: 24px;
-  }
-
-  @include max-width(mic) {
-    gap: 20px;
-  }
 }
 
 .sectionHeader {
@@ -239,19 +184,6 @@
   position: relative;
   line-height: 1.3;
   margin: 0;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    font-size: 20px;
-  }
-
-  @include max-width(xxs) {
-    font-size: 18px;
-  }
-
-  @include max-width(mic) {
-    font-size: 16px;
-  }
 }
 
 // ===== STANCE ON DESIGN SECTION (Mobile) =====
@@ -310,19 +242,6 @@
   position: relative;
   align-self: stretch;
   line-height: 1.6;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    font-size: 16px;
-  }
-
-  @include max-width(xxs) {
-    font-size: 15px;
-  }
-
-  @include max-width(mic) {
-    font-size: 14px;
-  }
 }
 
 .stanceSpacer {
@@ -349,19 +268,6 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    gap: 24px;
-  }
-
-  @include max-width(xxs) {
-    gap: 20px;
-  }
-
-  @include max-width(mic) {
-    gap: 16px;
-  }
 }
 
 .profileImageContainer {
@@ -385,22 +291,6 @@
   height: 240px;
   position: relative;
   aspect-ratio: 1;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    width: 200px;
-    height: 200px;
-  }
-
-  @include max-width(xxs) {
-    width: 180px;
-    height: 180px;
-  }
-
-  @include max-width(mic) {
-    width: 160px;
-    height: 160px;
-  }
 }
 
 .profileTextContainer {
@@ -426,22 +316,6 @@
   font-weight: 400;
   position: relative;
   align-self: stretch;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    font-size: 16px;
-    line-height: 170%;
-  }
-
-  @include max-width(xxs) {
-    font-size: 15px;
-    line-height: 165%;
-  }
-
-  @include max-width(mic) {
-    font-size: 14px;
-    line-height: 160%;
-  }
 }
 
 // ===== SKILLS SECTION (Mobile) =====
@@ -456,22 +330,6 @@
   height: 294px;
   position: relative;
   overflow: hidden;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    height: 260px;
-    gap: 6px;
-  }
-
-  @include max-width(xxs) {
-    height: 240px;
-    gap: 5px;
-  }
-
-  @include max-width(mic) {
-    height: 220px;
-    gap: 4px;
-  }
 }
 
 .skillsRowContainer {
@@ -494,22 +352,6 @@
   height: 60px;
   position: relative;
   aspect-ratio: 1;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    width: 50px;
-    height: 50px;
-  }
-
-  @include max-width(xxs) {
-    width: 45px;
-    height: 45px;
-  }
-
-  @include max-width(mic) {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 .skillCircleMedium1 {
@@ -520,22 +362,6 @@
   height: 64px;
   position: relative;
   aspect-ratio: 1;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    width: 54px;
-    height: 54px;
-  }
-
-  @include max-width(xxs) {
-    width: 48px;
-    height: 48px;
-  }
-
-  @include max-width(mic) {
-    width: 44px;
-    height: 44px;
-  }
 }
 
 .skillCircleMedium2 {
@@ -546,22 +372,6 @@
   height: 68px;
   position: relative;
   aspect-ratio: 1;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    width: 58px;
-    height: 58px;
-  }
-
-  @include max-width(xxs) {
-    width: 52px;
-    height: 52px;
-  }
-
-  @include max-width(mic) {
-    width: 48px;
-    height: 48px;
-  }
 }
 
 .skillCircleLarge {
@@ -572,22 +382,6 @@
   height: 72px;
   position: relative;
   aspect-ratio: 1;
-
-  // モバイルレスポンシブ対応
-  @include max-width(xs) {
-    width: 62px;
-    height: 62px;
-  }
-
-  @include max-width(xxs) {
-    width: 56px;
-    height: 56px;
-  }
-
-  @include max-width(mic) {
-    width: 52px;
-    height: 52px;
-  }
 }
 
 // ===== STRENGTH & WEAKNESS SECTION (Mobile) =====
@@ -600,20 +394,20 @@
 
 .strengthTitleSpan {
   font-family: $font-rubik;
-  font-size: 24px;
+  font-size: clamp(20px, 5vw, 24px); // レスポンシブ対応
   font-weight: 600;
 }
 
 .weaknessTitleSpan {
   font-family: $font-rubik;
-  font-size: 16px;
+  font-size: clamp(14px, 3.5vw, 16px); // レスポンシブ対応
   font-weight: 400;
 }
 
 .strengthWeaknessContentContainer {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: clamp(32px, 8vw, 40px); // レスポンシブギャップ
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -636,7 +430,7 @@
   color: $text-color;
   text-align: left;
   font-family: $font-japanese;
-  font-size: 20px;
+  font-size: clamp(18px, 4vw, 20px); // レスポンシブ対応
   line-height: 180%;
   letter-spacing: 0.04em;
   font-weight: 400;
@@ -646,7 +440,7 @@
 .strengthList {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(16px, 4vw, 24px); // レスポンシブギャップ
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -655,16 +449,29 @@
 }
 
 .strengthItem {
-  padding: 0px 16px;
+  padding: 0px clamp(8px, 3vw, 16px); // レスポンシブパディング
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
+  flex-direction: column; // 小画面では縦並び
+  gap: clamp(8px, 2vw, 12px);
+  align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+
+  // 375px以上で横並びレイアウト
+  @media screen and (min-width: 375px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: clamp(12px, 3vw, 16px);
+  }
+
+  // 480px以上でより余裕のあるレイアウト
+  @media screen and (min-width: 480px) {
+    padding: 0px clamp(12px, 4vw, 20px);
+    gap: clamp(16px, 4vw, 20px);
+  }
 }
 
 .strengthNameContainer {
@@ -673,22 +480,33 @@
   gap: 10px;
   align-items: flex-start;
   justify-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
-  width: 120px;
+  width: 100%; // 小画面では幅いっぱい
   position: relative;
+
+  // 375px以上で固定幅
+  @media screen and (min-width: 375px) {
+    width: clamp(80px, 25%, 120px);
+    flex-shrink: 0;
+  }
+
+  // 480px以上でより広い幅
+  @media screen and (min-width: 480px) {
+    width: clamp(100px, 30%, 140px);
+  }
 }
 
 .strengthName {
   color: $text-color;
   text-align: left;
   font-family: $font-japanese;
-  font-size: 16px;
+  font-size: clamp(14px, 3.5vw, 16px); // レスポンシブ対応
   line-height: 180%;
   letter-spacing: 0.04em;
   font-weight: 400;
   position: relative;
-  width: 83px;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 .strengthDescContainer {
@@ -697,8 +515,8 @@
   gap: 10px;
   align-items: flex-start;
   justify-content: flex-start;
-  flex-shrink: 0;
-  width: 181px;
+  flex: 1; // 残り空間を使用
+  min-width: 0; // flexアイテムの縮小を許可
   position: relative;
 }
 
@@ -706,12 +524,20 @@
   color: $text-color;
   text-align: left;
   font-family: $font-japanese;
-  font-size: 14px;
-  line-height: 180%;
-  letter-spacing: 0.04em;
+  font-size: clamp(12px, 3vw, 14px); // レスポンシブ対応
+  line-height: 160%; // 読みやすさのため行間を調整
+  letter-spacing: 0.02em;
   font-weight: 400;
   position: relative;
   flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  // 480px以上でより大きなフォント
+  @media screen and (min-width: 480px) {
+    font-size: clamp(13px, 3.2vw, 15px);
+    line-height: 170%;
+  }
 }
 
 .weaknessButtonWrapper {
@@ -723,12 +549,13 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+  margin-top: clamp(16px, 4vw, 24px); // 上部にマージン追加
 }
 
 .weaknessButtonContainer {
   background: #bababa;
-  border-radius: 12px;
-  padding: 8px 16px;
+  border-radius: clamp(8px, 2vw, 12px); // レスポンシブ角丸
+  padding: clamp(6px, 2vw, 8px) clamp(12px, 4vw, 16px); // レスポンシブパディング
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -736,15 +563,18 @@
   justify-content: center;
   flex-shrink: 0;
   position: relative;
+  min-width: clamp(48px, 12vw, 64px); // 最小サイズ保証
+  min-height: clamp(40px, 10vw, 48px);
 }
 
 .weaknessButtonText {
   color: $text-color;
-  text-align: left;
+  text-align: center;
   font-family: $font-japanese;
-  font-size: 32px;
+  font-size: clamp(24px, 6vw, 32px); // レスポンシブ対応で小さくスタート
   font-weight: 400;
   position: relative;
+  line-height: 1;
 }
 
 // ===== CAREER SECTION (Mobile) =====
@@ -1717,7 +1547,7 @@
   .desktopCareerText2 {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 16px;
     font-weight: 400;
     position: relative;
@@ -1734,7 +1564,7 @@
   .desktopCareerText3 {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 16px;
     font-weight: 400;
     position: relative;
@@ -1747,7 +1577,7 @@
   .desktopCareerText4 {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 20px;
     font-weight: 400;
     position: relative;
@@ -1760,7 +1590,7 @@
   .desktopCareerText5 {
     color: $text-color;
     text-align: left;
-    font-family: "Inter-Regular", sans-serif;
+    font-family: $font-japanese;
     font-size: 20px;
     font-weight: 400;
     position: relative;

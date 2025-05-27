@@ -28,7 +28,7 @@
   }
 
   @include max-width(xxs) {
-    padding: 16px clamp(12px, 4vw, 32px);
+    padding: 16px clamp(12px, 4vw, 32px) 8px;
   }
 
   @include mq(xs) {
@@ -199,7 +199,7 @@
 .mobileSettingTitle {
   color: #ffffff;
   text-align: left; // 左寄せに変更
-  font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+  font-family: $font-japanese;
   font-weight: 400;
   position: relative;
   display: flex;
@@ -217,7 +217,7 @@
 .mobileSettingOption {
   color: #ffffff;
   text-align: left; // 左寄せに変更
-  font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+  font-family: $font-japanese;
   font-weight: 400;
   position: relative;
   display: flex;
@@ -275,7 +275,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 400px;
+    height: 480px;
     position: relative;
     overflow: hidden;
     max-width: 100%;
@@ -483,7 +483,7 @@
   @include mq(xs) {
     color: #ffffff;
     text-align: left;
-    font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+    font-family: $font-japanese;
     font-size: 16px;
     font-weight: 400;
     position: relative;
@@ -498,7 +498,7 @@
   @include mq(xs) {
     color: #ffffff;
     text-align: left;
-    font-family: "HiraginoMaruGothicPro-W4", sans-serif;
+    font-family: $font-japanese;
     font-size: 14px;
     font-weight: 400;
     position: relative;

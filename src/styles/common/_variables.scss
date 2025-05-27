@@ -2,7 +2,7 @@
 
 // フォントファミリー設定
 $font-rubik: var(--font-rubik), "Rubik", sans-serif;
-$font-japanese: "HiraginoMaruGothicPro-W4", sans-serif;
+$font-japanese: var(--font-japanese), "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif;
 
 // ブレークポイントの設定
 $breakpoints: (

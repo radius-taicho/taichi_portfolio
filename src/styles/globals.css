@@ -2,8 +2,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
-
 :root {
   --text-color: #252525;
   --text-secondary: #252525;
@@ -15,9 +13,18 @@
 }
 
 html {
-  font-family: "Inter", sans-serif;
   box-sizing: border-box;
   scroll-behavior: smooth; /* スムーズスクロールを有効化 */
+}
+
+/* HiraginoMaruGothicをサイト全体のデフォルトフォントに設定 */
+body {
+  font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif;
+}
+
+/* タイトルや英語フォントに指定されていないテキストもHiraginoMaruGothicに */
+p, div, span, a, li, td, th, label, input, textarea, button {
+  font-family: inherit;
 }
 
 /* ポートフォリオのメインコンテナ */

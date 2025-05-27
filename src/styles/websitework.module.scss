@@ -153,7 +153,7 @@
 }
 
 .content {
-  padding: 64px 0px 0px 0px;
+  padding: 96px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   gap: 128px;
@@ -176,7 +176,7 @@
 }
 
 .imageSection {
-  padding: 0px 160px 0px 160px;
+  padding: 0px 80px 0px 80px;
   display: flex;
   flex-direction: row;
   gap: 0px;
@@ -260,7 +260,8 @@
 }
 
 .infoSection {
-  padding: 40px 192px 0px 192px;
+  // 大画面では192px、中画面では適切に調整するレスポンシブパディング
+  padding: 40px clamp(64px, 15vw, 192px) 0px clamp(64px, 15vw, 192px);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -309,9 +310,9 @@
 .descriptionText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 40px;
-  font-weight: 400;
+  font-family: $font-japanese;
+  font-size: 32px;
+  font-weight: 600;
   position: relative;
   align-self: stretch;
   flex: 1;
@@ -334,7 +335,7 @@
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
-  width: 400px;
+  width: 350px; // 400pxから350pxに減らして重なりを防止
   position: relative;
   overflow: hidden;
 
@@ -370,7 +371,7 @@
 .labelText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 16px;
   font-weight: 400;
   position: relative;
@@ -380,7 +381,7 @@
 .clientValue {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 16px;
   font-weight: 400;
   position: relative;
@@ -409,7 +410,7 @@
 }
 
 .detailsSection {
-  padding: 0px 192px 0px 192px;
+  padding: 0px 160px 0px 160px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -489,7 +490,7 @@
 .issue {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 20px;
   font-weight: 400;
   position: relative;
@@ -517,7 +518,7 @@
 .contentText {
   color: $text-color;
   text-align: left;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 20px;
   font-weight: 400;
   position: relative;
@@ -586,7 +587,7 @@
 }
 
 .otherWorksSection {
-  padding: 0px 192px 0px 192px;
+  padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
   display: flex;
   flex-direction: column;
   gap: 64px;
@@ -671,6 +672,34 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+}
+
+// sm以上用装飾セクション
+.bottomSection {
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+
+  // sm未満では非表示
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 120px;
+  }
+}
+
+.decorativeCircle {
+  background: #d9d9d9;
+  border-radius: 50%;
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .decorationSection {
@@ -965,7 +994,7 @@
 
 .periodLabel {
   color: $text-color;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 18px;
   font-weight: 500;
   min-width: 120px;
@@ -978,7 +1007,7 @@
 
 .periodValue {
   color: #667eea;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: $font-japanese;
   font-size: 18px;
   font-weight: 600;
 
