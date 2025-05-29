@@ -3,6 +3,7 @@ import { useLanguage } from "@/components/providers/LanguageProvider";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "@/styles/components/header.module.scss";
+import menuStyles from "@/styles/components/hamburgerMenu.module.scss";
 
 export default function Header() {
   const { t } = useLanguage();
@@ -12,6 +13,7 @@ export default function Header() {
   // スムーズスクロール関数
   const scrollToWorksSection = (e: React.MouseEvent) => {
     e.preventDefault();
+    setIsMobileMenuOpen(false); // メニューを閉じる
 
     const scrollToElement = () => {
       const element = document.getElementById("works-section");
@@ -37,91 +39,195 @@ export default function Header() {
 
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    // ここで将来的にモバイルメニューの開閉処理を実装
+  };
+
+  const handleNavLinkClick = () => {
+    setIsMobileMenuOpen(false); // メニューを閉じる
   };
 
   return (
     <>
-      {/* モバイルヘッダー */}
-      <div className={styles.mobileHeader}>
-        <div className={styles.logoContainer}>
+      {/* デスクトップヘッダー（sm以上） */}
+      <div className={styles.desktopHeader}>
+        {/* ハンバーガーメニュー（左） */}
+        <div className={styles.hamburgerContainer}>
+          <svg
+            className={styles.hamburgerMenu}
+            width="33"
+            height="24"
+            viewBox="0 0 33 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={handleMobileMenuToggle}
+          >
+            <path d="M0 0H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+            <path d="M0 12H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+            <path d="M0 24H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+
+          {/* ハンバーガーメニュードロップダウン */}
+          {isMobileMenuOpen && (
+            <div className={menuStyles.hamburgerMenuDropdown}>
+              <div className={menuStyles.menuContainer}>
+                {/* ナビゲーションリンク */}
+                <div className={menuStyles.navigationSection}>
+                  <button
+                    className={menuStyles.navLink}
+                    onClick={scrollToWorksSection}
+                  >
+                    Works
+                  </button>
+                  <Link 
+                    href="/about" 
+                    className={menuStyles.navLink}
+                    onClick={handleNavLinkClick}
+                  >
+                    About
+                  </Link>
+                  <Link 
+                    href="/contact" 
+                    className={menuStyles.navLink}
+                    onClick={handleNavLinkClick}
+                  >
+                    Contact
+                  </Link>
+                </div>
+
+                {/* 設定セクション */}
+                <div className={menuStyles.settingsSection}>
+                  {/* 言語設定 */}
+                  <div className={menuStyles.settingGroup}>
+                    <div className={menuStyles.settingTitle}>言語設定</div>
+                    <div className={menuStyles.settingOption}>日本語</div>
+                    <div className={menuStyles.settingOption}>English</div>
+                    <div className={menuStyles.settingOption}>한국어</div>
+                  </div>
+
+                  {/* 画面設定 */}
+                  <div className={menuStyles.settingGroup}>
+                    <div className={menuStyles.settingTitle}>画面設定</div>
+                    <div className={menuStyles.themeOption}>モダン</div>
+                    <div className={menuStyles.themeOption}>レトロ</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ナビゲーション（中央左寄り） */}
+        <div className={styles.desktopNavigation}>
+          <div className={styles.navItem}>
+            <button
+              className={styles.navText}
+              onClick={scrollToWorksSection}
+            >
+              Works
+            </button>
+          </div>
+          <div className={styles.navItem}>
+            <Link href="/about" className={styles.navText}>
+              About
+            </Link>
+          </div>
+          <div className={styles.navItem}>
+            <Link href="/contact" className={styles.navText}>
+              Contact
+            </Link>
+          </div>
+        </div>
+
+        {/* ロゴ（中央絶対配置） */}
+        <div className={styles.desktopLogo}>
           <Link href="/" className={styles.logoText}>
-            Taichi
+            TAICHI
           </Link>
         </div>
-        <svg
-          className={styles.hamburgerMenu}
-          width="33"
-          height="24"
-          viewBox="0 0 33 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={handleMobileMenuToggle}
-        >
-          <path
-            d="M0 0H33.1392"
-            stroke="black"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            d="M0 12H33.1392"
-            stroke="black"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            d="M0 24H33.1392"
-            stroke="black"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
       </div>
 
-      {/* デスクトップヘッダー（既存） */}
-      <header className={styles.desktopHeader}>
-        {/* ロゴ */}
-        <div className={styles.desktopLogoContainer}>
-          <Link href={"/"} className={styles.logoText}>
-            Taichi
+      {/* モバイルヘッダー（sm未満） */}
+      <div className={styles.mobileHeader}>
+        {/* ロゴ（左） */}
+        <div className={styles.mobileLogo}>
+          <Link href="/" className={styles.mobileLogoText}>
+            TAICHI
           </Link>
         </div>
 
-        {/* ナビゲーション */}
-        <nav className={styles.desktopNavigation}>
-          <WorksNavItem onClick={scrollToWorksSection} label={t("nav.works")} />
-          <NavItem href="/about" label={t("nav.about")} />
-          <NavItem href="/contact" label={t("nav.contact")} />
-        </nav>
-      </header>
+        {/* ハンバーガーメニュー（右） */}
+        <div className={styles.mobileHamburgerContainer}>
+          <svg
+            className={styles.mobileHamburgerMenu}
+            width="33"
+            height="24"
+            viewBox="0 0 33 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={handleMobileMenuToggle}
+          >
+            <path d="M0 0H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+            <path d="M0 12H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+            <path d="M0 24H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+
+          {/* モバイル用ハンバーガーメニュードロップダウン */}
+          {isMobileMenuOpen && (
+            <div className={menuStyles.mobileMenuDropdown}>
+              <div className={menuStyles.menuContainer}>
+                {/* ナビゲーションリンク */}
+                <div className={menuStyles.navigationSection}>
+                  <button
+                    className={menuStyles.navLink}
+                    onClick={scrollToWorksSection}
+                  >
+                    Works
+                  </button>
+                  <Link 
+                    href="/about" 
+                    className={menuStyles.navLink}
+                    onClick={handleNavLinkClick}
+                  >
+                    About
+                  </Link>
+                  <Link 
+                    href="/contact" 
+                    className={menuStyles.navLink}
+                    onClick={handleNavLinkClick}
+                  >
+                    Contact
+                  </Link>
+                </div>
+
+                {/* 設定セクション */}
+                <div className={menuStyles.settingsSection}>
+                  {/* 言語設定 */}
+                  <div className={menuStyles.settingGroup}>
+                    <div className={menuStyles.settingTitle}>言語設定</div>
+                    <div className={menuStyles.settingOption}>日本語</div>
+                    <div className={menuStyles.settingOption}>English</div>
+                    <div className={menuStyles.settingOption}>한국어</div>
+                  </div>
+
+                  {/* 画面設定 */}
+                  <div className={menuStyles.settingGroup}>
+                    <div className={menuStyles.settingTitle}>画面設定</div>
+                    <div className={menuStyles.themeOption}>モダン</div>
+                    <div className={menuStyles.themeOption}>レトロ</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* オーバーレイ（メニューが開いている時に背景をクリックで閉じる） */}
+      {isMobileMenuOpen && (
+        <div
+          className={menuStyles.overlay}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
     </>
-  );
-}
-
-interface NavItemProps {
-  href: string;
-  label: string;
-}
-
-function NavItem({ href, label }: NavItemProps) {
-  return (
-    <Link href={href} className={styles.navItem}>
-      {label}
-    </Link>
-  );
-}
-
-// Works専用のナビゲーションアイテム
-interface WorksNavItemProps {
-  onClick: (e: React.MouseEvent) => void;
-  label: string;
-}
-
-function WorksNavItem({ onClick, label }: WorksNavItemProps) {
-  return (
-    <button onClick={onClick} className={styles.worksNavItem}>
-      {label}
-    </button>
   );
 }

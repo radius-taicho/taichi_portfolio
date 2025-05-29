@@ -3,12 +3,40 @@
 import React from "react";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useLanguage } from "@/components/providers/LanguageProvider";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "@/styles/components/footer.module.scss";
 
 export default function Footer() {
   const { theme } = useTheme();
   const { language, setLanguage } = useLanguage();
+  const router = useRouter();
+
+  // スムーズスクロール関数
+  const scrollToWorksSection = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const scrollToElement = () => {
+      const element = document.getElementById("works-section");
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    // 現在のページがトップページの場合はスクロールのみ
+    if (router.pathname === "/") {
+      scrollToElement();
+    } else {
+      // 他のページからの場合はトップページに遷移してからスクロール
+      router.push("/").then(() => {
+        // ページ遷移後に少し待ってからスクロール
+        setTimeout(scrollToElement, 100);
+      });
+    }
+  };
 
   return (
     <footer className={styles.footer}>
@@ -46,7 +74,12 @@ export default function Footer() {
         <div className={styles.mobileMainContent}>
           {/* ナビゲーション */}
           <div className={styles.mobileNavigation}>
-            <Link href="/" className={styles.mobileNavLink}>Works</Link>
+            <button
+              className={styles.mobileNavLink}
+              onClick={scrollToWorksSection}
+            >
+              Works
+            </button>
             <Link href="/about" className={styles.mobileNavLink}>About</Link>
             <Link href="/contact" className={styles.mobileNavLink}>Contact</Link>
           </div>
@@ -107,7 +140,12 @@ export default function Footer() {
             {/* 左側：ナビゲーション */}
             <div className={styles.desktopNavigation}>
               <div className={styles.desktopNavContainer}>
-                <Link href="/" className={styles.desktopNavLink}>Works</Link>
+                <button
+                  className={styles.desktopNavLink}
+                  onClick={scrollToWorksSection}
+                >
+                  Works
+                </button>
                 <Link href="/about" className={styles.desktopNavLink}>About</Link>
                 <Link href="/contact" className={styles.desktopNavLink}>Contact</Link>
               </div>

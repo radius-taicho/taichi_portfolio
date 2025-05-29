@@ -35,88 +35,11 @@ p, div, span, a, li, td, th, label, input, textarea, button {
   position: relative;
 }
 
-/* ヘッダー部分 */
-.header {
-  width: 100%;
-  height: 80px;
-  background-color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  border-bottom: 1px solid #e5e5e5;
-}
-
-@media screen and (min-width: 768px) {
-  .header {
-    padding: 0 64px;
-  }
-}
-
-.frame-157 {
-  display: flex;
-  align-items: center;
-}
-
-.taichi {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text-color);
-}
-
-.frame-161 {
-  display: flex;
-  gap: 48px;
-}
-
-.frame-158,
-.frame-159,
-.frame-160 {
-  cursor: pointer;
-}
-
-.works,
-.about,
-.contact {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--text-color);
-  transition: color 0.3s ease;
-}
-
-.works:hover,
-.about:hover,
-.contact:hover {
-  color: #0066cc;
-}
-
 /* Mobile responsive adjustments */
 @media screen and (max-width: 767px) {
   .pc {
     /* Ensure mobile layout takes full width */
     width: 100%;
     overflow-x: hidden;
-  }
-  
-  .header {
-    /* Hide desktop header on mobile - will be handled by mobile layout */
-    display: none;
-  }
-  
-  .frame-161 {
-    gap: 24px;
-  }
-  
-  .works,
-  .about,
-  .contact {
-    font-size: 16px;
-  }
-}
-
-/* Very small screens */
-@media screen and (max-width: 375px) {
-  .taichi {
-    font-size: 28px;
   }
 }

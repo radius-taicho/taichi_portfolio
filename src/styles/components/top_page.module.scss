@@ -148,7 +148,9 @@
     position: relative;
     overflow: visible;
     width: 100%; // 幅いっぱいを使用
-    // max-widthを削除して幅制限を解除
+    // max-widthを削除して幅制限
+    max-width: 1024px;
+    margin: 0 auto; // 中央配置
   }
 }
 
@@ -156,6 +158,7 @@
   display: none;
 
   @include mq(sm) {
+    max-width: 1024px;
     display: flex;
     flex-direction: column;
     gap: 64px;

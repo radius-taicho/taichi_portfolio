@@ -261,22 +261,22 @@
 
 .infoSection {
   // 大画面では192px、中画面では適切に調整するレスポンシブパディング
-  padding: 40px clamp(64px, 15vw, 192px) 0px clamp(64px, 15vw, 192px);
+  padding: 40px 96px 0;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
-  height: 160px;
   position: relative;
   overflow: hidden;
+  flex-direction: column;
+  height: auto;
+  gap: 32px;
+  align-items: flex-start;
 
   @media screen and (max-width: 1024px) {
     padding: 40px 64px 0px 64px;
     flex-direction: column;
     height: auto;
-    gap: 32px;
     align-items: flex-start;
   }
 
@@ -298,20 +298,15 @@
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
-  width: 480px;
+  width: 100%;
   position: relative;
-
-  @media screen and (max-width: 1024px) {
-    width: 100%;
-    align-self: stretch;
-  }
 }
 
 .descriptionText {
   color: $text-color;
   text-align: left;
   font-family: $font-japanese;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 600;
   position: relative;
   align-self: stretch;
@@ -377,7 +372,17 @@
   position: relative;
 }
 
-.detailValue,
+.detailValue {
+  color: $text-color;
+  text-align: left;
+  font-family: $font-japanese;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  flex: 1;
+  cursor: pointer;
+}
+
 .clientValue {
   color: $text-color;
   text-align: left;
@@ -386,15 +391,6 @@
   font-weight: 400;
   position: relative;
   flex: 1;
-
-  a {
-    color: #667eea;
-    text-decoration: underline;
-
-    &:hover {
-      color: #5a6fd8;
-    }
-  }
 }
 
 .linkContainer {

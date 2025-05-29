@@ -1,0 +1,26 @@
+@use "./common/_variables.scss" as *;
+
+// ページコンテナ
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
+  background-color: $background-white;
+  position: relative;
+}
+
+// テーマスタイル
+.modernStyle {
+  // モダンテーマのスタイル
+}
+
+.retroStyle {
+  // レトロテーマのスタイル
+}
+
+// レスポンシブ調整
+@media screen and (max-width: 767px) {
+  .pageContainer {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}

@@ -1,62 +1,54 @@
 @use "../common/_variables.scss" as *;
 
-// Mobile Header Styles
+// 共通スタイル
+.desktopHeader,
+.desktopHeader *,
 .mobileHeader,
 .mobileHeader * {
   box-sizing: border-box;
 }
 
-.mobileHeader {
-  background: #ffffff;
-  padding: 0px 16px;
-  display: flex;
+// デスクトップヘッダー（sm以上）
+.desktopHeader {
+  background: $background-white;
+  padding: 0px 32px;
+  display: none; // デフォルトでは非表示
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 72px;
+  height: 144px;
   position: relative;
   overflow: hidden;
-  width: 100%;
+  width: 100vw; // ビューポート全幅を明示的に指定
+  margin-left: calc(-50vw + 50%); // 親コンテナの制限を無視して全幅表示
 
-  // Hide mobile header on desktop
+  // sm以上（768px以上）で表示
   @include mq(sm) {
-    display: none;
+    display: flex;
+  }
+
+  // 狭いデスクトップ（sm～md）での調整
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    padding: 0px 24px; // パディングをさらに小さく
+    height: 120px; // 高さも少し小さく
+  }
+
+  // 極狭デスクトップ（768px～900px）での調整
+  @media screen and (min-width: 768px) and (max-width: 900px) {
+    padding: 0px 16px; // より小さなパディング
+    height: 100px; // より小さな高さ
   }
 }
 
-.logoContainer {
-  padding: 9px 0px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.logoText {
-  color: $text-color;
-  text-align: center;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
-  font-size: 42px;
-  font-weight: 700;
+// ハンバーガーメニューコンテナ（デスクトップ）
+.hamburgerContainer {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 1;
-  text-decoration: none;
-
-  &:hover {
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-  }
 }
 
+// ハンバーガーメニュー（デスクトップ - 左）
 .hamburgerMenu {
   display: flex;
   flex-direction: column;
@@ -65,7 +57,7 @@
   justify-content: flex-start;
   flex-shrink: 0;
   width: 33px;
-  height: 24px;
+  height: auto;
   position: relative;
   overflow: visible;
   cursor: pointer;
@@ -79,7 +71,225 @@
     transform: scale(0.95);
   }
 
-  // SVG styles
+  path {
+    transition: stroke 0.3s ease;
+  }
+
+  &:hover path {
+    stroke: #333;
+  }
+
+  // 極狭デスクトップでは少し小さく
+  @media screen and (min-width: 768px) and (max-width: 900px) {
+    width: 28px;
+  }
+}
+
+// デスクトップナビゲーション（中央左寄り）
+.desktopNavigation {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0; // 縮小しないように設定
+  position: relative;
+  max-width: calc(50% - 120px); // ロゴ用のスペースを確保
+
+  // 狭いデスクトップでは間隔を調整
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    gap: 20px; // 間隔を狭める
+    max-width: calc(50% - 100px); // より狭いスペース
+  }
+
+  // 極狭デスクトップではさらに調整
+  @media screen and (min-width: 768px) and (max-width: 900px) {
+    gap: 12px; // さらに狭い間隔
+    max-width: calc(50% - 80px); // さらに狭いスペース
+  }
+}
+
+.navItem {
+  padding: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+
+  // 狭いデスクトップではパディングを調整
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    padding: 4px;
+  }
+
+  // 極狭デスクトップではさらに小さく
+  @media screen and (min-width: 768px) and (max-width: 900px) {
+    padding: 2px;
+  }
+}
+
+.navText {
+  color: $text-color;
+  text-align: center;
+  font-family: $font-rubik;
+  font-size: 24px;
+  font-weight: 600;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  white-space: nowrap; // テキストを折り返さない
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  // 狭いデスクトップではフォントサイズを小さく
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 18px;
+  }
+
+  // 極狭デスクトップではさらに小さく
+  @media screen and (min-width: 768px) and (max-width: 900px) {
+    font-size: 17px;
+  }
+}
+
+// デスクトップロゴ（中央絶対配置）
+.desktopLogo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  z-index: 10; // ナビゲーションより前面に表示
+}
+
+.logoText {
+  color: $text-color;
+  text-align: center;
+  font-family: $font-rubik;
+  font-size: 48px;
+  font-weight: 900;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  white-space: nowrap; // テキストを折り返さない
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  // 狭いデスクトップではフォントサイズを小さく
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    font-size: 36px;
+  }
+
+  // 極狭デスクトップではさらに小さく
+  @media screen and (min-width: 768px) and (max-width: 900px) {
+    font-size: 28px;
+  }
+}
+
+// モバイルヘッダー（sm未満）
+.mobileHeader {
+  background: $background-white;
+  padding: 0px 16px;
+  display: flex; // デフォルトで表示
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  position: relative;
+  overflow: hidden;
+  width: 100vw; // ビューポート全幅を明示的に指定
+  margin-left: calc(-50vw + 50%); // 親コンテナの制限を無視して全幅表示
+
+  // sm以上（768px以上）では非表示
+  @include mq(sm) {
+    display: none;
+  }
+}
+
+// モバイルロゴ（左）
+.mobileLogo {
+  padding: 9px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileLogoText {
+  color: $text-color;
+  text-align: center;
+  font-family: $font-rubik;
+  font-size: 32px;
+  font-weight: 900;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// モバイルハンバーガーメニューコンテナ
+.mobileHamburgerContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// モバイルハンバーガーメニュー（右）
+.mobileHamburgerMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 33px;
+  height: auto;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
   path {
     transition: stroke 0.3s ease;
   }
@@ -89,87 +299,57 @@
   }
 }
 
-// Desktop Header (existing styles maintained)
-.desktopHeader {
-  background: #ffffff;
-  padding: 0px 64px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 120px;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  // Hide mobile header styles on mobile
-  @media screen and (max-width: 767px) {
-    display: none;
-  }
-}
-
-// Desktop Header Components
-.desktopLogoContainer {
-  display: flex;
-  align-items: center;
-}
-
-.desktopNavigation {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-.navItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: $text-color;
-  text-decoration: none;
-  transition: opacity 0.3s ease;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
-  }
-}
-
-.worksNavItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: $text-color;
-  background: none;
-  border: none;
-  transition: opacity 0.3s ease;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
-  }
-}
-
-// Responsive adjustments
+// レスポンシブ調整
 @media screen and (max-width: 375px) {
   .mobileHeader {
     padding: 0px 12px;
   }
 
-  .logoText {
+  .mobileLogoText {
     font-size: 28px;
   }
 
-  .hamburgerMenu {
+  .mobileHamburgerMenu {
     width: 30px;
     height: 22px;
+  }
+}
+
+// より大きなデスクトップ画面での調整
+@include mq(xl) {
+  .desktopHeader {
+    padding: 0px 48px;
+  }
+
+  .desktopNavigation {
+    gap: 40px; // より広い間隔
+    max-width: calc(50% - 140px); // より広いスペース
+  }
+
+  .navText {
+    font-size: 26px; // より大きなフォント
+  }
+
+  .logoText {
+    font-size: 52px; // より大きなロゴ
+  }
+}
+
+@include mq(xxl) {
+  .desktopHeader {
+    padding: 0px 64px;
+  }
+
+  .desktopNavigation {
+    gap: 48px;
+    max-width: calc(50% - 160px);
+  }
+
+  .navText {
+    font-size: 28px;
+  }
+
+  .logoText {
+    font-size: 56px;
   }
 }

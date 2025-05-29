@@ -1,10 +1,200 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import styles from "@/styles/aboutme.module.scss";
 
 export default function AboutPage() {
+  // 強み/弱み切り替え状態
+  const [isShowingWeakness, setIsShowingWeakness] = useState(false);
+
+  // 強みデータ
+  const strengthsData = [
+    {
+      name: "傾聴力",
+      description:
+        "チームメンバーと積極的にコミュニケーションを取り、プロジェクトを円滑に進めることができます。相手の立場を理解し、建設的な議論を通じて最適な解決策を見つけることが得意です。",
+    },
+    {
+      name: "継続学習力",
+      description:
+        "新しい技術や知識に対して常に学習意欲を持ち、自己研鑽を続けています。変化の激しいIT業界において、トレンドをキャッチアップし、実務に活かすことができます。",
+    },
+    {
+      name: "問題解決力",
+      description:
+        "複雑な問題に直面した際も、論理的思考で問題を分析し、段階的にアプローチして解決策を導き出すことができます。チーム全体の生産性向上に貢献します。",
+    },
+  ];
+
+  // 弱みデータ
+  const weaknessesData = [
+    {
+      name: "完璧主義",
+      description:
+        "細部にこだわりすぎて時間をかけすぎることがあります。品質は重要ですが、適切なタイミングでの妥協点を見つけることの重要性を学んでいます。",
+    },
+    {
+      name: "新しい環境への適応",
+      description:
+        "新しい環境や人間関係に慣れるまで少し時間がかかることがあります。ただし、一度慣れれば安定したパフォーマンスを発揮できます。",
+    },
+    {
+      name: "プレゼンテーション",
+      description:
+        "大勢の前での発表にはまだ緊張してしまうことがあります。場数を踏んで徐々に改善していくよう努めています。",
+    },
+  ];
+
+  // 現在表示すべきデータ
+  const currentData = isShowingWeakness ? weaknessesData : strengthsData;
+
+  // ボタンクリック時の切り替え処理
+  const handleToggle = () => {
+    setIsShowingWeakness(!isShowingWeakness);
+  };
+
+  useEffect(() => {
+    // デスクトップ版careerステップのホバーイベントを設定
+    const careerSteps = document.querySelectorAll("[data-step]");
+    const careerTexts = document.querySelectorAll("[data-text]");
+
+    // モバイル版careerステップのタップイベントを設定
+    const mobileCareerSteps = document.querySelectorAll("[data-mobile-step]");
+    const mobileCareerTexts = document.querySelectorAll("[data-mobile-text]");
+
+    const handleStepHover = (stepNumber: string) => {
+      // 全てのステップからホバークラスを削除
+      careerSteps.forEach((step) => {
+        step.classList.remove("hovered");
+      });
+
+      // 現在のステップにホバークラスを追加
+      const currentStep = document.querySelector(`[data-step="${stepNumber}"]`);
+      if (currentStep) {
+        currentStep.classList.add("hovered");
+      }
+
+      // 全てのテキストを非表示
+      careerTexts.forEach((text) => {
+        (text as HTMLElement).style.opacity = "0";
+        (text as HTMLElement).style.visibility = "hidden";
+      });
+
+      // 対応するテキストを表示
+      const targetText = document.querySelector(
+        `[data-text="${stepNumber}"]`
+      ) as HTMLElement;
+      if (targetText) {
+        targetText.style.opacity = "1";
+        targetText.style.visibility = "visible";
+      }
+    };
+
+    const handleStepLeave = () => {
+      // 全てのステップからホバークラスを削除
+      careerSteps.forEach((step) => {
+        step.classList.remove("hovered");
+      });
+
+      // デフォルトの状態に戻す（最初のテキストを表示）
+      careerTexts.forEach((text) => {
+        (text as HTMLElement).style.opacity = "0";
+        (text as HTMLElement).style.visibility = "hidden";
+      });
+
+      const defaultText = document.querySelector(
+        '[data-text="1"]'
+      ) as HTMLElement;
+      if (defaultText) {
+        defaultText.style.opacity = "1";
+        defaultText.style.visibility = "visible";
+      }
+    };
+
+    // モバイル版のタップイベント処理
+    const handleMobileStepClick = (stepNumber: string) => {
+      // 全てのモバイルステップからactiveクラスを削除
+      mobileCareerSteps.forEach((step) => {
+        step.classList.remove("active");
+      });
+
+      // 現在のステップにactiveクラスを追加
+      const currentStep = document.querySelector(
+        `[data-mobile-step="${stepNumber}"]`
+      );
+      if (currentStep) {
+        currentStep.classList.add("active");
+      }
+
+      // 全てのモバイルテキストを非表示
+      mobileCareerTexts.forEach((text) => {
+        (text as HTMLElement).style.opacity = "0";
+        (text as HTMLElement).style.visibility = "hidden";
+      });
+
+      // 対応するテキストを表示
+      const targetText = document.querySelector(
+        `[data-mobile-text="${stepNumber}"]`
+      ) as HTMLElement;
+      if (targetText) {
+        targetText.style.opacity = "1";
+        targetText.style.visibility = "visible";
+      }
+    };
+
+    // デスクトップ版イベントリスナーを追加
+    careerSteps.forEach((step) => {
+      const stepNumber = step.getAttribute("data-step");
+      if (stepNumber) {
+        step.addEventListener("mouseenter", () => handleStepHover(stepNumber));
+        step.addEventListener("mouseleave", handleStepLeave);
+      }
+    });
+
+    // モバイル版イベントリスナーを追加
+    mobileCareerSteps.forEach((step) => {
+      const stepNumber = step.getAttribute("data-mobile-step");
+      if (stepNumber) {
+        step.addEventListener("click", () => handleMobileStepClick(stepNumber));
+        step.addEventListener("touchstart", () =>
+          handleMobileStepClick(stepNumber)
+        );
+      }
+    });
+
+    // 初期状態で最初のステップをアクティブに設定
+    const initialMobileStep = document.querySelector('[data-mobile-step="1"]');
+    if (initialMobileStep) {
+      initialMobileStep.classList.add("active");
+    }
+
+    // クリーンアップ関数
+    return () => {
+      careerSteps.forEach((step) => {
+        const stepNumber = step.getAttribute("data-step");
+        if (stepNumber) {
+          step.removeEventListener("mouseenter", () =>
+            handleStepHover(stepNumber)
+          );
+          step.removeEventListener("mouseleave", handleStepLeave);
+        }
+      });
+
+      mobileCareerSteps.forEach((step) => {
+        const stepNumber = step.getAttribute("data-mobile-step");
+        if (stepNumber) {
+          step.removeEventListener("click", () =>
+            handleMobileStepClick(stepNumber)
+          );
+          step.removeEventListener("touchstart", () =>
+            handleMobileStepClick(stepNumber)
+          );
+        }
+      });
+    };
+  }, []);
+
   return (
     <>
       <Head>
@@ -68,22 +258,52 @@ export default function AboutPage() {
               <div className={styles.profileContentContainer}>
                 <div className={styles.skillsContentContainer}>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleSmall}></div>
+                    <div className={styles.skillCircleSmall}>
+                      <div className={styles.skillIcon}>🎯</div>
+                      <div className={styles.skillText}>Figma</div>
+                    </div>
                   </div>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleMedium1}></div>
-                    <div className={styles.skillCircleMedium1}></div>
+                    <div className={styles.skillCircleMedium1}>
+                      <div className={styles.skillIcon}>🖌️</div>
+                      <div className={styles.skillText}>Illustrator</div>
+                    </div>
+                    <div className={styles.skillCircleMedium1}>
+                      <div className={styles.skillIcon}>📸</div>
+                      <div className={styles.skillText}>Photoshop</div>
+                    </div>
                   </div>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleMedium2}></div>
-                    <div className={styles.skillCircleMedium2}></div>
-                    <div className={styles.skillCircleMedium2}></div>
+                    <div className={styles.skillCircleMedium2}>
+                      <div className={styles.skillIcon}>⚡</div>
+                      <div className={styles.skillText}>Next.js</div>
+                    </div>
+                    <div className={styles.skillCircleMedium2}>
+                      <div className={styles.skillIcon}>💎</div>
+                      <div className={styles.skillText}>Rails</div>
+                    </div>
+                    <div className={styles.skillCircleMedium2}>
+                      <div className={styles.skillIcon}>JS</div>
+                      <div className={styles.skillText}>JavaScript</div>
+                    </div>
                   </div>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleLarge}></div>
-                    <div className={styles.skillCircleLarge}></div>
-                    <div className={styles.skillCircleLarge}></div>
-                    <div className={styles.skillCircleLarge}></div>
+                    <div className={styles.skillCircleLarge}>
+                      <div className={styles.skillIcon}>🌐</div>
+                      <div className={styles.skillText}>HTML</div>
+                    </div>
+                    <div className={styles.skillCircleLarge}>
+                      <div className={styles.skillIcon}>🎨</div>
+                      <div className={styles.skillText}>CSS</div>
+                    </div>
+                    <div className={styles.skillCircleLarge}>
+                      <div className={styles.skillIcon}>⚙️</div>
+                      <div className={styles.skillText}>SCSS</div>
+                    </div>
+                    <div className={styles.skillCircleLarge}>
+                      <div className={styles.skillIcon}>🌊</div>
+                      <div className={styles.skillText}>Tailwind</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -94,53 +314,66 @@ export default function AboutPage() {
               <div className={styles.sectionHeader}>
                 <div className={styles.sectionTitleContainer}>
                   <h2 className={styles.strengthWeaknessTitle}>
-                    <span className={styles.strengthTitleSpan}>
-                      Strength&amp;
-                    </span>
-                    <span className={styles.weaknessTitleSpan}> Weakness</span>
+                    {isShowingWeakness ? (
+                      <>
+                        <span className={styles.weaknessTitleSpan}>
+                          Weakness&amp;
+                        </span>
+                        <span className={styles.strengthTitleSpan}>
+                          {" "}
+                          Strength
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className={styles.strengthTitleSpan}>
+                          Strength&amp;
+                        </span>
+                        <span className={styles.weaknessTitleSpan}>
+                          {" "}
+                          Weakness
+                        </span>
+                      </>
+                    )}
                   </h2>
                 </div>
               </div>
               <div className={styles.profileContentContainer}>
                 <div className={styles.strengthWeaknessContentContainer}>
                   <div className={styles.sectionTitleContainer}></div>
-                  <div className={styles.strengthList}>
-                    <div className={styles.strengthItem}>
-                      <div className={styles.strengthNameContainer}>
-                        <div className={styles.strengthName}>なんたら力</div>
-                      </div>
-                      <div className={styles.strengthDescContainer}>
-                        <div className={styles.strengthDescription}>
-                          テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                  <div
+                    className={`${styles.strengthList} ${
+                      isShowingWeakness ? styles.fadeIn : styles.fadeIn
+                    }`}
+                  >
+                    {currentData.map((item, index) => (
+                      <div
+                        key={`${
+                          isShowingWeakness ? "weakness" : "strength"
+                        }-${index}`}
+                        className={styles.strengthItem}
+                      >
+                        <div className={styles.strengthNameContainer}>
+                          <div className={styles.strengthName}>{item.name}</div>
+                        </div>
+                        <div className={styles.strengthDescContainer}>
+                          <div className={styles.strengthDescription}>
+                            {item.description}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className={styles.strengthItem}>
-                      <div className={styles.strengthNameContainer}>
-                        <div className={styles.strengthName}>なんたら力</div>
-                      </div>
-                      <div className={styles.strengthDescContainer}>
-                        <div className={styles.strengthDescription}>
-                          テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.strengthItem}>
-                      <div className={styles.strengthNameContainer}>
-                        <div className={styles.strengthName}>なんたら力</div>
-                      </div>
-                      <div className={styles.strengthDescContainer}>
-                        <div className={styles.strengthDescription}>
-                          テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
               <div className={styles.weaknessButtonWrapper}>
-                <div className={styles.weaknessButtonContainer}>
-                  <div className={styles.weaknessButtonText}>B</div>
+                <div
+                  className={styles.weaknessButtonContainer}
+                  onClick={handleToggle}
+                >
+                  <div className={styles.weaknessButtonText}>
+                    {isShowingWeakness ? "S" : "W"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -153,31 +386,65 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className={styles.profileContentContainer}>
-                <div className={styles.strengthWeaknessContentContainer}>
-                  <div className={styles.careerTimelineContainer}>
-                    <div className={styles.careerStep1}>
-                      <div className={styles.careerText1}>
-                        自分のサービスのデザインをより洗練された興味深いものにして、得た資金で社会貢献する
+                <div className={styles.careerInteractiveWrapper}>
+                  {/* 左側: ステップアイコンエリア */}
+                  <div className={styles.careerStepsContainer}>
+                    <div className={styles.careerStep} data-mobile-step="1">
+                      <div className={styles.stepNumber}>1</div>
+                      <div className={styles.stepIcon}>💻</div>
+                    </div>
+                    <div className={styles.careerStep} data-mobile-step="2">
+                      <div className={styles.stepNumber}>2</div>
+                      <div className={styles.stepIcon}>🎨</div>
+                    </div>
+                    <div className={styles.careerStep} data-mobile-step="3">
+                      <div className={styles.stepNumber}>3</div>
+                      <div className={styles.stepIcon}>🛠️</div>
+                    </div>
+                    <div className={styles.careerStep} data-mobile-step="4">
+                      <div className={styles.stepNumber}>4</div>
+                      <div className={styles.stepIcon}>💼</div>
+                    </div>
+                    <div className={styles.careerStep} data-mobile-step="5">
+                      <div className={styles.stepNumber}>5</div>
+                      <div className={styles.stepIcon}>🌟</div>
+                    </div>
+                  </div>
+
+                  {/* 右側: テキスト表示エリア */}
+                  <div className={styles.careerTextDisplay}>
+                    <div className={styles.careerTextItem} data-mobile-text="1">
+                      <div className={styles.textTitle}>
+                        プログラミングの基礎
+                      </div>
+                      <div className={styles.textContent}>
+                        テックキャンプでプログラミングを学び、Web開発の基礎を身につけました。
                       </div>
                     </div>
-                    <div className={styles.careerStep2}>
-                      <div className={styles.careerText2}>
-                        Webデザイン会社に就職し、実務経験を積みながらスキルに磨きをかける
+                    <div className={styles.careerTextItem} data-mobile-text="2">
+                      <div className={styles.textTitle}>デザインスキル習得</div>
+                      <div className={styles.textContent}>
+                        Figmaの使い方を覚えながらデザインについて学び、UI/UXの基本を理解しました。
                       </div>
                     </div>
-                    <div className={styles.careerStep3}>
-                      <div className={styles.careerText3}>
-                        テックキャンプで実際の案件に携わり、より深くデザインやツールについて学ぶ
+                    <div className={styles.careerTextItem} data-mobile-text="3">
+                      <div className={styles.textTitle}>実務経験</div>
+                      <div className={styles.textContent}>
+                        テックキャンプで実際の案件に携わり、より深くデザインやツールについて学びました。
                       </div>
                     </div>
-                    <div className={styles.careerStep4}>
-                      <div className={styles.careerText4}>
-                        Figmaの使い方を覚えながらデザインについて学ぶ
+                    <div className={styles.careerTextItem} data-mobile-text="4">
+                      <div className={styles.textTitle}>
+                        プロフェッショナルへ
+                      </div>
+                      <div className={styles.textContent}>
+                        Webデザイン会社に就職し、実務経験を積みながらスキルに磨きをかけています。
                       </div>
                     </div>
-                    <div className={styles.careerStep5}>
-                      <div className={styles.careerText5}>
-                        テックキャンプでプログラミングを学ぶ
+                    <div className={styles.careerTextItem} data-mobile-text="5">
+                      <div className={styles.textTitle}>社会貢献へ</div>
+                      <div className={styles.textContent}>
+                        自分のサービスのデザインをより洗練された興味深いものにして、得た資金で社会貢献したいです。
                       </div>
                     </div>
                   </div>
@@ -254,22 +521,52 @@ export default function AboutPage() {
             </div>
             <div className={styles.desktopSkillsContent}>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle1}></div>
+                <div className={styles.desktopSkillCircle1}>
+                  <div className={styles.desktopSkillIcon}>🎯</div>
+                  <div className={styles.desktopSkillText}>Figma</div>
+                </div>
               </div>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle2}></div>
-                <div className={styles.desktopSkillCircle2}></div>
+                <div className={styles.desktopSkillCircle2}>
+                  <div className={styles.desktopSkillIcon}>🖌️</div>
+                  <div className={styles.desktopSkillText}>Illustrator</div>
+                </div>
+                <div className={styles.desktopSkillCircle2}>
+                  <div className={styles.desktopSkillIcon}>📸</div>
+                  <div className={styles.desktopSkillText}>Photoshop</div>
+                </div>
               </div>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle3}></div>
-                <div className={styles.desktopSkillCircle3}></div>
-                <div className={styles.desktopSkillCircle3}></div>
+                <div className={styles.desktopSkillCircle3}>
+                  <div className={styles.desktopSkillIcon}>⚡</div>
+                  <div className={styles.desktopSkillText}>Next.js</div>
+                </div>
+                <div className={styles.desktopSkillCircle3}>
+                  <div className={styles.desktopSkillIcon}>💎</div>
+                  <div className={styles.desktopSkillText}>Rails</div>
+                </div>
+                <div className={styles.desktopSkillCircle3}>
+                  <div className={styles.desktopSkillIcon}>JS</div>
+                  <div className={styles.desktopSkillText}>JavaScript</div>
+                </div>
               </div>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle4}></div>
-                <div className={styles.desktopSkillCircle4}></div>
-                <div className={styles.desktopSkillCircle4}></div>
-                <div className={styles.desktopSkillCircle4}></div>
+                <div className={styles.desktopSkillCircle4}>
+                  <div className={styles.desktopSkillIcon}>🌐</div>
+                  <div className={styles.desktopSkillText}>HTML</div>
+                </div>
+                <div className={styles.desktopSkillCircle4}>
+                  <div className={styles.desktopSkillIcon}>🎨</div>
+                  <div className={styles.desktopSkillText}>CSS</div>
+                </div>
+                <div className={styles.desktopSkillCircle4}>
+                  <div className={styles.desktopSkillIcon}>⚙️</div>
+                  <div className={styles.desktopSkillText}>SCSS</div>
+                </div>
+                <div className={styles.desktopSkillCircle4}>
+                  <div className={styles.desktopSkillIcon}>🌊</div>
+                  <div className={styles.desktopSkillText}>Tailwind</div>
+                </div>
               </div>
             </div>
           </div>
@@ -279,58 +576,67 @@ export default function AboutPage() {
             <div className={styles.desktopSectionHeader}>
               <div className={styles.desktopSectionTitleContainer}>
                 <h2 className={styles.desktopStrengthWeaknessTitle}>
-                  <span className={styles.desktopStrengthSpan}>
-                    Strength&amp;
-                  </span>
-                  <span className={styles.desktopWeaknessSpan}> Weakness</span>
+                  {isShowingWeakness ? (
+                    <>
+                      <span className={styles.desktopWeaknessSpan}>
+                        Weakness&amp;
+                      </span>
+                      <span className={styles.desktopStrengthSpan}>
+                        {" "}
+                        Strength
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className={styles.desktopStrengthSpan}>
+                        Strength&amp;
+                      </span>
+                      <span className={styles.desktopWeaknessSpan}>
+                        {" "}
+                        Weakness
+                      </span>
+                    </>
+                  )}
                 </h2>
               </div>
             </div>
             <div className={styles.desktopStrengthWeaknessContent}>
               <div className={styles.desktopStrengthContainer}>
-                <div className={styles.desktopStrengthList}>
-                  <div className={styles.desktopStrengthItem}>
-                    <div className={styles.desktopStrengthNameWrapper}>
-                      <div className={styles.desktopStrengthName}>
-                        なんたら力
+                <div
+                  className={`${styles.desktopStrengthList} ${
+                    isShowingWeakness ? styles.fadeIn : styles.fadeIn
+                  }`}
+                >
+                  {currentData.map((item, index) => (
+                    <div
+                      key={`desktop-${
+                        isShowingWeakness ? "weakness" : "strength"
+                      }-${index}`}
+                      className={styles.desktopStrengthItem}
+                    >
+                      <div className={styles.desktopStrengthNameWrapper}>
+                        <div className={styles.desktopStrengthName}>
+                          {item.name}
+                        </div>
+                      </div>
+                      <div className={styles.desktopStrengthDescWrapper}>
+                        <div className={styles.desktopStrengthDescription}>
+                          {item.description}
+                        </div>
                       </div>
                     </div>
-                    <div className={styles.desktopStrengthDescWrapper}>
-                      <div className={styles.desktopStrengthDescription}>
-                        テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.desktopStrengthItem}>
-                    <div className={styles.desktopStrengthNameWrapper}>
-                      <div className={styles.desktopStrengthName}>
-                        なんたら力
-                      </div>
-                    </div>
-                    <div className={styles.desktopStrengthDescWrapper}>
-                      <div className={styles.desktopStrengthDescription}>
-                        テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.desktopStrengthItem}>
-                    <div className={styles.desktopStrengthNameWrapper}>
-                      <div className={styles.desktopStrengthName}>
-                        なんたら力
-                      </div>
-                    </div>
-                    <div className={styles.desktopStrengthDescWrapper}>
-                      <div className={styles.desktopStrengthDescription}>
-                        テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
             <div className={styles.desktopWeaknessHeader}>
-              <div className={styles.desktopWeaknessContainer}>
-                <div className={styles.desktopWeaknessTitle}>B</div>
+              <div
+                className={styles.desktopWeaknessContainer}
+                onClick={handleToggle}
+              >
+                <div className={styles.desktopWeaknessTitle}>
+                  {isShowingWeakness ? "S" : "W"}
+                </div>
               </div>
             </div>
           </div>
@@ -342,43 +648,39 @@ export default function AboutPage() {
                 <h2 className={styles.desktopSectionTitle}>Career</h2>
               </div>
             </div>
-            <div className={styles.desktopCareerList}>
-              <div className={styles.desktopCareerContent}>
-                <div className={styles.desktopCareerIndicators}>
-                  <div className={styles.desktopCareerBar1}></div>
-                  <div className={styles.desktopCareerBar2}></div>
-                  <div className={styles.desktopCareerBar3}></div>
+            <div className={styles.desktopCareerContainer}>
+              <div className={styles.desktopCareerSteps}>
+                <div className={styles.desktopCareerStep} data-step="1">
+                  <div className={styles.desktopStepNumber}>1</div>
                 </div>
-                <div className={styles.desktopCareerPoints}>
-                  <div className={styles.desktopCareerPoint1}></div>
-                  <div className={styles.desktopCareerPoint2}></div>
+                <div className={styles.desktopCareerStep} data-step="2">
+                  <div className={styles.desktopStepNumber}>2</div>
+                </div>
+                <div className={styles.desktopCareerStep} data-step="3">
+                  <div className={styles.desktopStepNumber}>3</div>
+                </div>
+                <div className={styles.desktopCareerStep} data-step="4">
+                  <div className={styles.desktopStepNumber}>4</div>
+                </div>
+                <div className={styles.desktopCareerStep} data-step="5">
+                  <div className={styles.desktopStepNumber}>5</div>
                 </div>
               </div>
-              <div className={styles.desktopCareerTexts}>
-                <div className={styles.desktopCareerTextItem1}>
-                  <div className={styles.desktopCareerText1}>
-                    テックキャンプでプログラミングを学ぶ
-                  </div>
+              <div className={styles.desktopCareerTextDisplay}>
+                <div className={styles.desktopCareerText} data-text="1">
+                  テックキャンプでプログラミングを学ぶ
                 </div>
-                <div className={styles.desktopCareerTextItem2}>
-                  <div className={styles.desktopCareerText2}>
-                    Figmaの使い方を覚えながらデザインについて学ぶ
-                  </div>
+                <div className={styles.desktopCareerText} data-text="2">
+                  Figmaの使い方を覚えながらデザインについて学ぶ
                 </div>
-                <div className={styles.desktopCareerTextItem3}>
-                  <div className={styles.desktopCareerText3}>
-                    テックキャンプで実際の案件に携わり、より深くデザインやツールについて学ぶ
-                  </div>
+                <div className={styles.desktopCareerText} data-text="3">
+                  テックキャンプで実際の案件に携わり、より深くデザインやツールについて学ぶ
                 </div>
-                <div className={styles.desktopCareerTextItem4}>
-                  <div className={styles.desktopCareerText4}>
-                    Webデザイン会社に就職し実務経験を積みながらスキルに磨きをかける
-                  </div>
+                <div className={styles.desktopCareerText} data-text="4">
+                  Webデザイン会社に就職し実務経験を積みながらスキルに磨きをかける
                 </div>
-                <div className={styles.desktopCareerTextItem5}>
-                  <div className={styles.desktopCareerText5}>
-                    自分のサービスのデザインをより洗練された興味深いものにして、得た資金で社会貢献する
-                  </div>
+                <div className={styles.desktopCareerText} data-text="5">
+                  自分のサービスのデザインをより洗練された興味深いものにして、得た資金で社会貢献する
                 </div>
               </div>
             </div>

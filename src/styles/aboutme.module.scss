@@ -179,7 +179,7 @@
   color: $text-color;
   text-align: left;
   font-family: $font-rubik;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 600;
   position: relative;
   line-height: 1.3;
@@ -322,66 +322,151 @@
 .skillsContentContainer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(4px, 2vw, 8px);
   align-items: center;
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
-  height: 294px;
+  min-height: 260px;
+  height: auto;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  padding: 16px 8px;
 }
 
 .skillsRowContainer {
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: clamp(4px, 2vw, 8px);
   align-items: center;
   justify-content: center;
-  align-self: stretch;
+  width: 100%;
   flex-shrink: 0;
   position: relative;
+  flex-wrap: nowrap;
 }
 
-// Skill circles with different sizes per row
+// Skill circles with different sizes per row (320px最適化)
 .skillCircleSmall {
-  background: #bababa;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 50%;
   flex-shrink: 0;
-  width: 60px;
-  height: 60px;
+  width: clamp(48px, 12vw, 60px);
+  height: clamp(48px, 12vw, 60px);
   position: relative;
   aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .skillCircleMedium1 {
-  background: #d9d9d9;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   border-radius: 50%;
   flex-shrink: 0;
-  width: 64px;
-  height: 64px;
+  width: clamp(50px, 13vw, 64px);
+  height: clamp(50px, 13vw, 64px);
   position: relative;
   aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .skillCircleMedium2 {
-  background: #d9d9d9;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   border-radius: 50%;
   flex-shrink: 0;
-  width: 68px;
-  height: 68px;
+  width: clamp(52px, 14vw, 68px);
+  height: clamp(52px, 14vw, 68px);
   position: relative;
   aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .skillCircleLarge {
-  background: #d9d9d9;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
   border-radius: 50%;
   flex-shrink: 0;
-  width: 72px;
-  height: 72px;
+  width: clamp(54px, 15vw, 72px);
+  height: clamp(54px, 15vw, 72px);
   position: relative;
   aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Skill icon and text styles
+.skillIcon {
+  font-size: clamp(16px, 4vw, 24px);
+  line-height: 1;
+  margin-bottom: 2px;
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.skillText {
+  font-family: $font-japanese;
+  font-size: clamp(8px, 2vw, 10px);
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  word-break: break-all;
+  hyphens: auto;
+  max-width: 100%;
+  overflow: hidden;
+  
+  // 長いテキストの場合の調整
+  @media screen and (max-width: 320px) {
+    font-size: 7px;
+    line-height: 1;
+  }
 }
 
 // ===== STRENGTH & WEAKNESS SECTION (Mobile) =====
@@ -446,6 +531,23 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+  transition: all 0.6s ease;
+}
+
+// フェードインアニメーション
+.fadeIn {
+  animation: fadeInAnimation 0.6s ease-in-out;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .strengthItem {
@@ -565,6 +667,17 @@
   position: relative;
   min-width: clamp(48px, 12vw, 64px); // 最小サイズ保証
   min-height: clamp(40px, 10vw, 48px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #a1a1a1;
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 .weaknessButtonText {
@@ -577,141 +690,195 @@
   line-height: 1;
 }
 
-// ===== CAREER SECTION (Mobile) =====
-.careerTimelineContainer {
+// ===== CAREER SECTION (Mobile) - Left-Right Interactive Design =====
+.careerInteractiveWrapper {
   display: flex;
-  flex-direction: column;
-  gap: 0px;
+  flex-direction: row;
+  gap: 16px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+  min-height: 400px;
 }
 
-.careerStep1 {
-  background: #d9d9d9;
+// 左側: ステップアイコンエリア
+.careerStepsContainer {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
+  gap: 8px;
+  align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
-  height: 192px;
+  width: clamp(80px, 25%, 100px);
   position: relative;
-  padding: 16px;
 }
 
-.careerStep2 {
-  background: #d9d9d9;
+.careerStep {
+  width: 100%;
+  min-height: clamp(70px, 18vw, 80px);
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 176px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   position: relative;
-  padding: 16px;
+  
+  // ステップごとの色分け
+  &[data-mobile-step="1"] {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); // デフォルトでアクティブ状態
+    border-color: #3b82f6;
+    
+    .stepNumber, .stepIcon {
+      color: #ffffff; // デフォルトで白文字
+    }
+    
+    &:not(.active) {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      
+      .stepNumber, .stepIcon {
+        color: #334155;
+      }
+    }
+    
+    &.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      
+      .stepNumber, .stepIcon {
+        color: #ffffff;
+      }
+    }
+  }
+  
+  &[data-mobile-step="2"] {
+    background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+    border-color: #ea580c;
+    
+    &.active {
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+      
+      .stepNumber, .stepIcon {
+        color: #ffffff;
+      }
+    }
+  }
+  
+  &[data-mobile-step="3"] {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    border-color: #16a34a;
+    
+    &.active {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      
+      .stepNumber, .stepIcon {
+        color: #ffffff;
+      }
+    }
+  }
+  
+  &[data-mobile-step="4"] {
+    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+    border-color: #9333ea;
+    
+    &.active {
+      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+      
+      .stepNumber, .stepIcon {
+        color: #ffffff;
+      }
+    }
+  }
+  
+  &[data-mobile-step="5"] {
+    background: linear-gradient(135deg, #fef3e8 0%, #fed7aa 100%);
+    border-color: #d97706;
+    
+    &.active {
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      
+      .stepNumber, .stepIcon {
+        color: #ffffff;
+      }
+    }
+  }
+  
+  // ホバー効果
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
-.careerStep3 {
-  background: #bababa;
+.stepNumber {
+  font-family: $font-rubik;
+  font-size: clamp(14px, 4vw, 18px);
+  font-weight: 700;
+  color: #334155;
+  transition: color 0.3s ease;
+  line-height: 1;
+}
+
+.stepIcon {
+  font-size: clamp(18px, 5vw, 24px);
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+// 右側: テキスト表示エリア
+.careerTextDisplay {
+  flex: 1;
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: clamp(20px, 5vw, 24px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  min-height: 320px;
+}
+
+.careerTextItem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: clamp(20px, 5vw, 24px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 160px;
-  position: relative;
-  padding: 16px;
+  gap: 12px;
+  
+  // デフォルトで最初のテキストを表示
+  &[data-mobile-text="1"] {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-.careerStep4 {
-  background: #bababa;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 88px;
-  position: relative;
-  padding: 16px;
-}
-
-.careerStep5 {
-  background: #bababa;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 80px;
-  position: relative;
-  padding: 16px;
-}
-
-.careerText1 {
-  color: $text-color;
-  text-align: left;
+.textTitle {
   font-family: $font-japanese;
-  font-size: 24px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  line-height: 1.4;
+  font-size: clamp(18px, 5vw, 22px);
+  font-weight: 600;
+  color: $text-color;
+  line-height: 1.3;
+  margin-bottom: 8px;
 }
 
-.careerText2 {
-  color: $text-color;
-  text-align: left;
+.textContent {
   font-family: $font-japanese;
-  font-size: 24px;
+  font-size: clamp(14px, 4vw, 18px);
   font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  line-height: 1.4;
-}
-
-.careerText3 {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: 16px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  line-height: 1.5;
-}
-
-.careerText4 {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: 24px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  line-height: 1.4;
-}
-
-.careerText5 {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: 16px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  line-height: 1.5;
+  color: #64748b;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
 }
 
 // ===== MOBILE PROFILE & FOOTER SECTIONS =====
@@ -1117,65 +1284,142 @@
   .desktopSkillsContent {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: clamp(12px, 2vw, 20px);
     align-items: flex-start;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    padding: 20px 0;
   }
 
   .desktopSkillsRow {
     display: flex;
     flex-direction: row;
-    gap: 32px;
+    gap: clamp(20px, 4vw, 40px);
     align-items: center;
     justify-content: center;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .desktopSkillCircle1 {
-    background: #bababa;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 50%;
     flex-shrink: 0;
-    width: 72px;
-    height: 72px;
+    width: clamp(60px, 8vw, 80px);
+    height: clamp(60px, 8vw, 80px);
     position: relative;
     aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
   }
 
   .desktopSkillCircle2 {
-    background: #d9d9d9;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     border-radius: 50%;
     flex-shrink: 0;
-    width: 80px;
-    height: 80px;
+    width: clamp(70px, 9vw, 90px);
+    height: clamp(70px, 9vw, 90px);
     position: relative;
     aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
   }
 
   .desktopSkillCircle3 {
-    background: #d9d9d9;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     border-radius: 50%;
     flex-shrink: 0;
-    width: 88px;
-    height: 88px;
+    width: clamp(80px, 10vw, 100px);
+    height: clamp(80px, 10vw, 100px);
     position: relative;
     aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
   }
 
   .desktopSkillCircle4 {
-    background: #d9d9d9;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     border-radius: 50%;
     flex-shrink: 0;
-    width: 96px;
-    height: 96px;
+    width: clamp(90px, 11vw, 110px);
+    height: clamp(90px, 11vw, 110px);
     position: relative;
     aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // Desktop skill icon and text styles
+  .desktopSkillIcon {
+    font-size: clamp(20px, 3vw, 32px);
+    line-height: 1;
+    margin-bottom: 4px;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .desktopSkillText {
+    font-family: $font-japanese;
+    font-size: clamp(10px, 1.5vw, 14px);
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    word-break: break-all;
+    hyphens: auto;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   // ===== DESKTOP STRENGTH & WEAKNESS SECTION =====
@@ -1255,6 +1499,7 @@
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
+    transition: all 0.6s ease;
   }
 
   .desktopStrengthItem {
@@ -1340,6 +1585,17 @@
     justify-content: flex-start;
     flex-shrink: 0;
     position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #a1a1a1;
+      transform: scale(1.05);
+    }
+    
+    &:active {
+      transform: scale(0.98);
+    }
   }
 
   .desktopWeaknessTitle {
@@ -1352,252 +1608,139 @@
   }
 
   // ===== DESKTOP CAREER SECTION =====
-  .desktopCareerList {
+  .desktopCareerContainer {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    align-items: flex-start;
+    gap: 40px;
+    align-items: center;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
+    padding: 40px 0;
   }
 
-  .desktopCareerContent {
+  .desktopCareerSteps {
     display: flex;
     flex-direction: row;
-    gap: 0px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定heightを削除
-    min-height: 400px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerIndicators {
-    display: flex;
-    flex-direction: row;
-    gap: 0px;
     align-items: flex-end;
-    justify-content: flex-end;
-    align-self: stretch;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 0 0 auto;
-    max-width: 40%;
-    min-width: 300px;
+    justify-content: center;
+    gap: 0; // 隙間をなくして階段らしく
+    flex-wrap: nowrap;
     position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerBar1 {
-    background: #bababa;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 1;
-    min-width: 80px;
-    height: 40px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerBar2 {
-    background: #bababa;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 1;
-    min-width: 80px;
-    height: 96px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerBar3 {
-    background: #bababa;
-    flex: 1;
-    height: 160px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerPoints {
-    display: flex;
-    flex-direction: row;
-    gap: 0px;
-    align-items: flex-end;
-    justify-content: flex-start;
-    flex: 1;
-    // レスポンシブ対応: 固定heightを削除
-    min-height: 400px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerPoint1 {
-    background: #bababa;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 0 0 auto;
-    max-width: 280px;
-    min-width: 200px;
-    width: clamp(200px, 25%, 280px);
-    height: 240px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerPoint2 {
-    background: #bababa;
-    flex: 1;
-    height: 320px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerTexts {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopCareerTextItem1 {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 1;
-    min-width: 80px;
-    max-width: 120px;
-    position: relative;
-  }
-
-  .desktopCareerTextItem2 {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 1;
-    min-width: 80px;
-    max-width: 120px;
-    position: relative;
-  }
-
-  .desktopCareerTextItem3 {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 1;
-    min-width: 120px;
-    max-width: 180px;
-    position: relative;
-  }
-
-  .desktopCareerTextItem4 {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 2;
-    min-width: 200px;
-    max-width: 320px;
-    position: relative;
-  }
-
-  .desktopCareerTextItem5 {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅をflexで置き換え
-    flex: 2;
-    min-width: 180px;
-    max-width: 280px;
-    position: relative;
-  }
-
-  .desktopCareerText1,
-  .desktopCareerText2 {
-    color: $text-color;
-    text-align: left;
-    font-family: $font-japanese;
-    font-size: 16px;
-    font-weight: 400;
-    position: relative;
-    // レスポンシブ対応: 固定サイズを削除
     width: 100%;
-    min-height: 80px;
-    line-height: 1.5;
+    max-width: 900px; // より大きく
   }
 
-  .desktopCareerText2 {
-    min-height: 100px;
-  }
-
-  .desktopCareerText3 {
-    color: $text-color;
-    text-align: left;
-    font-family: $font-japanese;
-    font-size: 16px;
-    font-weight: 400;
+  .desktopCareerStep {
     position: relative;
-    // レスポンシブ対応: 固定サイズを削除
-    width: 100%;
-    min-height: 100px;
-    line-height: 1.5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0; // 角丸を完全に削除して階段らしく
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-right: 2px solid rgba(255, 255, 255, 0.3); // 境界線を追加
+    
+    &:last-child {
+      border-right: none;
+    }
+    
+    // 段階的にサイズアップ（左から右へ）- より大きく
+    &[data-step="1"] {
+      width: clamp(80px, 12vw, 120px);
+      height: clamp(60px, 8vw, 90px);
+      background: linear-gradient(135deg, #e8f4fd 0%, #c3dafe 100%);
+    }
+    
+    &[data-step="2"] {
+      width: clamp(100px, 14vw, 140px);
+      height: clamp(80px, 10vw, 120px);
+      background: linear-gradient(135deg, #fef3e8 0%, #fed7aa 100%);
+    }
+    
+    &[data-step="3"] {
+      width: clamp(120px, 16vw, 160px);
+      height: clamp(100px, 12vw, 150px);
+      background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+    }
+    
+    &[data-step="4"] {
+      width: clamp(140px, 18vw, 180px);
+      height: clamp(120px, 14vw, 180px);
+      background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
+    }
+    
+    &[data-step="5"] {
+      width: clamp(160px, 20vw, 200px);
+      height: clamp(140px, 16vw, 210px);
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+    }
+    
+    // ホバー時の薄い赤色変化
+    &.hovered {
+      background: linear-gradient(135deg, #fecaca 0%, #f87171 100%) !important;
+      transform: translateY(-8px) scale(1.03); // より大きな動き
+      box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4);
+      z-index: 10;
+      
+      .desktopStepNumber {
+        color: #ffffff;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    }
   }
 
-  .desktopCareerText4 {
+  .desktopStepNumber {
+    font-family: $font-rubik;
+    font-size: clamp(18px, 4vw, 28px); // より大きく見やすく
+    font-weight: 700; // より太く
     color: $text-color;
-    text-align: left;
-    font-family: $font-japanese;
-    font-size: 20px;
-    font-weight: 400;
-    position: relative;
-    // レスポンシブ対応: 固定サイズを削除
-    width: 100%;
-    min-height: 100px;
-    line-height: 1.5;
+    text-align: center;
+    line-height: 1;
+    transition: all 0.3s ease;
   }
 
-  .desktopCareerText5 {
-    color: $text-color;
-    text-align: left;
-    font-family: $font-japanese;
-    font-size: 20px;
-    font-weight: 400;
+  .desktopCareerTextDisplay {
     position: relative;
-    // レスポンシブ対応: 固定サイズを削除
     width: 100%;
-    min-height: 100px;
-    line-height: 1.5;
+    max-width: 600px;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(248, 250, 252, 0.8);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+  }
+
+  .desktopCareerText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    
+    font-family: $font-japanese;
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-weight: 400;
+    color: $text-color;
+    line-height: 1.6;
+    padding: 0 20px;
+    
+    // デフォルトで最初のテキストを表示
+    &[data-text="1"] {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   // ===== DESKTOP BOTTOM SECTION =====
