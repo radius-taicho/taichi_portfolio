@@ -316,22 +316,30 @@ export default function AboutPage() {
                   <h2 className={styles.strengthWeaknessTitle}>
                     {isShowingWeakness ? (
                       <>
-                        <span className={styles.weaknessTitleSpan}>
-                          Weakness&amp;
+                        <span
+                          className={`${styles.weaknessTitleSpan} ${styles.emphasized}`}
+                        >
+                          Weakness
                         </span>
-                        <span className={styles.strengthTitleSpan}>
+                        <span
+                          className={`${styles.strengthTitleSpan} ${styles.deemphasized}`}
+                        >
                           {" "}
-                          Strength
+                          &amp;Strength
                         </span>
                       </>
                     ) : (
                       <>
-                        <span className={styles.strengthTitleSpan}>
-                          Strength&amp;
+                        <span
+                          className={`${styles.strengthTitleSpan} ${styles.emphasized}`}
+                        >
+                          Strength
                         </span>
-                        <span className={styles.weaknessTitleSpan}>
+                        <span
+                          className={`${styles.weaknessTitleSpan} ${styles.deemphasized}`}
+                        >
                           {" "}
-                          Weakness
+                          &amp;Weakness
                         </span>
                       </>
                     )}
@@ -342,9 +350,8 @@ export default function AboutPage() {
                 <div className={styles.strengthWeaknessContentContainer}>
                   <div className={styles.sectionTitleContainer}></div>
                   <div
-                    className={`${styles.strengthList} ${
-                      isShowingWeakness ? styles.fadeIn : styles.fadeIn
-                    }`}
+                    key={isShowingWeakness ? "weakness-list" : "strength-list"}
+                    className={`${styles.strengthList} ${styles.fadeIn}`}
                   >
                     {currentData.map((item, index) => (
                       <div
@@ -578,22 +585,30 @@ export default function AboutPage() {
                 <h2 className={styles.desktopStrengthWeaknessTitle}>
                   {isShowingWeakness ? (
                     <>
-                      <span className={styles.desktopWeaknessSpan}>
-                        Weakness&amp;
+                      <span
+                        className={`${styles.desktopWeaknessSpan} ${styles.emphasized}`}
+                      >
+                        Weakness
                       </span>
-                      <span className={styles.desktopStrengthSpan}>
+                      <span
+                        className={`${styles.desktopStrengthSpan} ${styles.deemphasized}`}
+                      >
                         {" "}
-                        Strength
+                        &amp;Strength
                       </span>
                     </>
                   ) : (
                     <>
-                      <span className={styles.desktopStrengthSpan}>
-                        Strength&amp;
+                      <span
+                        className={`${styles.desktopStrengthSpan} ${styles.emphasized}`}
+                      >
+                        Strength
                       </span>
-                      <span className={styles.desktopWeaknessSpan}>
+                      <span
+                        className={`${styles.desktopWeaknessSpan} ${styles.deemphasized}`}
+                      >
                         {" "}
-                        Weakness
+                        &amp;Weakness
                       </span>
                     </>
                   )}
@@ -603,9 +618,12 @@ export default function AboutPage() {
             <div className={styles.desktopStrengthWeaknessContent}>
               <div className={styles.desktopStrengthContainer}>
                 <div
-                  className={`${styles.desktopStrengthList} ${
-                    isShowingWeakness ? styles.fadeIn : styles.fadeIn
-                  }`}
+                  key={
+                    isShowingWeakness
+                      ? "desktop-weakness-list"
+                      : "desktop-strength-list"
+                  }
+                  className={`${styles.desktopStrengthList} ${styles.fadeIn}`}
                 >
                   {currentData.map((item, index) => (
                     <div
