@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import styles from "@/styles/aboutme.module.scss";
@@ -258,51 +259,131 @@ export default function AboutPage() {
               <div className={styles.profileContentContainer}>
                 <div className={styles.skillsContentContainer}>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleSmall}>
-                      <div className={styles.skillIcon}>🎯</div>
-                      <div className={styles.skillText}>Figma</div>
+                    <div
+                      className={`${styles.skillCircleSmall} ${styles.skillFigma}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/figma_img.png"
+                          alt="Figma"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleMedium1}>
-                      <div className={styles.skillIcon}>🖌️</div>
-                      <div className={styles.skillText}>Illustrator</div>
+                    <div
+                      className={`${styles.skillCircleMedium1} ${styles.skillIllustrator}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/illustrator_img.png"
+                          alt="Illustrator"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
-                    <div className={styles.skillCircleMedium1}>
-                      <div className={styles.skillIcon}>📸</div>
-                      <div className={styles.skillText}>Photoshop</div>
+                    <div
+                      className={`${styles.skillCircleMedium1} ${styles.skillPhotoshop}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/photoshop_img.png"
+                          alt="Photoshop"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleMedium2}>
-                      <div className={styles.skillIcon}>⚡</div>
-                      <div className={styles.skillText}>Next.js</div>
+                    <div
+                      className={`${styles.skillCircleMedium2} ${styles.skillNextjs}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/Next.js_img.png"
+                          alt="Next.js"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
-                    <div className={styles.skillCircleMedium2}>
-                      <div className={styles.skillIcon}>💎</div>
-                      <div className={styles.skillText}>Rails</div>
+                    <div
+                      className={`${styles.skillCircleMedium2} ${styles.skillRails}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/rails_img.png"
+                          alt="Rails"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
-                    <div className={styles.skillCircleMedium2}>
-                      <div className={styles.skillIcon}>JS</div>
-                      <div className={styles.skillText}>JavaScript</div>
+                    <div
+                      className={`${styles.skillCircleMedium2} ${styles.skillSwift}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/swift_img.png"
+                          alt="Swift"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className={styles.skillsRowContainer}>
-                    <div className={styles.skillCircleLarge}>
-                      <div className={styles.skillIcon}>🌐</div>
-                      <div className={styles.skillText}>HTML</div>
+                    <div
+                      className={`${styles.skillCircleLarge} ${styles.skillHtmlcssjs}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/htmlcssjs_img.png"
+                          alt="HTML/CSS/JS"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
-                    <div className={styles.skillCircleLarge}>
-                      <div className={styles.skillIcon}>🎨</div>
-                      <div className={styles.skillText}>CSS</div>
+                    <div
+                      className={`${styles.skillCircleLarge} ${styles.skillSass}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/sass_img.png"
+                          alt="Sass"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
-                    <div className={styles.skillCircleLarge}>
-                      <div className={styles.skillIcon}>⚙️</div>
-                      <div className={styles.skillText}>SCSS</div>
+                    <div
+                      className={`${styles.skillCircleLarge} ${styles.skillTailwind}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/tailwind_img.png"
+                          alt="Tailwind"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
-                    <div className={styles.skillCircleLarge}>
-                      <div className={styles.skillIcon}>🌊</div>
-                      <div className={styles.skillText}>Tailwind</div>
+                    <div
+                      className={`${styles.skillCircleLarge} ${styles.skillGithub}`}
+                    >
+                      <div className={styles.skillIcon}>
+                        <Image
+                          src="/images/github_img.png"
+                          alt="GitHub"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -528,51 +609,131 @@ export default function AboutPage() {
             </div>
             <div className={styles.desktopSkillsContent}>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle1}>
-                  <div className={styles.desktopSkillIcon}>🎯</div>
-                  <div className={styles.desktopSkillText}>Figma</div>
+                <div
+                  className={`${styles.desktopSkillCircle1} ${styles.skillFigma}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/figma_img.png"
+                      alt="Figma"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle2}>
-                  <div className={styles.desktopSkillIcon}>🖌️</div>
-                  <div className={styles.desktopSkillText}>Illustrator</div>
+                <div
+                  className={`${styles.desktopSkillCircle2} ${styles.skillIllustrator}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/illustrator_img.png"
+                      alt="Illustrator"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
-                <div className={styles.desktopSkillCircle2}>
-                  <div className={styles.desktopSkillIcon}>📸</div>
-                  <div className={styles.desktopSkillText}>Photoshop</div>
+                <div
+                  className={`${styles.desktopSkillCircle2} ${styles.skillPhotoshop}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/photoshop_img.png"
+                      alt="Photoshop"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle3}>
-                  <div className={styles.desktopSkillIcon}>⚡</div>
-                  <div className={styles.desktopSkillText}>Next.js</div>
+                <div
+                  className={`${styles.desktopSkillCircle3} ${styles.skillNextjs}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/Next.js_img.png"
+                      alt="Next.js"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
-                <div className={styles.desktopSkillCircle3}>
-                  <div className={styles.desktopSkillIcon}>💎</div>
-                  <div className={styles.desktopSkillText}>Rails</div>
+                <div
+                  className={`${styles.desktopSkillCircle3} ${styles.skillRails}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/rails_img.png"
+                      alt="Rails"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
-                <div className={styles.desktopSkillCircle3}>
-                  <div className={styles.desktopSkillIcon}>JS</div>
-                  <div className={styles.desktopSkillText}>JavaScript</div>
+                <div
+                  className={`${styles.desktopSkillCircle3} ${styles.skillSwift}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/swift_img.png"
+                      alt="Swift"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={styles.desktopSkillsRow}>
-                <div className={styles.desktopSkillCircle4}>
-                  <div className={styles.desktopSkillIcon}>🌐</div>
-                  <div className={styles.desktopSkillText}>HTML</div>
+                <div
+                  className={`${styles.desktopSkillCircle4} ${styles.skillHtmlcssjs}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/htmlcssjs_img.png"
+                      alt="HTML/CSS/JS"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
-                <div className={styles.desktopSkillCircle4}>
-                  <div className={styles.desktopSkillIcon}>🎨</div>
-                  <div className={styles.desktopSkillText}>CSS</div>
+                <div
+                  className={`${styles.desktopSkillCircle4} ${styles.skillSass}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/sass_img.png"
+                      alt="Sass"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
-                <div className={styles.desktopSkillCircle4}>
-                  <div className={styles.desktopSkillIcon}>⚙️</div>
-                  <div className={styles.desktopSkillText}>SCSS</div>
+                <div
+                  className={`${styles.desktopSkillCircle4} ${styles.skillTailwind}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/tailwind_img.png"
+                      alt="Tailwind"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
-                <div className={styles.desktopSkillCircle4}>
-                  <div className={styles.desktopSkillIcon}>🌊</div>
-                  <div className={styles.desktopSkillText}>Tailwind</div>
+                <div
+                  className={`${styles.desktopSkillCircle4} ${styles.skillGithub}`}
+                >
+                  <div className={styles.desktopSkillIcon}>
+                    <Image
+                      src="/images/github_img.png"
+                      alt="GitHub"
+                      width={50}
+                      height={50}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

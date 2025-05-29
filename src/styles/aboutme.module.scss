@@ -361,7 +361,7 @@
   justify-content: center;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
   &:hover {
@@ -384,7 +384,7 @@
   justify-content: center;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
   &:hover {
@@ -407,7 +407,7 @@
   justify-content: center;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
   &:hover {
@@ -430,7 +430,7 @@
   justify-content: center;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
   &:hover {
@@ -466,6 +466,177 @@
   @media screen and (max-width: 320px) {
     font-size: 7px;
     line-height: 1;
+  }
+}
+
+// ===== TECHNOLOGY-SPECIFIC COLORS =====
+// Figma
+.skillFigma {
+  background: linear-gradient(145deg, #2F2F30, #1F1F20) !important;
+  box-shadow: 
+    0 8px 15px rgba(31, 31, 32, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(31, 31, 32, 0.7),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+  }
+}
+
+// Illustrator
+.skillIllustrator {
+  background: linear-gradient(145deg, #5A0200, #390100) !important;
+  box-shadow: 
+    0 8px 15px rgba(57, 1, 0, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(57, 1, 0, 0.7),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+  }
+}
+
+// Photoshop
+.skillPhotoshop {
+  background: linear-gradient(145deg, #002A52, #001935) !important;
+  box-shadow: 
+    0 8px 15px rgba(0, 25, 53, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(0, 25, 53, 0.7),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+  }
+}
+
+// Next.js
+.skillNextjs {
+  background: linear-gradient(145deg, #333333, #000000) !important;
+  box-shadow: 
+    0 8px 15px rgba(0, 0, 0, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(0, 0, 0, 0.7),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+  }
+}
+
+// Rails
+.skillRails {
+  background: linear-gradient(145deg, #C80B0B, #A00909) !important;
+  box-shadow: 
+    0 8px 15px rgba(200, 11, 11, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(200, 11, 11, 0.5),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+  }
+}
+
+// Swift
+.skillSwift {
+  background: linear-gradient(145deg, #FE4317, #CC3512) !important;
+  box-shadow: 
+    0 8px 15px rgba(254, 67, 23, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(254, 67, 23, 0.5),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+  }
+}
+
+// HTML/CSS/JS
+.skillHtmlcssjs {
+  background: linear-gradient(145deg, #FFFFFF, #F0F0F0) !important;
+  box-shadow: 
+    0 8px 15px rgba(0, 0, 0, 0.15),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(0, 0, 0, 0.2),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.15),
+      inset 0 3px 6px rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+// Sass
+.skillSass {
+  background: linear-gradient(145deg, #C96999, #B55A88) !important;
+  box-shadow: 
+    0 8px 15px rgba(201, 105, 153, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(201, 105, 153, 0.5),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+  }
+}
+
+// Tailwind
+.skillTailwind {
+  background: linear-gradient(145deg, #43A6B2, #4CB0B3) !important;
+  box-shadow: 
+    0 8px 15px rgba(67, 166, 178, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(67, 166, 178, 0.5),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+  }
+}
+
+// GitHub
+.skillGithub {
+  background: linear-gradient(145deg, #4A5568, #1A202C) !important;
+  box-shadow: 
+    0 8px 15px rgba(24, 23, 23, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 25px rgba(24, 23, 23, 0.7),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
   }
 }
 
@@ -1364,7 +1535,7 @@
     justify-content: center;
     text-align: center;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 
     &:hover {
@@ -1387,7 +1558,7 @@
     justify-content: center;
     text-align: center;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 
     &:hover {
@@ -1410,7 +1581,7 @@
     justify-content: center;
     text-align: center;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 
     &:hover {
@@ -1433,7 +1604,7 @@
     justify-content: center;
     text-align: center;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 
     &:hover {
