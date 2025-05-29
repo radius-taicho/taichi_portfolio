@@ -168,7 +168,7 @@ export default function WorkDetailPage() {
             <div className={styles.infoSection}>
               <div className={styles.projectDescription}>
                 <div className={styles.descriptionText}>
-                  {work.concept || "作品の説明がありません"}
+                  {work.name || "作品の説明がありません"}
                 </div>
               </div>
               <div className={styles.projectDetails}>
