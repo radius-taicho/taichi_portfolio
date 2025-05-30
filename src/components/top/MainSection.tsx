@@ -255,7 +255,7 @@ export default function MainSection() {
       </div>
 
       {/* モバイルレイアウト（新規追加） */}
-      <div className={mobileStyles.mobileLayout}>
+      <div id="works-section-mobile" className={mobileStyles.mobileLayout}>
         {/* メインコンテンツコンテナ */}
         <div className={mobileStyles.mobileMainContainer}>
           <div className={mobileStyles.mobileSectionFrame}>

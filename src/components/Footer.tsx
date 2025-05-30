@@ -17,7 +17,10 @@ export default function Footer() {
     e.preventDefault();
 
     const scrollToElement = () => {
-      const element = document.getElementById("works-section");
+      // モバイルサイズかどうかを判定（768px以下をモバイルとする）
+      const isMobile = window.innerWidth < 768;
+      const elementId = isMobile ? "works-section-mobile" : "works-section";
+      const element = document.getElementById(elementId);
       if (element) {
         element.scrollIntoView({
           behavior: "smooth",
