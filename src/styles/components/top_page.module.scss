@@ -1,5 +1,20 @@
 @use "../common/_variables.scss" as *;
 
+// コンテナを中央配置するためのスタイル
+.illustrationGridContainer {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
 .mainSection,
 .mainSection * {
   box-sizing: border-box;
@@ -80,7 +95,7 @@
 .sectionTitle {
   color: $text-color;
   text-align: center;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik !important;
   font-size: clamp(48px, 8vw, 72px);
   font-weight: 800;
   position: relative;
@@ -127,7 +142,7 @@
     display: block;
     color: $text-color;
     text-align: center;
-    font-family: var(--font-rubik), "Rubik", sans-serif;
+    font-family: $font-rubik !important;
     font-size: 36px;
     font-weight: 600;
     position: relative;
@@ -296,7 +311,8 @@
     display: block;
     color: $text-color;
     text-align: left;
-    font-family: $font-japanese;
+    font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+      "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
     font-size: 18px;
     font-weight: 600;
     line-height: 1.4;
@@ -311,7 +327,8 @@
     display: block;
     color: #666666;
     text-align: left;
-    font-family: $font-japanese;
+    font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+      "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
@@ -632,7 +649,7 @@
     display: block;
     align-self: stretch;
     flex-shrink: 0;
-    height: 240px;
+    height: 320px;
     position: relative;
     overflow: hidden;
   }
@@ -643,10 +660,9 @@
 
   @include mq(sm) {
     display: block;
-    background: #d9d9d9;
     border-radius: 50%;
-    width: 128px;
-    height: 128px;
+    width: 320px;
+    height: 320px;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -659,5 +675,1865 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.positionInfo {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+
+    p {
+      font-size: 12px;
+      color: #ecf0f1;
+      margin: 0;
+      opacity: 0.8;
+    }
+  }
+}
+
+@keyframes grabbedBounce {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+// レトロUFOキャッチャーアニメーション
+@keyframes retroGlow {
+  0% {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.3),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 60px rgba(212, 175, 55, 0.6),
+      0 0 80px rgba(255, 0, 128, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  }
+}
+
+@keyframes retroLights {
+  0% {
+    background-position: 0% 0%;
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    filter: hue-rotate(90deg) brightness(1.2);
+  }
+  50% {
+    background-position: 100% 0%;
+    filter: hue-rotate(180deg) brightness(1);
+  }
+  75% {
+    filter: hue-rotate(270deg) brightness(1.2);
+  }
+  100% {
+    background-position: 0% 0%;
+    filter: hue-rotate(360deg) brightness(1);
+  }
+}
+
+@keyframes grabButtonPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 6px 0 #990033, 0 8px 12px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 0, 128, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 0 #990033, 0 8px 12px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 0, 128, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 6px 0 #990033, 0 8px 12px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 0, 128, 0.3);
+  }
+}
+
+.waterGunToggle {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 8;
+  }
+}
+
+.waterGunButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+
+    background: linear-gradient(145deg, #4ecdc4, #44a08d);
+    color: white;
+    border: 3px solid #369892;
+    border-radius: 12px;
+
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    box-shadow: 0 4px 0 #369892, 0 6px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 0 #369892, 0 8px 12px rgba(78, 205, 196, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #369892, 0 4px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.activeWaterGun {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    background: linear-gradient(145deg, #ff6b6b, #e55656);
+    border-color: #c53030;
+
+    box-shadow: 0 4px 0 #c53030, 0 6px 8px rgba(0, 0, 0, 0.2),
+      0 0 15px rgba(255, 107, 107, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      box-shadow: 0 5px 0 #c53030, 0 8px 12px rgba(255, 107, 107, 0.5),
+        0 0 20px rgba(255, 107, 107, 0.6),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.hiddenControls {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    height: 120px; // コントロールパネルの高さを維持してレイアウトを維持
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+// フィギュア棚 + 射的ゲームスタイル
+.figureGameContainer {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 32px;
+
+    // モダンなフィギュア展示ケース風背景
+    background: radial-gradient(
+        circle at 20% 30%,
+        rgba(100, 149, 237, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 70%,
+        rgba(70, 130, 180, 0.1) 0%,
+        transparent 50%
+      ),
+      linear-gradient(145deg, #f8f9fa, #e9ecef);
+
+    border-radius: 20px;
+    border: 2px solid #d4af37;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
+      0 0 30px rgba(212, 175, 55, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+.figureShelf {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+
+    // 木製棚風デザイン
+    background: linear-gradient(
+        135deg,
+        #8b4513 0%,
+        #a0522d 30%,
+        #cd853f 70%,
+        #deb887 100%
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 8px,
+        rgba(139, 69, 19, 0.1) 8px,
+        rgba(139, 69, 19, 0.1) 10px
+      );
+
+    border: 4px solid #654321;
+    border-radius: 16px;
+    width: 100%;
+    min-height: 500px;
+
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2),
+      inset 0 -4px 8px rgba(255, 255, 255, 0.3), 0 0 20px rgba(139, 69, 19, 0.3);
+
+    position: relative;
+    cursor: crosshair;
+
+    // 木目調テクスチャ
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(101, 67, 33, 0.05) 0px,
+        rgba(101, 67, 33, 0.05) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+    }
+  }
+}
+
+.shelfBackground {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+
+    // 展示ケース内部の背景
+    background: radial-gradient(
+        circle at 30% 40%,
+        rgba(255, 255, 255, 0.8) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at 70% 60%,
+        rgba(240, 248, 255, 0.6) 0%,
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(248, 250, 252, 0.9) 0%,
+        rgba(226, 232, 240, 0.8) 100%
+      );
+
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    height: 450px;
+    margin: 20px;
+
+    position: relative;
+    overflow: hidden;
+
+    // 内部照明効果
+    box-shadow: inset 2px 2px 12px rgba(255, 255, 255, 0.4),
+      inset -2px -2px 12px rgba(0, 0, 0, 0.05),
+      0 0 25px rgba(100, 149, 237, 0.1);
+  }
+}
+
+.shelfBoards {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.shelfBoard {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    height: 8px;
+
+    // 棚板の木製デザイン
+    background: linear-gradient(90deg, #8b4513, #a0522d, #8b4513);
+    border-radius: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+      inset 0 1px 2px rgba(255, 255, 255, 0.3);
+
+    z-index: 2;
+  }
+}
+
+.figureArea {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+  }
+}
+
+.figureItem {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    // レスポンシブサイズ調整
+    width: clamp(78px, 12vw, 98px);  // 小さい画面: 78px, 大きい画面: 98px
+    height: clamp(88px, 14vw, 108px); // 小さい画面: 88px, 大きい画面: 108px
+    transition: all 0.3s ease;
+    border-radius: 8px;
+
+    &:hover {
+      transform: scale(1.1) translateY(-5px);
+      z-index: 20;
+    }
+  }
+}
+
+.figureImage {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    // レスポンシブサイズ調整
+    width: clamp(68px, 10vw, 88px);  // 小さい画面: 68px, 大きい画面: 88px
+    height: clamp(68px, 10vw, 88px); // 小さい画面: 68px, 大きい画面: 88px
+    object-fit: cover;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+}
+
+.selectedItem {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+
+    .figureImage {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.hitItem {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    animation: hitPulse 1s ease-in-out;
+
+    .figureImage {
+      filter: brightness(1.2) saturate(1.3);
+    }
+  }
+}
+
+.crosshair {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+
+    font-size: 32px;
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.8),
+      2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    transform: translate(-50%, -50%);
+    z-index: 10;
+
+    animation: crosshairPulse 2s ease-in-out infinite;
+    transition: all 0.1s ease;
+    pointer-events: none;
+  }
+}
+
+.crosshairAiming {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    transform: translate(-50%, -50%) scale(1.2);
+    animation: crosshairAiming 0.1s ease;
+  }
+}
+
+.gameStatusOverlay {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+  }
+}
+
+.bulletsDisplay,
+.scoreDisplay {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.shootEffect {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    font-size: 24px;
+    color: #ffd700;
+    animation: shootEffect 0.5s ease-out;
+    pointer-events: none;
+    z-index: 15;
+  }
+}
+
+.selectedDisplay {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    padding: 20px;
+
+    background: radial-gradient(
+        circle at center,
+        rgba(78, 205, 196, 0.1) 0%,
+        transparent 60%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(248, 250, 252, 0.9),
+        rgba(241, 245, 249, 0.8)
+      );
+
+    border-radius: 16px;
+    border: 2px solid rgba(78, 205, 196, 0.3);
+    margin: 20px;
+  }
+}
+
+.selectedItemDisplay {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+      text-decoration: none;
+    }
+
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}
+
+.selectedItemImage {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    border-radius: 16px;
+  }
+}
+
+.selectedItemInfo {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: #4a5568;
+      font-weight: 500;
+    }
+  }
+}
+
+.clickToView {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 12px;
+    color: #4ecdc4;
+    font-weight: 600;
+    padding: 4px 8px;
+    background: rgba(78, 205, 196, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+  }
+}
+
+.hitAnimation {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    animation: hitSuccess 1.5s ease-out;
+  }
+}
+
+.modeButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 28px;
+
+    background: linear-gradient(145deg, #6c5ce7, #5f3dc4);
+    color: white;
+    border: 3px solid #4c1d95;
+    border-radius: 16px;
+
+    font-family: "Courier New", monospace;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 0 #4c1d95, 0 8px 12px rgba(0, 0, 0, 0.3),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #4c1d95, 0 12px 16px rgba(108, 92, 231, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      box-shadow: 0 4px 0 #4c1d95, 0 6px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.activeModeButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    background: linear-gradient(145deg, #ff6b6b, #e55656);
+    border-color: #c53030;
+
+    box-shadow: 0 6px 0 #c53030, 0 8px 12px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(255, 107, 107, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      box-shadow: 0 8px 0 #c53030, 0 12px 16px rgba(255, 107, 107, 0.5),
+        0 0 30px rgba(255, 107, 107, 0.6),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.shootingControls {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.horizontalControls {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.shootButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 32px;
+
+    background: linear-gradient(145deg, #ff6b6b, #e55656);
+    color: white;
+    border: 4px solid #c53030;
+    border-radius: 20px;
+
+    font-family: "Courier New", monospace;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 160px;
+
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 0 #c53030, 0 10px 16px rgba(0, 0, 0, 0.4),
+      0 0 25px rgba(255, 107, 107, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+
+    animation: shootButtonPulse 2s ease-in-out infinite;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-3px);
+      animation: shootButtonPulse 1s ease-in-out infinite;
+      box-shadow: 0 10px 0 #c53030, 0 15px 20px rgba(255, 107, 107, 0.6),
+        0 0 35px rgba(255, 107, 107, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(4px);
+      box-shadow: 0 4px 0 #c53030, 0 6px 8px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 107, 107, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.disabledShootButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+    border-color: #5a6c7d;
+    animation: none;
+
+    &:hover {
+      transform: none;
+      box-shadow: 0 8px 0 #5a6c7d, 0 10px 16px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.selectionInfo {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px;
+    background: rgba(108, 92, 231, 0.1);
+    border-radius: 12px;
+    border: 2px solid rgba(108, 92, 231, 0.3);
+
+    p {
+      margin: 0;
+      color: #5f3dc4;
+      font-weight: 600;
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+}
+
+.gameInfo {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 12px 0;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+
+    p {
+      font-size: 13px;
+      color: #2d3748;
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+}
+
+.figurePlaceholder {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // レスポンシブサイズ調整
+    width: clamp(68px, 10vw, 88px);  // 小さい画面: 68px, 大きい画面: 88px
+    height: clamp(68px, 10vw, 88px); // 小さい画面: 68px, 大きい画面: 88px
+    background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
+    border-radius: 12px;
+    font-size: clamp(24px, 4vw, 32px); // アイコンサイズもレスポンシブに
+    color: #a0aec0;
+  }
+}
+
+.noItemsMessage {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: #718096;
+    font-style: italic;
+  }
+}
+
+// アニメーション定義
+@keyframes crosshairPulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes crosshairAiming {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes hitPulse {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.15);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shootEffect {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes hitSuccess {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+  75% {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes shootButtonPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 8px 0 #c53030, 0 10px 16px rgba(0, 0, 0, 0.4),
+      0 0 25px rgba(255, 107, 107, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 8px 0 #c53030, 0 10px 16px rgba(0, 0, 0, 0.4),
+      0 0 35px rgba(255, 107, 107, 0.6),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 0 #c53030, 0 10px 16px rgba(0, 0, 0, 0.4),
+      0 0 25px rgba(255, 107, 107, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  }
+}
+
+// 古着屋風カルーセル + 画像探索システム
+.vintageExplorerContainer {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 40px;
+
+    // 古着屋風背景
+    background: radial-gradient(
+        circle at 20% 30%,
+        rgba(139, 69, 19, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 70%,
+        rgba(160, 82, 45, 0.1) 0%,
+        transparent 50%
+      ),
+      linear-gradient(145deg, #f5f5dc, #faf0e6);
+
+    border-radius: 24px;
+    border: 3px solid #d2b48c;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
+      0 0 30px rgba(210, 180, 140, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    min-height: 500px;
+  }
+}
+
+.genreCarousel {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+
+.genreButtons {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    gap: 16px;
+    padding: 8px;
+    background: rgba(210, 180, 140, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(210, 180, 140, 0.3);
+  }
+}
+
+.genreButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 20px;
+    
+    background: linear-gradient(145deg, #fff8dc, #f5f5dc);
+    border: 2px solid #d2b48c;
+    border-radius: 12px;
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px;
+    
+    box-shadow: 0 4px 0 #bc9a6a, 0 6px 12px rgba(0, 0, 0, 0.1),
+      inset 0 1px 2px rgba(255, 255, 255, 0.8);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #bc9a6a, 0 8px 16px rgba(210, 180, 140, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #bc9a6a, 0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+  }
+}
+
+.activeGenreButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    background: linear-gradient(145deg, #deb887, #d2b48c);
+    border-color: #8b4513;
+    color: #654321;
+    
+    box-shadow: 0 4px 0 #8b4513, 0 6px 12px rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(222, 184, 135, 0.5),
+      inset 0 1px 2px rgba(255, 255, 255, 0.6);
+
+    &:hover {
+      box-shadow: 0 6px 0 #8b4513, 0 8px 16px rgba(222, 184, 135, 0.6),
+        0 0 25px rgba(222, 184, 135, 0.7),
+        inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    }
+  }
+}
+
+.genreEmoji {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+}
+
+.genreLabel {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #654321;
+    font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+      "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
+  }
+}
+
+.genreCount {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 2px 6px;
+    
+    background: linear-gradient(145deg, #8b4513, #654321);
+    color: white;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.explorationArea {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    position: relative;
+  }
+}
+
+.itemsContainer {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 400px;
+    
+    // 古着屋の箱風デザイン
+    background: radial-gradient(
+        circle at 30% 40%,
+        rgba(245, 245, 220, 0.9) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at 70% 60%,
+        rgba(250, 240, 230, 0.7) 0%,
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(248, 248, 255, 0.9) 0%,
+        rgba(240, 248, 255, 0.8) 100%
+      );
+    
+    border: 3px solid rgba(139, 69, 19, 0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    
+    // 内部の照明効果
+    box-shadow: inset 2px 2px 12px rgba(139, 69, 19, 0.1),
+      inset -2px -2px 12px rgba(255, 255, 255, 0.7),
+      0 0 25px rgba(210, 180, 140, 0.2);
+  }
+}
+
+.heroStyleFrame {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 400px;
+    padding: 2rem;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #f8f9fa;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// 固定サイズグリッドスタイル（8個配置時を基準）
+.illustrationGridFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: grid;
+    gap: 24px;
+    width: 792px; // 4列 * 180px + 3ガップ * 24px = 792px
+    min-height: 504px; // 2行 * (180px + 60px) + 1ガップ * 24px = 504px
+    justify-items: center;
+    align-items: start;
+    justify-content: center;
+    align-content: start;
+    margin: 0 auto; // 水平方向中央配置
+  }
+}
+
+.illustrationGridItemFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    padding: 12px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: fit-content;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.illustrationImageContainerFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #f5f5f5;
+    flex-shrink: 0;
+  }
+}
+
+.illustrationImageFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.illustrationItemInfoFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    min-height: 48px; // 一定の高さを確保
+  }
+}
+
+.illustrationItemTitleFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    line-height: 1.4;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.illustrationItemTypeFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    opacity: 0.8;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// 空状態を固定サイズグリッドに合わせる
+.emptyStateFixed {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1 / -1; // 全列にまたがる
+    grid-row: 1 / -1; // 全行にまたがる
+    height: 100%;
+    color: #8b4513;
+    font-style: italic;
+  }
+}
+
+// レスポンシブ対応の新しいスタイル
+.heroStyleFrameResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: clamp(400px, 50vh, 600px);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: 24px;
+    overflow: hidden;
+    background: #f8f9fa;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.illustrationGridResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: grid;
+    gap: clamp(16px, 2.5vw, 32px);
+    width: 100%;
+    max-width: clamp(600px, 80vw, 1200px);
+    justify-items: center;
+    align-items: start;
+    justify-content: center;
+    align-content: start;
+    margin: 0 auto;
+  }
+}
+
+.illustrationGridItemResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: clamp(8px, 1.5vw, 16px);
+    padding: clamp(8px, 1.5vw, 16px);
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: fit-content;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.illustrationImageContainerResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: clamp(8px, 1.5vw, 12px);
+    overflow: hidden;
+    margin-bottom: clamp(8px, 1.5vw, 16px);
+    background: #f5f5f5;
+    min-width: clamp(80px, 15vw, 200px);
+    max-width: 240px;
+  }
+}
+
+.illustrationImageResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.illustrationItemInfoResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2px, 0.5vw, 6px);
+    width: 100%;
+    min-height: clamp(36px, 5vw, 60px);
+  }
+}
+
+.illustrationItemTitleResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: clamp(12px, 1.4vw, 16px);
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    line-height: 1.4;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.illustrationItemTypeResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: clamp(10px, 1.2vw, 14px);
+    color: #666;
+    margin: 0;
+    opacity: 0.8;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.emptyStateResponsive {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    height: 100%;
+    color: #8b4513;
+    font-style: italic;
+    min-height: clamp(200px, 30vh, 400px);
+  }
+}
+
+// JavaScript制御用のシンプルスタイル
+.heroStyleFrameJS {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: #f8f9fa;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+}
+
+.illustrationGridItemJS {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: fit-content;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.illustrationImageContainerJS {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: relative;
+    background: #f5f5f5;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+}
+
+.illustrationImageJS {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.illustrationItemInfoJS {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+}
+
+.illustrationItemTitleJS {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.illustrationItemTypeJS {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    color: #666;
+    margin: 0;
+    opacity: 0.8;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.emptyStateJS {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    color: #8b4513;
+    font-style: italic;
+  }
+}
+
+.illustrationGrid {
+  display: none;
+
+  @include mq(sm) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 1000px;
+    justify-items: center;
+  }
+}
+
+.illustrationGridItem {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    padding: 16px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.illustrationImageContainer {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #f5f5f5;
+  }
+}
+
+.illustrationImage {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.illustrationItemInfo {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+}
+
+.illustrationItemTitle {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    line-height: 1.4;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.illustrationItemType {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    opacity: 0.8;
+    
+    // Text overflow handling
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.emptyState {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #8b4513;
+    font-style: italic;
+  }
+}
+
+.emptyStateIcon {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+}
+
+.emptyStateText {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 16px;
+    text-align: center;
+    opacity: 0.8;
+    margin: 0;
+  }
+}
+
+.genreInfo {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 12px;
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    
+    backdrop-filter: blur(10px);
+  }
+}
+
+.currentGenreLabel {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #654321;
+  }
+}
+
+.itemCount {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 14px;
+    color: #8b4513;
+    opacity: 0.8;
+  }
+}
+
+.hintText {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    color: #8b4513;
+    opacity: 0.7;
+    font-style: italic;
+    margin-top: 8px;
+  }
+}
+
+// New pagination dot styles for genre selection
+.genrePagination {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+    width: 100%;
+  }
+}
+
+.genreDots {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.genreDot {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: relative;
+    
+    // 基本スタイル（非アクティブ状態）
+    opacity: 0.6;
+    transform: scale(0.9);
+    
+    &:hover {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+  }
+}
+
+.activeGenreDot {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    opacity: 1;
+    transform: scale(1.1);
+    
+    // アクティブ状態の背景円
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 50%;
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      z-index: -1;
+    }
+  }
+}
+
+.dotEmoji {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+}
+
+.dotLabel {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #666;
+    text-align: center;
+    line-height: 1.2;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    
+    .activeGenreDot & {
+      color: #667eea;
+      font-weight: 600;
+    }
   }
 }

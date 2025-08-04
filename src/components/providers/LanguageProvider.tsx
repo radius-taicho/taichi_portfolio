@@ -18,8 +18,7 @@ const translations = {
     'works.title': 'Works',
     'works.website': 'Website',
     'works.illustration': 'Illustration & Icon Design',
-    'theme.modern': 'モダン',
-    'theme.retro': 'レトロ',
+
     'language.ja': '日本語',
     'language.en': 'English',
   },
@@ -30,8 +29,7 @@ const translations = {
     'works.title': 'Works',
     'works.website': 'Website',
     'works.illustration': 'Illustration & Icon Design',
-    'theme.modern': 'Modern',
-    'theme.retro': 'Retro',
+
     'language.ja': '日本語',
     'language.en': 'English',
   }

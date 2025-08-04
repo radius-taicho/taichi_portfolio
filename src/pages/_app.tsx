@@ -1,12 +1,15 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Rubik } from 'next/font/google'
-import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { LanguageProvider } from '@/components/providers/LanguageProvider'
 import Head from 'next/head'
 
-// Rubikフォントのみ読み込み（HiraginoMaruGothicはシステムフォントとして指定）
-const rubik = Rubik({ subsets: ['latin'] })
+// Rubikフォントの設定を最適化
+const rubik = Rubik({ 
+  subsets: ['latin'],
+  display: 'swap', // フォント表示を最適化
+  variable: '--font-rubik' // CSS変数として設定
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -17,15 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={rubik.className} style={{
-        '--font-rubik': rubik.style.fontFamily,
-        '--font-japanese': '"Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif',
-        fontFamily: '"Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif',
-      } as React.CSSProperties}>
+      <main className={`${rubik.variable} pc`}>
         <LanguageProvider>
-          <ThemeProvider>
-            <Component {...pageProps} />
-          </ThemeProvider>
+          <Component {...pageProps} />
         </LanguageProvider>
       </main>
     </>

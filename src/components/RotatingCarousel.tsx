@@ -88,7 +88,8 @@ export default function RotatingCarousel({
                             height: '100%',
                             objectFit: 'cover' 
                           }}
-                          quality={80}
+                          quality={100}
+                          sizes={relativePosition === 0 ? "420px" : "300px"}
                           {...(relativePosition === 0 ? { priority: true } : { loading: 'lazy' })}
                         />
                       )}

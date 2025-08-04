@@ -71,9 +71,9 @@
 .mobileBrandName {
   color: #ffffff;
   text-align: center;
-  font-family: var(--font-rubik), "Rubik-Black", sans-serif;
+  font-family: $font-rubik !important;
   font-size: 36px;
-  font-weight: 900;
+  font-weight: 700;
   position: relative;
   display: flex;
   align-items: center;
@@ -96,9 +96,9 @@
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
-  height: 72px;
+  height: 70px; // スマホサイズ60pxに十分な余裕を持たせる
   position: relative;
-  overflow: hidden;
+  overflow: visible; // 画像が途切れないように
 }
 
 // モバイル メインコンテンツ
@@ -128,7 +128,7 @@
 .mobileNavLink {
   color: #ffffff;
   text-align: left; // 左寄せに変更
-  font-family: var(--font-rubik), "Rubik-SemiBold", sans-serif;
+  font-family: $font-rubik !important;
   font-size: 20px;
   font-weight: 600;
   position: relative;
@@ -255,7 +255,7 @@
 .mobileCopyrightText {
   color: #ffffff;
   text-align: center;
-  font-family: var(--font-rubik), "Rubik-Regular", sans-serif;
+  font-family: $font-rubik;
   font-size: 12px;
   font-weight: 400;
   position: relative;
@@ -331,9 +331,9 @@
   @include mq(xs) {
     color: #ffffff;
     text-align: center;
-    font-family: var(--font-rubik), "Rubik-Black", sans-serif;
+    font-family: $font-rubik;
     font-size: 48px;
-    font-weight: 900;
+    font-weight: 700;
     position: relative;
     display: flex;
     align-items: center;
@@ -360,9 +360,9 @@
     align-items: center;
     justify-content: flex-end;
     flex-shrink: 0;
-    height: 72px;
+    height: 110px; // 顔コンテナ100pxに十分な余裕を持たせる
     position: relative;
-    overflow: hidden;
+    overflow: visible; // 画像が途切れないように
   }
 }
 
@@ -416,7 +416,7 @@
   @include mq(xs) {
     color: #ffffff;
     text-align: left;
-    font-family: var(--font-rubik), "Rubik-SemiBold", sans-serif;
+    font-family: $font-rubik !important;
     font-size: 20px;
     font-weight: 600;
     position: relative;
@@ -533,7 +533,7 @@
   @include mq(xs) {
     color: #ffffff;
     text-align: center;
-    font-family: var(--font-rubik), "Rubik-Regular", sans-serif;
+    font-family: $font-rubik !important;
     font-size: 16px;
     font-weight: 400;
     position: relative;
@@ -544,14 +544,99 @@
 }
 
 // ===== 共通要素 =====
-.socialIcon {
-  flex-shrink: 0;
+
+// 顔コンテナ - 背景画像表示用
+.faceContainer {
   position: relative;
+  // PCサイズ（1024px以上）- 大きくて印象的に
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: visible;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  
+  // 背景画像の基本設定
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  // JavaScriptで設定されるスタイル用のトランジション
+  transition: transform 0.4s ease, background-image 0.3s ease;
 
-  &:hover {
-    opacity: 0.8;
+  // タブレットサイズ（768px~1023px）- 中間サイズでも十分大きく
+  @include max-width(lg) {
+    width: 80px;
+    height: 80px;
+  }
+
+  // スマホサイズ（~767px）- 小さくても見やすいサイズ
+  @include max-width(sm) {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+// アイコンを目の位置に配置 - 背景別最適化対応
+.socialIcon {
+  position: absolute;
+  color: #ffffff;
+  cursor: pointer;
+  // PCサイズ（1024px以上）- 大きくて存在感あるアイコン
+  width: 24px;
+  height: 24px;
+  // 位置変更をスムーズにアニメーション
+  transition: all 0.4s ease, top 0.4s ease, left 0.4s ease, right 0.4s ease;
+  z-index: 10; // 背景よりも前面に表示（背景はz-index: 1）
+
+  // タブレットサイズ（768px~1023px）- 中間サイズでも十分大きく
+  @include max-width(lg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  // スマホサイズ（~767px）- コンパクトでも見やすい
+  @include max-width(sm) {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// 左目の位置（Xアイコン）
+.leftEye {
+  // PCサイズ（1024px以上）
+  top: 43%;
+  left: 18%;
+  
+  // タブレットサイズ（768px~1023px）
+  @include max-width(lg) {
+    top: 43%;
+    left: 18%;
+  }
+  
+  // スマホサイズ（~767px）
+  @include max-width(sm) {
+    top: 42%;
+    left: 17%;
+  }
+}
+
+// 右目の位置（Instagramアイコン）
+.rightEye {
+  // PCサイズ（1024px以上）
+  top: 43%;
+  right: 19%;
+  
+  // タブレットサイズ（768px~1023px）
+  @include max-width(lg) {
+    top: 43%;
+    right: 19%;
+  }
+  
+  // スマホサイズ（~767px）
+  @include max-width(sm) {
+    top: 42%;
+    right: 18%;
   }
 }

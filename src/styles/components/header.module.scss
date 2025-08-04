@@ -134,7 +134,7 @@
 .navText {
   color: $text-color;
   text-align: center;
-  font-family: $font-rubik;
+  font-family: $font-rubik !important;
   font-size: 24px;
   font-weight: 600;
   position: relative;
@@ -182,9 +182,9 @@
 .logoText {
   color: $text-color;
   text-align: center;
-  font-family: $font-rubik;
+  font-family: $font-rubik !important;
   font-size: 48px;
-  font-weight: 900;
+  font-weight: 700;
   position: relative;
   display: flex;
   align-items: center;
@@ -244,9 +244,9 @@
 .mobileLogoText {
   color: $text-color;
   text-align: center;
-  font-family: $font-rubik;
+  font-family: $font-rubik !important;
   font-size: 32px;
-  font-weight: 900;
+  font-weight: 700;
   position: relative;
   display: flex;
   align-items: center;

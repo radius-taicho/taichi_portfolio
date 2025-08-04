@@ -16,23 +16,68 @@ model Work {
   name             String?  @db.VarChar(255)
   client           String?  @db.VarChar(255)
   type             String   @db.VarChar(100)
+  status           String   @default("completed") @db.VarChar(50) // "completed", "in_progress", "planning"
   concept          String?  @db.Text
   target           String?  @db.Text
   challenge        String?  @db.Text
   purpose          String?  @db.Text
   informationDesign String? @db.Text
   design           String?  @db.Text
+  implementation   String?  @db.Text
   planningDays     Int?
   designDays       Int?
   codingDays       Int?
+  
+  // 後方互換性のため保持（段階的移行用）
   mainImage        String?  @db.VarChar(500)
   designImage      String?  @db.VarChar(500)
+  
   link             String?  @db.VarChar(500)
   displayOrder     Int      @default(0)
+  
+  // 新機能: 複数画像サポート
+  isGroup          Boolean  @default(false) // グループプロジェクトかどうか
+  itemCount        Int?     // アイコン/イラストの総数
+  
+  // リレーション
+  images           WorkImage[]
+  
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
   @@map("works")
+}
+
+// 新テーブル: 作品に関連する画像群
+model WorkImage {
+  id          String   @id @default(cuid())
+  workId      String
+  
+  // 画像情報
+  imageUrl    String   @db.VarChar(500)
+  publicId    String   @db.VarChar(255) // Cloudinary public ID
+  
+  // メタデータ
+  fileName    String?  @db.VarChar(255) // 元のファイル名
+  title       String?  @db.VarChar(255) // 個別のタイトル（例：「ショッピングカートアイコン」）
+  description String?  @db.Text
+  
+  // 分類・整理用
+  imageType   String   @db.VarChar(50)  // "main", "variation", "icon", "illustration"
+  category    String?  @db.VarChar(100) // "ui-icon", "brand-illustration", "process-image"
+  sortOrder   Int      @default(0)
+  
+  // UFOキャッチャー用設定
+  isVisible   Boolean  @default(true)   // UFOキャッチャーで表示するか
+  rarity      String?  @db.VarChar(20)  // "common", "rare", "epic" （将来の拡張用）
+  
+  // リレーション
+  work        Work     @relation(fields: [workId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("work_images")
 }
 
 model Contact {

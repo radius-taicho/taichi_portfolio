@@ -1,7 +1,13 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+/* ==========================================
+   SCSSメイン構成のglobals.css
+   ========================================== */
 
+/* Tailwindは最小限のみ使用 (リセット系のみ) */
+@import "tailwindcss/base";
+/* @import "tailwindcss/components"; */  /* コメントアウト */
+/* @import "tailwindcss/utilities"; */  /* コメントアウト */
+
+/* CSS変数定義 */
 :root {
   --text-color: #252525;
   --text-secondary: #252525;
@@ -10,35 +16,50 @@
   --background-light: #f8f9fa;
   --background-white: #ffffff;
   --border-color: #e5e5e5;
+  
+  /* フォント変数 */
+  --font-japanese: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif;
+  /* --font-rubikはNext.jsのGoogle Fontsから自動設定されます */
 }
 
 html {
   box-sizing: border-box;
-  scroll-behavior: smooth; /* スムーズスクロールを有効化 */
+  scroll-behavior: smooth;
 }
 
-/* HiraginoMaruGothicをサイト全体のデフォルトフォントに設定 */
+/* メインフォントは日本語 */
 body {
-  font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif;
+  font-family: var(--font-japanese);
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-white);
 }
 
-/* タイトルや英語フォントに指定されていないテキストもHiraginoMaruGothicに */
+/* 基本的な要素の継承 */
 p, div, span, a, li, td, th, label, input, textarea, button {
   font-family: inherit;
+}
+
+/* フォントユーティリティクラス (SCSSメイン構成用) */
+.font-rubik {
+  font-family: var(--font-rubik) !important;
+}
+
+.font-japanese {
+  font-family: var(--font-japanese) !important;
 }
 
 /* ポートフォリオのメインコンテナ */
 .pc {
   width: 100%;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--background-white);
   position: relative;
 }
 
-/* Mobile responsive adjustments */
+/* モバイル対応 */
 @media screen and (max-width: 767px) {
   .pc {
-    /* Ensure mobile layout takes full width */
     width: 100%;
     overflow-x: hidden;
   }

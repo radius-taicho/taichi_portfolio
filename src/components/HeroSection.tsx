@@ -2,30 +2,31 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { useTheme } from "@/components/providers/ThemeProvider";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { HeroImage } from "@/types";
 import styles from "@/styles/components/hero.module.scss";
 
 export default function HeroSection() {
-  const { theme } = useTheme();
   const { t } = useLanguage();
   const [heroImage, setHeroImage] = useState<HeroImage | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [imageError, setImageError] = useState(false);
 
-  // Cloudinary URL 最適化関数（サイズ指定なしバージョン）
+  // Cloudinary URL 最適化関数（最高品質版）
   const optimizeCloudinaryUrl = (url: string, width?: number, height?: number) => {
     if (!url || !url.includes('cloudinary.com')) return url;
     
     const params = [
       'f_auto', // 自動フォーマット選択（WebP、AVIF等）
-      'q_auto:good', // 品質自動調整（good品質）
-      width ? `w_${width}` : null,
+      'q_100', // 品質100%（最高品質・非圧縮レベル）
+      width ? `w_${width}` : 'w_2560', // 4K対応の最大幅を設定
       height ? `h_${height}` : null,
+      'c_fill', // クロップ方式
       'dpr_auto', // デバイスピクセル比対応
-      'fl_progressive' // プログレッシブ読み込み
+      'fl_progressive', // プログレッシブ読み込み
+      'fl_immutable_cache', // キャッシュ最適化
+      'fl_preserve_transparency' // 透明度保持
     ].filter(Boolean).join(',');
     
     return url.replace('/upload/', `/upload/${params}/`);
@@ -69,36 +70,34 @@ export default function HeroSection() {
           <div className={styles.loadingSpinner}></div>
           <span>Loading...</span>
         </div>
-      ) : heroImage && !imageError ? (
+      ) : (
+        // 常にデフォルト画像を表示
         <div className={styles.heroContainer}>
           <Image
-            src={optimizeCloudinaryUrl(heroImage.imageUrl)}
-            alt={heroImage.title}
+            src="/images/img_hero1.webp"
+            alt="Portfolio Hero Image"
             fill
             className={styles.heroImage}
             priority
-            quality={85}
-            onError={handleImageError}
+            quality={100}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           />
         </div>
-      ) : (
+      )}
+      {/* Cloudinaryのエラー時の情報表示（オプション） */}
+      {!loading && error && (
         <div className={styles.heroImagePlaceholder}>
-          <span>Portfolio Visual</span>
           <p className={styles.noImageText}>
-            {error
-              ? "エラーが発生しました"
-              : "管理画面でHero画像を登録してください"}
+            管理画面のHero画像を読み込めませんでした。デフォルト画像を表示しています。
           </p>
-          {error && (
-            <button
-              className={styles.retryButton}
-              onClick={() => window.location.reload()}
-            >
-              再読み込み
-            </button>
-          )}
+          <button
+            className={styles.retryButton}
+            onClick={() => window.location.reload()}
+          >
+            再読み込み
+          </button>
         </div>
       )}
     </section>

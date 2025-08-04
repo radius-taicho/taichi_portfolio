@@ -23,7 +23,7 @@ export default function WorkDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentWorkIndex, setCurrentWorkIndex] = useState(0);
 
-  // Cloudinary URL 最適化関数
+  // Cloudinary URL 最適化関数（最高品質版）
   const optimizeCloudinaryUrl = (
     url: string,
     width?: number,
@@ -34,12 +34,14 @@ export default function WorkDetailPage() {
     // Cloudinary URL の最適化パラメータを追加
     const params = [
       "f_auto", // 自動フォーマット選択（WebP、AVIF等）
-      "q_auto:good", // 品質自動調整（good品質）
+      "q_100", // 品質100%（最高品質・非圧縮レベル）
       "c_fill", // クロップ方式
       width ? `w_${width}` : null,
       height ? `h_${height}` : null,
       "dpr_auto", // デバイスピクセル比対応
       "fl_progressive", // プログレッシブ読み込み
+      "fl_immutable_cache", // キャッシュ最適化
+      "fl_preserve_transparency" // 透明度保持
     ]
       .filter(Boolean)
       .join(",");
@@ -149,12 +151,13 @@ export default function WorkDetailPage() {
               {work.mainImage ? (
                 <div className={styles.image}>
                   <Image
-                    src={optimizeCloudinaryUrl(work.mainImage, 1200, 800)}
+                    src={optimizeCloudinaryUrl(work.mainImage, 1600, 1000)}
                     alt={work.title}
                     fill
                     style={{ objectFit: "cover" }}
                     priority
                     quality={100}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 1600px) 100vw, 1600px"
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                   />
@@ -182,7 +185,14 @@ export default function WorkDetailPage() {
                   <div className={styles.detailLabel}>
                     <div className={styles.labelText}>type:</div>
                   </div>
-                  <div className={styles.detailValue}>{work.type}</div>
+                  <div className={styles.detailValue}>
+                    {work.type}
+                    <span className={styles.statusBadge}>
+                      {work.status === 'completed' && '🚀 開発済み'}
+                      {work.status === 'in_progress' && '⚡ 開発中'}
+                      {work.status === 'planning' && '💡 企画段階'}
+                    </span>
+                  </div>
                 </div>
                 <div className={styles.detailRow}>
                   <div className={styles.detailLabel}>
@@ -219,6 +229,7 @@ export default function WorkDetailPage() {
             work.purpose ||
             work.informationDesign ||
             work.design ||
+            work.implementation ||
             work.planningDays ||
             work.designDays ||
             work.codingDays) && (
@@ -286,6 +297,16 @@ export default function WorkDetailPage() {
                     </div>
                   </div>
                 )}
+                {work.implementation && (
+                  <div className={styles.sectionRow}>
+                    <div className={styles.sectionLabel}>
+                      <div className={styles.labelText2}>実装予定</div>
+                    </div>
+                    <div className={styles.sectionContent}>
+                      <div className={styles.contentText}>{work.implementation}</div>
+                    </div>
+                  </div>
+                )}
                 {/* 制作期間セクション */}
                 {(work.planningDays || work.designDays || work.codingDays) && (
                   <div className={styles.sectionRow}>
@@ -336,14 +357,15 @@ export default function WorkDetailPage() {
               <div className={styles.projectImage}>
                 <div className={styles.imageContainer}>
                   <Image
-                    src={optimizeCloudinaryUrl(work.designImage, 1400, 1000)}
-                    alt={`${work.title} デザイン画像`}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    quality={85}
-                    loading="lazy"
-                    placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                  src={optimizeCloudinaryUrl(work.designImage, 2000, 1400)}
+                  alt={`${work.title} デザイン画像`}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  quality={100}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2000px) 100vw, 2000px"
+                  placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                     onError={(e) => {
                       console.error("Design image load error:", e);
                       console.error("Design image URL:", work.designImage);

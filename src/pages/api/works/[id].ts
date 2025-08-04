@@ -18,10 +18,40 @@ export default async function handler(
   }
 
   try {
-    // 指定されたIDの作品詳細を取得
+    // 指定されたIDの作品詳細を取得（selectでリレーションも含む）
     const work = await prisma.work.findUnique({
       where: {
         id: id
+      },
+      select: {
+        id: true,
+        title: true,
+        type: true,
+        status: true,
+        client: true,
+        concept: true,
+        target: true,
+        challenge: true,
+        purpose: true,
+        informationDesign: true,
+        design: true,
+        implementation: true,
+        planningDays: true,
+        designDays: true,
+        codingDays: true,
+        mainImage: true,
+        designImage: true,
+        link: true,
+        displayOrder: true,
+        isGroup: true,
+        itemCount: true,
+        createdAt: true,
+        updatedAt: true,
+        images: {
+          orderBy: {
+            sortOrder: 'asc'
+          }
+        }
       }
     });
 
@@ -39,14 +69,29 @@ export default async function handler(
           not: work.id
         }
       },
-      orderBy: {
-        displayOrder: 'asc'
-      },
       select: {
         id: true,
         title: true,
         type: true,
-        mainImage: true
+        mainImage: true, // 後方互換性
+        isGroup: true,
+        images: {
+          where: {
+            isVisible: true
+          },
+          orderBy: {
+            sortOrder: 'asc'
+          },
+          take: 1, // 一覧表示用には1枚だけ
+          select: {
+            id: true,
+            imageUrl: true,
+            title: true
+          }
+        }
+      },
+      orderBy: {
+        displayOrder: 'asc'
       }
     });
 

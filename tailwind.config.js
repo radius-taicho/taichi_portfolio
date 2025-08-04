@@ -26,11 +26,7 @@ module.exports = {
           800: '#1f2937',
           900: '#111827',
         },
-        retro: {
-          bg: '#f5f5f5',
-          card: '#d9d9d9',
-          accent: '#bababa',
-        }
+
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

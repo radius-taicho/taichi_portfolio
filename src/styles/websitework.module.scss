@@ -644,7 +644,7 @@
 .sectionTitle {
   color: $text-color;
   text-align: left;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik;
   font-size: 48px;
   font-weight: 400;
   position: relative;
@@ -689,10 +689,9 @@
 }
 
 .decorativeCircle {
-  background: #d9d9d9;
   border-radius: 50%;
-  width: 128px;
-  height: 128px;
+  width: 192px;
+  height: 192px;
   position: absolute;
   right: 0;
   bottom: 0;

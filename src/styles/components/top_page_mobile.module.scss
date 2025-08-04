@@ -3,6 +3,16 @@
 // Mobile-first styles for screens below sm (768px)
 // This file adds mobile-specific styles to complement the existing top_page.module.scss
 
+// コンテナを中央配置するためのスタイル（モバイル）
+.illustrationGridContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
 // Mobile Layout Container
 .mobileLayout {
   box-sizing: border-box;
@@ -95,7 +105,7 @@
 .mobileSectionTitle {
   color: $text-color;
   text-align: left;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik !important;
   font-size: 40px;
   font-weight: 800;
   position: relative;
@@ -141,7 +151,7 @@
 .mobileCategoryTitle {
   color: $text-color;
   text-align: left;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik !important;
   font-size: 24px;
   font-weight: 600;
   position: relative;
@@ -212,7 +222,8 @@
 .mobileWorkText {
   color: $text-color;
   text-align: left;
-  font-family: $font-japanese;
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
   font-size: 16px;
   font-weight: 400;
   position: relative;
@@ -254,16 +265,6 @@
   @include mq(sm) {
     display: none;
   }
-}
-
-.mobileProfileImage {
-  background: #d9d9d9;
-  border-radius: 50%;
-  flex-shrink: 0;
-  width: 128px;
-  height: 128px;
-  position: relative;
-  aspect-ratio: 1;
 }
 
 // Mobile Footer
@@ -325,6 +326,8 @@
 .mobileWorkCardTitle {
   font-size: 16px;
   font-weight: 600;
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
   color: $text-color;
   line-height: 1.4;
   margin: 0;
@@ -332,6 +335,8 @@
 
 .mobileWorkCardDescription {
   font-size: 14px;
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
   color: #666;
   line-height: 1.5;
   margin: 0;
@@ -404,6 +409,388 @@
   }
 }
 
+// UFOキャッチャースタイル（モバイル版）
+.ufoGameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(145deg, #2c3e50, #34495e);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin: 0 auto;
+
+  @include mq(sm) {
+    display: none; // デスクトップでは非表示
+  }
+}
+
+.ufoMachine {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, #e8e8e8, #f5f5f5);
+  border: 4px solid #d4af37;
+  border-radius: 12px;
+  width: 100%;
+  min-height: 280px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.ufoGlass {
+  background: rgba(173, 216, 230, 0.3);
+  border: 1px solid rgba(135, 206, 235, 0.5);
+  border-radius: 8px;
+  height: 200px;
+  margin: 12px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(1px);
+}
+
+.armRail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: linear-gradient(90deg, #333, #555, #333);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.ufoArm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  width: 30px;
+  height: 40px;
+  transition: left 0.3s ease;
+  z-index: 10;
+}
+
+.armClaw {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  position: relative;
+
+  // モバイル版レトロクレーン
+  background: linear-gradient(145deg, #e8e8e8, #b0b0b0);
+  border-radius: 50% 50% 20% 20%;
+  border: 2px solid #666;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.6),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.6);
+
+  // メタリック質感
+  background-image: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 70%
+    ),
+    linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 30%, #b8b8b8 70%, #a0a0a0 100%);
+
+  // 中央のネジ穴
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #333 30%, #666 100%);
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.8);
+  }
+
+  // 下部のクレーン爪
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid #999;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+
+    // サイドの爪
+    box-shadow: -6px 0 0 -1px #999, 6px 0 0 -1px #999;
+  }
+
+  margin-top: 12px;
+}
+
+.armMoving {
+  animation: mobileArmMove 0.3s ease;
+}
+
+.armDescending {
+  animation: mobileArmDescend 2s ease;
+}
+
+@keyframes mobileArmMove {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes mobileArmDescend {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(80px);
+  }
+  70% {
+    transform: translateY(80px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.prizeArea {
+  position: absolute;
+
+  // モバイル版でも筐体内に制限（画像が切れないように）
+  bottom: 30px; // 筐体の底枠から余裕
+  left: 30px; // 左の枠から余裕
+  right: 30px; // 右の枠から余裕
+  height: 90px; // モバイル版の高さ（画像が切れないように）
+
+  // 筐体内でのオーバーフローを禁止
+  overflow: visible; // 一時的にvisibleでテスト
+}
+
+.prizeItem {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  transition: all 0.3s ease;
+
+  // 重なり防止のためz-indexを設定
+  z-index: 5;
+
+  &:hover {
+    transform: scale(1.1) !important;
+    z-index: 10; // ホバー時は最前面に
+  }
+}
+
+.prizeImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.prizePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #ffd700, #ffed4e);
+  border-radius: 6px;
+  font-size: 16px;
+  border: 1px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.prizeSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #333, #555);
+  height: 60px;
+  margin: 12px;
+  border-radius: 6px;
+  border: 2px solid #d4af37;
+}
+
+.wonPrize {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  background: linear-gradient(145deg, #4ecdc4, #44a08d);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  img {
+    border-radius: 4px;
+    border: 1px solid #fff;
+  }
+
+  p {
+    color: white;
+    font-weight: 600;
+    font-size: 10px;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.controlPanel {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px;
+  background: linear-gradient(145deg, #2c3e50, #34495e);
+  border-radius: 12px;
+  border: 2px solid #d4af37;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.controlButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: linear-gradient(145deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 80px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.grabButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  background: linear-gradient(145deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 2;
+  max-width: 120px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+  }
+}
+
+.gameStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  width: 100%;
+
+  p {
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.successMessage {
+  color: #4ecdc4 !important;
+  font-size: 12px !important;
+  animation: mobileSuccessPulse 2s ease-in-out infinite;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background: linear-gradient(145deg, #f39c12, #e67e22);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.4);
+  }
+}
+
+@keyframes mobileSuccessPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -445,4 +832,1733 @@
   &:hover {
     background: #5a6fd8;
   }
+}
+
+// モバイル版UFOキャッチャーアニメーション
+.verticalArm {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  background: linear-gradient(180deg, #34495e, #2c3e50);
+  border-radius: 1.5px;
+  transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clawGrabbing {
+  animation: mobileGrabPulse 0.8s ease-in-out;
+}
+
+.carriedPrize {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: mobileCarryBounce 1s ease-in-out infinite;
+}
+
+.carriedImage {
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.clawIcon {
+  font-size: 18px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dropZoneIndicator {
+  position: absolute;
+  top: 8px;
+  transform: translateX(-50%);
+  font-size: 16px;
+  animation: mobileDropZonePulse 2s ease-in-out infinite;
+  z-index: 10;
+}
+
+.hiddenPrize {
+  opacity: 0 !important;
+  transform: scale(0.8) !important;
+}
+
+.prizeAnimation {
+  animation: mobilePrizeSuccess 1s ease-out;
+}
+
+.disabledButton {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background: linear-gradient(145deg, #95a5a6, #7f8c8d) !important;
+
+  &:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.disabledGrabButton {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  background: linear-gradient(145deg, #95a5a6, #7f8c8d) !important;
+
+  &:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.itemCount {
+  font-size: 12px;
+  color: #ecf0f1;
+  opacity: 0.9;
+}
+
+// モバイルアニメーション定義
+@keyframes mobileGrabPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes mobileCarryBounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-2px);
+  }
+}
+
+@keyframes mobileDropZonePulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+@keyframes mobilePrizeSuccess {
+  0% {
+    transform: scale(0.8) translateY(8px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) translateY(-3px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+// モバイル版掴んだ景品用スタイル
+.grabbedPrize {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.grabbedImage {
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.1) saturate(1.2);
+}
+
+.grabbedAnimation {
+  animation: mobileGrabbedBounce 0.5s ease-in-out;
+}
+
+.positionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 6px 0;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+
+  p {
+    font-size: 10px;
+    color: #ecf0f1;
+    margin: 0;
+    opacity: 0.8;
+  }
+}
+
+@keyframes mobileGrabbedBounce {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.waterGunToggle {
+  display: none;
+
+  @include mq(sm) {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 8;
+  }
+}
+
+.waterGunButton {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+
+    background: linear-gradient(145deg, #4ecdc4, #44a08d);
+    color: white;
+    border: 3px solid #369892;
+    border-radius: 12px;
+
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    box-shadow: 0 4px 0 #369892, 0 6px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 0 #369892, 0 8px 12px rgba(78, 205, 196, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #369892, 0 4px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.activeWaterGun {
+  display: none;
+
+  @include mq(sm) {
+    display: flex;
+    background: linear-gradient(145deg, #ff6b6b, #e55656);
+    border-color: #c53030;
+
+    box-shadow: 0 4px 0 #c53030, 0 6px 8px rgba(0, 0, 0, 0.2),
+      0 0 15px rgba(255, 107, 107, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      box-shadow: 0 5px 0 #c53030, 0 8px 12px rgba(255, 107, 107, 0.5),
+        0 0 20px rgba(255, 107, 107, 0.6),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+// モバイル版水鉄砲トグルスタイル
+.mobileWaterGunToggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 8;
+}
+
+.mobileWaterGunButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+
+  background: linear-gradient(145deg, #4ecdc4, #44a08d);
+  color: white;
+  border: 2px solid #369892;
+  border-radius: 10px;
+
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  box-shadow: 0 3px 0 #369892, 0 5px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 #369892, 0 3px 4px rgba(0, 0, 0, 0.15),
+      inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  }
+}
+
+.mobileActiveWaterGun {
+  display: flex;
+  background: linear-gradient(145deg, #ff6b6b, #e55656);
+  border-color: #c53030;
+
+  box-shadow: 0 3px 0 #c53030, 0 5px 6px rgba(0, 0, 0, 0.15),
+    0 0 12px rgba(255, 107, 107, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.hiddenControls {
+  display: flex;
+  height: 80px; // モバイル版コントロールパネルの高さを維持してレイアウトを維持
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.figureGameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+
+  // モバイル版フィギュア展示ケース風背景
+  background: radial-gradient(
+      circle at 25% 30%,
+      rgba(100, 149, 237, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 70%,
+      rgba(70, 130, 180, 0.08) 0%,
+      transparent 50%
+    ),
+    linear-gradient(145deg, #f8f9fa, #e9ecef);
+
+  border-radius: 16px;
+  border: 2px solid #d4af37;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 20px rgba(212, 175, 55, 0.15),
+    inset 0 1px 3px rgba(255, 255, 255, 0.8);
+
+  width: 100%;
+  margin: 0 auto;
+}
+
+.figureShelf {
+  display: flex;
+  flex-direction: column;
+
+  // モバイル版木製棚風デザイン
+  background: linear-gradient(
+      135deg,
+      #8b4513 0%,
+      #a0522d 30%,
+      #cd853f 70%,
+      #deb887 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 6px,
+      rgba(139, 69, 19, 0.08) 6px,
+      rgba(139, 69, 19, 0.08) 8px
+    );
+
+  border: 3px solid #654321;
+  border-radius: 12px;
+  width: 100%;
+  min-height: 350px;
+
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15),
+    inset 0 -3px 6px rgba(255, 255, 255, 0.25), 0 0 15px rgba(139, 69, 19, 0.25);
+
+  position: relative;
+  cursor: crosshair;
+
+  // モバイル版木目調テクスチャ
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(101, 67, 33, 0.03) 0px,
+      rgba(101, 67, 33, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+  }
+}
+
+.shelfBackground {
+  display: block;
+
+  // モバイル版展示ケース内部の背景
+  background: radial-gradient(
+      circle at 30% 40%,
+      rgba(255, 255, 255, 0.7) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(240, 248, 255, 0.5) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(248, 250, 252, 0.85) 0%,
+      rgba(226, 232, 240, 0.75) 100%
+    );
+
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  height: 320px;
+  margin: 12px;
+
+  position: relative;
+  overflow: hidden;
+
+  // モバイル版内部照明効果
+  box-shadow: inset 1px 1px 8px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 8px rgba(0, 0, 0, 0.03), 0 0 15px rgba(100, 149, 237, 0.08);
+}
+
+.shelfBoards {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.shelfBoard {
+  display: block;
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 6px;
+
+  // モバイル版棚板の木製デザイン
+  background: linear-gradient(90deg, #8b4513, #a0522d, #8b4513);
+  border-radius: 3px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+
+  z-index: 2;
+}
+
+.figureArea {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+}
+
+.figureItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  // モバイル版レスポンシブサイズ
+  width: clamp(60px, 18vw, 70px);  // 小さい画面: 60px, 大きい画面: 70px
+  height: clamp(68px, 20vw, 80px); // 小さい画面: 68px, 大きい画面: 80px
+  transition: all 0.25s ease;
+  border-radius: 6px;
+
+  &:active {
+    transform: scale(1.05) translateY(-3px);
+    z-index: 20;
+  }
+}
+
+.figureImage {
+  display: block;
+  // モバイル版レスポンシブサイズ
+  width: clamp(50px, 15vw, 60px);  // 小さい画面: 50px, 大きい画面: 60px
+  height: clamp(50px, 15vw, 60px); // 小さい画面: 50px, 大きい画面: 60px
+  object-fit: cover;
+  border-radius: clamp(8px, 2vw, 10px); // 角丸もレスポンシブに
+  transition: all 0.25s ease;
+}
+
+.selectedItem {
+  display: flex;
+
+  .figureImage {
+    transform: scale(1.03);
+  }
+}
+
+.hitItem {
+  display: flex;
+  animation: mobileHitPulse 1s ease-in-out;
+
+  .figureImage {
+    filter: brightness(1.15) saturate(1.2);
+  }
+}
+
+.crosshair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+
+  font-size: 24px;
+  color: #ff6b6b;
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.7), 1px 1px 3px rgba(0, 0, 0, 0.4);
+
+  transform: translate(-50%, -50%);
+  z-index: 10;
+
+  animation: mobileCrosshairPulse 2s ease-in-out infinite;
+  transition: all 0.08s ease;
+  pointer-events: none;
+}
+
+.crosshairAiming {
+  display: flex;
+  transform: translate(-50%, -50%) scale(1.15);
+  animation: mobileCrosshairAiming 0.08s ease;
+}
+
+.gameStatusOverlay {
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+}
+
+.bulletsDisplay,
+.scoreDisplay {
+  display: block;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+}
+
+.shootEffect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-size: 18px;
+  color: #ffd700;
+  animation: mobileShootEffect 0.4s ease-out;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.selectedDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 16px;
+
+  background: radial-gradient(
+      circle at center,
+      rgba(78, 205, 196, 0.08) 0%,
+      transparent 60%
+    ),
+    linear-gradient(145deg, rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.8));
+
+  border-radius: 12px;
+  border: 2px solid rgba(78, 205, 196, 0.25);
+  margin: 16px;
+}
+
+.selectedItemDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.25s ease;
+
+  &:active {
+    transform: scale(1.02);
+    text-decoration: none;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.selectedItemImage {
+  display: block;
+  border-radius: 12px;
+}
+
+.selectedItemInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2d3748;
+  }
+
+  p {
+    margin: 0;
+    font-size: 12px;
+    color: #4a5568;
+    font-weight: 500;
+  }
+}
+
+.clickToView {
+  display: block;
+  font-size: 10px;
+  color: #4ecdc4;
+  font-weight: 600;
+  padding: 3px 6px;
+  background: rgba(78, 205, 196, 0.08);
+  border-radius: 4px;
+  border: 1px solid rgba(78, 205, 196, 0.25);
+}
+
+.hitAnimation {
+  display: flex;
+  animation: mobileHitSuccess 1.2s ease-out;
+}
+
+.modeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+
+  background: linear-gradient(145deg, #6c5ce7, #5f3dc4);
+  color: white;
+  border: 2px solid #4c1d95;
+  border-radius: 12px;
+
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 0 #4c1d95, 0 6px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 3px rgba(255, 255, 255, 0.15);
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #4c1d95, 0 4px 6px rgba(0, 0, 0, 0.25),
+      inset 0 1px 3px rgba(255, 255, 255, 0.15);
+  }
+}
+
+.activeModeButton {
+  display: flex;
+  background: linear-gradient(145deg, #ff6b6b, #e55656);
+  border-color: #c53030;
+
+  box-shadow: 0 4px 0 #c53030, 0 6px 8px rgba(0, 0, 0, 0.25),
+    0 0 15px rgba(255, 107, 107, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.15);
+}
+
+.shootingControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.horizontalControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shootButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+
+  background: linear-gradient(145deg, #ff6b6b, #e55656);
+  color: white;
+  border: 3px solid #c53030;
+  border-radius: 16px;
+
+  font-family: "Courier New", monospace;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 0 #c53030, 0 8px 12px rgba(0, 0, 0, 0.3),
+    0 0 18px rgba(255, 107, 107, 0.35),
+    inset 0 1px 3px rgba(255, 255, 255, 0.15);
+
+  animation: mobileShootButtonPulse 2.5s ease-in-out infinite;
+
+  &:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #c53030, 0 5px 8px rgba(0, 0, 0, 0.3),
+      0 0 12px rgba(255, 107, 107, 0.35),
+      inset 0 1px 3px rgba(255, 255, 255, 0.15);
+  }
+}
+
+.disabledShootButton {
+  display: flex;
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+  border-color: #5a6c7d;
+  animation: none;
+}
+
+.selectionInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  background: rgba(108, 92, 231, 0.08);
+  border-radius: 8px;
+  border: 2px solid rgba(108, 92, 231, 0.25);
+
+  p {
+    margin: 0;
+    color: #5f3dc4;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+.gameInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 0;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+
+  p {
+    font-size: 11px;
+    color: #2d3748;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+.gameOverMessage {
+  display: block;
+  color: #e53e3e !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-align: center;
+  animation: mobileGameOverPulse 1.5s ease-in-out infinite;
+}
+
+.figurePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // モバイル版レスポンシブサイズ
+  width: clamp(50px, 15vw, 60px);  // 小さい画面: 50px, 大きい画面: 60px
+  height: clamp(50px, 15vw, 60px); // 小さい画面: 50px, 大きい画面: 60px
+  background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
+  border-radius: clamp(6px, 2vw, 8px); // 角丸もレスポンシブに
+  font-size: clamp(20px, 6vw, 24px); // アイコンサイズもレスポンシブに
+  color: #a0aec0;
+}
+
+.noItemsMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  color: #718096;
+  font-style: italic;
+  font-size: 12px;
+}
+
+// モバイル版アニメーション定義
+@keyframes mobileCrosshairPulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileCrosshairAiming {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+@keyframes mobileHitPulse {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.12);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  75% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes mobileShootEffect {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes mobileHitSuccess {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(1.08);
+    filter: brightness(1.25);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.15);
+  }
+  75% {
+    transform: scale(1.08);
+    filter: brightness(1.25);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes mobileShootButtonPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 6px 0 #c53030, 0 8px 12px rgba(0, 0, 0, 0.3),
+      0 0 18px rgba(255, 107, 107, 0.35),
+      inset 0 1px 3px rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 0 #c53030, 0 8px 12px rgba(0, 0, 0, 0.3),
+      0 0 25px rgba(255, 107, 107, 0.5),
+      inset 0 1px 3px rgba(255, 255, 255, 0.15);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 6px 0 #c53030, 0 8px 12px rgba(0, 0, 0, 0.3),
+      0 0 18px rgba(255, 107, 107, 0.35),
+      inset 0 1px 3px rgba(255, 255, 255, 0.15);
+  }
+}
+
+// モバイル版古着屋風カルーセル + 画像探索システム
+.vintageExplorerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+
+  // モバイル版古着屋風背景
+  background: radial-gradient(
+      circle at 25% 30%,
+      rgba(139, 69, 19, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 70%,
+      rgba(160, 82, 45, 0.08) 0%,
+      transparent 50%
+    ),
+    linear-gradient(145deg, #f5f5dc, #faf0e6);
+
+  border-radius: 16px;
+  border: 2px solid #d2b48c;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 20px rgba(210, 180, 140, 0.2),
+    inset 0 1px 3px rgba(255, 255, 255, 0.8);
+
+  width: 100%;
+  margin: 0 auto;
+  min-height: 400px;
+}
+
+.genreCarousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.genreButtons {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  background: rgba(210, 180, 140, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(210, 180, 140, 0.25);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  
+  // スクロールバーを非表示
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.genreButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  
+  background: linear-gradient(145deg, #fff8dc, #f5f5dc);
+  border: 2px solid #d2b48c;
+  border-radius: 10px;
+  
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 80px;
+  flex-shrink: 0;
+  
+  box-shadow: 0 3px 0 #bc9a6a, 0 5px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 #bc9a6a, 0 3px 6px rgba(0, 0, 0, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  }
+}
+
+.activeGenreButton {
+  display: flex;
+  background: linear-gradient(145deg, #deb887, #d2b48c);
+  border-color: #8b4513;
+  color: #654321;
+  
+  box-shadow: 0 3px 0 #8b4513, 0 5px 8px rgba(0, 0, 0, 0.15),
+    0 0 15px rgba(222, 184, 135, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.genreEmoji {
+  display: block;
+  font-size: 18px;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
+}
+
+.genreLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #654321;
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
+  text-align: center;
+}
+
+.genreCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 1px 4px;
+  
+  background: linear-gradient(145deg, #8b4513, #654321);
+  color: white;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: bold;
+  
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.explorationArea {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  position: relative;
+}
+
+.itemsContainer {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  
+  // モバイル版古着屋の箱風デザイン
+  background: radial-gradient(
+      circle at 30% 40%,
+      rgba(245, 245, 220, 0.85) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(250, 240, 230, 0.65) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(248, 248, 255, 0.85) 0%,
+      rgba(240, 248, 255, 0.75) 100%
+    );
+  
+  border: 2px solid rgba(139, 69, 19, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  
+  // モバイル版内部の照明効果
+  box-shadow: inset 1px 1px 8px rgba(139, 69, 19, 0.08),
+    inset -1px -1px 8px rgba(255, 255, 255, 0.6), 0 0 15px rgba(210, 180, 140, 0.15);
+}
+
+.vintageItem {
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  
+  // モバイル版古着屋のアイテム風の影
+  filter: drop-shadow(1px 3px 6px rgba(139, 69, 19, 0.15));
+  
+  &:active {
+    filter: drop-shadow(3px 6px 12px rgba(139, 69, 19, 0.3));
+  }
+}
+
+.hoveredVintageItem {
+  display: block;
+  filter: drop-shadow(4px 8px 16px rgba(222, 184, 135, 0.5)) brightness(1.08);
+}
+
+.vintageImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // モバイル版古いポラロイド写真風の影のみ
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.itemTooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: absolute;
+  top: -60px; // モバイル版でも回転を考慮して調整
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg); // ツールチップは回転させない
+  
+  background: linear-gradient(145deg, rgba(139, 69, 19, 0.92), rgba(101, 67, 33, 0.92));
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  
+  font-size: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1001;
+  
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  
+  // モバイル版吹き出しの矢印
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(101, 67, 33, 0.92);
+  }
+}
+
+.tooltipTitle {
+  display: block;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.tooltipSubtitle {
+  display: block;
+  opacity: 0.75;
+  font-size: 9px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #8b4513;
+  font-style: italic;
+}
+
+.emptyStateIcon {
+  display: block;
+  font-size: 36px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.emptyStateText {
+  display: block;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0.7;
+  margin: 0;
+  padding: 0 16px;
+  line-height: 1.4;
+}
+
+.genreInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  
+  background: rgba(139, 69, 19, 0.08);
+  border-radius: 10px;
+  border: 2px solid rgba(139, 69, 19, 0.15);
+  
+  backdrop-filter: blur(8px);
+}
+
+.currentGenreLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #654321;
+}
+
+.itemCount {
+  display: block;
+  font-size: 12px;
+  color: #8b4513;
+  opacity: 0.75;
+}
+
+.hintText {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  color: #8b4513;
+  opacity: 0.65;
+  font-style: italic;
+  margin-top: 6px;
+  padding: 0 12px;
+  line-height: 1.3;
+}
+
+// New hero-style frame and grid styles for illustrations
+.heroStyleFrame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 300px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  overflow-x: auto; // 横スクロール対応
+  overflow-y: hidden;
+  background: #f8f9fa;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+// 固定サイズグリッドスタイル（モバイル版）
+.illustrationGridFixed {
+  display: grid;
+  gap: 16px;
+  width: 528px; // 4列 * 120px + 3ガップ * 16px = 528px
+  min-width: 528px; // 最小幅を確保
+  min-height: 336px; // 2行 * (120px + 40px) + 1ガップ * 16px = 336px
+  justify-items: center;
+  align-items: start;
+  justify-content: center;
+  align-content: start;
+  margin: 0 auto; // 水平方向中央配置
+  flex-shrink: 0; // 縮小を防ぐ
+}
+
+.illustrationGridItemFixed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  padding: 8px;
+  background: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: fit-content;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.illustrationImageContainerFixed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: #f5f5f5;
+  flex-shrink: 0;
+}
+
+.illustrationImageFixed {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.illustrationItemInfoFixed {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  min-height: 32px; // 一定の高さを確保
+}
+
+.illustrationItemTitleFixed {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.3;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.illustrationItemTypeFixed {
+  display: block;
+  font-size: 10px;
+  color: #666;
+  margin: 0;
+  opacity: 0.8;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 空状態を固定サイズグリッドに合わせる（モバイル）
+.emptyStateFixed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  grid-column: 1 / -1; // 全列にまたがる
+  grid-row: 1 / -1; // 全行にまたがる
+  height: 100%;
+  color: #8b4513;
+  font-style: italic;
+}
+
+// モバイル版レスポンシブ対応の新しいスタイル
+.heroStyleFrameResponsive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: clamp(280px, 40vh, 400px);
+  padding: clamp(1rem, 4vw, 2rem);
+  border-radius: clamp(12px, 4vw, 20px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #f8f9fa;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.illustrationGridResponsive {
+  display: grid;
+  gap: clamp(12px, 3vw, 20px);
+  width: 100%;
+  max-width: clamp(280px, 90vw, 600px);
+  min-width: 280px;
+  justify-items: center;
+  align-items: start;
+  justify-content: center;
+  align-content: start;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+.illustrationGridItemResponsive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: clamp(8px, 2vw, 12px);
+  padding: clamp(6px, 2vw, 12px);
+  background: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: fit-content;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.illustrationImageContainerResponsive {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: clamp(6px, 2vw, 10px);
+  overflow: hidden;
+  margin-bottom: clamp(6px, 2vw, 12px);
+  background: #f5f5f5;
+  min-width: clamp(60px, 18vw, 120px);
+  max-width: 140px;
+}
+
+.illustrationImageResponsive {
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.illustrationItemInfoResponsive {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1px, 0.5vw, 4px);
+  width: 100%;
+  min-height: clamp(24px, 6vw, 40px);
+}
+
+.illustrationItemTitleResponsive {
+  display: block;
+  font-size: clamp(10px, 2.8vw, 14px);
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.3;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.illustrationItemTypeResponsive {
+  display: block;
+  font-size: clamp(8px, 2.4vw, 12px);
+  color: #666;
+  margin: 0;
+  opacity: 0.8;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emptyStateResponsive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  height: 100%;
+  color: #8b4513;
+  font-style: italic;
+  min-height: clamp(150px, 25vh, 250px);
+}
+
+.illustrationGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  justify-items: center;
+}
+
+.illustrationGridItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  padding: 12px;
+  background: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.illustrationImageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: #f5f5f5;
+}
+
+.illustrationImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.illustrationItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.illustrationItemTitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.3;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.illustrationItemType {
+  display: block;
+  font-size: 10px;
+  color: #666;
+  margin: 0;
+  opacity: 0.8;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// New pagination dot styles for genre selection (mobile)
+.genrePagination {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0;
+  width: 100%;
+}
+
+.genreDots {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.genreDot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  position: relative;
+  
+  // 基本スタイル（非アクティブ状態）
+  opacity: 0.6;
+  transform: scale(0.85);
+  
+  &:hover {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+}
+
+.activeGenreDot {
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
+  
+  // アクティブ状態の背景円
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 50%;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    z-index: -1;
+  }
+}
+
+.dotEmoji {
+  display: block;
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.dotLabel {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+  line-height: 1.1;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+  
+  .activeGenreDot & {
+    color: #667eea;
+    font-weight: 600;
+  }
+}
+
+// JavaScript制御用のシンプルスタイル（モバイル版）
+.heroStyleFrameJS {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #f8f9fa;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.illustrationGridItemJS {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: fit-content;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.illustrationImageContainerJS {
+  display: block;
+  position: relative;
+  background: #f5f5f5;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.illustrationImageJS {
+  display: block;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.illustrationItemInfoJS {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+}
+
+.illustrationItemTitleJS {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.3;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.illustrationItemTypeJS {
+  display: block;
+  color: #666;
+  margin: 0;
+  opacity: 0.8;
+  line-height: 1.2;
+  
+  // Text overflow handling
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emptyStateJS {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #8b4513;
+  font-style: italic;
+}
+
+.emptyStateIcon {
+  display: block;
+  font-size: 36px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.emptyStateText {
+  display: block;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0.7;
+  margin: 0;
+  padding: 0 16px;
+  line-height: 1.4;
 }

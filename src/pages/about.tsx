@@ -3,11 +3,20 @@ import Head from "next/head";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ImTaichiGame from "@/components/games/ImTaichiGame";
 import styles from "@/styles/aboutme.module.scss";
 
 export default function AboutPage() {
   // 強み/弱み切り替え状態
   const [isShowingWeakness, setIsShowingWeakness] = useState(false);
+
+  // ページトップへスクロールする関数
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   // 強みデータ
   const strengthsData = [
@@ -224,14 +233,14 @@ export default function AboutPage() {
               <div className={styles.heroContainer}>
                 <div className={styles.heroImageContainer}>
                   <div className={styles.heroImage}>
-                    {/* ここにヒーロー画像を配置 */}
+                    <ImTaichiGame />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Profile セクション */}
-            <div className={styles.sectionContainer}>
+            <div className={styles.sectionContainer} data-section="profile">
               <div className={styles.sectionHeader}>
                 <div className={styles.sectionTitleContainer}>
                   <h2 className={styles.sectionTitle}>Profile</h2>
@@ -268,6 +277,7 @@ export default function AboutPage() {
                           alt="Figma"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -282,6 +292,7 @@ export default function AboutPage() {
                           alt="Illustrator"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -294,6 +305,7 @@ export default function AboutPage() {
                           alt="Photoshop"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -308,6 +320,7 @@ export default function AboutPage() {
                           alt="Next.js"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -320,6 +333,7 @@ export default function AboutPage() {
                           alt="Rails"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -332,6 +346,7 @@ export default function AboutPage() {
                           alt="Swift"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -346,6 +361,7 @@ export default function AboutPage() {
                           alt="HTML/CSS/JS"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -358,6 +374,7 @@ export default function AboutPage() {
                           alt="Sass"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -370,6 +387,7 @@ export default function AboutPage() {
                           alt="Tailwind"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -382,6 +400,7 @@ export default function AboutPage() {
                           alt="GitHub"
                           width={40}
                           height={40}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -544,7 +563,15 @@ export default function AboutPage() {
 
         {/* モバイル専用 プロフィール & フッターセクション */}
         <div className={styles.bottomProfileSection}>
-          <div className={styles.bottomProfileImage}></div>
+          <div className={styles.bottomProfileImage} onClick={scrollToTop} style={{ cursor: 'pointer' }}>
+            <Image
+              src="/images/tothetop.GIF"
+              alt="Top of page"
+              width={192}
+              height={192}
+              loading="lazy"
+            />
+          </div>
         </div>
 
         {/* デスクトップレイアウト（sm以上） */}
@@ -560,14 +587,14 @@ export default function AboutPage() {
             <div className={styles.desktopHeroSection}>
               <div className={styles.desktopHeroContainer}>
                 <div className={styles.desktopHeroImage}>
-                  {/* ここにヒーロー画像を配置 */}
+                  <ImTaichiGame />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Profile セクション */}
-          <div className={styles.desktopProfileSection}>
+          <div className={styles.desktopProfileSection} data-section="profile">
             <div className={styles.desktopSectionHeader}>
               <div className={styles.desktopSectionTitleContainer}>
                 <h2 className={styles.desktopSectionTitle}>Profile</h2>
@@ -592,7 +619,7 @@ export default function AboutPage() {
                   </div>
                   <div className={styles.desktopProfileDescContainer}>
                     <div className={styles.desktopProfileDescription}>
-                      テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                      1998年生まれ、福岡県春日市出身。武蔵そばと大きい公園以外は特に何もないところですがその何もないがあるところが好きです。フリーターとして生活していましたが、25才となった冬に自分の将来について真剣に考えたことをきっかけとしてIT業界で働くため翌年の5月にテックキャンプを利用開始。エンジニアになるべく学習を進めていたが、自分がこだわれるのはどう見せたいかどうやったら興味を引くデザインにできるかだと認識しwebデザイナーの道を歩み出す。
                     </div>
                   </div>
                 </div>
@@ -618,6 +645,7 @@ export default function AboutPage() {
                       alt="Figma"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -632,6 +660,7 @@ export default function AboutPage() {
                       alt="Illustrator"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -644,6 +673,7 @@ export default function AboutPage() {
                       alt="Photoshop"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -658,6 +688,7 @@ export default function AboutPage() {
                       alt="Next.js"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -670,6 +701,7 @@ export default function AboutPage() {
                       alt="Rails"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -682,6 +714,7 @@ export default function AboutPage() {
                       alt="Swift"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -696,6 +729,7 @@ export default function AboutPage() {
                       alt="HTML/CSS/JS"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -708,6 +742,7 @@ export default function AboutPage() {
                       alt="Sass"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -720,6 +755,7 @@ export default function AboutPage() {
                       alt="Tailwind"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -732,6 +768,7 @@ export default function AboutPage() {
                       alt="GitHub"
                       width={50}
                       height={50}
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -867,7 +904,15 @@ export default function AboutPage() {
 
           {/* デスクトップ専用 デコレーションセクション */}
           <div className={styles.desktopBottomSection}>
-            <div className={styles.desktopBottomCircle}></div>
+            <div className={styles.desktopBottomCircle} onClick={scrollToTop} style={{ cursor: 'pointer' }}>
+              <Image
+                src="/images/tothetop.GIF"
+                alt="Top of page"
+                width={320}
+                height={320}
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
 

@@ -12,17 +12,58 @@ export default async function handler(
   }
 
   try {
-    // Works テーブルから表示順に並べて取得
+    // Works テーブルから表示順に並べて取得（selectでリレーションも含む）
     const works = await prisma.work.findMany({
-      orderBy: {
-        displayOrder: 'asc'
-      },
       select: {
         id: true,
         title: true,
         type: true,
+        status: true,
+        client: true,
+        concept: true,
+        target: true,
+        challenge: true,
+        purpose: true,
+        informationDesign: true,
+        design: true,
+        implementation: true,
+        planningDays: true,
+        designDays: true,
+        codingDays: true,
+        // 後方互換性のため保持
         mainImage: true,
-        displayOrder: true
+        designImage: true,
+        link: true,
+        displayOrder: true,
+        // 新機能
+        isGroup: true,
+        itemCount: true,
+        createdAt: true,
+        updatedAt: true,
+        // リレーション（selectの中で指定）
+        images: {
+          where: {
+            isVisible: true // UFOキャッチャー表示用の画像のみ
+          },
+          orderBy: {
+            sortOrder: 'asc'
+          },
+          select: {
+            id: true,
+            imageUrl: true,
+            publicId: true,
+            title: true,
+            description: true,
+            imageType: true,
+            category: true,
+            sortOrder: true,
+            isVisible: true,
+            rarity: true
+          }
+        }
+      },
+      orderBy: {
+        displayOrder: 'asc'
       }
     });
 

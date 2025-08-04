@@ -106,12 +106,7 @@ export default function Header() {
                     <div className={menuStyles.settingOption}>한국어</div>
                   </div>
 
-                  {/* 画面設定 */}
-                  <div className={menuStyles.settingGroup}>
-                    <div className={menuStyles.settingTitle}>画面設定</div>
-                    <div className={menuStyles.themeOption}>モダン</div>
-                    <div className={menuStyles.themeOption}>レトロ</div>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -211,12 +206,7 @@ export default function Header() {
                     <div className={menuStyles.settingOption}>한국어</div>
                   </div>
 
-                  {/* 画面設定 */}
-                  <div className={menuStyles.settingGroup}>
-                    <div className={menuStyles.settingTitle}>画面設定</div>
-                    <div className={menuStyles.themeOption}>モダン</div>
-                    <div className={menuStyles.themeOption}>レトロ</div>
-                  </div>
+
                 </div>
               </div>
             </div>

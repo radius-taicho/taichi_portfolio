@@ -78,7 +78,7 @@
 .pageTitle {
   color: $text-color;
   text-align: left;
-  font-family: $font-rubik;
+  font-family: $font-rubik !important;
   font-size: 40px;
   font-weight: 700;
   position: relative;
@@ -178,7 +178,7 @@
 .sectionTitle {
   color: $text-color;
   text-align: left;
-  font-family: $font-rubik;
+  font-family: $font-rubik !important;
   font-size: 32px;
   font-weight: 600;
   position: relative;
@@ -450,7 +450,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   // 基本の画像レスポンシブサイズ設定
   img {
     width: clamp(24px, 6vw, 36px) !important;
@@ -511,16 +511,14 @@
 // ===== TECHNOLOGY-SPECIFIC COLORS =====
 // Figma
 .skillFigma {
-  background: linear-gradient(145deg, #2F2F30, #1F1F20) !important;
-  box-shadow: 
-    0 8px 15px rgba(31, 31, 32, 0.6),
+  background: linear-gradient(145deg, #2f2f30, #1f1f20) !important;
+  box-shadow: 0 8px 15px rgba(31, 31, 32, 0.6),
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(31, 31, 32, 0.7),
+    box-shadow: 0 12px 25px rgba(31, 31, 32, 0.7),
       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
   }
@@ -528,16 +526,14 @@
 
 // Illustrator
 .skillIllustrator {
-  background: linear-gradient(145deg, #5A0200, #390100) !important;
-  box-shadow: 
-    0 8px 15px rgba(57, 1, 0, 0.6),
+  background: linear-gradient(145deg, #5a0200, #390100) !important;
+  box-shadow: 0 8px 15px rgba(57, 1, 0, 0.6),
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(57, 1, 0, 0.7),
+    box-shadow: 0 12px 25px rgba(57, 1, 0, 0.7),
       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
   }
@@ -545,16 +541,14 @@
 
 // Photoshop
 .skillPhotoshop {
-  background: linear-gradient(145deg, #002A52, #001935) !important;
-  box-shadow: 
-    0 8px 15px rgba(0, 25, 53, 0.6),
+  background: linear-gradient(145deg, #002a52, #001935) !important;
+  box-shadow: 0 8px 15px rgba(0, 25, 53, 0.6),
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(0, 25, 53, 0.7),
+    box-shadow: 0 12px 25px rgba(0, 25, 53, 0.7),
       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
   }
@@ -563,15 +557,12 @@
 // Next.js
 .skillNextjs {
   background: linear-gradient(145deg, #333333, #000000) !important;
-  box-shadow: 
-    0 8px 15px rgba(0, 0, 0, 0.6),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(0, 0, 0, 0.7),
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7),
       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
   }
@@ -579,16 +570,14 @@
 
 // Rails
 .skillRails {
-  background: linear-gradient(145deg, #C80B0B, #A00909) !important;
-  box-shadow: 
-    0 8px 15px rgba(200, 11, 11, 0.4),
+  background: linear-gradient(145deg, #c80b0b, #a00909) !important;
+  box-shadow: 0 8px 15px rgba(200, 11, 11, 0.4),
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(200, 11, 11, 0.5),
+    box-shadow: 0 12px 25px rgba(200, 11, 11, 0.5),
       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
   }
@@ -596,16 +585,14 @@
 
 // Swift
 .skillSwift {
-  background: linear-gradient(145deg, #FE4317, #CC3512) !important;
-  box-shadow: 
-    0 8px 15px rgba(254, 67, 23, 0.4),
+  background: linear-gradient(145deg, #fe4317, #cc3512) !important;
+  box-shadow: 0 8px 15px rgba(254, 67, 23, 0.4),
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(254, 67, 23, 0.5),
+    box-shadow: 0 12px 25px rgba(254, 67, 23, 0.5),
       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
   }
@@ -613,16 +600,14 @@
 
 // HTML/CSS/JS
 .skillHtmlcssjs {
-  background: linear-gradient(145deg, #FFFFFF, #F0F0F0) !important;
-  box-shadow: 
-    0 8px 15px rgba(0, 0, 0, 0.15),
+  background: linear-gradient(145deg, #ffffff, #f0f0f0) !important;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15),
     inset 0 -2px 4px rgba(0, 0, 0, 0.1),
     inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(0, 0, 0, 0.2),
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2),
       inset 0 -3px 6px rgba(0, 0, 0, 0.15),
       inset 0 3px 6px rgba(255, 255, 255, 0.9) !important;
   }
@@ -630,16 +615,14 @@
 
 // Sass
 .skillSass {
-  background: linear-gradient(145deg, #C96999, #B55A88) !important;
-  box-shadow: 
-    0 8px 15px rgba(201, 105, 153, 0.4),
+  background: linear-gradient(145deg, #c96999, #b55a88) !important;
+  box-shadow: 0 8px 15px rgba(201, 105, 153, 0.4),
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(201, 105, 153, 0.5),
+    box-shadow: 0 12px 25px rgba(201, 105, 153, 0.5),
       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
   }
@@ -647,16 +630,14 @@
 
 // Tailwind
 .skillTailwind {
-  background: linear-gradient(145deg, #43A6B2, #4CB0B3) !important;
-  box-shadow: 
-    0 8px 15px rgba(67, 166, 178, 0.4),
+  background: linear-gradient(145deg, #43a6b2, #4cb0b3) !important;
+  box-shadow: 0 8px 15px rgba(67, 166, 178, 0.4),
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(67, 166, 178, 0.5),
+    box-shadow: 0 12px 25px rgba(67, 166, 178, 0.5),
       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
   }
@@ -664,16 +645,14 @@
 
 // GitHub
 .skillGithub {
-  background: linear-gradient(145deg, #4A5568, #1A202C) !important;
-  box-shadow: 
-    0 8px 15px rgba(24, 23, 23, 0.6),
+  background: linear-gradient(145deg, #4a5568, #1a202c) !important;
+  box-shadow: 0 8px 15px rgba(24, 23, 23, 0.6),
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-  
+
   &:hover {
     transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 25px rgba(24, 23, 23, 0.7),
+    box-shadow: 0 12px 25px rgba(24, 23, 23, 0.7),
       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
   }
@@ -1149,13 +1128,22 @@
 }
 
 .bottomProfileImage {
-  background: #d9d9d9;
-  border-radius: 50%;
   flex-shrink: 0;
-  width: 128px;
-  height: 128px;
+  width: 192px;
+  height: 192px;
   position: relative;
   aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .footerSection {
@@ -1210,7 +1198,7 @@
   .desktopPageTitle {
     color: $text-color;
     text-align: left;
-    font-family: $font-rubik;
+    font-family: $font-rubik !important;
     // レスポンシブ対応: タイトルサイズをclampで調整
     font-size: clamp(48px, 8vw, 72px);
     font-weight: 800;
@@ -1309,7 +1297,7 @@
   .desktopSectionTitle {
     color: $text-color;
     text-align: left;
-    font-family: $font-rubik;
+    font-family: $font-rubik !important;
     // レスポンシブ対応: セクションタイトルサイズをclampで調整
     font-size: clamp(36px, 6vw, 64px);
     font-weight: 600;
@@ -1663,7 +1651,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     // デスクトップ版基本画像のレスポンシブサイズ設定
     img {
       width: clamp(36px, 6vw, 56px) !important;
@@ -2076,19 +2064,34 @@
     display: flex !important;
     align-self: stretch;
     flex-shrink: 0;
-    height: 240px;
+    height: 320px;
     position: relative;
     overflow: hidden;
   }
 
   .desktopBottomCircle {
-    background: #d9d9d9;
     border-radius: 50%;
-    width: 128px;
-    height: 128px;
+    width: 320px;
+    height: 320px;
     position: absolute;
     right: 0;
     bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   .desktopFooter {

@@ -67,7 +67,7 @@
 .pageTitle {
   color: $text-color;
   text-align: left;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik !important;
   font-size: 28px;
   font-weight: 800;
   position: relative;
@@ -184,7 +184,7 @@
 .fieldLabel {
   color: $text-color;
   text-align: left;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik !important;
   font-size: 16px;
   font-weight: 600;
   position: relative;
@@ -385,7 +385,7 @@
 .buttonText {
   color: $text-color;
   text-align: center;
-  font-family: var(--font-rubik), "Rubik", sans-serif;
+  font-family: $font-rubik !important;
   font-size: 16px;
   font-weight: 600;
   position: relative;
