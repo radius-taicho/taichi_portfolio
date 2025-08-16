@@ -466,7 +466,7 @@
   border: 1px solid rgba(229, 231, 235, 0.8); // 薄いボーダー
   border-radius: 8px;
   padding: 12px;
-  
+
   // linkCardも他のカードと同じ幅にする
   &.linkCard {
     // grid-column: 1 / -1; を削除して通常のグリッドアイテムとして扱う
@@ -498,7 +498,7 @@
   text-decoration: underline; // アンダーラインを追加
   transition: all 0.2s ease;
   font-weight: 500;
-  
+
   &:hover {
     color: #d44841 !important; // ホバー時はより濃い色
     text-decoration: underline; // ホバー時もアンダーラインを維持
@@ -1281,7 +1281,7 @@
   width: 50px;
   height: 50px;
   border: 4px solid #ddd;
-  border-top: 4px solid #667eea;
+  border-top: 4px solid #e65853;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;

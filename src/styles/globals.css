@@ -144,3 +144,73 @@ img[src*=".GIF"], img[src*=".gif"] {
     transform: translateZ(0) !important;
   }
 }
+
+/* 🎯 ヒーロー画像専用：真っ白な画面を完全に防止 */
+.heroImageWrapper {
+  /* 画像再読み込み時の安定性確保 */
+  contain: layout style paint;
+  will-change: contents;
+  
+  /* フォールバック背景が常に表示されることを確保 */
+  position: relative;
+  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%) !important;
+  
+  /* 画像キャッシュ強化 */
+  img {
+    /* ヒーロー画像は絶対にキャッシュから消さない */
+    content-visibility: visible !important;
+    contain: none !important;
+    will-change: auto !important;
+    
+    /* 真っ白画面防止の最強設定 */
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    
+    /* 再読み込み防止の強力な設定 */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimizeQuality;
+    
+    /* 即座に表示 */
+    filter: none !important;
+    transform: translateZ(0) !important;
+    
+    /* スクロール時のキャッシュ保持 */
+    -webkit-transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    
+    /* Next.js Imageのデフォルトスタイルを強制上書き */
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  
+  /* 読み込み成功後 */
+  &.imageLoaded img {
+    /* 完全に安定した状態 */
+    will-change: auto;
+    contain: layout size style paint;
+  }
+}
+
+/* Next.js Imageコンポーネントの真っ白画面防止 */
+.heroSection [data-nimg] {
+  /* ヒーローセクション内の全てのImageコンポーネント */
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  transition: none !important;
+}
+
+/* ヒーローセクション全体の安定性 */
+.heroSection {
+  /* セクション全体のキャッシュ最適化 */
+  contain: layout style;
+  will-change: auto;
+  
+  /* コンテナの安定性 */
+  .heroContainer {
+    contain: layout style paint;
+    will-change: auto;
+    transform: translateZ(0);
+  }
+}

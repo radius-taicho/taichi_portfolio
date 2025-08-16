@@ -46,6 +46,8 @@
   position: relative;
   border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
   overflow: hidden;
+  // 白い背景を防ぐためのグラデーション背景
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
 
   // 開発時の状態表示
   .devInfo {
@@ -83,12 +85,76 @@
   }
 }
 
+// 画像ラッパー：真っ白な画面を完全に防止
+.heroImageWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  
+  // 🎯 真っ白画面防止: 常に表示される背景
+  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%);
+  
+  // blurDataURLのフォールバック背景
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
+    z-index: 0;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  
+  // 画像が完全に読み込まれた後は背景を透明に
+  &.imageLoaded {
+    &::before {
+      opacity: 0;
+    }
+  }
+  
+  // GPU加速とキャッシュ最適化
+  will-change: contents;
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
 .heroImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); // モバイル向けシャドウ（デフォルト）
-  // border-radiusは親要素のoverflow: hiddenに任せる
+  
+  // 画像の安定表示設定
+  display: block;
+  position: relative;
+  z-index: 2; // 背景の上に表示
+  
+  // 真っ白画面防止の強力な設定
+  opacity: 1 !important;
+  visibility: visible !important;
+  
+  // 強力なキャッシュ設定
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizeQuality;
+  
+  // GPU加速でスムーズな再表示
+  will-change: auto;
+  contain: layout size paint;
+  transform: translateZ(0);
+  
+  // 再読み込み時のスムーズ遷移
+  transition: opacity 0.1s ease;
+  
+  // Next.js Imageのデフォルトスタイルを上書き
+  &[data-nimg] {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 
   // iPad以上でのシャドウ調整
   @include mq(sm) {
@@ -97,7 +163,7 @@
 }
 
 .heroImagePlaceholder {
-  background: #bababa;
+  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%); // 真っ白ではなくグラデーション
   border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
   width: 100%;
   height: auto;
@@ -109,6 +175,12 @@
   padding: clamp(1.5rem, 4vw, 2rem); // レスポンシブパディング
   color: #666;
   overflow: hidden;
+  
+  // 絶対に表示されるように
+  position: relative;
+  z-index: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
 
   // アバウトページのヒーロー画像と同じアスペクト比設定を適用
   aspect-ratio: 5/3; // モバイル: スマホで縦におさまるサイズ（横長）
