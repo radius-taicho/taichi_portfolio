@@ -17,6 +17,7 @@ export default async function handler(
       select: {
         id: true,
         title: true,
+        name: true,  // Missing field - needed for project descriptions
         type: true,
         status: true,
         client: true,
@@ -66,6 +67,26 @@ export default async function handler(
         displayOrder: 'asc'
       }
     });
+
+    // デバッグ：アイコン作品の画像データをコンソールに出力
+    const illustrationWorks = works.filter(work => 
+      work.type.toLowerCase().includes('illustration') || 
+      work.type.toLowerCase().includes('icon')
+    );
+    
+    if (illustrationWorks.length > 0) {
+      console.log('API Debug - Illustration Works:', illustrationWorks.map(work => ({
+        workId: work.id,
+        workTitle: work.title,
+        imageCount: work.images?.length || 0,
+        images: work.images?.map(img => ({
+          id: img.id,
+          title: img.title,
+          description: img.description,
+          fileName: img.imageUrl?.split('/').pop()
+        }))
+      })));
+    }
 
     res.status(200).json(works);
   } catch (error) {

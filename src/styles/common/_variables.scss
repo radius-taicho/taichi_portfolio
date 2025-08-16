@@ -7,16 +7,34 @@ $font-japanese: var(--font-japanese), "Hiragino Maru Gothic ProN",
   "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4",
   "Meiryo", "メイリオ", sans-serif;
 
+// ImTaichiGame専用フォント
+$font-pixelmplus: "PixelMplus12-Regular", monospace, "Hiragino Maru Gothic ProN",
+  sans-serif;
+
 // ブレークポイントの設定
 $breakpoints: (
+  "tiny": 200px,
+  // 超小画面・極端な環境
+  "nano": 240px,
+  // 非常に小さい画面（古いスマートフォンなど）
+  "micro": 280px,
+  // 小さい画面
   "mic": 320px,
+  // 最小サイズのスマートフォン
   "xxs": 375px,
+  // iPhone SE等
   "xs": 575px,
+  // 大きめのスマートフォン
   "sm": 768px,
+  // タブレット縦向き
   "md": 992px,
+  // タブレット横向き・小さめのデスクトップ
   "lg": 1024px,
+  // デスクトップ
   "xl": 1280px,
+  // 大きなデスクトップ
   "xxl": 1400px,
+  // 超大画面
 );
 
 @mixin mq($size) {
@@ -42,8 +60,140 @@ $border-color: #e5e5e5;
 
 // ヒーロー用のアスペクト比設定
 $hero-aspect-ratio: 1318/824;
+
+// デスクトップ版の統一幅管理システム（アバウトページ用）
+// ========== 一括幅管理設定 ==========
+// 以下の値を変更するだけで全セクションの幅を一括調整可能
+$about-page-content-width: 1105px; // メインコンテンツ幅（以前より200px狭い）
+$about-page-section-width: 880px; // セクション内コンテンツ幅（以前より100px狭い）
+$about-page-padding-horizontal: clamp(40px, 6vw, 80px); // 水平パディング
+
+// About Meタイトル専用設定
+$about-title-max-width: 1400px; // タイトルは他より400px広く
+$about-title-padding: clamp(60px, 10vw, 200px); // より広いパディング
+
+// ========== モバイル(575px未満)専用幅管理設定 ==========
+// 575px未満時のセクション幅を一元管理（最大限幅広設定）
+$mobile-content-padding: clamp(6px, 1vw, 10px); // 最小パディング（さらに狭く）
+$mobile-title-padding: clamp(8px, 1.5vw, 12px); // タイトル用最小パディング
+$mobile-section-content-padding: clamp(
+  4px,
+  0.8vw,
+  8px
+); // セクション内最小パディング（最大化）
+
+// 個別セクション用の幅オーバーライド（必要に応じて）
+$about-hero-max-width: $about-page-content-width;
+$about-profile-max-width: $about-page-content-width;
+$about-skills-max-width: $about-page-content-width;
+$about-strength-max-width: $about-page-content-width;
+$about-career-max-width: $about-page-content-width;
+
+// 従来の設定（レガシー互換性のため）
+$desktop-content-max-width: $about-page-content-width;
+$desktop-section-max-width: $about-page-section-width;
 $hero-max-width: 1318px;
 $hero-max-height: 824px;
+
+// レスポンシブ対応：画面サイズ別の幅設定
+@mixin about-section-container {
+  max-width: $about-page-content-width;
+  margin: 0 auto;
+  width: 100%;
+  padding-left: $about-page-padding-horizontal;
+  padding-right: $about-page-padding-horizontal;
+
+  // タブレット横向き以下でのパディング調整
+  @include max-width(md) {
+    max-width: 900px;
+    padding-left: clamp(32px, 5vw, 60px);
+    padding-right: clamp(32px, 5vw, 60px);
+  }
+
+  // タブレット縦向き以下でのパディング調整
+  @include max-width(sm) {
+    max-width: 100%;
+    padding-left: clamp(24px, 4vw, 40px);
+    padding-right: clamp(24px, 4vw, 40px);
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // より広いコンテンツ表示のため、パディングを大幅に縮小
+  @include max-width(xs) {
+    max-width: 100%;
+    padding-left: $mobile-content-padding;
+    padding-right: $mobile-content-padding;
+  }
+}
+
+@mixin about-section-content {
+  max-width: $about-page-section-width;
+  margin: 0 auto;
+  width: 100%;
+
+  // タブレット横向き以下でのコンテンツ幅調整
+  @include max-width(md) {
+    max-width: 700px;
+  }
+
+  // タブレット縦向き以下でのコンテンツ幅調整
+  @include max-width(sm) {
+    max-width: 100%;
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // セクション内コンテンツもより広く表示
+  @include max-width(xs) {
+    max-width: 100%;
+    padding-left: $mobile-section-content-padding;
+    padding-right: $mobile-section-content-padding;
+  }
+}
+
+// About Meタイトル専用のレスポンシブミックスイン
+@mixin about-title-container {
+  max-width: $about-title-max-width;
+  margin: 0 auto;
+  width: 100%;
+  padding-left: $about-title-padding;
+  padding-right: $about-title-padding;
+
+  // 大型デスクトップ以下でのパディング調整
+  @include max-width(xl) {
+    max-width: 1280px;
+    padding-left: clamp(40px, 8vw, 60px);
+    padding-right: clamp(40px, 8vw, 60px);
+  }
+
+  // デスクトップ以下でのパディング調整
+  @include max-width(lg) {
+    max-width: 1000px;
+    padding-left: clamp(40px, 6vw, 60px);
+    padding-right: clamp(40px, 6vw, 60px);
+  }
+
+  // タブレット横向き以下でのパディング調整
+  @include max-width(md) {
+    max-width: 900px;
+    padding-left: clamp(32px, 5vw, 60px);
+    padding-right: clamp(32px, 5vw, 60px);
+  }
+
+  // タブレット縦向き以下でのパディング調整
+  @include max-width(sm) {
+    max-width: 100%;
+    padding-left: clamp(24px, 4vw, 40px);
+    padding-right: clamp(24px, 4vw, 40px);
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // タイトルも広く表示するため、パディングを縮小
+  @include max-width(xs) {
+    max-width: 100%;
+    padding-left: $mobile-title-padding;
+    padding-right: $mobile-title-padding;
+  }
+}
 
 // モバイル専用設定
 $mobile-max-width: 375px;

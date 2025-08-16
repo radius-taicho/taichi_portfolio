@@ -21,7 +21,7 @@ export interface Work {
   client?: string;
   type: string;
   status: 'completed' | 'in_progress' | 'planning';
-  name: string;
+  name?: string;
   concept?: string;
   target?: string;
   challenge?: string;

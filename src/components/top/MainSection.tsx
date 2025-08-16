@@ -3,15 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useLanguage } from "@/components/providers/LanguageProvider";
+import ScrollTopBubble from "@/components/common/ScrollTopBubble";
 import { Work } from "@/types";
 import styles from "@/styles/components/top_page.module.scss";
 import mobileStyles from "@/styles/components/top_page_mobile.module.scss";
+import illustrationStyles from "@/styles/components/illustration-grid.module.scss";
 
-// 画面サイズを検知するカスタムフック
+// 画面サイズを検知してCSS変数を生成するカスタムフック
 const useResponsiveLayout = () => {
   const [windowSize, setWindowSize] = useState({
     width: 1024, // SSR用の固定デフォルト値
-    height: 768
+    height: 768,
   });
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -19,7 +21,7 @@ const useResponsiveLayout = () => {
   useEffect(() => {
     // クライアント側でのみ実行
     setIsClient(true);
-    
+
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -28,141 +30,89 @@ const useResponsiveLayout = () => {
     };
 
     handleResize(); // 初期値設定
-    window.addEventListener('resize', handleResize);
-    
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 画面サイズに応じたレイアウト計算
+  // シンプルレスポンシブレイアウト（完全新規作成）
   const getLayoutConfig = (itemCount: number) => {
-    // クライアント側でない場合はデフォルト設定を返す
     if (!isClient) {
       return {
-        columns: 4,
-        rows: 2,
-        imageSize: 180,
-        gap: 24,
-        padding: 32,
-        frameRadius: 24,
-        itemPadding: 16,
-        itemRadius: 12,
-        fontSize: { title: 14, type: 12 },
-        containerMaxWidth: 1200
-      };
-    }
-    
-    const { width } = windowSize;
-    
-    // 基本設定
-    let config = {
-      columns: 4,
-      rows: 2,
-      imageSize: 180,
-      gap: 24,
-      padding: 32,
-      frameRadius: 24,
-      itemPadding: 16,
-      itemRadius: 12,
-      fontSize: { title: 14, type: 12 },
-      containerMaxWidth: 1200
-    };
-
-    // 画面サイズ別調整
-    if (width < 480) {
-      // 超小画面 (スマートフォン縦)
-      config = {
-        ...config,
-        imageSize: Math.max(60, width * 0.15),
-        gap: 12,
-        padding: 16,
-        frameRadius: 12,
-        itemPadding: 8,
-        itemRadius: 8,
-        fontSize: { title: 11, type: 9 },
-        containerMaxWidth: width - 32
-      };
-    } else if (width < 768) {
-      // 小画面 (スマートフォン横、小タブレット)
-      config = {
-        ...config,
-        imageSize: Math.max(80, width * 0.12),
+        columns: 3,
+        imageSize: 120,
         gap: 16,
-        padding: 20,
+        padding: 24,
         frameRadius: 16,
         itemPadding: 12,
-        itemRadius: 10,
-        fontSize: { title: 12, type: 10 },
-        containerMaxWidth: width - 40
-      };
-    } else if (width < 1024) {
-      // 中画面 (タブレット)
-      config = {
-        ...config,
-        imageSize: Math.max(120, width * 0.10),
-        gap: 20,
-        padding: 24,
-        frameRadius: 20,
-        itemPadding: 14,
-        itemRadius: 11,
-        fontSize: { title: 13, type: 11 },
-        containerMaxWidth: width - 80
-      };
-    } else if (width < 1440) {
-      // 大画面 (デスクトップ)
-      config = {
-        ...config,
-        imageSize: Math.max(150, width * 0.08),
-        gap: 24,
-        padding: 28,
-        frameRadius: 22,
-        itemPadding: 15,
-        itemRadius: 12,
-        fontSize: { title: 14, type: 12 },
-        containerMaxWidth: Math.min(1000, width - 100)
-      };
-    } else {
-      // 超大画面 (大型デスクトップ)
-      config = {
-        ...config,
-        imageSize: 180,
-        gap: 32,
-        padding: 32,
-        frameRadius: 24,
-        itemPadding: 16,
-        itemRadius: 12,
-        fontSize: { title: 16, type: 14 },
-        containerMaxWidth: 1200
+        containerMaxWidth: 800,
       };
     }
 
-    // アイテム数に応じたレイアウト調整
-    if (itemCount === 0) {
-      config.columns = 4;
-      config.rows = 2;
-    } else if (itemCount <= 4) {
-      config.columns = Math.min(2, Math.floor(width / (config.imageSize + config.gap + 100)));
-      config.rows = Math.ceil(itemCount / config.columns);
-    } else if (itemCount <= 8) {
-      config.columns = Math.min(4, Math.floor(width / (config.imageSize + config.gap + 100)));
-      config.rows = Math.ceil(itemCount / config.columns);
-    } else {
-      // 9個以上の場合、高さを8個分に制限するため画像を縮小
-      config.columns = 4;
-      config.rows = Math.ceil(itemCount / 4);
-      const maxRows = 2;
-      if (config.rows > maxRows) {
-        const scaleFactor = maxRows / config.rows;
-        config.imageSize = Math.floor(config.imageSize * scaleFactor);
-        config.gap = Math.floor(config.gap * scaleFactor);
-        config.itemPadding = Math.floor(config.itemPadding * scaleFactor);
-        config.fontSize = {
-          title: Math.floor(config.fontSize.title * scaleFactor),
-          type: Math.floor(config.fontSize.type * scaleFactor)
-        };
-      }
+    const { width } = windowSize;
+
+    // シンプルな列数決定（最大3列まで）
+    let columns;
+    if (width < 300) columns = 1; // 極小スマホ: 1列
+    else if (width < 992) columns = 2; // Md未満: 2列
+    else columns = 3; // Md以上: 3列
+
+    // アイテム数が少ない場合は列数を減らす
+    columns = Math.min(columns, itemCount);
+
+    // シンプルサイズ計算
+    const gap = width < 480 ? 12 : width < 768 ? 14 : 16;
+    const padding = width < 480 ? 16 : width < 768 ? 20 : 24;
+    const itemPadding = width < 480 ? 8 : width < 768 ? 10 : 12;
+
+    // 安全なコンテナ幅計算（絶対に途切れない）
+    const safetyMargin = 40;
+    const availableWidth = width - safetyMargin;
+    const containerPadding = padding * 2;
+    const totalGaps = gap * (columns - 1);
+    const totalItemPadding = itemPadding * 2 * columns;
+
+    // 余った幅からアイテムサイズを計算
+    const remainingWidth =
+      availableWidth - containerPadding - totalGaps - totalItemPadding;
+    let imageSize = Math.floor(remainingWidth / columns);
+
+    // サイズ制限でレスポンシブ対応
+    const minSize = 80;
+    const maxSize = width < 768 ? 160 : 200; // モバイルとデスクトップで最大サイズを変える
+    imageSize = Math.max(minSize, Math.min(maxSize, imageSize));
+
+    // 安全なコンテナ幅を再計算
+    const actualItemWidth = imageSize + itemPadding * 2;
+    const actualContentWidth = actualItemWidth * columns + totalGaps;
+    const containerMaxWidth = actualContentWidth + containerPadding;
+
+    // デバッグ用ログ
+    if (process.env.NODE_ENV === "development") {
+      console.log("🎆 シンプルレスポンシブ:", {
+        画面幅: width,
+        列数: columns,
+        アイテムサイズ: imageSize,
+        コンテナ幅: containerMaxWidth,
+        利用率: Math.round((containerMaxWidth / availableWidth) * 100) + "%",
+        ブレークポイント:
+          width < 300
+            ? "極小スマホ(1列)"
+            : width < 992
+            ? "Md未満(2列)"
+            : "Md以上(3列)",
+      });
     }
 
-    return config;
+    return {
+      columns,
+      imageSize,
+      gap,
+      padding,
+      frameRadius: width < 480 ? 12 : width < 768 ? 14 : 16,
+      itemPadding,
+      containerMaxWidth: Math.min(containerMaxWidth, availableWidth),
+    };
   };
 
   return { windowSize, isMobile, getLayoutConfig, isClient };
@@ -174,9 +124,10 @@ export default function MainSection() {
   const [works, setWorks] = useState<Work[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // レスポンシブレイアウトフックを使用
-  const { windowSize, isMobile, getLayoutConfig, isClient } = useResponsiveLayout();
+  const { windowSize, isMobile, getLayoutConfig, isClient } =
+    useResponsiveLayout();
 
   // ページトップへスクロールする関数
   const scrollToTop = () => {
@@ -211,90 +162,62 @@ export default function MainSection() {
 
   // イラスト・アイコンデザイン作品をメモ化で取得
   const illustrationWorks = useMemo(() => {
-    return works.filter((work) =>
-      work.type.toLowerCase().includes("illustration") ||
-      work.type.toLowerCase().includes("icon")
+    return works.filter(
+      (work) =>
+        work.type.toLowerCase().includes("illustration") ||
+        work.type.toLowerCase().includes("icon")
     );
   }, [works]);
-  
+
   // フィギュア棚用のアイテムデータをメモ化で生成
   const figureItems = useMemo(() => {
-    return illustrationWorks.flatMap(work => {
+    return illustrationWorks.flatMap((work) => {
       // 新しい画像構造がある場合はそれを使用、なければ従来のmainImageを使用
       if (work.images && work.images.length > 0) {
-        const visibleImages = work.images.filter(img => img.isVisible);
-        
-        return visibleImages.map(img => ({
+        const visibleImages = work.images.filter((img) => img.isVisible);
+
+        return visibleImages.map((img) => ({
           id: `${work.id}-${img.id}`,
           workId: work.id,
           title: img.title || work.title,
           imageUrl: img.imageUrl,
           workTitle: work.title,
           workType: work.type,
-          rarity: img.rarity || 'common'
+          rarity: img.rarity || "common",
         }));
       } else if (work.mainImage) {
         // 後方互換性：従来のmainImageを使用
-        return [{
-          id: work.id,
-          workId: work.id,
-          title: work.title,
-          imageUrl: work.mainImage,
-          workTitle: work.title,
-          workType: work.type,
-          rarity: 'common'
-        }];
+        return [
+          {
+            id: work.id,
+            workId: work.id,
+            title: work.title,
+            imageUrl: work.mainImage,
+            workTitle: work.title,
+            workType: work.type,
+            rarity: "common",
+          },
+        ];
       }
       return [];
     });
   }, [illustrationWorks]);
 
-  // 4つのジャンルに分類する関数
-  const categorizeItems = useMemo(() => {
-    const categories = {
-      icon: [],
-      illustration: [],
-      character: [],
-      logo: []
-    };
+  // 4つのジャンルに分類する関数を削除し、全アイテムを直接使用
+  // const categorizeItems = ... は削除
 
-    figureItems.forEach(item => {
-      const title = item.title.toLowerCase();
-      const workType = item.workType.toLowerCase();
-      
-      // キーワードベースでジャンル分類
-      if (title.includes('icon') || workType.includes('icon')) {
-        categories.icon.push(item);
-      } else if (title.includes('character') || title.includes('キャラクター') || workType.includes('character')) {
-        categories.character.push(item);
-      } else if (title.includes('logo') || title.includes('ロゴ') || workType.includes('logo')) {
-        categories.logo.push(item);
-      } else {
-        // デフォルトはイラストに分類
-        categories.illustration.push(item);
-      }
-    });
+  // カルーセル状態管理を削除
+  // const [currentGenre, setCurrentGenre] = useState('icon');
+  // const genres = ... は削除
 
-    return categories;
-  }, [figureItems]);
-
-  // カルーセル状態管理
-  const [currentGenre, setCurrentGenre] = useState('icon');
-  const genres = [
-    { key: 'icon', label: 'アイコン', emoji: '🎭' },
-    { key: 'illustration', label: 'イラスト', emoji: '🎨' },
-    { key: 'character', label: 'キャラクター', emoji: '👾' },
-    { key: 'logo', label: 'ロゴ', emoji: '🏷️' }
-  ];
-
-  // 現在のジャンルのアイテム
-  const currentItems = categorizeItems[currentGenre] || [];
+  // 現在のジャンルのアイテムではなく、全アイテムを使用
+  const currentItems = figureItems;
 
   // Webサイト作品を全て取得（制限なし）
   const websiteWorks = works.filter((work) =>
     work.type.toLowerCase().includes("website")
   );
-  
+
   // Cloudinary URL 最適化関数（超最高品質版）
   const optimizeCloudinaryUrl = (
     url: string,
@@ -423,221 +346,71 @@ export default function MainSection() {
     </div>
   );
 
-  // シンプルなイラスト・アイコンデザイン作品表示コンポーネント（JSレスポンシブ制御）
-  const SimpleIllustrationGrid = ({ isMobile = false }: { isMobile?: boolean }) => {
-    const itemCount = currentItems.length;
-    const layoutConfig = getLayoutConfig(itemCount);
+  // JavaScriptとSCSSを組み合わせたイラストレーショングリッド
+  const SimpleIllustrationGrid = ({
+    isMobile = false,
+  }: {
+    isMobile?: boolean;
+  }) => {
+    const layoutConfig = getLayoutConfig(currentItems.length);
 
-    // SSR時は簡素なローディング表示
+    // SSR時はローディング表示
     if (!isClient) {
       return (
-        <div 
-          className={isMobile ? mobileStyles.illustrationGridContainer : styles.illustrationGridContainer}
-        >
-          <div 
-            className={isMobile ? mobileStyles.heroStyleFrameJS : styles.heroStyleFrameJS}
-            style={{
-              padding: '2rem',
-              borderRadius: '24px',
-              minHeight: isMobile ? '280px' : '400px'
-            }}
-          >
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%',
-              color: '#666',
-              fontSize: '16px'
-            }}>
-              ローディング中...
-            </div>
-          </div>
-        </div>
+        <div className={illustrationStyles.loadingState}>ローディング中...</div>
       );
     }
 
-    // コンテナスタイル
-    const containerStyle = {
-      maxWidth: `${layoutConfig.containerMaxWidth}px`,
-      margin: '0 auto'
-    };
-
-    // フレームスタイル
-    const frameStyle = {
-      padding: `${layoutConfig.padding}px`,
-      borderRadius: `${layoutConfig.frameRadius}px`,
-      minHeight: isMobile ? '280px' : '400px'
-    };
-
-    // グリッドスタイル
-    const gridStyle = {
-      display: 'grid',
-      gridTemplateColumns: `repeat(${layoutConfig.columns}, 1fr)`,
-      gridTemplateRows: `repeat(${layoutConfig.rows}, 1fr)`,
-      gap: `${layoutConfig.gap}px`,
-      width: '100%',
-      justifyItems: 'center',
-      alignItems: 'start'
-    };
-
-    // アイテムスタイル
-    const itemStyle = {
-      padding: `${layoutConfig.itemPadding}px`,
-      borderRadius: `${layoutConfig.itemRadius}px`
-    };
-
-    // 画像コンテナスタイル
-    const imageContainerStyle = {
-      width: `${layoutConfig.imageSize}px`,
-      height: `${layoutConfig.imageSize}px`,
-      borderRadius: `${Math.max(8, layoutConfig.itemRadius - 4)}px`,
-      marginBottom: `${Math.max(8, layoutConfig.itemPadding / 2)}px`
-    };
-
-    // テキストスタイル
-    const titleStyle = {
-      fontSize: `${layoutConfig.fontSize.title}px`,
-      lineHeight: 1.4
-    };
-
-    const typeStyle = {
-      fontSize: `${layoutConfig.fontSize.type}px`,
-      lineHeight: 1.3
-    };
+    // CSS変数を設定するオブジェクト
+    const cssVariables = {
+      "--grid-columns": layoutConfig.columns,
+      "--grid-gap": `${layoutConfig.gap}px`,
+      "--grid-frame-padding": `${layoutConfig.padding}px`,
+      "--grid-frame-radius": `${layoutConfig.frameRadius}px`,
+      "--grid-item-padding": `${layoutConfig.itemPadding}px`,
+      "--grid-container-max-width": `${layoutConfig.containerMaxWidth}px`,
+      "--grid-image-size": `${layoutConfig.imageSize}px`,
+    } as React.CSSProperties;
 
     return (
-      <div 
-        className={isMobile ? mobileStyles.illustrationGridContainer : styles.illustrationGridContainer}
-        style={containerStyle}
-      >
-        {/* JS制御のレスポンシブフレーム */}
-        <div 
-          className={isMobile ? mobileStyles.heroStyleFrameJS : styles.heroStyleFrameJS}
-          style={frameStyle}
-        >
-          <div style={gridStyle}>
+      <div className={illustrationStyles.illustrationGrid}>
+        <div className={illustrationStyles.gridFrame} style={cssVariables}>
+          <div className={illustrationStyles.gridContainer}>
             {currentItems.length > 0 ? (
               currentItems.map((item) => (
                 <Link href={`/works/${item.workId}`} key={item.id}>
-                  <div
-                    className={`${
-                      isMobile ? mobileStyles.illustrationGridItemJS : styles.illustrationGridItemJS
-                    }`}
-                    style={itemStyle}
-                  >
-                    <div 
-                      className={isMobile ? mobileStyles.illustrationImageContainerJS : styles.illustrationImageContainerJS}
-                      style={imageContainerStyle}
-                    >
+                  <div className={illustrationStyles.gridItem}>
+                    <div className={illustrationStyles.imageBackground}>
                       <Image
-                        src={optimizeCloudinaryUrl(item.imageUrl, layoutConfig.imageSize * 2, layoutConfig.imageSize * 2)}
+                        src={optimizeCloudinaryUrl(
+                          item.imageUrl,
+                          layoutConfig.imageSize,
+                          layoutConfig.imageSize
+                        )}
                         alt={item.title}
                         width={layoutConfig.imageSize}
                         height={layoutConfig.imageSize}
-                        className={isMobile ? mobileStyles.illustrationImageJS : styles.illustrationImageJS}
-                        quality={90}
+                        className={illustrationStyles.iconImage}
                         loading="lazy"
-                        sizes={isClient ? (
-                          isMobile 
-                            ? "(max-width: 480px) 25vw, (max-width: 768px) 20vw, 15vw"
-                            : "(max-width: 1024px) 20vw, (max-width: 1440px) 15vw, 12vw"
-                        ) : "200px"}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover'
-                        }}
+                        quality={90}
                       />
                     </div>
-                    <div className={isMobile ? mobileStyles.illustrationItemInfoJS : styles.illustrationItemInfoJS}>
-                      <h4 
-                        className={isMobile ? mobileStyles.illustrationItemTitleJS : styles.illustrationItemTitleJS}
-                        style={titleStyle}
-                      >
-                        {item.title}
-                      </h4>
-                      <p 
-                        className={isMobile ? mobileStyles.illustrationItemTypeJS : styles.illustrationItemTypeJS}
-                        style={typeStyle}
-                      >
-                        {item.workType}
-                      </p>
-                    </div>
+                    <h4 className={illustrationStyles.itemTitle}>
+                      {item.title}
+                    </h4>
                   </div>
                 </Link>
               ))
             ) : (
-              <div 
-                className={isMobile ? mobileStyles.emptyStateJS : styles.emptyStateJS}
-                style={{
-                  gridColumn: '1 / -1',
-                  gridRow: '1 / -1',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '100%',
-                  minHeight: '200px'
-                }}
-              >
-                <div className={isMobile ? mobileStyles.emptyStateIcon : styles.emptyStateIcon}>
-                  💼
-                </div>
-                <p className={isMobile ? mobileStyles.emptyStateText : styles.emptyStateText}>
-                  {genres.find(g => g.key === currentGenre)?.label}の作品がまだ登録されていません
+              <div className={illustrationStyles.emptyState}>
+                <div className={illustrationStyles.emptyIcon}>💼</div>
+                <p className={illustrationStyles.emptyText}>
+                  アイコン作品がまだ登録されていません
                 </p>
               </div>
             )}
           </div>
         </div>
-
-        {/* ページネーションドット風ジャンル選択 */}
-        <div className={isMobile ? mobileStyles.genrePagination : styles.genrePagination}>
-          <div className={isMobile ? mobileStyles.genreDots : styles.genreDots}>
-            {genres.map((genre) => (
-              <button
-                key={genre.key}
-                onClick={() => setCurrentGenre(genre.key)}
-                className={`${
-                  isMobile ? mobileStyles.genreDot : styles.genreDot
-                } ${
-                  currentGenre === genre.key 
-                    ? (isMobile ? mobileStyles.activeGenreDot : styles.activeGenreDot)
-                    : ''
-                }`}
-                title={`${genre.label} (${categorizeItems[genre.key]?.length || 0}件)`}
-              >
-                <span className={isMobile ? mobileStyles.dotEmoji : styles.dotEmoji}>
-                  {genre.emoji}
-                </span>
-                <span className={isMobile ? mobileStyles.dotLabel : styles.dotLabel}>
-                  {genre.label}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* デバッグ情報表示（開発時のみ） */}
-        {process.env.NODE_ENV === 'development' && isClient && (
-          <div style={{
-            position: 'fixed',
-            top: '10px',
-            right: '10px',
-            background: 'rgba(0,0,0,0.8)',
-            color: 'white',
-            padding: '8px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            zIndex: 9999
-          }}>
-            <div>画面: {windowSize.width}x{windowSize.height}</div>
-            <div>画像: {layoutConfig.imageSize}px</div>
-            <div>グリッド: {layoutConfig.columns}x{layoutConfig.rows}</div>
-            <div>アイテム: {itemCount}個</div>
-          </div>
-        )}
       </div>
     );
   };
@@ -706,7 +479,15 @@ export default function MainSection() {
                 {t("works.illustration")}
               </div>
             </div>
-            <div className={styles.illustrationContainer}>
+            <div
+              style={{
+                margin: "40px 0",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <SimpleIllustrationGrid isMobile={false} />
             </div>
           </div>
@@ -715,7 +496,7 @@ export default function MainSection() {
           <div
             className={styles.decorativeCircle}
             onClick={scrollToTop}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", position: "relative" }}
           >
             <Image
               src="/images/tothetop.GIF"
@@ -723,6 +504,11 @@ export default function MainSection() {
               width={320}
               height={320}
               loading="lazy"
+            />
+            {/* デスクトップ用吹き出し */}
+            <ScrollTopBubble
+              targetSelector={`.${styles.decorativeCircle}`}
+              isMobile={false}
             />
           </div>
         </div>
@@ -785,7 +571,15 @@ export default function MainSection() {
                   </h2>
                 </div>
               </div>
-              <div className={mobileStyles.mobileWorksContent}>
+              <div
+                style={{
+                  margin: "20px 0",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <SimpleIllustrationGrid isMobile={true} />
               </div>
             </div>
@@ -797,7 +591,7 @@ export default function MainSection() {
           <div
             className={mobileStyles.mobileProfileImage}
             onClick={scrollToTop}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", position: "relative" }}
           >
             <Image
               src="/images/tothetop.GIF"
@@ -805,6 +599,11 @@ export default function MainSection() {
               width={192}
               height={192}
               loading="lazy"
+            />
+            {/* モバイル用吹き出し */}
+            <ScrollTopBubble
+              targetSelector={`.${mobileStyles.mobileProfileImage}`}
+              isMobile={true}
             />
           </div>
         </div>

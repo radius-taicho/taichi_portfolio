@@ -103,7 +103,7 @@ export default function Footer() {
     const mobileInstagramCleanup = setupHoverEvents(
       mobileInstagramIcon,
       mobileBackground,
-      "/images/instagram_background.png",
+      "/images/instagram-background.png",
       false
     );
     const mobileXCleanup = setupHoverEvents(
@@ -125,7 +125,7 @@ export default function Footer() {
     const desktopInstagramCleanup = setupHoverEvents(
       desktopInstagramIcon,
       desktopBackground,
-      "/images/instagram_background.png",
+      "/images/instagram-background.png",
       false
     );
     const desktopXCleanup = setupHoverEvents(
@@ -144,7 +144,7 @@ export default function Footer() {
     };
   }, []);
 
-  // スムーズスクロール関数
+  // スムーズスクロール関数（Works用）
   const scrollToWorksSection = (e: React.MouseEvent) => {
     e.preventDefault();
 
@@ -173,6 +173,61 @@ export default function Footer() {
     }
   };
 
+  // スムーズスクロール関数（Contact用）
+  const scrollToContactSection = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const scrollToElement = () => {
+      const element = document.getElementById("contact-section");
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    // 現在のページがContactページの場合はスクロールのみ
+    if (router.pathname === "/contact") {
+      scrollToElement();
+    } else {
+      // 他のページからの場合はContactページに遷移してからスクロール
+      router.push("/contact").then(() => {
+        // ページ遷移後に少し待ってからスクロール
+        setTimeout(scrollToElement, 100);
+      });
+    }
+  };
+
+  // スムーズスクロール関数（About用）
+  const scrollToAboutSection = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const scrollToElement = () => {
+      // モバイルサイズかどうかを判定（768px以下をモバイルとする）
+      const isMobile = window.innerWidth < 768;
+      const elementId = isMobile ? "about-section" : "about-section-desktop";
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    // 現在のページがAboutページの場合はスクロールのみ
+    if (router.pathname === "/about") {
+      scrollToElement();
+    } else {
+      // 他のページからの場合はAboutページに遷移してからスクロール
+      router.push("/about").then(() => {
+        // ページ遷移後に少し待ってからスクロール
+        setTimeout(scrollToElement, 100);
+      });
+    }
+  };
+
   return (
     <footer className={styles.footer}>
       {/* モバイル版レイアウト */}
@@ -181,8 +236,9 @@ export default function Footer() {
         <div className={styles.mobileHeader}>
           <div className={styles.mobileBrandSection}>
             <div className={styles.mobileBrandContainer}>
-              <div className={styles.mobileBrandName}>TAICHI</div>
-              <div className={styles.mobileAvatar}></div>
+              <div className={styles.mobileBrandName} data-text="TAICHI">
+                TAICHI
+              </div>
             </div>
             <div className={styles.mobileSocialIcons}>
               {/* 顔の背景コンテナ */}
@@ -222,24 +278,41 @@ export default function Footer() {
             <button
               className={styles.mobileNavLink}
               onClick={scrollToWorksSection}
+              data-text="Works"
             >
               Works
             </button>
-            <Link href="/about" className={styles.mobileNavLink}>
+            <button
+              className={styles.mobileNavLink}
+              onClick={scrollToAboutSection}
+              data-text="About"
+            >
               About
-            </Link>
-            <Link href="/contact" className={styles.mobileNavLink}>
+            </button>
+            <button
+              className={styles.mobileNavLink}
+              onClick={scrollToContactSection}
+              data-text="Contact"
+            >
               Contact
-            </Link>
+            </button>
           </div>
 
           {/* 設定セクション */}
           <div className={styles.mobileSettings}>
             <div className={styles.mobileLanguageSettings}>
               <div className={styles.mobileSettingTitle}>言語設定</div>
-              <div className={styles.mobileSettingOption}>日本語</div>
-              <div className={styles.mobileSettingOption}>English</div>
-              <div className={styles.mobileSettingOption}>한국어</div>
+              <div className={styles.mobileLanguageOptions}>
+                <div className={styles.mobileSettingOption} data-text="日本語">
+                  日本語
+                </div>
+                <div className={styles.mobileSettingOption} data-text="English">
+                  English
+                </div>
+                <div className={styles.mobileSettingOption} data-text="한국어">
+                  한국어
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -258,8 +331,9 @@ export default function Footer() {
           {/* 上部：ブランドセクション */}
           <div className={styles.desktopBrandSection}>
             <div className={styles.desktopBrandContainer}>
-              <div className={styles.desktopBrandName}>TAICHI</div>
-              <div className={styles.desktopAvatar}></div>
+              <div className={styles.desktopBrandName} data-text="TAICHI">
+                TAICHI
+              </div>
             </div>
             <div className={styles.desktopSocialIcons}>
               {/* 顔の背景コンテナ */}
@@ -299,15 +373,24 @@ export default function Footer() {
                 <button
                   className={styles.desktopNavLink}
                   onClick={scrollToWorksSection}
+                  data-text="Works"
                 >
                   Works
                 </button>
-                <Link href="/about" className={styles.desktopNavLink}>
+                <button
+                  className={styles.desktopNavLink}
+                  onClick={scrollToAboutSection}
+                  data-text="About"
+                >
                   About
-                </Link>
-                <Link href="/contact" className={styles.desktopNavLink}>
+                </button>
+                <button
+                  className={styles.desktopNavLink}
+                  onClick={scrollToContactSection}
+                  data-text="Contact"
+                >
                   Contact
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -315,9 +398,18 @@ export default function Footer() {
             <div className={styles.desktopSettings}>
               <div className={styles.desktopLanguageSettings}>
                 <div className={styles.desktopSettingTitle}>言語設定</div>
-                <div className={styles.desktopSettingOption}>日本語</div>
-                <div className={styles.desktopSettingOption}>한국어</div>
-                <div className={styles.desktopSettingOption}>English</div>
+                <div className={styles.desktopSettingOption} data-text="日本語">
+                  日本語
+                </div>
+                <div
+                  className={styles.desktopSettingOption}
+                  data-text="English"
+                >
+                  English
+                </div>
+                <div className={styles.desktopSettingOption} data-text="한국어">
+                  한국어
+                </div>
               </div>
             </div>
           </div>

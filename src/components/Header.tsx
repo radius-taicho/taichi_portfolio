@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -10,9 +12,24 @@ export default function Header() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // スムーズスクロール関数
+  // メニューが開いているときはbody要素のスクロールを無効化
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // クリーンアップ
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
+  // スムーズスクロール関数（Works用）
   const scrollToWorksSection = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsMobileMenuOpen(false); // メニューを閉じる
 
     const scrollToElement = () => {
@@ -40,12 +57,79 @@ export default function Header() {
     }
   };
 
-  const handleMobileMenuToggle = () => {
+  // スムーズスクロール関数（Contact用）
+  const scrollToContactSection = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsMobileMenuOpen(false); // メニューを閉じる
+
+    const scrollToElement = () => {
+      const element = document.getElementById("contact-section");
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    // 現在のページがContactページの場合はスクロールのみ
+    if (router.pathname === "/contact") {
+      scrollToElement();
+    } else {
+      // 他のページからの場合はContactページに遷移してからスクロール
+      router.push("/contact").then(() => {
+        // ページ遷移後に少し待ってからスクロール
+        setTimeout(scrollToElement, 100);
+      });
+    }
+  };
+
+  // スムーズスクロール関数（About用）
+  const scrollToAboutSection = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsMobileMenuOpen(false); // メニューを閉じる
+
+    const scrollToElement = () => {
+      // モバイルサイズかどうかを判定（768px以下をモバイルとする）
+      const isMobile = window.innerWidth < 768;
+      const elementId = isMobile ? "about-section" : "about-section-desktop";
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    // 現在のページがAboutページの場合はスクロールのみ
+    if (router.pathname === "/about") {
+      scrollToElement();
+    } else {
+      // 他のページからの場合はAboutページに遷移してからスクロール
+      router.push("/about").then(() => {
+        // ページ遷移後に少し待ってからスクロール
+        setTimeout(scrollToElement, 100);
+      });
+    }
+  };
+
+  const handleMobileMenuToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleNavLinkClick = () => {
-    setIsMobileMenuOpen(false); // メニューを閉じる
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleMenuContentClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // メニュー内容のクリックでオーバーレイが反応しないように
   };
 
   return (
@@ -67,50 +151,6 @@ export default function Header() {
             <path d="M0 12H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
             <path d="M0 24H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
           </svg>
-
-          {/* ハンバーガーメニュードロップダウン */}
-          {isMobileMenuOpen && (
-            <div className={menuStyles.hamburgerMenuDropdown}>
-              <div className={menuStyles.menuContainer}>
-                {/* ナビゲーションリンク */}
-                <div className={menuStyles.navigationSection}>
-                  <button
-                    className={menuStyles.navLink}
-                    onClick={scrollToWorksSection}
-                  >
-                    Works
-                  </button>
-                  <Link 
-                    href="/about" 
-                    className={menuStyles.navLink}
-                    onClick={handleNavLinkClick}
-                  >
-                    About
-                  </Link>
-                  <Link 
-                    href="/contact" 
-                    className={menuStyles.navLink}
-                    onClick={handleNavLinkClick}
-                  >
-                    Contact
-                  </Link>
-                </div>
-
-                {/* 設定セクション */}
-                <div className={menuStyles.settingsSection}>
-                  {/* 言語設定 */}
-                  <div className={menuStyles.settingGroup}>
-                    <div className={menuStyles.settingTitle}>言語設定</div>
-                    <div className={menuStyles.settingOption}>日本語</div>
-                    <div className={menuStyles.settingOption}>English</div>
-                    <div className={menuStyles.settingOption}>한국어</div>
-                  </div>
-
-
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* ナビゲーション（中央左寄り） */}
@@ -119,25 +159,34 @@ export default function Header() {
             <button
               className={styles.navText}
               onClick={scrollToWorksSection}
+              data-text="Works"
             >
               Works
             </button>
           </div>
           <div className={styles.navItem}>
-            <Link href="/about" className={styles.navText}>
+            <button
+              className={styles.navText}
+              onClick={scrollToAboutSection}
+              data-text="About"
+            >
               About
-            </Link>
+            </button>
           </div>
           <div className={styles.navItem}>
-            <Link href="/contact" className={styles.navText}>
+            <button
+              className={styles.navText}
+              onClick={scrollToContactSection}
+              data-text="Contact"
+            >
               Contact
-            </Link>
+            </button>
           </div>
         </div>
 
         {/* ロゴ（中央絶対配置） */}
         <div className={styles.desktopLogo}>
-          <Link href="/" className={styles.logoText}>
+          <Link href="/" className={styles.logoText} data-text="TAICHI">
             TAICHI
           </Link>
         </div>
@@ -147,7 +196,7 @@ export default function Header() {
       <div className={styles.mobileHeader}>
         {/* ロゴ（左） */}
         <div className={styles.mobileLogo}>
-          <Link href="/" className={styles.mobileLogoText}>
+          <Link href="/" className={styles.mobileLogoText} data-text="TAICHI">
             TAICHI
           </Link>
         </div>
@@ -167,33 +216,46 @@ export default function Header() {
             <path d="M0 12H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
             <path d="M0 24H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
           </svg>
+        </div>
+      </div>
 
-          {/* モバイル用ハンバーガーメニュードロップダウン */}
-          {isMobileMenuOpen && (
-            <div className={menuStyles.mobileMenuDropdown}>
-              <div className={menuStyles.menuContainer}>
+      {/* ハンバーガーメニューのオーバーレイとコンテンツ */}
+      {isMobileMenuOpen && (
+        <>
+          {/* 背景オーバーレイ（最下層） */}
+          <div 
+            className={menuStyles.overlay}
+            onClick={handleOverlayClick}
+          />
+          
+          {/* メニューコンテンツ（最上層） */}
+          <div className={menuStyles.menuWrapper}>
+            {/* デスクトップ用メニュー */}
+            <div className={menuStyles.desktopMenu} onClick={handleMenuContentClick}>
+              <div className={menuStyles.menuContent}>
                 {/* ナビゲーションリンク */}
                 <div className={menuStyles.navigationSection}>
                   <button
                     className={menuStyles.navLink}
                     onClick={scrollToWorksSection}
+                    data-text="Works"
                   >
                     Works
                   </button>
-                  <Link 
-                    href="/about" 
+                  <button
                     className={menuStyles.navLink}
-                    onClick={handleNavLinkClick}
+                    onClick={scrollToAboutSection}
+                    data-text="About"
                   >
                     About
-                  </Link>
-                  <Link 
-                    href="/contact" 
+                  </button>
+                  <button
                     className={menuStyles.navLink}
-                    onClick={handleNavLinkClick}
+                    onClick={scrollToContactSection}
+                    data-text="Contact"
                   >
                     Contact
-                  </Link>
+                  </button>
                 </div>
 
                 {/* 設定セクション */}
@@ -201,25 +263,56 @@ export default function Header() {
                   {/* 言語設定 */}
                   <div className={menuStyles.settingGroup}>
                     <div className={menuStyles.settingTitle}>言語設定</div>
-                    <div className={menuStyles.settingOption}>日本語</div>
-                    <div className={menuStyles.settingOption}>English</div>
-                    <div className={menuStyles.settingOption}>한국어</div>
+                    <div className={menuStyles.settingOption} data-text="日本語">日本語</div>
+                    <div className={menuStyles.settingOption} data-text="English">English</div>
+                    <div className={menuStyles.settingOption} data-text="한국어">한국어</div>
                   </div>
-
-
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      </div>
 
-      {/* オーバーレイ（メニューが開いている時に背景をクリックで閉じる） */}
-      {isMobileMenuOpen && (
-        <div
-          className={menuStyles.overlay}
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
+            {/* モバイル用メニュー */}
+            <div className={menuStyles.mobileMenu} onClick={handleMenuContentClick}>
+              <div className={menuStyles.menuContent}>
+                {/* ナビゲーションリンク */}
+                <div className={menuStyles.navigationSection}>
+                  <button
+                    className={menuStyles.navLink}
+                    onClick={scrollToWorksSection}
+                    data-text="Works"
+                  >
+                    Works
+                  </button>
+                  <button
+                    className={menuStyles.navLink}
+                    onClick={scrollToAboutSection}
+                    data-text="About"
+                  >
+                    About
+                  </button>
+                  <button
+                    className={menuStyles.navLink}
+                    onClick={scrollToContactSection}
+                    data-text="Contact"
+                  >
+                    Contact
+                  </button>
+                </div>
+
+                {/* 設定セクション */}
+                <div className={menuStyles.settingsSection}>
+                  {/* 言語設定 */}
+                  <div className={menuStyles.settingGroup}>
+                    <div className={menuStyles.settingTitle}>言語設定</div>
+                    <div className={menuStyles.settingOption} data-text="日本語">日本語</div>
+                    <div className={menuStyles.settingOption} data-text="English">English</div>
+                    <div className={menuStyles.settingOption} data-text="한국어">한국어</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </>
   );

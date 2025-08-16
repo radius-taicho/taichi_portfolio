@@ -8,152 +8,282 @@
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden; // 横方向のみ非表示、縦方向は表示して影を保持
+  overflow-y: visible; // 縦方向は表示して影を保持
   min-height: 100vh;
 }
 
-// 新しいシステム用のthreeItemCarouselWrapper
-.threeItemCarouselWrapper {
-  width: 100%;
-  position: relative;
-  overflow: visible;
-  padding: 60px 0;
-}
+// ===== BOTTOM SECTION & SCROLL TO TOP =====
+// デスクトップ用ボトムセクション（右端配置）
+.bottomSection {
+  display: none; // モバイルでは非表示
 
-.threeItemCarousel {
-  position: relative;
-  width: 100%;
-  height: 450px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-
-  @media screen and (max-width: 768px) {
-    height: 350px;
+  @include mq(sm) {
+    display: flex;
+    justify-content: flex-end; // 右端配置
+    align-items: center;
+    width: 100%;
+    position: relative;
   }
 }
 
-// カルーセル用ページネーション
-.paginationContainer {
+.decorativeCircle {
+  position: relative;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+  }
+}
+
+/* ===== 新しいページネーションスタイル ===== */
+.paginationWrapper {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 32px; // 20px → 32pxに拡大
+  padding: 30px 0;
+}
+
+.dotContainer {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  width: 24px; // 固定幅を設定
+  height: 24px; // 固定高さを設定
+  display: flex;
   align-items: center;
   justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
+}
+
+.dotContainer:hover {
+  transform: scale(1.1);
+}
+
+.activeDot {
   position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressCircle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.centerDot {
+  width: 8px;
+  height: 8px;
+  background-color: #e65853;
+  border-radius: 50%;
+  z-index: 2;
+  position: relative;
+}
+
+.inactiveDot {
+  width: 8px;
+  height: 8px;
+  background-color: #ccc;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.inactiveDot:hover {
+  background-color: #999;
+}
+
+// ===== OTHER WORKS CAROUSEL STYLES =====
+// 他の作品用の単一画像カルーセル
+.otherWorksCarouselWrapper {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+  // ヒーローセクションよりも少し小さいパディング
+  padding: clamp(16px, 3vw, 32px) 0;
+
+  @media screen and (max-width: 480px) {
+    padding: 12px 0;
+  }
+}
+
+.otherWorksCarousel {
+  position: relative;
+  width: 100%;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  // 一回り小さくするためのmaxWidthを設定
+  max-width: clamp(300px, 85vw, 900px);
+  margin: 0 auto;
+}
+
+.otherWorkLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+    transform: translateY(-2px);
+
+    .otherWorkImage {
+      transform: scale(1.05);
+    }
+
+    .otherWorkInfo {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.otherWorkImageSection {
+  position: relative;
+  width: 100%;
+  border-radius: clamp(12px, 3vw, 24px) clamp(12px, 3vw, 24px) 0 0; // 上側のみ角丸
   overflow: hidden;
-  margin-top: 2rem;
+  background: #f5f5f5;
+
+  // ヒーローより小さいアスペクト比
+  aspect-ratio: 16/10; // 基本的に16:10で統一
+
+  @media screen and (max-width: 768px) {
+    aspect-ratio: 4/3; // モバイルでは4:3
+  }
+}
+
+.otherWorkImage {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.otherWorkImagePlaceholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  color: #999;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  font-weight: 500;
+}
+
+// トップページのWorkCardと同じ白地の情報エリア
+.otherWorkInfo {
+  background: #ffffff;
+  padding: clamp(12px, 3vw, 20px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vw, 8px);
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 clamp(12px, 3vw, 24px) clamp(12px, 3vw, 24px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+
+  @media screen and (max-width: 480px) {
+    padding: 10px 14px;
+    gap: 3px;
+  }
+}
+
+.otherWorkTitle {
+  color: #333333; // 黒テキスト
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  text-align: center;
+
+  @media screen and (max-width: 480px) {
+    font-size: 14px;
+  }
+}
+
+.otherWorkType {
+  color: #666666; // グレーテキスト
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
+  font-size: clamp(12px, 2vw, 16px);
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0;
+  text-align: center;
+
+  @media screen and (max-width: 480px) {
+    font-size: 11px;
+  }
+}
+
+// 古いカルーセル関連のスタイルを削除・無効化
+.threeItemCarouselWrapper,
+.threeItemCarousel,
+.carouselTrack,
+.carouselItem,
+.leftWork,
+.rightWork,
+.centerWork,
+.hiddenWork,
+.workCard,
+.activeCard,
+.workCardLink,
+.workImageContainer,
+.workImage,
+.workInfo,
+.workTitle,
+.workType,
+.workCardContent {
+  display: none;
+}
+
+// カルーセル用ページネーション（レスポンシブ対応）
+.paginationContainer {
+  display: none !important;
 }
 
 .pagination {
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: auto;
-  height: 32px;
-  position: relative;
-  overflow: hidden;
+  display: none !important;
 }
 
 .paginationDotsContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  position: relative;
-  overflow: hidden;
+  display: none !important;
 }
 
 .paginationDot {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
+  display: none !important;
+}
 
-  &:hover {
-    transform: scale(1.3);
-    background: rgba(102, 126, 234, 0.1);
-  }
-
-  &.activeDot {
-    transform: scale(1.2);
-    background: rgba(102, 126, 234, 0.15);
-
-    .ellipse6 {
-      background: #667eea;
-      transform: scale(1.1);
-    }
-
-    &:hover {
-      background: rgba(102, 126, 234, 0.2);
-    }
-  }
-
-  &:active {
-    transform: scale(1);
-    transition: all 0.1s ease;
-  }
+// 旧いスタイルを無効化
+.ellipse6,
+.ellipse3 {
+  display: none;
 }
 
 .ellipse6 {
-  background: #999999;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  aspect-ratio: 1;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-
-  .paginationDot:hover & {
-    background: #667eea;
-    transform: scale(1.2);
-  }
+  display: none !important;
 }
 
 .ellipse3 {
-  background: #ffffff;
-  border-radius: 50%;
-  width: 6px;
-  height: 6px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  aspect-ratio: 1;
-  animation: pulse 2s ease-in-out infinite;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-  }
-  50% {
-    opacity: 0.7;
-    transform: translate(-50%, -50%) scale(1.3);
-    box-shadow: 0 0 16px rgba(255, 255, 255, 1);
-  }
+  display: none !important;
 }
 
 .content {
-  padding: 96px 0px 0px 0px;
+  padding: 64px 0px 120px 0px;
   display: flex;
   flex-direction: column;
   gap: 128px;
@@ -162,6 +292,9 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+
+  // アバウトページと同じ統一コンテナ幅設定を適用
+  @include about-section-container;
 }
 
 .heroSection {
@@ -173,10 +306,15 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+
+  // コンテナ幅設定をリセット（.contentで適用済み）
+  max-width: none;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .imageSection {
-  padding: 0px 80px 0px 80px;
   display: flex;
   flex-direction: row;
   gap: 0px;
@@ -186,50 +324,36 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  // 高さを比率に応じて自動調整
 
-  @media screen and (max-width: 1024px) {
-    padding: 0px 64px;
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 0px 32px;
-  }
-
-  @media screen and (max-width: 480px) {
-    padding: 0px 16px;
-  }
+  // .contentで統一コンテナ幅設定を適用済みのため、パディングは不要
+  padding: 0;
 }
 
 .image {
-  background: #bababa;
-  border-radius: 48px;
+  background: #e8e8e8;
+  border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
   align-self: stretch;
   flex: 1;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
   width: 100%;
   height: auto;
 
-  // iPad向け（768px-1024px）: 4:3比率
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    aspect-ratio: 4/3;
+  // アバウトページのヒーロー画像と同じアスペクト比設定を適用
+  aspect-ratio: 5/3; // モバイル: スマホで縦におさまるサイズ（横長）
+
+  @include mq(xs) {
+    aspect-ratio: 4/3; // タブレット縦向け
   }
 
-  // Mac/デスクトップ向け（1025px以上）: 16:10比率
-  @media screen and (min-width: 1025px) {
-    aspect-ratio: 16/10;
-  }
-
-  @media screen and (max-width: 768px) {
-    border-radius: 24px;
+  @include mq(sm) {
+    aspect-ratio: 16/10; // タブレット横向け〜デスクトップ
   }
 }
 
 .imagePlaceholder {
   background: #bababa;
-  border-radius: 48px;
+  border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
   align-self: stretch;
   flex: 1;
   position: relative;
@@ -238,55 +362,45 @@
   align-items: center;
   justify-content: center;
   color: #666;
-  font-size: 1.5rem;
-  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
+  font-size: clamp(1rem, 3vw, 1.5rem); // フォントサイズもレスポンシブに
   width: 100%;
   height: auto;
 
-  // iPad向け（768px-1024px）: 4:3比率
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    aspect-ratio: 4/3;
+  // アバウトページのヒーロー画像と同じアスペクト比設定を適用
+  aspect-ratio: 5/3; // モバイル: スマホで縦におさまるサイズ（横長）
+
+  @include mq(xs) {
+    aspect-ratio: 4/3; // タブレット縦向け
   }
 
-  // Mac/デスクトップ向け（1025px以上）: 16:10比率
-  @media screen and (min-width: 1025px) {
-    aspect-ratio: 16/10;
-  }
-
-  @media screen and (max-width: 768px) {
-    border-radius: 24px;
-    font-size: 1rem;
+  @include mq(sm) {
+    aspect-ratio: 16/10; // タブレット横向け〜デスクトップ
   }
 }
 
 .infoSection {
-  // 大画面では192px、中画面では適切に調整するレスポンシブパディング
-  padding: 40px 96px 0;
+  padding: 32px 0 0; // 40px から 32px に縮小
   display: flex;
-  justify-content: space-between;
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  flex-direction: column;
   height: auto;
-  gap: 32px;
+  gap: 32px; // 48px から 32px に縮小
   align-items: flex-start;
 
-  @media screen and (max-width: 1024px) {
-    padding: 40px 64px 0px 64px;
-    flex-direction: column;
-    height: auto;
-    align-items: flex-start;
-  }
+  // 常に縦並び
+  flex-direction: column;
+  justify-content: flex-start;
 
   @media screen and (max-width: 768px) {
-    padding: 32px 32px 0px 32px;
-    gap: 24px;
+    padding: 24px 0 0; // 32px から 24px に縮小
+    gap: 20px; // 24px から 20px に縮小
   }
 
   @media screen and (max-width: 480px) {
-    padding: 24px 16px 0px 16px;
+    padding: 20px 0 0; // 24px から 20px に縮小
+    gap: 16px; // 20px から 16px に縮小
   }
 }
 
@@ -295,118 +409,196 @@
   flex-direction: row;
   gap: 0px;
   align-items: center;
-  justify-content: center;
-  align-self: stretch;
+  justify-content: flex-start;
   flex-shrink: 0;
-  width: 100%;
   position: relative;
+
+  // 常に全幅使用
+  width: 100%;
+  min-width: 0; // フレックスアイテムの縮小を許可
 }
 
 .descriptionText {
   color: $text-color;
   text-align: left;
   font-family: $font-japanese;
-  font-size: 36px;
+  font-size: clamp(24px, 4vw, 36px); // レスポンシブなフォントサイズ
   font-weight: 600;
   position: relative;
-  align-self: stretch;
-  flex: 1;
   line-height: 1.4;
+  word-break: break-word; // 長いテキストの改行対応
+  width: 100%;
 
   @media screen and (max-width: 768px) {
-    font-size: 28px;
+    font-size: clamp(20px, 3.5vw, 28px);
   }
 
   @media screen and (max-width: 480px) {
-    font-size: 24px;
+    font-size: clamp(18px, 4vw, 24px);
   }
 }
 
 .projectDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
-  width: 350px; // 400pxから350pxに減らして重なりを防止
   position: relative;
   overflow: hidden;
 
-  @media screen and (max-width: 1024px) {
-    width: 100%;
+  // 常に全幅使用
+  width: 100%;
+}
+
+// 新しい2列グリッドレイアウト
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+
+  // 極小画面（400px未満）では1列にする
+  @media screen and (max-width: 399px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// カードスタイル
+.detailCard {
+  background: rgba(248, 249, 250, 0.6); // 薄いグレーの背景
+  border: 1px solid rgba(229, 231, 235, 0.8); // 薄いボーダー
+  border-radius: 8px;
+  padding: 12px;
+  
+  // linkCardも他のカードと同じ幅にする
+  &.linkCard {
+    // grid-column: 1 / -1; を削除して通常のグリッドアイテムとして扱う
+  }
+}
+
+// カードヘッダー
+.cardHeader {
+  margin-bottom: 6px;
+}
+
+// カードコンテンツ
+.cardContent {
+  color: $text-color;
+  font-family: $font-japanese;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  word-break: break-word;
+
+  @media screen and (max-width: 768px) {
+    font-size: 13px;
+  }
+}
+
+// プロジェクトリンクのスタイル
+.projectLink {
+  color: #e65853 !important; // 指定された色
+  text-decoration: underline; // アンダーラインを追加
+  transition: all 0.2s ease;
+  font-weight: 500;
+  
+  &:hover {
+    color: #d44841 !important; // ホバー時はより濃い色
+    text-decoration: underline; // ホバー時もアンダーラインを維持
   }
 }
 
 .detailRow {
   display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
   justify-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
-  min-height: 19px;
   position: relative;
 }
 
 .detailLabel {
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  align-items: center;
+  gap: 0px;
+  align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 72px;
   position: relative;
+
+  // 縦レイアウトでは幅の制限を解除
+  width: auto;
 }
 
 .title,
 .labelText {
-  color: $text-color;
+  color: rgba(102, 102, 102, 0.7); // より透明度を上げて控えめに
   text-align: left;
   font-family: $font-japanese;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 12px; // 14px から 12px に縮小
+  font-weight: 400; // 500 から 400 に変更して控えめに
   position: relative;
+  text-transform: lowercase; // uppercase から lowercase に変更
+  letter-spacing: 0.3px; // 0.5px から 0.3px に縮小
+
+  @media screen and (max-width: 768px) {
+    font-size: 11px; // 13px から 11px に縮小
+  }
 }
 
 .detailValue {
   color: $text-color;
   text-align: left;
   font-family: $font-japanese;
-  font-size: 16px;
+  font-size: 14px; // 16px から 14px に縮小
   font-weight: 400;
   position: relative;
-  flex: 1;
-  cursor: pointer;
+  word-break: break-word; // 長いURLなどの改行対応
+
+  // リンクのスタイル
+  a {
+    color: rgba(128, 128, 128, 0.8); // グレー系統に変更
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: rgba(96, 96, 96, 1); // ホバー時もグレー系統
+      text-decoration: underline;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 13px; // 15px から 13px に縮小
+  }
 }
 
 .clientValue {
   color: $text-color;
   text-align: left;
   font-family: $font-japanese;
-  font-size: 16px;
+  font-size: 14px; // 16px から 14px に縮小
   font-weight: 400;
   position: relative;
-  flex: 1;
+  word-break: break-word;
+
+  @media screen and (max-width: 768px) {
+    font-size: 13px; // 15px から 13px に縮小
+  }
 }
 
 .linkContainer {
   display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
   justify-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
-  min-height: 19px;
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    gap: 6px;
+  }
 }
 
 .detailsSection {
-  padding: 0px 160px 0px 160px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -417,17 +609,8 @@
   position: relative;
   overflow: hidden;
 
-  @media screen and (max-width: 1024px) {
-    padding: 0px 64px;
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 0px 32px;
-  }
-
-  @media screen and (max-width: 480px) {
-    padding: 0px 16px;
-  }
+  // .contentで統一コンテナ幅設定を適用済みのため、パディングは不要
+  padding: 0;
 }
 
 .projectSections {
@@ -451,7 +634,7 @@
 .sectionRow {
   display: flex;
   flex-direction: row;
-  gap: 0px;
+  gap: 40px; // ラベルとテキストの間隔を広げる（0px → 40px）
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -461,7 +644,11 @@
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    gap: 16px;
+    gap: 20px; // モバイルでも縦方向の間隔を広げる（16px → 20px）
+  }
+
+  @media screen and (max-width: 480px) {
+    gap: 16px; // 小さな画面では少し狭めに調整
   }
 }
 
@@ -473,12 +660,17 @@
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 160px;
+  width: 180px; // ラベル部分の幅を少し広げる（160px → 180px）
   position: relative;
   overflow: hidden;
 
+  @media screen and (max-width: 1024px) {
+    width: 160px; // タブレットサイズでは元の幅に戻す
+  }
+
   @media screen and (max-width: 768px) {
     width: 100%;
+    margin-bottom: 8px; // モバイルでラベルの下により余白を追加
   }
 }
 
@@ -488,12 +680,14 @@
   text-align: left;
   font-family: $font-japanese;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 500; // フォントウェイトを少し太くしてラベルを強調（400 → 500）
   position: relative;
+  letter-spacing: 0.03em; // ラベルの文字間隔を広げる
 
   @media screen and (max-width: 768px) {
     font-size: 18px;
     font-weight: 600;
+    margin-bottom: 4px; // モバイルでラベルの下に少し余白を追加
   }
 }
 
@@ -508,6 +702,13 @@
   flex: 1;
   position: relative;
   overflow: hidden;
+
+  // テキスト部分の左パディングを追加して視覚的により分離
+  padding-left: 8px;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 0; // モバイルでは縦並びなのでパディング不要
+  }
 }
 
 .conceptText,
@@ -519,71 +720,31 @@
   font-weight: 400;
   position: relative;
   flex: 1;
-  line-height: 1.6;
+  line-height: 1.7; // 行間を少し広げて読みやすく（1.6 → 1.7）
+  letter-spacing: 0.02em; // 文字間隔を少し広げる
 
   @media screen and (max-width: 768px) {
     font-size: 16px;
+    line-height: 1.8; // モバイルでは行間をさらに広げる
+    letter-spacing: 0.01em;
   }
 }
 
 .projectImageSection {
-  background: rgba(245, 245, 245, 0.37);
-  padding: 0px 192px 0px 192px;
+  background: #e8e8e8;
   display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   align-self: stretch;
-  flex-shrink: 0;
-  height: 1200px;
   position: relative;
-  overflow: hidden;
 
-  @media screen and (max-width: 1024px) {
-    padding: 0px 64px;
-    height: 800px;
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 0px 32px;
-    height: 600px;
-  }
-
-  @media screen and (max-width: 480px) {
-    padding: 0px 16px;
-    height: 400px;
-  }
+  // コンテナ幅いっぱいのシンプルなサイズ
+  width: 100%;
 }
 
-.projectImage {
-  padding: 64px 0px 64px 0px;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-
-  @media screen and (max-width: 768px) {
-    padding: 32px 0px;
-  }
-}
-
-.imageContainer {
-  background: #d9d9d9;
-  align-self: stretch;
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  border-radius: 24px;
-}
+// .projectImageを削除して、画像を直接セクションに配置
 
 .otherWorksSection {
-  padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
   display: flex;
   flex-direction: column;
   gap: 64px;
@@ -594,18 +755,15 @@
   position: relative;
   overflow: hidden;
 
+  // .contentで統一コンテナ幅設定を適用済みのため、パディングは不要
+  padding: 0;
+
   @media screen and (max-width: 1024px) {
-    padding: 0px 64px;
     gap: 48px;
   }
 
   @media screen and (max-width: 768px) {
-    padding: 0px 32px;
     gap: 32px;
-  }
-
-  @media screen and (max-width: 480px) {
-    padding: 0px 16px;
   }
 }
 
@@ -672,11 +830,10 @@
 
 // sm以上用装飾セクション
 .bottomSection {
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 240px;
+  height: 320px;
   position: relative;
-  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
 
   // sm未満では非表示
   @media screen and (max-width: 767px) {
@@ -689,9 +846,8 @@
 }
 
 .decorativeCircle {
-  border-radius: 50%;
-  width: 192px;
-  height: 192px;
+  width: 320px;
+  height: 320px;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -702,7 +858,6 @@
   flex-shrink: 0;
   height: 240px;
   position: relative;
-  overflow: hidden;
 
   @media screen and (max-width: 768px) {
     height: 120px;
@@ -742,7 +897,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  overflow: visible; // 影が表示されるように
+  // カルーセルアイテムの影のための余白（狭く調整）
+  padding: 16px;
+
+  @media screen and (max-width: 768px) {
+    padding: 12px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 8px;
+  }
 }
 
 .carouselItem {
@@ -772,6 +937,13 @@
         transform: scale(1.12) !important;
       }
     }
+
+    // モバイル画面では左右の要素を非表示
+    @media screen and (max-width: 768px) {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translate(-50%, -50%) translateX(0px) scale(0) !important;
+    }
   }
 
   &.centerWork {
@@ -789,6 +961,11 @@
         transform: scale(1.15) !important;
       }
     }
+
+    // モバイルでは中央要素を完全に中央に配置
+    @media screen and (max-width: 768px) {
+      transform: translate(-50%, -50%) translateX(0px) scale(1) !important;
+    }
   }
 
   &.rightWork {
@@ -797,6 +974,12 @@
 
   &.hiddenWork {
     z-index: 0;
+
+    // モバイルでも非表示を維持
+    @media screen and (max-width: 768px) {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
   }
 }
 
@@ -815,47 +998,85 @@
 
 .workCard {
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: clamp(16px, 3vw, 24px); // レスポンシブな角丸
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  width: 380px;
-  height: 360px;
+  // レスポンシブなサイズ設定
+  width: clamp(280px, 35vw, 380px);
+  height: clamp(260px, 32vw, 360px);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   will-change: transform, box-shadow;
 
+  // サイドカード（左右）のサイズ調整
   .leftWork &,
   .rightWork & {
-    width: 300px;
-    height: 280px;
+    width: clamp(220px, 28vw, 300px);
+    height: clamp(200px, 25vw, 280px);
   }
 
   &.activeCard {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
   }
 
-  @media screen and (max-width: 768px) {
-    width: 300px;
-    height: 280px;
+  // より細かいブレークポイント対応
+  @media screen and (max-width: 1024px) {
+    width: clamp(260px, 32vw, 340px);
+    height: clamp(240px, 30vw, 320px);
 
     .leftWork &,
     .rightWork & {
-      width: 240px;
-      height: 220px;
+      width: clamp(200px, 25vw, 280px);
+      height: clamp(180px, 23vw, 260px);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    width: clamp(240px, 38vw, 300px);
+    height: clamp(220px, 35vw, 280px);
+
+    .leftWork &,
+    .rightWork & {
+      width: clamp(180px, 30vw, 240px);
+      height: clamp(160px, 28vw, 220px);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    width: clamp(200px, 42vw, 260px);
+    height: clamp(180px, 38vw, 240px);
+
+    .leftWork &,
+    .rightWork & {
+      width: clamp(160px, 35vw, 200px);
+      height: clamp(140px, 32vw, 180px);
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    width: clamp(180px, 45vw, 220px);
+    height: clamp(160px, 40vw, 200px);
+
+    .leftWork &,
+    .rightWork & {
+      width: clamp(140px, 38vw, 180px);
+      height: clamp(120px, 35vw, 160px);
     }
   }
 }
 
 .workImageContainer {
   width: 100%;
-  height: 270px;
+  // レスポンシブな高さ設定
+  height: clamp(180px, 25vw, 270px);
   position: relative;
   overflow: hidden;
-  border-radius: 24px 24px 0 0;
+  border-radius: clamp(16px, 3vw, 24px) clamp(16px, 3vw, 24px) 0 0;
 
+  // サイドカード用の高さ調整
   .leftWork &,
   .rightWork & {
-    height: 200px;
+    height: clamp(140px, 20vw, 200px);
   }
 
   img {
@@ -863,57 +1084,183 @@
     will-change: transform;
   }
 
-  @media screen and (max-width: 768px) {
-    height: 220px;
+  // より細かいブレークポイント対応
+  @media screen and (max-width: 1024px) {
+    height: clamp(160px, 23vw, 240px);
 
     .leftWork &,
     .rightWork & {
-      height: 160px;
+      height: clamp(120px, 18vw, 180px);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    height: clamp(140px, 26vw, 220px);
+
+    .leftWork &,
+    .rightWork & {
+      height: clamp(100px, 20vw, 160px);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    height: clamp(120px, 28vw, 180px);
+
+    .leftWork &,
+    .rightWork & {
+      height: clamp(90px, 22vw, 140px);
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    height: clamp(100px, 30vw, 160px);
+
+    .leftWork &,
+    .rightWork & {
+      height: clamp(80px, 25vw, 120px);
     }
   }
 }
 
-.workCardContent {
-  padding: 18px 24px;
+// トップページと同じ構造のworkImage
+.workImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1318/824; // 画像のアスペクト比を維持
+  border-radius: clamp(16px, 3vw, 24px) clamp(16px, 3vw, 24px) 0 0;
+}
+
+// トップページと同じ構造のworkInfo
+.workInfo {
+  padding: clamp(16px, 3vw, 20px) clamp(16px, 3vw, 20px) clamp(8px, 1.5vw, 12px)
+    clamp(16px, 3vw, 20px); // 上 右 下 左 - 下部の余白を小さく
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vw, 6px); // タイトルとタイプ間のギャップを小さく
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   text-align: center;
+}
+
+// トップページと同じ構造のworkTitle
+.workTitle {
+  display: block;
+  color: $text-color;
+  text-align: center;
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+
+  // サイドカード用の調整
+  .leftWork &,
+  .rightWork & {
+    font-size: clamp(12px, 2vw, 15px);
+  }
+}
+
+// トップページと同じ構造のworkType
+.workType {
+  display: block;
+  color: #666666;
+  text-align: center;
+  font-family: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+    "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif !important;
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+
+  // サイドカード用の調整
+  .leftWork &,
+  .rightWork & {
+    font-size: clamp(10px, 1.6vw, 12px);
+  }
+}
+
+.workCardContent {
+  // タイトルのみのレイアウトに最適化したパディング
+  padding: clamp(8px, 2vw, 16px) clamp(12px, 2.8vw, 24px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   h3 {
-    margin: 0 0 8px 0;
-    font-size: 18px;
+    margin: 0; // マージンをリセット（p要素がないため）
+    // より細かいレスポンシブなフォントサイズ
+    font-size: clamp(12px, 2.2vw, 18px);
     font-weight: 600;
     color: #333;
     line-height: 1.3;
+    // 文字の溢れ対策
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   p {
     margin: 0;
-    font-size: 14px;
+    // より細かいレスポンシブなフォントサイズ
+    font-size: clamp(9px, 1.6vw, 14px);
     color: #666;
     line-height: 1.4;
+    // 文字の溢れ対策
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
+  // サイドカード用の調整
   .leftWork &,
   .rightWork & {
-    padding: 14px 18px;
+    padding: clamp(6px, 1.2vw, 12px) clamp(10px, 1.8vw, 20px);
 
     h3 {
-      font-size: 15px;
-    }
-
-    p {
-      font-size: 12px;
+      font-size: clamp(10px, 1.8vw, 15px);
     }
   }
 
+  // より細かいブレークポイント対応
   @media screen and (max-width: 768px) {
-    padding: 14px 18px;
+    padding: clamp(6px, 1.5vw, 14px) clamp(10px, 2.5vw, 22px);
 
     h3 {
-      font-size: 15px;
+      font-size: clamp(11px, 2vw, 16px);
+      // モバイルでは複数行表示を許可
+      white-space: normal;
+      overflow: visible;
+      text-overflow: initial;
     }
 
-    p {
-      font-size: 12px;
+    .leftWork &,
+    .rightWork & {
+      padding: clamp(4px, 1vw, 10px) clamp(8px, 1.8vw, 18px);
+
+      h3 {
+        font-size: clamp(9px, 1.5vw, 13px);
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: clamp(5px, 1.2vw, 12px) clamp(8px, 2vw, 18px);
+
+    h3 {
+      font-size: clamp(10px, 1.8vw, 14px);
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    padding: clamp(4px, 1vw, 10px) clamp(6px, 1.6vw, 16px);
+
+    h3 {
+      font-size: clamp(9px, 1.6vw, 12px);
     }
   }
 }
@@ -1017,5 +1364,30 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+// ===== BOTTOM SECTION & SCROLL TO TOP =====
+.bottomSection {
+  display: none; // モバイルでは非表示
+
+  @include mq(sm) {
+    display: flex;
+    justify-content: flex-end; // 右端配置
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+}
+
+.decorativeCircle {
+  position: relative;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
   }
 }

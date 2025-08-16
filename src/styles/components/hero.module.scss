@@ -7,16 +7,32 @@
   align-self: stretch;
   flex-shrink: 0;
   height: auto;
-  min-height: 400px; // モバイル向け最小高さ
-  max-height: 900px;
-  padding: 1.5rem; // モバイル向けパディング
+  padding: 0; // セクション自体のパディングをリセット
   overflow: hidden;
   width: 100%;
+  // セクション自体の幅制限をリセット（アバウトページの構造に合わせる）
+}
 
-  // iPad以上でのパディング調整
-  @include mq(sm) {
-    min-height: 600px;
-    padding: 3rem;
+// アバウトページの.sectionFrameと同様のコンテナクラスを追加
+.heroSectionFrame {
+  // アバウトページと同じ構造の1105px最大コンテンツ幅を適用
+  @include about-section-container;
+  padding-top: 64px;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+
+  // モバイル(575px未満)専用設定
+  @include max-width(xs) {
+    max-width: 575px;
+    margin: 0 auto;
+    padding: 32px 16px;
   }
 }
 
@@ -24,27 +40,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; // 親要素の横幅いっぱい
-  height: auto; // 縦幅は比率に応じて自動調整
-  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
+  width: 100%;
+  height: auto;
   max-width: 100%;
-  position: relative; // fillプロパティのために必要
-  border-radius: 16px; // iPhone向けの角丸（デフォルト）
-  overflow: hidden; // 角丸を確実に適用
+  position: relative;
+  border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
+  overflow: hidden;
 
-  // iPad向け（768px-1024px）: 4:3比率と角丸調整
-  @include mq(sm) {
-    @include max-width(lg) {
-      aspect-ratio: 4/3;
-      border-radius: 24px; // iPad向け角丸
-    }
+  // アバウトページのヒーロー画像と同じアスペクト比設定を適用
+  aspect-ratio: 5/3; // モバイル: スマホで縦におさまるサイズ（横長）
+
+  @include mq(xs) {
+    aspect-ratio: 4/3; // タブレット縦向け
   }
 
-  // Mac/デスクトップ向け（1025px以上）: 16:9比率と角丸調整
-  @media screen and (min-width: 1025px) {
-    aspect-ratio: 16/9;
-    max-width: 1200px; // 最大幅を制限
-    border-radius: 24px; // デスクトップ向け角丸
+  @include mq(sm) {
+    aspect-ratio: 16/10; // タブレット横向け〜デスクトップ
+    // 1105pxの最大コンテンツ幅制限（アバウトページと統一）
+    max-width: $about-page-content-width; // 1105px
   }
 }
 
@@ -63,45 +76,36 @@
 
 .heroImagePlaceholder {
   background: #bababa;
-  border-radius: 16px; // iPhone向けの角丸（デフォルト）
-  width: 100%; // 親要素の横幅いっぱい
-  height: auto; // 縦幅は比率に応じて自動調整
-  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
+  border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
+  width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 1.5rem; // モバイル向けパディング（デフォルト）
+  padding: clamp(1.5rem, 4vw, 2rem); // レスポンシブパディング
   color: #666;
-  overflow: hidden; // 角丸を確実に適用
+  overflow: hidden;
 
-  // iPad向け（768px-1024px）: 4:3比率とスタイル調整
-  @include mq(sm) {
-    @include max-width(lg) {
-      aspect-ratio: 4/3;
-      border-radius: 24px;
-      padding: 2rem;
-    }
+  // アバウトページのヒーロー画像と同じアスペクト比設定を適用
+  aspect-ratio: 5/3; // モバイル: スマホで縦におさまるサイズ（横長）
+
+  @include mq(xs) {
+    aspect-ratio: 4/3; // タブレット縦向け
   }
 
-  // Mac/デスクトップ向け（1025px以上）: 16:9比率とスタイル調整
-  @media screen and (min-width: 1025px) {
-    aspect-ratio: 16/9;
-    border-radius: 24px;
-    padding: 2rem;
+  @include mq(sm) {
+    aspect-ratio: 16/10; // タブレット横向け〜デスクトップ
+    // 1105pxの最大コンテンツ幅制限（アバウトページと統一）
+    max-width: $about-page-content-width; // 1105px
   }
 
   > span {
-    font-size: 1.2rem; // モバイル向けフォントサイズ（デフォルト）
+    font-size: clamp(1rem, 3vw, 1.5rem); // レスポンシブフォントサイズ
     font-weight: 300;
     margin-bottom: 1rem;
     color: #888;
-
-    // iPad以上でのフォントサイズ調整
-    @include mq(sm) {
-      font-size: 1.5rem;
-    }
   }
 }
 

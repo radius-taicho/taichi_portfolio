@@ -6,6 +6,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RotatingCarousel from "@/components/RotatingCarousel";
+import ScrollTopBubble from "@/components/common/ScrollTopBubble";
 import { Work } from "@/types";
 import styles from "@/styles/websitework.module.scss";
 import mobileStyles from "@/styles/components/top_page_mobile.module.scss";
@@ -22,6 +23,14 @@ export default function WorkDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentWorkIndex, setCurrentWorkIndex] = useState(0);
+
+  // ページトップへスクロールする関数
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Cloudinary URL 最適化関数（最高品質版）
   const optimizeCloudinaryUrl = (
@@ -41,7 +50,7 @@ export default function WorkDetailPage() {
       "dpr_auto", // デバイスピクセル比対応
       "fl_progressive", // プログレッシブ読み込み
       "fl_immutable_cache", // キャッシュ最適化
-      "fl_preserve_transparency" // 透明度保持
+      "fl_preserve_transparency", // 透明度保持
     ]
       .filter(Boolean)
       .join(",");
@@ -112,6 +121,9 @@ export default function WorkDetailPage() {
   console.log("Work data:", {
     id: work.id,
     title: work.title,
+    name: work.name,
+    nameType: typeof work.name,
+    nameLength: work.name ? work.name.length : 0,
     hasMainImage: !!work.mainImage,
     hasDesignImage: !!work.designImage,
     mainImageUrl: work.mainImage,
@@ -171,53 +183,63 @@ export default function WorkDetailPage() {
             <div className={styles.infoSection}>
               <div className={styles.projectDescription}>
                 <div className={styles.descriptionText}>
-                  {work.name || "作品の説明がありません"}
+                  {(work.name && work.name.trim()) || work.title}
                 </div>
               </div>
               <div className={styles.projectDetails}>
-                <div className={styles.detailRow}>
-                  <div className={styles.detailLabel}>
-                    <div className={styles.title}>title:</div>
-                  </div>
-                  <div className={styles.detailValue}>{work.title}</div>
-                </div>
-                <div className={styles.detailRow}>
-                  <div className={styles.detailLabel}>
-                    <div className={styles.labelText}>type:</div>
-                  </div>
-                  <div className={styles.detailValue}>
-                    {work.type}
-                    <span className={styles.statusBadge}>
-                      {work.status === 'completed' && '🚀 開発済み'}
-                      {work.status === 'in_progress' && '⚡ 開発中'}
-                      {work.status === 'planning' && '💡 企画段階'}
-                    </span>
-                  </div>
-                </div>
-                <div className={styles.detailRow}>
-                  <div className={styles.detailLabel}>
-                    <div className={styles.labelText}>client:</div>
-                  </div>
-                  <div className={styles.clientValue}>
-                    {work.client || "個人制作"}
-                  </div>
-                </div>
-                {work.link && (
-                  <div className={styles.linkContainer}>
-                    <div className={styles.detailLabel}>
-                      <div className={styles.labelText}>link:</div>
+                <div className={styles.detailsGrid}>
+                  <div className={styles.detailCard}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.title}>title:</div>
                     </div>
-                    <div className={styles.detailValue}>
-                      <a
-                        href={work.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {work.link}
-                      </a>
+                    <div className={styles.cardContent}>{work.title}</div>
+                  </div>
+
+                  <div className={styles.detailCard}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.labelText}>type:</div>
+                    </div>
+                    <div className={styles.cardContent}>{work.type}</div>
+                  </div>
+
+                  <div className={styles.detailCard}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.labelText}>status:</div>
+                    </div>
+                    <div className={styles.cardContent}>
+                      {work.status === "completed" && "開発済み"}
+                      {work.status === "in_progress" && "開発中"}
+                      {work.status === "planning" && "企画段階"}
                     </div>
                   </div>
-                )}
+
+                  <div className={styles.detailCard}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.labelText}>client:</div>
+                    </div>
+                    <div className={styles.cardContent}>
+                      {work.client || "個人制作"}
+                    </div>
+                  </div>
+
+                  {work.link && (
+                    <div className={`${styles.detailCard} ${styles.linkCard}`}>
+                      <div className={styles.cardHeader}>
+                        <div className={styles.labelText}>link:</div>
+                      </div>
+                      <div className={styles.cardContent}>
+                        <a
+                          href={work.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.projectLink}
+                        >
+                          {work.link}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -303,7 +325,9 @@ export default function WorkDetailPage() {
                       <div className={styles.labelText2}>実装予定</div>
                     </div>
                     <div className={styles.sectionContent}>
-                      <div className={styles.contentText}>{work.implementation}</div>
+                      <div className={styles.contentText}>
+                        {work.implementation}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -354,31 +378,15 @@ export default function WorkDetailPage() {
           {/* プロジェクト画像セクション */}
           {work.designImage && (
             <div className={styles.projectImageSection}>
-              <div className={styles.projectImage}>
-                <div className={styles.imageContainer}>
-                  <Image
-                  src={optimizeCloudinaryUrl(work.designImage, 2000, 1400)}
-                  alt={`${work.title} デザイン画像`}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  quality={100}
-                  loading="lazy"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2000px) 100vw, 2000px"
-                  placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                    onError={(e) => {
-                      console.error("Design image load error:", e);
-                      console.error("Design image URL:", work.designImage);
-                    }}
-                    onLoad={() => {
-                      console.log(
-                        "Design image loaded successfully:",
-                        work.designImage
-                      );
-                    }}
-                  />
-                </div>
-              </div>
+              <Image
+                src={optimizeCloudinaryUrl(work.designImage)}
+                alt={`${work.title} デザイン画像`}
+                width={627}
+                height={836}
+                style={{ width: "100%", height: "auto" }}
+                quality={100}
+                loading="lazy"
+              />
             </div>
           )}
 
@@ -387,7 +395,7 @@ export default function WorkDetailPage() {
             <div className={styles.otherWorksSection}>
               <div className={styles.container}>
                 <div className={styles.container2}>
-                  <div className={styles.sectionTitle}>Other Works Website</div>
+                  <div className={styles.sectionTitle}>Other Works</div>
                 </div>
               </div>
               <RotatingCarousel
@@ -398,15 +406,48 @@ export default function WorkDetailPage() {
               />
             </div>
           )}
-
-          {/* sm以上用装飾セクション */}
-          <div className={styles.bottomSection}>
-            <div className={styles.decorativeCircle}></div>
+        </div>
+        {/* sm以上用装飾セクション */}
+        <div className={styles.bottomSection}>
+          <div
+            className={styles.decorativeCircle}
+            onClick={scrollToTop}
+            style={{ cursor: "pointer", position: "relative" }}
+          >
+            <Image
+              src="/images/tothetop.GIF"
+              alt="Top of page"
+              width={320}
+              height={320}
+              loading="lazy"
+            />
+            {/* デスクトップ用吹き出し */}
+            <ScrollTopBubble
+              targetSelector={`.${styles.decorativeCircle}`}
+              isMobile={false}
+            />
           </div>
+        </div>
 
-          {/* sm未満用プロフィールセクション */}
-          <div className={mobileStyles.mobileProfileSection}>
-            <div className={mobileStyles.mobileProfileImage} />
+        {/* sm未満用プロフィールセクション */}
+        <div className={mobileStyles.mobileProfileSection}>
+          <div
+            className={mobileStyles.mobileProfileImage}
+            onClick={scrollToTop}
+            style={{ cursor: "pointer", position: "relative" }}
+          >
+            <Image
+              src="/images/tothetop.GIF"
+              alt="Top of page"
+              width={192}
+              height={192}
+              loading="lazy"
+            />
+            {/* モバイル用吹き出し */}
+            <ScrollTopBubble
+              targetSelector={`.${mobileStyles.mobileProfileImage}`}
+              isMobile={true}
+            />
           </div>
         </div>
         <Footer />

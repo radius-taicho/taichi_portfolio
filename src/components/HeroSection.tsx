@@ -65,41 +65,43 @@ export default function HeroSection() {
 
   return (
     <section className={styles.heroSection}>
-      {loading ? (
-        <div className={styles.heroImagePlaceholder}>
-          <div className={styles.loadingSpinner}></div>
-          <span>Loading...</span>
-        </div>
-      ) : (
-        // 常にデフォルト画像を表示
-        <div className={styles.heroContainer}>
-          <Image
-            src="/images/img_hero1.webp"
-            alt="Portfolio Hero Image"
-            fill
-            className={styles.heroImage}
-            priority
-            quality={100}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-          />
-        </div>
-      )}
-      {/* Cloudinaryのエラー時の情報表示（オプション） */}
-      {!loading && error && (
-        <div className={styles.heroImagePlaceholder}>
-          <p className={styles.noImageText}>
-            管理画面のHero画像を読み込めませんでした。デフォルト画像を表示しています。
-          </p>
-          <button
-            className={styles.retryButton}
-            onClick={() => window.location.reload()}
-          >
-            再読み込み
-          </button>
-        </div>
-      )}
+      <div className={styles.heroSectionFrame}>
+        {loading ? (
+          <div className={styles.heroImagePlaceholder}>
+            <div className={styles.loadingSpinner}></div>
+            <span>Loading...</span>
+          </div>
+        ) : (
+          // 常にデフォルト画像を表示
+          <div className={styles.heroContainer}>
+            <Image
+              src="/images/img_hero1.webp"
+              alt="Portfolio Hero Image"
+              fill
+              className={styles.heroImage}
+              priority
+              quality={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            />
+          </div>
+        )}
+        {/* Cloudinaryのエラー時の情報表示（オプション） */}
+        {!loading && error && (
+          <div className={styles.heroImagePlaceholder}>
+            <p className={styles.noImageText}>
+              管理画面のHero画像を読み込めませんでした。デフォルト画像を表示しています。
+            </p>
+            <button
+              className={styles.retryButton}
+              onClick={() => window.location.reload()}
+            >
+              再読み込み
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

@@ -6,13 +6,14 @@
   background-color: #1e1e1e;
   position: relative;
   overflow: hidden;
+  z-index: 100; // 適切なフッターレベル
 }
 
 // ===== モバイル版レイアウト（デフォルト） =====
 .mobileLayout {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 48px; // 言語設定と著作権の間の隙間を拡大
   align-items: center; // 中央配置に変更
   justify-content: flex-start;
   position: relative;
@@ -56,6 +57,11 @@
   justify-content: center;
   flex-shrink: 0;
   position: relative;
+
+  // xs以上sm未満（575px以上768px未満）でもxs未満と同じ距離感にする
+  @include mq(xs) {
+    gap: 16px; // xs未満時と同じ距離感を保持
+  }
 }
 
 .mobileBrandContainer {
@@ -78,6 +84,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #e65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 1; // 相対的な値
+  }
+
+  &:hover::before {
+    width: 100%;
+  }
 }
 
 .mobileAvatar {
@@ -116,31 +145,62 @@
 .mobileNavigation {
   display: flex;
   flex-direction: row;
-  gap: 32px;
+  gap: 32px; // 左寄せ等間隔のためのギャップ
   align-items: center; // 中央配置に変更
-  justify-content: flex-start; // 中央配置に変更
+  justify-content: flex-start; // 左寄せ配置
   flex-shrink: 0;
   position: relative;
   width: 100%;
   max-width: 100%; // 最大幅を確保
 }
 
-.mobileNavLink {
+.mobileNavLink,
+.mobileNavLink:is(a),
+.mobileNavLink:is(button) {
   color: #ffffff;
-  text-align: left; // 左寄せに変更
+  text-align: center; // 中央揃えに変更
   font-family: $font-rubik !important;
   font-size: 20px;
   font-weight: 600;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start; // 左寄せ配置
+  justify-content: center; // 中央配置に変更
   text-decoration: none;
-  transition: opacity 0.3s ease;
-  min-width: 80px; // 最小幅を設定してレイアウトを安定化
+  background: none;
+  border: none;
+  cursor: pointer;
+  min-width: auto; // 最小幅を自動に変更
+  overflow: hidden;
 
-  &:hover {
-    opacity: 0.8;
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #e65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 99999; // より高いz-indexで確実に最前面に表示
+  }
+
+  &:hover::before {
+    width: 100%;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #e65853;
+    outline-offset: 2px;
   }
 
   @include max-width(xxs) {
@@ -176,10 +236,31 @@
   justify-content: flex-start;
   flex-shrink: 0;
   flex: 1; // 均等分割
-  min-width: 100px; // 最小幅を設定
-  max-width: 150px; // 最大幅を制限
+  min-width: 200px; // 横並びのために最小幅を拡大
+  max-width: 300px; // 横並びのために最大幅を拡大
   position: relative;
   overflow: hidden;
+}
+
+.mobileLanguageOptions {
+  display: flex;
+  flex-direction: row; // 横並び
+  gap: 8px; // 等間隔配置時は小さいギャップに設定
+  align-items: center;
+  justify-content: space-between; // 等間隔配置
+  flex-wrap: nowrap; // 折り返しを禁止して1行で表示
+  width: 100%;
+  position: relative;
+
+  // 横並び時の.mobileSettingOptionのスタイルを上書き
+  .mobileSettingOption {
+    width: auto !important; // 100%を上書きして自動幅に
+    min-width: auto;
+    flex-shrink: 0; // 縮むことを防ぐ
+    white-space: nowrap; // 改行を防ぐ
+    text-align: center; // 中央揃えに変更
+    justify-content: center; // 中央配置
+  }
 }
 
 .mobileThemeSettings {
@@ -224,11 +305,28 @@
   align-items: center;
   justify-content: flex-start; // 左寄せ配置
   cursor: pointer;
-  transition: opacity 0.3s ease;
   width: 100%; // 幅を確保
+  overflow: hidden;
 
-  &:hover {
-    opacity: 0.8;
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #e65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 99999; // より高いz-indexで確実に最前面に表示
+  }
+
+  &:hover::before {
+    width: 100%;
   }
 
   @include max-width(xxs) {
@@ -250,6 +348,7 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+  margin-top: 40px;
 }
 
 .mobileCopyrightText {
@@ -305,12 +404,17 @@
   @include mq(xs) {
     display: flex;
     flex-direction: row;
-    gap: 48px;
+    gap: 16px; // xs未満時と同じ距離感に変更
     align-items: center;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
+
+    // sm以上（768px以上）で元の幅広い距離感に戻す
+    @include mq(sm) {
+      gap: 48px; // 元の距離感に戻す
+    }
   }
 }
 
@@ -338,6 +442,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+
+    &::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      color: #e65853;
+      overflow: hidden;
+      transition: width 0.6s ease-in-out;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      z-index: 99999; // より高いz-indexで確実に最前面に表示
+    }
+
+    &:hover::before {
+      width: 100%;
+    }
   }
 }
 
@@ -412,7 +539,9 @@
   }
 }
 
-.desktopNavLink {
+.desktopNavLink,
+.desktopNavLink:is(a),
+.desktopNavLink:is(button) {
   @include mq(xs) {
     color: #ffffff;
     text-align: left;
@@ -424,10 +553,39 @@
     align-items: center;
     justify-content: flex-start;
     text-decoration: none;
-    transition: opacity 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
 
-    &:hover {
-      opacity: 0.8;
+    &::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      color: #e65853;
+      overflow: hidden;
+      transition: width 0.6s ease-in-out;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      z-index: 99999; // より高いz-indexで確実に最前面に表示
+    }
+
+    &:hover::before {
+      width: 100%;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #e65853;
+      outline-offset: 2px;
     }
   }
 }
@@ -506,10 +664,27 @@
     align-items: center;
     justify-content: flex-start;
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    overflow: hidden;
 
-    &:hover {
-      opacity: 0.8;
+    &::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      color: #e65853;
+      overflow: hidden;
+      transition: width 0.6s ease-in-out;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      z-index: 99999; // より高いz-indexで確実に最前面に表示
+    }
+
+    &:hover::before {
+      width: 100%;
     }
   }
 }
@@ -549,19 +724,19 @@
 .faceContainer {
   position: relative;
   // PCサイズ（1024px以上）- 大きくて印象的に
-  width: 100px;
-  height: 100px;
+  width: 88px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: visible;
   cursor: pointer;
-  
+
   // 背景画像の基本設定
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  
+
   // JavaScriptで設定されるスタイル用のトランジション
   transition: transform 0.4s ease, background-image 0.3s ease;
 
@@ -572,9 +747,14 @@
   }
 
   // スマホサイズ（~767px）- 小さくても見やすいサイズ
+  @include max-width(md) {
+    width: 76px;
+    height: 76px;
+  }
+
   @include max-width(sm) {
-    width: 60px;
-    height: 60px;
+    width: 72px;
+    height: 72px;
   }
 }
 
@@ -588,7 +768,7 @@
   height: 24px;
   // 位置変更をスムーズにアニメーション
   transition: all 0.4s ease, top 0.4s ease, left 0.4s ease, right 0.4s ease;
-  z-index: 10; // 背景よりも前面に表示（背景はz-index: 1）
+  z-index: 2; // 背景よりも前面に表示（背景はz-index: 1）
 
   // タブレットサイズ（768px~1023px）- 中間サイズでも十分大きく
   @include max-width(lg) {
@@ -598,23 +778,28 @@
 
   // スマホサイズ（~767px）- コンパクトでも見やすい
   @include max-width(sm) {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+  }
+
+  @include max-width(xs) {
+    width: 18px;
+    height: 18px;
   }
 }
 
 // 左目の位置（Xアイコン）
 .leftEye {
   // PCサイズ（1024px以上）
-  top: 43%;
-  left: 18%;
-  
+  top: 44%;
+  left: 16%;
+
   // タブレットサイズ（768px~1023px）
   @include max-width(lg) {
     top: 43%;
-    left: 18%;
+    left: 17%;
   }
-  
+
   // スマホサイズ（~767px）
   @include max-width(sm) {
     top: 42%;
@@ -626,14 +811,14 @@
 .rightEye {
   // PCサイズ（1024px以上）
   top: 43%;
-  right: 19%;
-  
+  right: 17%;
+
   // タブレットサイズ（768px~1023px）
   @include max-width(lg) {
-    top: 43%;
-    right: 19%;
+    top: 42%;
+    right: 18%;
   }
-  
+
   // スマホサイズ（~767px）
   @include max-width(sm) {
     top: 42%;

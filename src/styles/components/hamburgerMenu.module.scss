@@ -1,41 +1,73 @@
 @use "../common/_variables.scss" as *;
 
-// ===== ハンバーガーメニュードロップダウン =====
-.hamburgerMenuDropdown,
-.mobileMenuDropdown {
-  position: fixed; // fixedに変更してヘッダーの制約を受けないように
-  z-index: 9999; // ヒーローセクションより確実に前面に表示
-  min-width: 280px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  animation: slideDown 0.3s ease-out;
+// ===== オーバーレイ（背景） =====
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000; // 低いz-indexで確実に背景に
+  animation: fadeIn 0.3s ease-out;
+  cursor: pointer;
 }
 
-// デスクトップ用ドロップダウン（左上隅）
-.hamburgerMenuDropdown {
-  border-radius: 0 16px 16px 0;
+// ===== メニューラッパー（最上層コンテナ） =====
+.menuWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000; // オーバーレイより確実に上
+  pointer-events: none; // ラッパー自体はクリック無効（子要素で有効化）
+}
+
+// ===== デスクトップメニュー =====
+.desktopMenu {
+  position: absolute;
   top: 144px; // デスクトップヘッダーの高さ分下に配置
-  left: 0; // 左端から少し内側
+  left: 0;
+  min-width: 280px;
+  border-radius: 0 16px 16px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease-out;
+  pointer-events: auto; // クリック有効化
+  display: none; // デフォルトで非表示
+
+  // sm以上（768px以上）で表示
+  @include mq(sm) {
+    display: block;
+  }
 
   // 狭いデスクトップでの調整
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    top: 120px; // 狭いデスクトップのヘッダー高さ
-    left: 0;
+    top: 120px;
   }
 
   // 極狭デスクトップでの調整
   @media screen and (min-width: 768px) and (max-width: 900px) {
-    top: 100px; // 極狭デスクトップのヘッダー高さ
-    left: 0;
+    top: 100px;
   }
 }
 
-// モバイル用ドロップダウン（右上隅）
-.mobileMenuDropdown {
-  border-radius: 16px 0 0 16px;
+// ===== モバイルメニュー =====
+.mobileMenu {
+  position: absolute;
   top: 72px; // モバイルヘッダーの高さ分下に配置
-  right: 0; // 右端から少し内側
-  min-width: 260px; // モバイルでは少し狭く
+  right: 0;
+  min-width: 260px;
+  border-radius: 16px 0 0 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease-out;
+  pointer-events: auto; // クリック有効化
+  display: block; // デフォルトで表示
+
+  // sm以上（768px以上）では非表示
+  @include mq(sm) {
+    display: none;
+  }
 
   // 極小画面での調整
   @media screen and (max-width: 320px) {
@@ -43,13 +75,8 @@
   }
 }
 
-// ===== メニューコンテナ =====
-.menuContainer,
-.menuContainer * {
-  box-sizing: border-box;
-}
-
-.menuContainer {
+// ===== メニューコンテンツ =====
+.menuContent {
   background: #1e1e1e;
   padding: 16px;
   display: flex;
@@ -59,8 +86,10 @@
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(10px); // 背景のぼかし効果を追加
-  border: 1px solid rgba(255, 255, 255, 0.1); // 微細な境界線
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: inherit;
+  cursor: default; // メニュー内は通常のカーソル
 }
 
 // ===== ナビゲーションセクション =====
@@ -88,16 +117,36 @@
   border: none;
   cursor: pointer;
   padding: 8px 0;
-  transition: opacity 0.3s ease, transform 0.2s ease;
   width: 100%;
+  overflow: hidden;
 
-  &:hover {
-    opacity: 0.8;
-    transform: translateX(4px);
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #E65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
 
-  &:active {
-    transform: translateX(2px);
+  &:hover::before {
+    width: 100%;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #E65853;
+    outline-offset: 2px;
   }
 }
 
@@ -110,7 +159,6 @@
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
-  position: relative;
   width: 100%;
 }
 
@@ -122,8 +170,6 @@
   justify-content: flex-start;
   flex-shrink: 0;
   min-width: 120px;
-  position: relative;
-  overflow: hidden;
 
   &:first-child {
     min-width: 156px;
@@ -141,10 +187,6 @@
   font-family: $font-japanese;
   font-size: 16px;
   font-weight: 400;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   margin-bottom: 4px;
 }
 
@@ -160,52 +202,27 @@
   justify-content: flex-start;
   cursor: pointer;
   padding: 4px 0;
-  transition: opacity 0.3s ease, transform 0.2s ease;
+  overflow: hidden;
 
-  &:hover {
-    opacity: 0.8;
-    transform: translateX(2px);
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #E65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
 
-  &:active {
-    transform: translateX(1px);
+  &:hover::before {
+    width: 100%;
   }
-}
-
-.themeOption {
-  color: #ffffff;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: 16px;
-  font-weight: 900;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  cursor: pointer;
-  padding: 4px 0;
-  transition: opacity 0.3s ease, transform 0.2s ease;
-
-  &:hover {
-    opacity: 0.8;
-    transform: translateX(2px);
-  }
-
-  &:active {
-    transform: translateX(1px);
-  }
-}
-
-// ===== オーバーレイ =====
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 9998; // メニューより少し低く
-  animation: fadeIn 0.3s ease-out;
 }
 
 // ===== アニメーション =====
@@ -230,23 +247,20 @@
 }
 
 // ===== レスポンシブ調整 =====
+
 // 375px以下（小さなモバイル）
 @media screen and (max-width: 375px) {
-  .menuContainer {
+  .menuContent {
     padding: 14px;
     gap: 22px;
   }
 
-  .mobileMenuDropdown {
-    min-width: max(200px, 65vw); // ビューポート幅に応じて動的に調整
-  }
-
-  .hamburgerMenuDropdown {
-    min-width: max(220px, 68vw); // ビューポート幅に応じて動的に調整
+  .mobileMenu {
+    min-width: max(200px, 65vw);
   }
 
   .navLink {
-    font-size: clamp(16px, 4.8vw, 18px); // 画面幅に応じて滑らかに変化
+    font-size: clamp(16px, 4.8vw, 18px);
     padding: 6px 0;
   }
 
@@ -256,7 +270,7 @@
 
   .settingsSection {
     gap: 14px;
-    flex-direction: row; // 横並びを維持しつつ調整
+    flex-direction: row;
   }
 
   .settingTitle {
@@ -269,14 +283,9 @@
     padding: 3px 0;
   }
 
-  .themeOption {
-    font-size: clamp(12px, 3.7vw, 14px);
-    padding: 3px 0;
-  }
-
   .settingGroup {
     gap: 10px;
-    min-width: calc(50% - 7px); // 2列レイアウトを維持
+    min-width: calc(50% - 7px);
 
     &:first-child {
       min-width: calc(50% - 7px);
@@ -290,17 +299,13 @@
 
 // 350px以下（さらに小さなモバイル）
 @media screen and (max-width: 350px) {
-  .menuContainer {
+  .menuContent {
     padding: clamp(10px, 3.4vw, 12px);
     gap: clamp(18px, 5.7vw, 20px);
   }
 
-  .mobileMenuDropdown {
+  .mobileMenu {
     min-width: max(180px, 60vw);
-  }
-
-  .hamburgerMenuDropdown {
-    min-width: max(200px, 62vw);
   }
 
   .navLink {
@@ -314,7 +319,7 @@
 
   .settingsSection {
     gap: clamp(10px, 3.4vw, 12px);
-    flex-direction: column; // 縦並びに変更
+    flex-direction: column;
   }
 
   .settingTitle {
@@ -324,11 +329,6 @@
 
   .settingOption {
     font-size: clamp(9px, 3.1vw, 11px);
-    padding: 2px 0;
-  }
-
-  .themeOption {
-    font-size: clamp(11px, 3.7vw, 13px);
     padding: 2px 0;
   }
 
@@ -349,17 +349,13 @@
 
 // 320px以下（極小モバイル）
 @media screen and (max-width: 320px) {
-  .menuContainer {
+  .menuContent {
     padding: clamp(8px, 3.1vw, 10px);
     gap: clamp(14px, 5vw, 16px);
   }
 
-  .mobileMenuDropdown {
+  .mobileMenu {
     min-width: max(160px, 55vw);
-  }
-
-  .hamburgerMenuDropdown {
-    min-width: max(180px, 58vw);
   }
 
   .navLink {
@@ -386,11 +382,6 @@
     padding: 1px 0;
   }
 
-  .themeOption {
-    font-size: clamp(10px, 3.8vw, 12px);
-    padding: 1px 0;
-  }
-
   .settingGroup {
     gap: clamp(6px, 2.5vw, 8px);
     min-width: auto;
@@ -406,19 +397,15 @@
   }
 }
 
-// 280px以下（超極小モバイル - 古いスマートフォンやフィーチャーフォン）
+// 280px以下（超極小モバイル）
 @media screen and (max-width: 280px) {
-  .menuContainer {
+  .menuContent {
     padding: clamp(6px, 2.9vw, 8px);
     gap: clamp(12px, 4.3vw, 14px);
   }
 
-  .mobileMenuDropdown {
+  .mobileMenu {
     min-width: max(140px, 52vw);
-  }
-
-  .hamburgerMenuDropdown {
-    min-width: max(160px, 55vw);
   }
 
   .navLink {
@@ -445,11 +432,6 @@
     padding: 1px 0;
   }
 
-  .themeOption {
-    font-size: clamp(9px, 3.6vw, 10px);
-    padding: 1px 0;
-  }
-
   .settingGroup {
     gap: clamp(4px, 2.1vw, 6px);
     min-width: auto;
@@ -465,13 +447,13 @@
   }
 }
 
-// ===== タブレット以上での調整 =====
+// ===== デスクトップでの調整 =====
 @include mq(sm) {
-  .hamburgerMenuDropdown {
+  .desktopMenu {
     min-width: 320px;
   }
 
-  .menuContainer {
+  .menuContent {
     padding: 40px;
   }
 
@@ -503,21 +485,17 @@
   .settingOption {
     font-size: 16px;
   }
-
-  .themeOption {
-    font-size: 18px;
-  }
 }
 
 // ===== 大画面での調整 =====
 @include mq(xl) {
-  .hamburgerMenuDropdown {
-    left: 0; // より大きな画面では左端から少し離す
+  .desktopMenu {
+    left: 0;
   }
 }
 
 @include mq(xxl) {
-  .hamburgerMenuDropdown {
-    left: 0; // さらに大きな画面では更に離す
+  .desktopMenu {
+    left: 0;
   }
 }

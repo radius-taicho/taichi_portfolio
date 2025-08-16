@@ -651,7 +651,6 @@
     flex-shrink: 0;
     height: 320px;
     position: relative;
-    overflow: hidden;
   }
 }
 
@@ -1030,7 +1029,7 @@
     justify-content: flex-end;
     position: absolute;
     // レスポンシブサイズ調整
-    width: clamp(78px, 12vw, 98px);  // 小さい画面: 78px, 大きい画面: 98px
+    width: clamp(78px, 12vw, 98px); // 小さい画面: 78px, 大きい画面: 98px
     height: clamp(88px, 14vw, 108px); // 小さい画面: 88px, 大きい画面: 108px
     transition: all 0.3s ease;
     border-radius: 8px;
@@ -1048,7 +1047,7 @@
   @include mq(sm) {
     display: block;
     // レスポンシブサイズ調整
-    width: clamp(68px, 10vw, 88px);  // 小さい画面: 68px, 大きい画面: 88px
+    width: clamp(68px, 10vw, 88px); // 小さい画面: 68px, 大きい画面: 88px
     height: clamp(68px, 10vw, 88px); // 小さい画面: 68px, 大きい画面: 88px
     object-fit: cover;
     border-radius: 12px;
@@ -1474,7 +1473,7 @@
     align-items: center;
     justify-content: center;
     // レスポンシブサイズ調整
-    width: clamp(68px, 10vw, 88px);  // 小さい画面: 68px, 大きい画面: 88px
+    width: clamp(68px, 10vw, 88px); // 小さい画面: 68px, 大きい画面: 88px
     height: clamp(68px, 10vw, 88px); // 小さい画面: 68px, 大きい画面: 88px
     background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
     border-radius: 12px;
@@ -1623,7 +1622,8 @@
     border-radius: 24px;
     border: 3px solid #d2b48c;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
-      0 0 30px rgba(210, 180, 140, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+      0 0 30px rgba(210, 180, 140, 0.3),
+      inset 0 2px 4px rgba(255, 255, 255, 0.8);
 
     width: 100%;
     max-width: 1000px;
@@ -1667,15 +1667,15 @@
     align-items: center;
     gap: 6px;
     padding: 16px 20px;
-    
+
     background: linear-gradient(145deg, #fff8dc, #f5f5dc);
     border: 2px solid #d2b48c;
     border-radius: 12px;
-    
+
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 100px;
-    
+
     box-shadow: 0 4px 0 #bc9a6a, 0 6px 12px rgba(0, 0, 0, 0.1),
       inset 0 1px 2px rgba(255, 255, 255, 0.8);
 
@@ -1701,7 +1701,7 @@
     background: linear-gradient(145deg, #deb887, #d2b48c);
     border-color: #8b4513;
     color: #654321;
-    
+
     box-shadow: 0 4px 0 #8b4513, 0 6px 12px rgba(0, 0, 0, 0.2),
       0 0 20px rgba(222, 184, 135, 0.5),
       inset 0 1px 2px rgba(255, 255, 255, 0.6);
@@ -1747,13 +1747,13 @@
     min-width: 20px;
     height: 20px;
     padding: 2px 6px;
-    
+
     background: linear-gradient(145deg, #8b4513, #654321);
     color: white;
     border-radius: 10px;
     font-size: 11px;
     font-weight: bold;
-    
+
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3),
       inset 0 1px 1px rgba(255, 255, 255, 0.2);
   }
@@ -1779,7 +1779,7 @@
     position: relative;
     width: 100%;
     height: 400px;
-    
+
     // 古着屋の箱風デザイン
     background: radial-gradient(
         circle at 30% 40%,
@@ -1796,11 +1796,11 @@
         rgba(248, 248, 255, 0.9) 0%,
         rgba(240, 248, 255, 0.8) 100%
       );
-    
+
     border: 3px solid rgba(139, 69, 19, 0.3);
     border-radius: 16px;
     overflow: hidden;
-    
+
     // 内部の照明効果
     box-shadow: inset 2px 2px 12px rgba(139, 69, 19, 0.1),
       inset -2px -2px 12px rgba(255, 255, 255, 0.7),
@@ -1858,7 +1858,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
     height: fit-content;
-    
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -1890,7 +1890,7 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
-    
+
     &:hover {
       transform: scale(1.05);
     }
@@ -1919,7 +1919,7 @@
     color: #333;
     margin: 0;
     line-height: 1.4;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1936,7 +1936,7 @@
     color: #666;
     margin: 0;
     opacity: 0.8;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2011,7 +2011,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
     height: fit-content;
-    
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -2043,7 +2043,7 @@
     display: block;
     object-fit: cover;
     transition: transform 0.3s ease;
-    
+
     &:hover {
       transform: scale(1.05);
     }
@@ -2072,7 +2072,7 @@
     color: #333;
     margin: 0;
     line-height: 1.4;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2089,7 +2089,7 @@
     color: #666;
     margin: 0;
     opacity: 0.8;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2143,7 +2143,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
     height: fit-content;
-    
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -2169,7 +2169,7 @@
   @include mq(sm) {
     display: block;
     transition: transform 0.3s ease;
-    
+
     &:hover {
       transform: scale(1.05);
     }
@@ -2195,7 +2195,7 @@
     font-weight: 600;
     color: #333;
     margin: 0;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2211,7 +2211,7 @@
     color: #666;
     margin: 0;
     opacity: 0.8;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2256,7 +2256,7 @@
     padding: 16px;
     background: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -2289,7 +2289,7 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
-    
+
     &:hover {
       transform: scale(1.05);
     }
@@ -2317,7 +2317,7 @@
     color: #333;
     margin: 0;
     line-height: 1.4;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2334,7 +2334,7 @@
     color: #666;
     margin: 0;
     opacity: 0.8;
-    
+
     // Text overflow handling
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2387,11 +2387,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    
+
     background: rgba(139, 69, 19, 0.1);
     border-radius: 12px;
     border: 2px solid rgba(139, 69, 19, 0.2);
-    
+
     backdrop-filter: blur(10px);
   }
 }
@@ -2470,11 +2470,11 @@
     border-radius: 50%;
     transition: all 0.3s ease;
     position: relative;
-    
+
     // 基本スタイル（非アクティブ状態）
     opacity: 0.6;
     transform: scale(0.9);
-    
+
     &:hover {
       opacity: 0.8;
       transform: scale(1);
@@ -2489,10 +2489,10 @@
     display: flex;
     opacity: 1;
     transform: scale(1.1);
-    
+
     // アクティブ状態の背景円
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 50%;
       left: 50%;
@@ -2530,10 +2530,35 @@
     line-height: 1.2;
     transition: color 0.3s ease;
     white-space: nowrap;
-    
+
     .activeGenreDot & {
       color: #667eea;
       font-weight: 600;
     }
+  }
+}
+
+// ===== BOTTOM SECTION & SCROLL TO TOP =====
+.bottomSection {
+  display: none; // モバイルでは非表示
+
+  @include mq(sm) {
+    display: flex;
+    justify-content: flex-end; // 右端配置
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+}
+
+.decorativeCircle {
+  position: relative;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
   }
 }

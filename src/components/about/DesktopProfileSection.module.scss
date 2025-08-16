@@ -1,0 +1,288 @@
+@use "../../styles/common/_variables.scss" as *;
+
+// ===== DESKTOP PROFILE SECTION (カード型) =====
+.desktopProfileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+
+  // 統一幅管理システムを適用
+  @include about-section-container;
+}
+
+.desktopSectionHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.desktopSectionTitleContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.desktopSectionTitle {
+  color: $text-color;
+  text-align: left;
+  font-family: $font-rubik !important;
+  // レスポンシブ対応: セクションタイトルサイズをclampで調整
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 600;
+  position: relative;
+  margin: 0;
+}
+
+// ===== デスクトップ版カード型デザイン =====
+.desktopCardProfileContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  // 影のためのパディングを増やす
+  padding: clamp(50px, 7vw, 100px) clamp(20px, 3vw, 40px);
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // コンパクトなパディングでより幅広なコンテンツ表示
+  @include max-width(xs) {
+    padding: clamp(40px, 5vw, 80px) clamp(12px, 2vw, 24px);
+  }
+}
+
+.profileCard {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  position: relative;
+  overflow: visible; // 変更：影が表示されるように
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // セクション内コンテンツ幅を適用
+  @include about-section-content;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.12), 0 12px 40px rgba(0, 0, 0, 0.08),
+      0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.cardHeader {
+  padding: clamp(32px, 5vw, 48px) clamp(32px, 5vw, 48px) clamp(24px, 4vw, 32px);
+  display: flex;
+  flex-direction: row;
+  gap: clamp(24px, 4vw, 32px);
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // よりコンパクトなパディング
+  @include max-width(xs) {
+    padding: clamp(20px, 4vw, 32px) clamp(20px, 4vw, 32px)
+      clamp(16px, 3vw, 24px);
+    gap: clamp(16px, 3vw, 24px);
+  }
+}
+
+.cardProfileImage {
+  border: 2px solid #333333;
+  border-radius: 20px;
+  width: clamp(80px, 12vw, 120px);
+  height: clamp(80px, 12vw, 120px);
+  flex-shrink: 0;
+  position: relative;
+  aspect-ratio: 1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // 画像のスムーズな切り替え効果
+  img {
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 17px; // 枠線分を考慮して少し小さく
+  }
+}
+
+.imageToggleButton {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s ease;
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.cardProfileHeader {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vw, 12px);
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.cardNameFurigana {
+  color: #666;
+  font-family: $font-japanese;
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
+.cardName {
+  color: $text-color;
+  font-family: $font-japanese;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  position: relative;
+}
+
+.cardSubtitle {
+  color: #666;
+  font-family: $font-rubik;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.cardDivider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #e65853 25%,
+    #ff6b6b 50%,
+    #e65853 75%,
+    transparent 100%
+  );
+  margin: 0;
+}
+
+.cardContent {
+  padding: clamp(24px, 4vw, 32px) clamp(32px, 5vw, 48px) clamp(32px, 5vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 32px);
+  position: relative;
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // コンパクトなパディングでより多くのコンテンツを表示
+  @include max-width(xs) {
+    padding: clamp(16px, 3vw, 24px) clamp(20px, 4vw, 32px)
+      clamp(20px, 4vw, 32px);
+    gap: clamp(16px, 2.5vw, 24px);
+  }
+}
+
+.cardSection {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.5vw, 16px);
+  position: relative;
+
+  // ステージャードアニメーション
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideInUp 0.8s ease-out forwards;
+
+  &:nth-child(1) {
+    animation-delay: 0.3s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.7s;
+  }
+  &:nth-child(4) {
+    animation-delay: 0.9s;
+  }
+}
+
+.cardSectionTitle {
+  color: $text-color;
+  font-family: $font-japanese;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.cardText {
+  color: $text-color;
+  font-family: $font-japanese;
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  opacity: 0.9;
+}
+
+// スライドインアニメーション
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

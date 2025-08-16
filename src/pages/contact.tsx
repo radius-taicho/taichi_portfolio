@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { FaInstagram } from "react-icons/fa";
 import styles from "@/styles/contact.module.scss";
 
 export default function ContactPage() {
@@ -16,6 +18,18 @@ export default function ContactPage() {
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning"
   >("success");
+
+  // 吹き出しのテキスト状態を管理
+  const [bubbleText, setBubbleText] = useState("コチラからもどうぞ");
+
+  // Instagramアイコンのホバーイベント
+  const handleInstagramHover = () => {
+    setBubbleText("DM待ってます。");
+  };
+
+  const handleInstagramLeave = () => {
+    setBubbleText("コチラからもどうぞ");
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -83,7 +97,7 @@ export default function ContactPage() {
         <Header />
         <div className={styles.mainContent}>
           {/* Contact タイトルセクション */}
-          <section className={styles.titleSection}>
+          <section id="contact-section" className={styles.titleSection}>
             <div className={styles.titleContainer}>
               <h1 className={styles.pageTitle}>Contact</h1>
             </div>
@@ -94,16 +108,28 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit}>
               {/* ソーシャルリンクセクション */}
               <div className={styles.socialLinksSection}>
-                <div className={styles.socialIconsContainer}>
-                  <div className={styles.socialIconsGroup}>
-                    <div className={styles.socialIcon}></div>
-                    <div className={styles.socialIcon}></div>
-                    <div className={styles.socialIcon}></div>
-                    <div className={styles.socialIcon}></div>
+                <div className={styles.socialImageWrapper}>
+                  <div className={styles.socialTextContainer}>
+                    <div className={styles.socialText}>{bubbleText}</div>
                   </div>
-                </div>
-                <div className={styles.socialTextContainer}>
-                  <div className={styles.socialText}>コチラからもどうぞ</div>
+                  <Image
+                    src="/images/img_denwa-bug.webp"
+                    alt="電話バグ"
+                    width={400}
+                    height={400}
+                    className={styles.socialImage}
+                  />
+                  {/* Instagramアイコン */}
+                  <a
+                    href="https://www.instagram.com/radius.taichi/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.instagramLink}
+                    onMouseEnter={handleInstagramHover}
+                    onMouseLeave={handleInstagramLeave}
+                  >
+                    <FaInstagram className={styles.instagramIcon} />
+                  </a>
                 </div>
               </div>
 

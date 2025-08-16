@@ -1,0 +1,293 @@
+@use "../../styles/common/_variables.scss" as *;
+
+// ===== DESKTOP STRENGTH SECTION (個別カード型) =====
+.desktopSection {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+
+  // 統一幅管理システムを適用
+  @include about-section-container;
+}
+
+.desktopSectionHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.desktopSectionTitleContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.desktopSectionTitle {
+  color: $text-color;
+  text-align: left;
+  font-family: $font-rubik !important;
+  // レスポンシブ対応: セクションタイトルサイズをclampで調整
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 600;
+  position: relative;
+  margin: 0;
+}
+
+.desktopStrengthContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  // 影のためのパディングを追加
+  padding: clamp(30px, 5vw, 60px) 0;
+
+  // タブレット横向き以下でのパディング調整
+  @include max-width(md) {
+    padding: clamp(25px, 4vw, 50px) 0;
+  }
+
+  // タブレット縦向き以下でのパディング調整
+  @include max-width(sm) {
+    padding: clamp(20px, 3vw, 40px) 0;
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // よりコンパクトなパディング
+  @include max-width(xs) {
+    padding: clamp(16px, 2.5vw, 32px) 0;
+  }
+}
+
+.desktopStrengthContainer {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vw, 48px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  padding: 0 clamp(20px, 3vw, 40px);
+
+  // セクション内コンテンツ幅を適用
+  @include about-section-content;
+
+  // タブレット横向き以下でのパディングとギャップ調整
+  @include max-width(md) {
+    gap: clamp(28px, 4vw, 40px);
+    padding: 0 clamp(16px, 2.5vw, 32px);
+  }
+
+  // タブレット縦向き以下でのパディングとギャップ調整
+  @include max-width(sm) {
+    gap: clamp(24px, 3vw, 32px);
+    padding: 0 clamp(12px, 2vw, 24px);
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // より幅広なコンテンツ表示のためパディングを最小限に
+  @include max-width(xs) {
+    gap: clamp(20px, 2.5vw, 28px);
+    padding: 0 clamp(8px, 1.5vw, 16px); // さらに狭いパディング
+  }
+}
+
+.desktopStrengthList {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 40px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // タブレット横向き以下でのギャップ調整
+  @include max-width(md) {
+    gap: clamp(24px, 3.5vw, 35px);
+  }
+
+  // タブレット縦向き以下でのギャップ調整
+  @include max-width(sm) {
+    gap: clamp(20px, 3vw, 30px);
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // コンパクトなギャップでより多くのコンテンツを表示
+  @include max-width(xs) {
+    gap: clamp(16px, 2.5vw, 24px);
+  }
+}
+
+.desktopStrengthItem {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  overflow: visible; // 影が表示されるように
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08), 0 4px 18px rgba(0, 0, 0, 0.04),
+    0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: clamp(20px, 3vw, 28px) clamp(24px, 4vw, 36px);
+  display: flex;
+  // モバイルと同じ縦並びレイアウトに統一
+  flex-direction: column;
+  gap: clamp(4px, 2vw, 8px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  min-height: auto;
+  height: auto;
+
+  // ステージャードアニメーション
+  opacity: 0;
+  transform: translateY(40px);
+  animation: desktopStrengthSlideIn 0.8s ease-out forwards;
+
+  &:nth-child(1) {
+    animation-delay: 0.3s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.7s;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 8px 30px rgba(0, 0, 0, 0.08),
+      0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+
+  // タブレット横向き以下でのパディングとギャップ調整
+  @include max-width(md) {
+    padding: clamp(18px, 2.5vw, 24px) clamp(20px, 3.5vw, 32px);
+    gap: clamp(7px, 1.5vw, 9px);
+    border-radius: 20px;
+  }
+
+  // タブレット縦向き以下でのパディングとギャップ調整
+  @include max-width(sm) {
+    padding: clamp(16px, 2vw, 20px) clamp(18px, 3vw, 24px);
+    gap: clamp(6px, 1vw, 8px);
+    border-radius: 16px;
+  }
+
+  // ========== モバイル(575px未源)専用設定 ==========
+  // さらにコンパクトなパディングでコンテンツを広く
+  @include max-width(xs) {
+    padding: clamp(14px, 1.5vw, 18px) clamp(16px, 2.5vw, 20px);
+    gap: clamp(5px, 0.8vw, 7px);
+    border-radius: 12px;
+  }
+}
+
+.desktopStrengthNameWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  // パディングをリセットして幅を自然に
+  padding: 0;
+  width: auto;
+}
+
+.desktopStrengthName {
+  color: $text-color;
+  text-align: left;
+  font-family: $font-japanese;
+  font-size: clamp(20px, 2.5vw, 28px); // サイズを大きく
+  font-weight: 700; // 太いフォントウェイト
+  position: relative;
+  line-height: 1.4;
+  letter-spacing: 0.08em; // 文字間隔を広げる
+  margin: 0;
+}
+
+// プロフィールセクションと同じ赤い区切り線を追加（左濃く右薄く）
+.desktopStrengthDivider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #e65853 0%,
+    #ff6b6b 20%,
+    rgba(255, 107, 107, 0.6) 60%,
+    rgba(230, 88, 83, 0.3) 85%,
+    transparent 100%
+  );
+  margin: clamp(12px, 2vw, 16px) 0;
+  border-radius: 24px;
+}
+
+.desktopStrengthDescWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  // パディングとインデントをリセット
+  padding: 0;
+}
+
+.desktopStrengthDescription {
+  color: $text-color;
+  text-align: left;
+  font-family: $font-japanese;
+  font-size: clamp(16px, 2vw, 20px); // サイズを少し大きく
+  font-weight: 400; // 通常のフォントウェイトで差別化
+  position: relative;
+  flex: 1;
+  line-height: 1.8; // 行間を幅幅を広げる
+  letter-spacing: 0.06em; // 文字間隔を調整
+  opacity: 0.9; // 少し薄くして差別化
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+  margin: 0;
+}
+
+// デスクトップ版Strengthカード用のスライドインアニメーション
+@keyframes desktopStrengthSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

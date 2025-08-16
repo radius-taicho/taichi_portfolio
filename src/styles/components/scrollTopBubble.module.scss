@@ -1,0 +1,280 @@
+@use "../common/_variables.scss" as *;
+
+// ===== BUBBLE CONTAINER =====
+.bubbleContainer {
+  position: absolute;
+  z-index: 15;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  &.desktop {
+    top: -30px; // 画像の上側に配置（モバイル同様）
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include mq(lg) {
+      top: -30px;
+    }
+
+    @include mq(xl) {
+      top: -30px;
+    }
+  }
+
+  &.mobile {
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include max-width(mic) {
+      top: -30px;
+    }
+
+    @include max-width(xxs) {
+      top: -30px;
+    }
+  }
+}
+
+// ===== BUBBLE =====
+.bubble {
+  background: #ffffff;
+  border: 2px solid #333333;
+  border-radius: 12px;
+  padding: 12px 16px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 280px;
+  white-space: nowrap;
+  animation: bubbleAppear 0.5s ease-out;
+
+  .desktop & {
+    padding: 14px 18px;
+    border-radius: 14px;
+    max-width: 320px;
+
+    @include mq(lg) {
+      padding: 16px 20px;
+      border-radius: 16px;
+      max-width: 360px;
+    }
+
+    @include mq(xl) {
+      padding: 18px 22px;
+      max-width: 400px;
+    }
+  }
+
+  .mobile & {
+    padding: 10px 14px;
+    border-radius: 10px;
+    max-width: 240px;
+    border-width: 1.5px;
+
+    @include max-width(mic) {
+      padding: 8px 12px;
+      border-radius: 8px;
+      max-width: 200px;
+      border-width: 1px;
+    }
+
+    @include max-width(xxs) {
+      padding: 9px 13px;
+      max-width: 220px;
+    }
+  }
+}
+
+// ===== BUBBLE TEXT =====
+.bubbleText {
+  color: #333333;
+  font-family: $font-pixelmplus !important;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: center;
+  position: relative;
+
+  .desktop & {
+    font-size: 16px;
+
+    @include mq(lg) {
+      font-size: 18px;
+    }
+
+    @include mq(xl) {
+      font-size: 20px;
+    }
+  }
+
+  .mobile & {
+    font-size: 12px;
+
+    @include max-width(mic) {
+      font-size: 10px;
+    }
+
+    @include max-width(xxs) {
+      font-size: 11px;
+    }
+  }
+}
+
+// ===== TYPING CURSOR =====
+.cursor {
+  display: inline-block;
+  background-color: #333333;
+  width: 2px;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+
+  .desktop & {
+    width: 3px;
+    margin-left: 3px;
+  }
+
+  .mobile & {
+    width: 1.5px;
+    margin-left: 1.5px;
+
+    @include max-width(mic) {
+      width: 1px;
+      margin-left: 1px;
+    }
+  }
+}
+
+// ===== BUBBLE ARROW (尻尾) =====
+.bubbleArrow {
+  position: absolute;
+  z-index: 16;
+
+  // デスクトップ：下向きの矢印（モバイル同様）
+  .desktop & {
+    bottom: -16px; // もっと下側に配置
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+
+    // 矢印の境界線
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 3.5px;
+      left: -16px;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid #333333; // 境界線は黒いまま
+      z-index: -1;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      left: -16px;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid #ffffff; // 境界線は黒いまま
+      z-index: -1;
+    }
+  }
+
+  // モバイル：下向きの矢印
+  .mobile & {
+    bottom: -11px; // もっと下側に配置
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #333333; // 白色に統一
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 2px; // 位置調整
+      left: -11.5px;
+      width: 0;
+      height: 0;
+      border-left: 11.5px solid transparent;
+      border-right: 11.5px solid transparent;
+      border-top: 11.5px solid #ffffff; // 境界線は黒いまま
+      z-index: -1;
+    }
+
+    @include max-width(mic) {
+      bottom: -12px;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid #333333;
+
+      &::before {
+        bottom: 2px;
+        left: -9px;
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-top: 9px solid #ffffff;
+      }
+    }
+
+    @include max-width(xxs) {
+      bottom: -10px;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 9px solid #333333;
+
+      &::before {
+        bottom: 1.5px;
+        left: -10.5px;
+        border-left: 10.5px solid transparent;
+        border-right: 10.5px solid transparent;
+        border-top: 10.5px solid #ffffff;
+      }
+    }
+  }
+}
+
+// ===== ANIMATIONS =====
+@keyframes bubbleAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+// ===== HOVER EFFECTS =====
+.bubble {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+
+    .mobile & {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    }
+  }
+}

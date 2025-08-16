@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { prisma } from '@/lib/prisma';
 import nodemailer from 'nodemailer';
 import validator from 'validator';
 import DOMPurify from 'isomorphic-dompurify';
@@ -78,6 +79,25 @@ const validateInput = (name: string, email: string, contents: string) => {
 // HTMLエスケープとサニタイゼーション
 const sanitizeInput = (input: string): string => {
   return DOMPurify.sanitize(input, { ALLOWED_TAGS: [] });
+};
+
+// データベース保存
+const saveContactToDatabase = async (name: string, email: string, contents: string) => {
+  try {
+    const contact = await prisma.contact.create({
+      data: {
+        name: sanitizeInput(name),
+        email: sanitizeInput(email),
+        message: sanitizeInput(contents),
+        isRead: false
+      }
+    });
+    console.log(`✅ Contact saved to database with ID: ${contact.id}`);
+    return contact;
+  } catch (error) {
+    console.error('❌ Database save error:', error);
+    throw new Error('データベースへの保存に失敗しました');
+  }
 };
 
 // Nodemailer設定
@@ -239,6 +259,9 @@ export default async function handler(
         details: validationErrors 
       });
     }
+
+    // データベースに保存
+    await saveContactToDatabase(name, email, contents);
 
     // メール送信
     await sendEmail(name, email, contents);

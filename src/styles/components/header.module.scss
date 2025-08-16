@@ -21,6 +21,7 @@
   overflow: hidden;
   width: 100vw; // ビューポート全幅を明示的に指定
   margin-left: calc(-50vw + 50%); // 親コンテナの制限を無視して全幅表示
+  z-index: 100; // 適切なヘッダーレベル
 
   // sm以上（768px以上）で表示
   @include mq(sm) {
@@ -145,11 +146,28 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: opacity 0.3s ease;
   white-space: nowrap; // テキストを折り返さない
+  overflow: hidden;
 
-  &:hover {
-    opacity: 0.8;
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #E65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 1; // z-indexを適切な値に下げる
+  }
+
+  &:hover::before {
+    width: 100%;
   }
 
   // 狭いデスクトップではフォントサイズを小さく
@@ -176,7 +194,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   overflow: hidden;
-  z-index: 10; // ナビゲーションより前面に表示
+  z-index: 2; // ナビゲーションより前面に表示
 }
 
 .logoText {
@@ -190,11 +208,28 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: opacity 0.3s ease;
   white-space: nowrap; // テキストを折り返さない
+  overflow: hidden;
 
-  &:hover {
-    opacity: 0.8;
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #E65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 1; // z-indexを適切な値に下げる
+  }
+
+  &:hover::before {
+    width: 100%;
   }
 
   // 狭いデスクトップではフォントサイズを小さく
@@ -221,6 +256,7 @@
   overflow: hidden;
   width: 100vw; // ビューポート全幅を明示的に指定
   margin-left: calc(-50vw + 50%); // 親コンテナの制限を無視して全幅表示
+  z-index: 100; // 適切なヘッダーレベル
 
   // sm以上（768px以上）では非表示
   @include mq(sm) {
@@ -252,12 +288,31 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: opacity 0.3s ease;
+  overflow: hidden;
 
-  &:hover {
-    opacity: 0.8;
+  &::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #E65853;
+    overflow: hidden;
+    transition: width 0.6s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 1; // 相対的な値
+  }
+
+  &:hover::before {
+    width: 100%;
   }
 }
+
+
 
 // モバイルハンバーガーメニューコンテナ
 .mobileHamburgerContainer {

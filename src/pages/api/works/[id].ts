@@ -26,6 +26,7 @@ export default async function handler(
       select: {
         id: true,
         title: true,
+        name: true,  // Missing field - this was causing the undefined value
         type: true,
         status: true,
         client: true,

@@ -24,7 +24,7 @@
 
 // ===== MOBILE LAYOUT (Default: sm未満) =====
 .mobileContainer {
-  padding: 64px 0px;
+  padding: 64px 0px 120px;
   display: flex;
   flex-direction: column;
   gap: 56px;
@@ -51,7 +51,7 @@
   max-width: 575px;
   margin: 0 auto;
   position: relative;
-  overflow: hidden;
+  overflow: visible; // 変更：カードの影が表示されるように
 }
 
 .pageTitleContainer {
@@ -86,11 +86,10 @@
   margin: 0;
 }
 
-// ===== MOBILE TITLE + HERO GROUP =====
 .titleHeroGroup {
   display: flex;
   flex-direction: column;
-  gap: 32px; // About Meタイトルとヒーロー間の狭いギャップ
+  gap: 64px; // About Meタイトルとヒーロー間の空白を増加
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -124,18 +123,117 @@
 
 .heroImage {
   background: #bababa;
-  border-radius: 16px;
+  border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
   align-self: stretch;
   flex: 1;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 3/4; // iPhone向けの縦長比率（デフォルト）
   width: 100%;
   height: auto;
 
-  // iPad向け（768px-1024px）: 4:3比率
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    aspect-ratio: 4/3;
+  // 画面サイズに応じた適切なアスペクト比設定
+  aspect-ratio: 5/3; // スマホで縦におさまるサイズ（横長）
+
+  @include mq(xs) {
+    aspect-ratio: 4/3; // タブレット縦向け
+  }
+
+  @include mq(sm) {
+    aspect-ratio: 16/10; // タブレット横向け〜デスクトップ
+  }
+
+  // ゲームモード時のスタイル
+  &.gameMode {
+    background: #ffffff !important;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden; // コンテンツがあふれても隠す
+    box-shadow: none;
+    padding: 0;
+
+    // モバイルでゲームに集中できるよう、画面全体を活用しつつ見切れを防ぐ
+    height: clamp(400px, 85vh, 90vh); // 画面の85-90%を使ってゲームに集中
+    aspect-ratio: unset; // アスペクト比は無効化してheightを優先
+
+    // ただし、ブラウザUIバーを考慮した最大サイズ制限
+    max-height: calc(100vh - 60px); // ブラウザUIバー分を引く
+
+    @include mq(xs) {
+      height: clamp(450px, 80vh, 85vh); // タブレット縦向け
+      max-height: calc(100vh - 40px);
+    }
+
+    @include mq(sm) {
+      height: clamp(500px, 70vh, 75vh); // デスクトップでは適度なサイズ
+      max-height: calc(100vh - 100px); // デスクトップではヘッダー等を考慮
+    }
+
+    @include mq(md) {
+      height: clamp(600px, 65vh, 70vh); // 大画面で最適サイズ
+      max-height: calc(100vh - 120px);
+    }
+  }
+}
+
+.heroImageDisplay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
+  overflow: hidden;
+  // より薄く細いシンプルな境界線
+  border: 1px solid #1e1e1e;
+  background: #ffffff;
+}
+
+.gameWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffffff; // 白背景を明示的に指定
+  display: flex;
+  flex-direction: column;
+  gap: 0; // ギャップをリセット
+  padding: 0; // パディングをリセット
+  box-sizing: border-box;
+  font-family: var(--font-japanese), "Hiragino Maru Gothic ProN", sans-serif;
+  border-radius: 16px; // 親コンテナの角丸に合わせる
+  overflow: hidden; // 角丸を保持
+
+  @include mq("sm") {
+    border-radius: 20px;
+  }
+
+  @include max-width("xs") {
+    border-radius: 12px;
+  }
+}
+
+.heroStartButton {
+  position: absolute;
+  bottom: clamp(12px, 3vw, 20px);
+  right: clamp(12px, 3vw, 20px);
+  background: #e65853;
+  color: #ffffff;
+  border: 1px solid #1e1e1e;
+  border-radius: 8px;
+  padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 24px);
+  font-family: $font-rubik;
+  font-size: clamp(14px, 3.5vw, 18px);
+  font-weight: 700;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+
+  &:hover {
+    background: #d14840;
+    opacity: 0.9;
+  }
+
+  &:active {
+    background: #c23d35;
+    transform: scale(0.98);
   }
 }
 
@@ -143,18 +241,19 @@
 .sectionContainer {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 48px; // Careerセクションに合わせた
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+  overflow: hidden; // Careerセクションに合わせた
 }
 
 .sectionHeader {
   display: flex;
-  flex-direction: column;
-  gap: 0px;
+  flex-direction: row; // Careerセクションに合わせた
+  gap: 10px; // Careerセクションに合わせた
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
@@ -169,10 +268,8 @@
   gap: 10px;
   align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
+  flex-shrink: 0; // Careerセクションに合わせてalign-selfを削除
   position: relative;
-  overflow: hidden;
 }
 
 .sectionTitle {
@@ -186,935 +283,902 @@
   margin: 0;
 }
 
-// ===== STANCE ON DESIGN SECTION (Mobile) =====
-.stanceItemContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.stanceImagePlaceholder {
-  background: #bababa;
-  border-radius: 16px;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 256px;
-  position: relative;
-  overflow: hidden;
-}
-
-.stanceTextWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.stanceTextContainer {
-  padding: 0px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.stanceText {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: 18px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  line-height: 1.6;
-}
-
-.stanceSpacer {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 54px;
-  position: relative;
-  overflow: hidden;
-}
-
-// ===== PROFILE SECTION (Mobile) =====
-.profileContentContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.profileImageContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 294px;
-  position: relative;
-  overflow: hidden;
-}
-
-.profileImage {
-  background: #d9d9d9;
-  border-radius: 50%;
-  flex-shrink: 0;
-  width: 240px;
-  height: 240px;
-  position: relative;
-  aspect-ratio: 1;
-}
-
-.profileTextContainer {
-  padding: 1px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.profileText {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: 18px;
-  line-height: 180%;
-  letter-spacing: 0.04em;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-}
-
-// ===== SKILLS SECTION (Mobile) =====
-.skillsContentContainer {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(4px, 2vw, 8px);
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  min-height: 260px;
-  height: auto;
-  position: relative;
-  overflow: visible;
-  padding: 16px 8px;
-}
-
-.skillsRowContainer {
-  display: flex;
-  flex-direction: row;
-  gap: clamp(4px, 2vw, 8px);
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex-shrink: 0;
-  position: relative;
-  flex-wrap: nowrap;
-}
-
-// Skill circles with different sizes per row (320px最適化)
-.skillCircleSmall {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 50%;
-  flex-shrink: 0;
-  width: clamp(48px, 12vw, 60px);
-  height: clamp(48px, 12vw, 60px);
-  position: relative;
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.skillCircleMedium1 {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  border-radius: 50%;
-  flex-shrink: 0;
-  width: clamp(50px, 13vw, 64px);
-  height: clamp(50px, 13vw, 64px);
-  position: relative;
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.skillCircleMedium2 {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  border-radius: 50%;
-  flex-shrink: 0;
-  width: clamp(52px, 14vw, 68px);
-  height: clamp(52px, 14vw, 68px);
-  position: relative;
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.skillCircleLarge {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  border-radius: 50%;
-  flex-shrink: 0;
-  width: clamp(54px, 15vw, 72px);
-  height: clamp(54px, 15vw, 72px);
-  position: relative;
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-// Skill icon and text styles with responsive image sizing
-.skillIcon {
-  font-size: clamp(16px, 4vw, 24px);
-  line-height: 1;
-  margin-bottom: 2px;
-  color: #ffffff;
-  font-weight: bold;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  // 基本の画像レスポンシブサイズ設定
-  img {
-    width: clamp(24px, 6vw, 36px) !important;
-    height: clamp(24px, 6vw, 36px) !important;
-    object-fit: contain;
-  }
-}
-
-// サークルサイズ別の個別調整
-.skillCircleSmall {
-  .skillIcon img {
-    width: clamp(20px, 5vw, 28px) !important;
-    height: clamp(20px, 5vw, 28px) !important;
-  }
-}
-
-.skillCircleMedium1 {
-  .skillIcon img {
-    width: clamp(24px, 6vw, 32px) !important;
-    height: clamp(24px, 6vw, 32px) !important;
-  }
-}
-
-.skillCircleMedium2 {
-  .skillIcon img {
-    width: clamp(26px, 7vw, 36px) !important;
-    height: clamp(26px, 7vw, 36px) !important;
-  }
-}
-
-.skillCircleLarge {
-  .skillIcon img {
-    width: clamp(28px, 8vw, 40px) !important;
-    height: clamp(28px, 8vw, 40px) !important;
-  }
-}
-
-.skillText {
-  font-family: $font-japanese;
-  font-size: clamp(8px, 2vw, 10px);
-  font-weight: 600;
-  color: #ffffff;
-  text-align: center;
-  line-height: 1.1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  word-break: break-all;
-  hyphens: auto;
-  max-width: 100%;
-  overflow: hidden;
-
-  // 長いテキストの場合の調整
-  @media screen and (max-width: 320px) {
-    font-size: 7px;
-    line-height: 1;
-  }
-}
-
-// ===== TECHNOLOGY-SPECIFIC COLORS =====
-// Figma
-.skillFigma {
-  background: linear-gradient(145deg, #2f2f30, #1f1f20) !important;
-  box-shadow: 0 8px 15px rgba(31, 31, 32, 0.6),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(31, 31, 32, 0.7),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
-      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
-  }
-}
-
-// Illustrator
-.skillIllustrator {
-  background: linear-gradient(145deg, #5a0200, #390100) !important;
-  box-shadow: 0 8px 15px rgba(57, 1, 0, 0.6),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(57, 1, 0, 0.7),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
-      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
-  }
-}
-
-// Photoshop
-.skillPhotoshop {
-  background: linear-gradient(145deg, #002a52, #001935) !important;
-  box-shadow: 0 8px 15px rgba(0, 25, 53, 0.6),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(0, 25, 53, 0.7),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
-      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
-  }
-}
-
-// Next.js
-.skillNextjs {
-  background: linear-gradient(145deg, #333333, #000000) !important;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
-      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
-  }
-}
-
-// Rails
-.skillRails {
-  background: linear-gradient(145deg, #c80b0b, #a00909) !important;
-  box-shadow: 0 8px 15px rgba(200, 11, 11, 0.4),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(200, 11, 11, 0.5),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
-      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
-  }
-}
-
-// Swift
-.skillSwift {
-  background: linear-gradient(145deg, #fe4317, #cc3512) !important;
-  box-shadow: 0 8px 15px rgba(254, 67, 23, 0.4),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(254, 67, 23, 0.5),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
-      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
-  }
-}
-
-// HTML/CSS/JS
-.skillHtmlcssjs {
-  background: linear-gradient(145deg, #ffffff, #f0f0f0) !important;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.15),
-      inset 0 3px 6px rgba(255, 255, 255, 0.9) !important;
-  }
-}
-
-// Sass
-.skillSass {
-  background: linear-gradient(145deg, #c96999, #b55a88) !important;
-  box-shadow: 0 8px 15px rgba(201, 105, 153, 0.4),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(201, 105, 153, 0.5),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
-      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
-  }
-}
-
-// Tailwind
-.skillTailwind {
-  background: linear-gradient(145deg, #43a6b2, #4cb0b3) !important;
-  box-shadow: 0 8px 15px rgba(67, 166, 178, 0.4),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(67, 166, 178, 0.5),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
-      inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
-  }
-}
-
-// GitHub
-.skillGithub {
-  background: linear-gradient(145deg, #4a5568, #1a202c) !important;
-  box-shadow: 0 8px 15px rgba(24, 23, 23, 0.6),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 0 12px 25px rgba(24, 23, 23, 0.7),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.4),
-      inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
-  }
-}
-
-// ===== STRENGTH & WEAKNESS SECTION (Mobile) =====
-.strengthWeaknessTitle {
-  color: $text-color;
-  text-align: left;
-  position: relative;
-  margin: 0;
-}
-
-.strengthTitleSpan {
-  font-family: $font-rubik;
-  text-align: left;
-  font-size: 32px;
-  line-height: 1.3;
-  font-weight: 600;
-  transition: font-size 0.5s ease, font-weight 0.5s ease;
-}
-
-.weaknessTitleSpan {
-  font-family: $font-rubik;
-  font-size: clamp(14px, 3.5vw, 16px); // レスポンシブ対応
-  font-weight: 400;
-  transition: font-size 0.5s ease, font-weight 0.5s ease;
-}
-
-// 強調状態のスタイル - デフォルトの大きいサイズ
-.strengthTitleSpan.emphasized {
-  font-size: 32px;
-  font-weight: 600;
-}
-
-.weaknessTitleSpan.emphasized {
-  font-size: 32px;
-  font-weight: 600;
-}
-
-// 非強調状態のスタイル - デフォルトの小さいサイズ
-.strengthTitleSpan.deemphasized {
-  font-size: clamp(14px, 3.5vw, 16px); // デフォルトのWeaknessサイズ
-  font-weight: 400;
-}
-
-.weaknessTitleSpan.deemphasized {
-  font-size: clamp(14px, 3.5vw, 16px); // デフォルトのWeaknessサイズ
-  font-weight: 400;
-}
-
-.strengthWeaknessContentContainer {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(32px, 8vw, 40px); // レスポンシブギャップ
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.strengthHeaderWrapper {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.strengthHeaderText {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: clamp(18px, 4vw, 20px); // レスポンシブ対応
-  line-height: 180%;
-  letter-spacing: 0.04em;
-  font-weight: 400;
-  position: relative;
-}
-
-.strengthList {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(16px, 4vw, 24px); // レスポンシブギャップ
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-// じわっとしたフェードアニメーション
-.fadeIn {
-  animation: gentleFadeIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-@keyframes gentleFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-  50% {
-    opacity: 0.3;
-    transform: translateY(10px) scale(0.99);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.strengthItem {
-  padding: 0px clamp(8px, 3vw, 16px); // レスポンシブパディング
-  display: flex;
-  flex-direction: column; // 小画面では縦並び
-  gap: clamp(8px, 2vw, 12px);
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-
-  // 375px以上で横並びレイアウト
-  @media screen and (min-width: 375px) {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: clamp(12px, 3vw, 16px);
-  }
-
-  // 480px以上でより余裕のあるレイアウト
-  @media screen and (min-width: 480px) {
-    padding: 0px clamp(12px, 4vw, 20px);
-    gap: clamp(16px, 4vw, 20px);
-  }
-}
-
-.strengthNameContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100%; // 小画面では幅いっぱい
-  position: relative;
-
-  // 375px以上で固定幅
-  @media screen and (min-width: 375px) {
-    width: clamp(80px, 25%, 120px);
-    flex-shrink: 0;
-  }
-
-  // 480px以上でより広い幅
-  @media screen and (min-width: 480px) {
-    width: clamp(100px, 30%, 140px);
-  }
-}
-
-.strengthName {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: clamp(14px, 3.5vw, 16px); // レスポンシブ対応
-  line-height: 180%;
-  letter-spacing: 0.04em;
-  font-weight: 400;
-  position: relative;
-  width: 100%;
-  word-wrap: break-word;
-}
-
-.strengthDescContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex: 1; // 残り空間を使用
-  min-width: 0; // flexアイテムの縮小を許可
-  position: relative;
-}
-
-.strengthDescription {
-  color: $text-color;
-  text-align: left;
-  font-family: $font-japanese;
-  font-size: clamp(12px, 3vw, 14px); // レスポンシブ対応
-  line-height: 160%; // 読みやすさのため行間を調整
-  letter-spacing: 0.02em;
-  font-weight: 400;
-  position: relative;
-  flex: 1;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-
-  // 480px以上でより大きなフォント
-  @media screen and (min-width: 480px) {
-    font-size: clamp(13px, 3.2vw, 15px);
-    line-height: 170%;
-  }
-}
-
-.weaknessButtonWrapper {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  margin-top: clamp(16px, 4vw, 24px); // 上部にマージン追加
-}
-
-.weaknessButtonContainer {
-  background: #bababa;
-  border-radius: clamp(8px, 2vw, 12px); // レスポンシブ角丸
-  padding: clamp(6px, 2vw, 8px) clamp(12px, 4vw, 16px); // レスポンシブパディング
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  min-width: clamp(48px, 12vw, 64px); // 最小サイズ保証
-  min-height: clamp(40px, 10vw, 48px);
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: #a1a1a1;
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-}
-
-.weaknessButtonText {
-  color: $text-color;
-  text-align: center;
-  font-family: $font-japanese;
-  font-size: clamp(24px, 6vw, 32px); // レスポンシブ対応で小さくスタート
-  font-weight: 400;
-  position: relative;
-  line-height: 1;
-}
-
-// ===== CAREER SECTION (Mobile) - Left-Right Interactive Design =====
-.careerInteractiveWrapper {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  min-height: 400px;
-}
-
-// 左側: ステップアイコンエリア
-.careerStepsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: clamp(80px, 25%, 100px);
-  position: relative;
-}
-
-.careerStep {
-  width: 100%;
-  min-height: clamp(70px, 18vw, 80px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border: 2px solid #cbd5e1;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-
-  // ステップごとの色分け
-  &[data-mobile-step="1"] {
-    background: linear-gradient(
-      135deg,
-      #3b82f6 0%,
-      #1d4ed8 100%
-    ); // デフォルトでアクティブ状態
-    border-color: #3b82f6;
-
-    .stepNumber,
-    .stepIcon {
-      color: #ffffff; // デフォルトで白文字
-    }
-
-    &:not(.active) {
-      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-
-      .stepNumber,
-      .stepIcon {
-        color: #334155;
-      }
-    }
-
-    &.active {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-
-      .stepNumber,
-      .stepIcon {
-        color: #ffffff;
-      }
-    }
-  }
-
-  &[data-mobile-step="2"] {
-    background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
-    border-color: #ea580c;
-
-    &.active {
-      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
-
-      .stepNumber,
-      .stepIcon {
-        color: #ffffff;
-      }
-    }
-  }
-
-  &[data-mobile-step="3"] {
-    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-    border-color: #16a34a;
-
-    &.active {
-      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-
-      .stepNumber,
-      .stepIcon {
-        color: #ffffff;
-      }
-    }
-  }
-
-  &[data-mobile-step="4"] {
-    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-    border-color: #9333ea;
-
-    &.active {
-      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
-
-      .stepNumber,
-      .stepIcon {
-        color: #ffffff;
-      }
-    }
-  }
-
-  &[data-mobile-step="5"] {
-    background: linear-gradient(135deg, #fef3e8 0%, #fed7aa 100%);
-    border-color: #d97706;
-
-    &.active {
-      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-
-      .stepNumber,
-      .stepIcon {
-        color: #ffffff;
-      }
-    }
-  }
-
-  // ホバー効果
-  &:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.stepNumber {
-  font-family: $font-rubik;
-  font-size: clamp(14px, 4vw, 18px);
-  font-weight: 700;
-  color: #334155;
-  transition: color 0.3s ease;
-  line-height: 1;
-}
-
-.stepIcon {
-  font-size: clamp(18px, 5vw, 24px);
-  line-height: 1;
-  transition: color 0.3s ease;
-}
-
-// 右側: テキスト表示エリア
-.careerTextDisplay {
-  flex: 1;
-  position: relative;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: clamp(20px, 5vw, 24px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-  min-height: 320px;
-}
-
-.careerTextItem {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: clamp(20px, 5vw, 24px);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  // デフォルトで最初のテキストを表示
-  &[data-mobile-text="1"] {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-.textTitle {
-  font-family: $font-japanese;
-  font-size: clamp(18px, 5vw, 22px);
-  font-weight: 600;
-  color: $text-color;
-  line-height: 1.3;
-  margin-bottom: 8px;
-}
-
-.textContent {
-  font-family: $font-japanese;
-  font-size: clamp(14px, 4vw, 18px);
-  font-weight: 400;
-  color: #64748b;
-  line-height: 1.6;
-  letter-spacing: 0.02em;
-}
-
-// ===== MOBILE PROFILE & FOOTER SECTIONS =====
+// // ===== PROFILE SECTION (Mobile) =====
+// .profileContentContainer {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 32px;
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   align-self: stretch;
+//   flex-shrink: 0;
+//   position: relative;
+//   overflow: visible; // box-shadowやスケール効果が途切れないように
+// }
+
+// .profileImageContainer {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+//   align-items: center;
+//   justify-content: center;
+//   align-self: stretch;
+//   flex-shrink: 0;
+//   height: 294px;
+//   position: relative;
+//   overflow: hidden;
+// }
+
+// .profileImage {
+//   background: #d9d9d9;
+//   border-radius: 50%;
+//   flex-shrink: 0;
+//   width: 240px;
+//   height: 240px;
+//   position: relative;
+//   aspect-ratio: 1;
+// }
+
+// .profileTextContainer {
+//   padding: 1px 16px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   align-self: stretch;
+//   flex-shrink: 0;
+//   position: relative;
+//   overflow: hidden;
+
+//   // モバイルでのパディング最適化
+//   @include max-width(xs) {
+//     padding: 1px 12px; // よりコンパクトに
+//   }
+
+//   @include max-width(xxs) {
+//     padding: 1px 8px;
+//   }
+
+//   // デスクトップでのパディング最適化
+//   @include mq(sm) {
+//     padding: 1px 20px; // デスクトップで少し余裕を
+//   }
+
+//   @include mq(md) {
+//     padding: 1px 24px;
+//   }
+// }
+
+// .profileText {
+//   color: $text-color;
+//   text-align: left;
+//   font-family: $font-japanese;
+//   font-size: 18px;
+//   line-height: 2; // 行間を広げる（180% → 200%）
+//   letter-spacing: 0.06em; // 文字間隔を広げる（0.04em → 0.06em）
+//   font-weight: 400;
+//   position: relative;
+//   align-self: stretch;
+//   word-break: break-word; // 長い単語の改行を改善
+//   overflow-wrap: break-word; // オーバーフローした単語の改行
+
+//   // モバイルサイズでの最適化
+//   @include max-width(xs) {
+//     font-size: 16px;
+//     line-height: 2.2; // モバイルでさらに行間を広げる
+//     letter-spacing: 0.08em; // モバイルで文字間隔を幅廣く
+//   }
+
+//   @include max-width(xxs) {
+//     font-size: 15px;
+//     line-height: 2.3;
+//     letter-spacing: 0.1em; // 最小サイズで最大の文字間隔
+//   }
+
+//   // デスクトップサイズでの最適化
+//   @include mq(sm) {
+//     font-size: 19px; // デスクトップで少し大きく
+//     line-height: 1.9; // デスクトップでは少しコンパクトに
+//     letter-spacing: 0.05em; // デスクトップでは少し狭める
+//   }
+
+//   @include mq(md) {
+//     font-size: 20px;
+//     line-height: 1.85;
+//     letter-spacing: 0.04em;
+//   }
+// }
+
+// // デスクトップ版プロフィールテキストのスタイル
+// .desktopProfileDescription {
+//   color: $text-color;
+//   text-align: left;
+//   font-family: $font-japanese;
+//   font-size: 18px;
+//   line-height: 2; // 行間を幅広く
+//   letter-spacing: 0.06em; // 文字間隔を広めに
+//   font-weight: 400;
+//   position: relative;
+//   word-break: break-word;
+//   overflow-wrap: break-word;
+
+//   // デスクトップサイズでの最適化
+//   @include mq(sm) {
+//     font-size: 19px;
+//     line-height: 1.9;
+//     letter-spacing: 0.05em;
+//   }
+
+//   @include mq(md) {
+//     font-size: 20px;
+//     line-height: 1.85;
+//     letter-spacing: 0.04em;
+//   }
+
+//   @include mq(lg) {
+//     font-size: 21px;
+//     line-height: 1.8;
+//     letter-spacing: 0.045em;
+//   }
+
+//   @include mq(xl) {
+//     font-size: 22px;
+//     line-height: 1.75;
+//     letter-spacing: 0.05em;
+//   }
+// }
+
+// // Skills section styles are now in @/styles/components/about/skills.module.scss
+
+// // Tooltip styles are now in skills.module.scss
+
+// // Cursor tooltip styles are now in skills.module.scss
+
+// // All skill wrapper and content styles are now in skills.module.scss
+
+// // skillsRowContainer styles are now in skills.module.scss
+
+// // Skill circles with different sizes per row (320px最適化)
+// .skillCircleSmall {
+//   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//   border-radius: 50%;
+//   flex-shrink: 0;
+//   width: clamp(48px, 12vw, 60px);
+//   height: clamp(48px, 12vw, 60px);
+//   position: relative;
+//   aspect-ratio: 1;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+//   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   cursor: pointer;
+//   z-index: 6;
+//   position: relative;
+
+//   &:hover {
+//     transform: translateY(-2px);
+//     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+//     z-index: 8;
+//   }
+// }
+
+// .skillCircleMedium1 {
+//   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+//   border-radius: 50%;
+//   flex-shrink: 0;
+//   width: clamp(50px, 13vw, 64px);
+//   height: clamp(50px, 13vw, 64px);
+//   position: relative;
+//   aspect-ratio: 1;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+//   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   cursor: pointer;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: translateY(-2px);
+//     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+//     z-index: 6;
+//     position: relative;
+//   }
+// }
+
+// .skillCircleMedium2 {
+//   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+//   border-radius: 50%;
+//   flex-shrink: 0;
+//   width: clamp(52px, 14vw, 68px);
+//   height: clamp(52px, 14vw, 68px);
+//   position: relative;
+//   aspect-ratio: 1;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+//   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   cursor: pointer;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: translateY(-2px);
+//     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+//     z-index: 1;
+//   }
+// }
+
+// // ===== 統一されたスキルアイコンサイズ管理 =====
+// // 全てのモバイル版スキルアイコンを統一サイズに設定
+// .skillCircleGrid,
+// .skillCircleSmall,
+// .skillCircleMedium1,
+// .skillCircleMedium2,
+// .skillCircleRuby {
+//   // 完全統一されたサイズ設定（画面サイズに応じてスムーズにスケール）
+//   width: clamp(48px, 12vw, 64px) !important;
+//   height: clamp(48px, 12vw, 64px) !important;
+
+//   // 基本スタイル
+//   border-radius: 50%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+//   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   cursor: pointer;
+//   z-index: 1;
+//   position: relative;
+
+//   // CSSの:hoverを完全に無効化してJavaScriptで制御
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+//     z-index: 1 !important;
+//   }
+
+//   // JavaScript制御されるホバー状態のみ有効
+//   &.hovered {
+//     transform: translateY(-2px) scale(1.05) !important;
+//     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// .skillsRubyRowContainer {
+//   display: flex;
+//   flex-direction: row;
+//   gap: clamp(4px, 2vw, 8px);
+//   align-items: center;
+//   justify-content: center; // モバイルでは中央配置に変更
+//   width: 100%;
+//   flex-shrink: 0;
+//   position: relative;
+//   flex-wrap: nowrap;
+//   margin-top: clamp(12px, 3vw, 20px);
+//   // パディングをリセットして中央配置のための余白を確保
+//   padding: 0 8px; // 左右に少しの余白を保持
+
+//   // 325px-375px範囲での特別対応
+//   @media screen and (min-width: 325px) and (max-width: 375px) {
+//     padding: 0 6px;
+//   }
+
+//   @include max-width(micro) {
+//     padding: 0 4px;
+//   }
+// }
+
+// .skillCircleRuby {
+//   background: linear-gradient(135deg, #cc342d 0%, #a71e1e 100%);
+//   border-radius: 50%;
+//   flex-shrink: 0;
+//   width: clamp(60px, 16vw, 80px);
+//   height: clamp(60px, 16vw, 80px);
+//   position: relative;
+//   aspect-ratio: 1;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+//   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   cursor: pointer;
+//   z-index: 5;
+
+//   &:hover {
+//     transform: translateY(-4px) scale(1.05);
+//     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+//     z-index: 10;
+//   }
+// }
+
+// .rubyImageOnly {
+//   flex-shrink: 0;
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+//   z-index: 1;
+
+//   // CSSの:hoverを完全に無効化してJavaScriptで制御
+//   &:hover {
+//     transform: none !important;
+//     z-index: 1 !important;
+//   }
+
+//   // JavaScript制御されるホバー状態のみ有効
+//   &.hovered {
+//     transform: scale(1.1) !important;
+//     z-index: 25 !important;
+//   }
+
+//   img {
+//     width: clamp(70px, 15vw, 100px) !important;
+//     height: clamp(70px, 15vw, 100px) !important;
+//     object-fit: contain;
+//     filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.25));
+//     transition: all 0.3s ease;
+
+//     // 325px-375px範囲での特別対応
+//     @media screen and (min-width: 325px) and (max-width: 375px) {
+//       width: clamp(60px, 14vw, 85px) !important;
+//       height: clamp(60px, 14vw, 85px) !important;
+//     }
+
+//     // 小さい画面での調整 - さらに小さく
+//     @include max-width(micro) {
+//       width: clamp(55px, 15vw, 75px) !important;
+//       height: clamp(55px, 15vw, 75px) !important;
+//     }
+
+//     @include max-width(nano) {
+//       width: clamp(48px, 16vw, 65px) !important;
+//       height: clamp(48px, 16vw, 65px) !important;
+//     }
+
+//     @include max-width(tiny) {
+//       width: clamp(40px, 18vw, 55px) !important;
+//       height: clamp(40px, 18vw, 55px) !important;
+//     }
+
+//     // 300px以下の超小画面対応
+//     @media screen and (max-width: 300px) {
+//       width: clamp(36px, 20vw, 48px) !important;
+//       height: clamp(36px, 20vw, 48px) !important;
+//     }
+
+//     // CSSの:hoverを完全に無効化
+//     &:hover {
+//       filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.25)) !important;
+//       transform: none !important;
+//     }
+//   }
+
+//   // JavaScriptで制御されるimgのホバー状態
+//   &.hovered img {
+//     filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4)) !important;
+//   }
+// }
+
+// // Skill icon and text styles with responsive image sizing
+// .skillIcon {
+//   font-size: clamp(16px, 4vw, 24px);
+//   line-height: 1;
+//   margin-bottom: 2px;
+//   color: #ffffff;
+//   font-weight: bold;
+//   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   // 基本の画像レスポンシブサイズ設定
+//   img {
+//     width: clamp(24px, 6vw, 36px) !important;
+//     height: clamp(24px, 6vw, 36px) !important;
+//     object-fit: contain;
+//   }
+// }
+
+// // サークルサイズ別の個別調整
+// .skillCircleSmall {
+//   .skillIcon img {
+//     width: clamp(20px, 5vw, 28px) !important;
+//     height: clamp(20px, 5vw, 28px) !important;
+//   }
+// }
+
+// .skillCircleMedium1 {
+//   .skillIcon img {
+//     width: clamp(24px, 6vw, 32px) !important;
+//     height: clamp(24px, 6vw, 32px) !important;
+//   }
+// }
+
+// .skillCircleMedium2 {
+//   .skillIcon img {
+//     width: clamp(26px, 7vw, 36px) !important;
+//     height: clamp(26px, 7vw, 36px) !important;
+//   }
+// }
+
+// .skillCircleGrid {
+//   .skillIcon img {
+//     width: clamp(30px, 8vw, 42px) !important;
+//     height: clamp(30px, 8vw, 42px) !important;
+
+//     // 325px-375px範囲での特別対応
+//     @media screen and (min-width: 325px) and (max-width: 375px) {
+//       width: clamp(24px, 7vw, 32px) !important;
+//       height: clamp(24px, 7vw, 32px) !important;
+//     }
+
+//     // 小さい画面での調整
+//     @include max-width(micro) {
+//       width: clamp(20px, 7vw, 28px) !important;
+//       height: clamp(20px, 7vw, 28px) !important;
+//     }
+
+//     @include max-width(nano) {
+//       width: clamp(18px, 8vw, 24px) !important;
+//       height: clamp(18px, 8vw, 24px) !important;
+//     }
+
+//     @include max-width(tiny) {
+//       width: clamp(16px, 9vw, 20px) !important;
+//       height: clamp(16px, 9vw, 20px) !important;
+//     }
+
+//     // 300px以下の超小画面対応
+//     @media screen and (max-width: 300px) {
+//       width: clamp(14px, 10vw, 18px) !important;
+//       height: clamp(14px, 10vw, 18px) !important;
+//     }
+//   }
+// }
+
+// .skillCircleRuby {
+//   .skillIcon img {
+//     width: clamp(32px, 9vw, 45px) !important;
+//     height: clamp(32px, 9vw, 45px) !important;
+//   }
+// }
+
+// .skillText {
+//   font-family: $font-japanese;
+//   font-size: clamp(8px, 2vw, 10px);
+//   font-weight: 600;
+//   color: #ffffff;
+//   text-align: center;
+//   line-height: 1.1;
+//   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+//   word-break: break-all;
+//   hyphens: auto;
+//   max-width: 100%;
+//   overflow: hidden;
+
+//   // 長いテキストの場合の調整
+//   @media screen and (max-width: 320px) {
+//     font-size: 7px;
+//     line-height: 1;
+//   }
+// }
+
+// // ===== TECHNOLOGY-SPECIFIC COLORS =====
+// // Figma
+// .skillFigma {
+//   background: linear-gradient(145deg, #2f2f30, #1f1f20) !important;
+//   box-shadow: 0 8px 15px rgba(31, 31, 32, 0.6),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//   z-index: 1;
+
+//   // CSSの:hover, :activeを完全に無効化
+//   &:hover,
+//   &:active,
+//   &:focus {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(31, 31, 32, 0.6),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//     z-index: 1 !important;
+//   }
+
+//   // JavaScript制御されるホバー状態のみ有効
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(31, 31, 32, 0.7),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // Illustrator
+// .skillIllustrator {
+//   background: linear-gradient(145deg, #5a0200, #390100) !important;
+//   box-shadow: 0 8px 15px rgba(57, 1, 0, 0.6),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//   z-index: 1;
+
+//   // CSSの:hoverを完全に無効化してJavaScriptで制御
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(57, 1, 0, 0.6),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//     z-index: 1 !important;
+//   }
+
+//   // JavaScript制御されるホバー状態のみ有効
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(57, 1, 0, 0.7),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // Photoshop
+// .skillPhotoshop {
+//   background: linear-gradient(145deg, #002a52, #001935) !important;
+//   box-shadow: 0 8px 15px rgba(0, 25, 53, 0.6),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(0, 25, 53, 0.6),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(0, 25, 53, 0.7),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // Next.js
+// .skillNextjs {
+//   background: linear-gradient(145deg, #333333, #000000) !important;
+//   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // Rails
+// .skillRails {
+//   background: linear-gradient(145deg, #c80b0b, #a00909) !important;
+//   box-shadow: 0 8px 15px rgba(200, 11, 11, 0.4),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(200, 11, 11, 0.4),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(200, 11, 11, 0.5),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // 全ての技術別スタイルでCSS:hoverを無効化しJavaScript制御のみ有効化
+// // Swift
+// .skillSwift {
+//   background: linear-gradient(145deg, #fe4317, #cc3512) !important;
+//   box-shadow: 0 8px 15px rgba(254, 67, 23, 0.4),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(254, 67, 23, 0.4),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(254, 67, 23, 0.5),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // HTML/CSS/JS
+// .skillHtmlcssjs {
+//   background: linear-gradient(145deg, #ffffff, #f0f0f0) !important;
+//   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.15),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.9) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // Sass
+// .skillSass {
+//   background: linear-gradient(145deg, #c96999, #b55a88) !important;
+//   box-shadow: 0 8px 15px rgba(201, 105, 153, 0.4),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(201, 105, 153, 0.4),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(201, 105, 153, 0.5),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // Tailwind
+// .skillTailwind {
+//   background: linear-gradient(145deg, #43a6b2, #4cb0b3) !important;
+//   box-shadow: 0 8px 15px rgba(67, 166, 178, 0.4),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(67, 166, 178, 0.4),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(67, 166, 178, 0.5),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.4) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // GitHub
+// .skillGithub {
+//   background: linear-gradient(145deg, #4a5568, #1a202c) !important;
+//   box-shadow: 0 8px 15px rgba(24, 23, 23, 0.6),
+//     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//   z-index: 1;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 8px 15px rgba(24, 23, 23, 0.6),
+//       inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+//       inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+//     z-index: 1 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-4px) scale(1.08) !important;
+//     box-shadow: 0 12px 25px rgba(24, 23, 23, 0.7),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.15) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // Ruby
+// .skillRuby {
+//   background: linear-gradient(145deg, #cc342d, #a71e1e) !important;
+//   box-shadow: 0 10px 20px rgba(204, 52, 45, 0.4),
+//     inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+//     inset 0 3px 6px rgba(255, 255, 255, 0.2) !important;
+//   z-index: 5;
+
+//   &:hover {
+//     transform: none !important;
+//     box-shadow: 0 10px 20px rgba(204, 52, 45, 0.4),
+//       inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+//       inset 0 3px 6px rgba(255, 255, 255, 0.2) !important;
+//     z-index: 5 !important;
+//   }
+
+//   &.hovered {
+//     transform: translateY(-6px) scale(1.12) !important;
+//     box-shadow: 0 16px 32px rgba(204, 52, 45, 0.5),
+//       inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+//       inset 0 4px 8px rgba(255, 255, 255, 0.25) !important;
+//     z-index: 25 !important;
+//   }
+// }
+
+// // ===== STRENGTH SECTION (Mobile) =====
+// .strengthContentContainer {
+//   display: flex;
+//   flex-direction: column;
+//   gap: clamp(32px, 8vw, 40px); // レスポンシブギャップ
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   align-self: stretch;
+//   flex-shrink: 0;
+//   position: relative;
+//   overflow: hidden;
+// }
+
+// .strengthList {
+//   display: flex;
+//   flex-direction: column;
+//   gap: clamp(16px, 4vw, 24px); // レスポンシブギャップ
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   align-self: stretch;
+//   flex-shrink: 0;
+//   position: relative;
+//   opacity: 1;
+//   transform: translateY(0);
+// }
+
+// .strengthItem {
+//   padding: 0px clamp(8px, 3vw, 16px); // レスポンシブパディング
+//   display: flex;
+//   flex-direction: column; // 小画面では縦並び
+//   gap: clamp(8px, 2vw, 12px);
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   align-self: stretch;
+//   flex-shrink: 0;
+//   position: relative;
+//   overflow: hidden;
+
+//   // 375px以上で横並びレイアウト
+//   @media screen and (min-width: 375px) {
+//     flex-direction: row;
+//     align-items: flex-start;
+//     gap: clamp(12px, 3vw, 16px);
+//   }
+
+//   // 480px以上でより余裕のあるレイアウト
+//   @media screen and (min-width: 480px) {
+//     padding: 0px clamp(12px, 4vw, 20px);
+//     gap: clamp(16px, 4vw, 20px);
+//   }
+// }
+
+// .strengthNameContainer {
+//   display: flex;
+//   flex-direction: row;
+//   gap: 10px;
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   flex-shrink: 0;
+//   width: 100%; // 小画面では幅いっぱい
+//   position: relative;
+
+//   // 375px以上で固定幅
+//   @media screen and (min-width: 375px) {
+//     width: clamp(80px, 25%, 120px);
+//     flex-shrink: 0;
+//   }
+
+//   // 480px以上でより広い幅
+//   @media screen and (min-width: 480px) {
+//     width: clamp(100px, 30%, 140px);
+//   }
+// }
+
+// .strengthName {
+//   color: $text-color;
+//   text-align: left;
+//   font-family: $font-japanese;
+//   font-size: clamp(14px, 3.5vw, 16px); // レスポンシブ対応
+//   line-height: 180%;
+//   letter-spacing: 0.04em;
+//   font-weight: 400;
+//   position: relative;
+//   width: 100%;
+//   word-wrap: break-word;
+// }
+
+// .strengthDescContainer {
+//   display: flex;
+//   flex-direction: row;
+//   gap: 10px;
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   flex: 1; // 残り空間を使用
+//   min-width: 0; // flexアイテムの縮小を許可
+//   position: relative;
+// }
+
+// .strengthDescription {
+//   color: $text-color;
+//   text-align: left;
+//   font-family: $font-japanese;
+//   font-size: clamp(12px, 3vw, 14px); // レスポンシブ対応
+//   line-height: 160%; // 読みやすさのため行間を調整
+//   letter-spacing: 0.02em;
+//   font-weight: 400;
+//   position: relative;
+//   flex: 1;
+//   word-wrap: break-word;
+//   overflow-wrap: break-word;
+
+//   // 480px以上でより大きなフォント
+//   @media screen and (min-width: 480px) {
+//     font-size: clamp(13px, 3.2vw, 15px);
+//     line-height: 170%;
+//   }
+// }
+
 .bottomProfileSection {
   display: flex;
   flex-direction: column;
@@ -1123,7 +1187,7 @@
   justify-content: flex-end;
   align-self: stretch;
   flex-shrink: 0;
-  height: 240px;
+  height: 192px;
   position: relative;
 }
 
@@ -1136,23 +1200,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   cursor: pointer;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
-}
-
-.footerSection {
-  background: #d9d9d9;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 240px;
-  position: relative;
-  overflow: hidden;
 }
 
 // ===== DESKTOP LAYOUT (sm以上) =====
@@ -1162,8 +1215,7 @@
     display: none !important;
   }
 
-  .bottomProfileSection,
-  .footerSection {
+  .bottomProfileSection {
     display: none !important;
   }
 
@@ -1172,7 +1224,7 @@
     display: flex !important;
     padding: 96px 0px 0px 0px;
     flex-direction: column;
-    gap: 200px;
+    gap: 176px;
     align-items: flex-start;
     justify-content: flex-start;
     align-self: stretch;
@@ -1183,8 +1235,6 @@
   // ===== DESKTOP PAGE TITLE =====
   .desktopPageTitleSection {
     display: flex !important;
-    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
-    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: row;
     gap: 10px;
     align-items: center;
@@ -1193,6 +1243,9 @@
     flex-shrink: 0;
     height: 104px;
     position: relative;
+
+    // About Meタイトル専用のレスポンシブ幅設定
+    @include about-title-container;
   }
 
   .desktopPageTitle {
@@ -1210,7 +1263,7 @@
   .desktopTitleHeroGroup {
     display: flex !important;
     flex-direction: column;
-    gap: 48px; // About Meタイトルとヒーロー間の狭いギャップ
+    gap: 120px; // About Meタイトルとヒーロー間の空白を増加
     align-items: flex-start;
     justify-content: flex-start;
     align-self: stretch;
@@ -1221,8 +1274,6 @@
   // ===== DESKTOP HERO SECTION =====
   .desktopHeroSection {
     display: flex !important;
-    // aboutmeページ共通のパディングを使用
-    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: column;
     gap: 0px;
     align-items: flex-start;
@@ -1231,6 +1282,9 @@
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
+
+    // 統一幅管理システムを適用
+    @include about-section-container;
   }
 
   .desktopHeroContainer {
@@ -1255,13 +1309,61 @@
     aspect-ratio: 16/10; // Mac/デスクトップ向けの16:10比率
     width: 100%;
     height: auto;
+
+    // ゲームモード時のスタイル
+    &.gameMode {
+      background: #ffffff !important; // 背景を白に変更
+      border: none; // 外枠を削除
+      border-radius: 20px; // 角丸は保持
+      overflow: visible;
+      box-shadow: none;
+      padding: 0; // パディングをリセット
+    }
+  }
+
+  .desktopHeroImageDisplay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 48px;
+    overflow: hidden;
+    // デスクトップ版より薄く細いシンプルな境界線
+    border: 2px solid #1e1e1e;
+    background: #ffffff;
+  }
+
+  .desktopHeroStartButton {
+    position: absolute;
+    bottom: clamp(24px, 4vw, 40px);
+    right: clamp(24px, 4vw, 40px);
+    background: #e65853;
+    color: #ffffff;
+    border: 1px solid #1e1e1e;
+    border-radius: 24px;
+    padding: clamp(12px, 2vw, 18px) clamp(24px, 4vw, 36px);
+    font-family: $font-rubik;
+    font-size: clamp(18px, 3vw, 24px);
+    font-weight: 700;
+    text-transform: lowercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    // デスクトップシンプル平面ボタンスタイル
+    z-index: 10;
+
+    &:hover {
+      background: #d14840;
+      opacity: 0.9;
+    }
+
+    &:active {
+      background: #c23d35;
+      transform: scale(0.98);
+    }
   }
 
   // ===== DESKTOP SECTION STYLES =====
   .desktopSection {
     display: flex !important;
-    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
-    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: column;
     gap: 64px;
     align-items: flex-start;
@@ -1269,7 +1371,10 @@
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible; // box-shadowが途切れないように変更
+
+    // 統一幅管理システムを適用
+    @include about-section-container;
   }
 
   .desktopSectionHeader {
@@ -1305,51 +1410,9 @@
     margin: 0;
   }
 
-  // ===== DESKTOP STANCE SECTION =====
-  .desktopStanceContent {
-    flex-shrink: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopStanceItem {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    height: 400px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopStanceImage {
-    background: #bababa;
-    align-self: stretch;
-    flex-shrink: 0;
-    height: 240px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopStanceTextContainer {
-    flex: 1;
-    // レスポンシブ対応: 固定幅を削除
-    width: 100%;
-    max-width: 400px;
-    min-width: 250px;
-    position: relative;
-    overflow: hidden;
-  }
-
   // ===== DESKTOP PROFILE SECTION =====
   .desktopProfileSection {
     display: flex !important;
-    // clamp(最小値, 理想値, 最大値) - 画面幅に応じて滑らかにスケール
-    padding: 0px clamp(56px, 8vw, 160px) 0px clamp(56px, 8vw, 160px);
     flex-direction: column;
     gap: 64px;
     align-items: flex-start;
@@ -1358,6 +1421,9 @@
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
+
+    // 統一幅管理システムを適用
+    @include about-section-container;
   }
 
   .desktopProfileContent {
@@ -1522,287 +1588,746 @@
     line-height: 1.6;
   }
 
-  // ===== DESKTOP SKILLS SECTION =====
-  .desktopSkillsContent {
+  // ===== 案1: モバイル版ベースのシンプル縦配置 =====
+  .desktopSimpleProfileContent {
     display: flex;
     flex-direction: column;
-    gap: clamp(12px, 2vw, 20px);
+    gap: clamp(32px, 4vw, 48px);
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(24px, 4vw, 40px) 0;
+  }
+
+  .desktopSimpleProfileImageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktopSimpleProfileImage {
+    background: #d9d9d9;
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: clamp(280px, 25vw, 320px);
+    height: clamp(280px, 25vw, 320px);
+    position: relative;
+    aspect-ratio: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .desktopSimpleProfileTextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     align-items: flex-start;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    overflow: visible;
-    padding: 20px 0;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 3vw, 40px);
   }
 
-  .desktopSkillsRow {
+  .desktopSimpleProfileText {
+    color: $text-color;
+    text-align: center;
+    font-family: $font-japanese;
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 2;
+    letter-spacing: 0.06em;
+    font-weight: 400;
+    position: relative;
+    align-self: stretch;
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+    @include mq(md) {
+      font-size: clamp(20px, 2vw, 24px);
+      line-height: 1.9;
+    }
+
+    @include mq(lg) {
+      font-size: clamp(22px, 1.8vw, 26px);
+      line-height: 1.85;
+    }
+
+    @include mq(xl) {
+      font-size: clamp(24px, 1.6vw, 28px);
+      line-height: 1.8;
+    }
+  }
+
+  // ===== 案2: より洗練された横配置版 =====
+  .desktopCleanProfileContent {
     display: flex;
     flex-direction: row;
-    gap: clamp(20px, 4vw, 40px);
+    gap: clamp(40px, 6vw, 80px);
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    overflow: visible;
-  }
-
-  .desktopSkillCircle1 {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    flex-shrink: 0;
-    width: clamp(60px, 8vw, 80px);
-    height: clamp(60px, 8vw, 80px);
-    position: relative;
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-
-    &:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  .desktopSkillCircle2 {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    border-radius: 50%;
-    flex-shrink: 0;
-    width: clamp(70px, 9vw, 90px);
-    height: clamp(70px, 9vw, 90px);
-    position: relative;
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-
-    &:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  .desktopSkillCircle3 {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    border-radius: 50%;
-    flex-shrink: 0;
-    width: clamp(80px, 10vw, 100px);
-    height: clamp(80px, 10vw, 100px);
-    position: relative;
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-
-    &:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  .desktopSkillCircle4 {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    border-radius: 50%;
-    flex-shrink: 0;
-    width: clamp(90px, 11vw, 110px);
-    height: clamp(90px, 11vw, 110px);
-    position: relative;
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-
-    &:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  // Desktop skill icon and text styles with responsive image sizing
-  .desktopSkillIcon {
-    font-size: clamp(20px, 3vw, 32px);
-    line-height: 1;
-    margin-bottom: 4px;
-    color: #ffffff;
-    font-weight: bold;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    // デスクトップ版基本画像のレスポンシブサイズ設定
-    img {
-      width: clamp(36px, 6vw, 56px) !important;
-      height: clamp(36px, 6vw, 56px) !important;
-      object-fit: contain;
-    }
-  }
-
-  // デスクトップ版サークルサイズ別の個別調整
-  .desktopSkillCircle1 {
-    .desktopSkillIcon img {
-      width: clamp(32px, 5vw, 48px) !important;
-      height: clamp(32px, 5vw, 48px) !important;
-    }
-  }
-
-  .desktopSkillCircle2 {
-    .desktopSkillIcon img {
-      width: clamp(36px, 6vw, 54px) !important;
-      height: clamp(36px, 6vw, 54px) !important;
-    }
-  }
-
-  .desktopSkillCircle3 {
-    .desktopSkillIcon img {
-      width: clamp(40px, 7vw, 60px) !important;
-      height: clamp(40px, 7vw, 60px) !important;
-    }
-  }
-
-  .desktopSkillCircle4 {
-    .desktopSkillIcon img {
-      width: clamp(44px, 8vw, 66px) !important;
-      height: clamp(44px, 8vw, 66px) !important;
-    }
-  }
-
-  .desktopSkillText {
-    font-family: $font-japanese;
-    font-size: clamp(10px, 1.5vw, 14px);
-    font-weight: 600;
-    color: #ffffff;
-    text-align: center;
-    line-height: 1.2;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    word-break: break-all;
-    hyphens: auto;
-    max-width: 100%;
     overflow: hidden;
+    padding: clamp(32px, 5vw, 60px) 0;
   }
 
-  // ===== DESKTOP STRENGTH & WEAKNESS SECTION =====
-  .desktopStrengthWeaknessTitle {
+  .profileImageSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: clamp(280px, 30vw, 360px);
+    position: relative;
+  }
+
+  .profileAvatar {
+    background: #d9d9d9;
+    border-radius: 24px;
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+    }
+  }
+
+  .profileInfoSection {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 3vw, 32px);
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1;
+    min-width: 0;
+    position: relative;
+  }
+
+  .profileName {
     color: $text-color;
     text-align: left;
+    font-family: $font-japanese;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 700;
     position: relative;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    margin-bottom: clamp(8px, 1vw, 12px);
+
+    // グラデーションアンダーラインを追加
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        #e65853 0%,
+        #ff6b6b 50%,
+        transparent 100%
+      );
+      border-radius: 2px;
+      animation: nameUnderline 0.8s ease-out 0.3s both;
+    }
+  }
+
+  // 名前アンダーラインのアニメーション
+  @keyframes nameUnderline {
+    0% {
+      width: 0;
+      opacity: 0;
+    }
+    100% {
+      width: 100%;
+      opacity: 1;
+    }
+  }
+
+  .profileBio {
+    color: $text-color;
+    font-family: $font-japanese;
+    font-size: clamp(16px, 1.8vw, 20px);
+    font-weight: 400;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+    position: relative;
+
+    p {
+      margin: 0 0 clamp(16px, 2vw, 24px) 0;
+      word-break: break-word;
+      overflow-wrap: break-word;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      // 段落ごとに異なるアニメーションを設定
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease-out forwards;
+
+      &:nth-child(1) {
+        animation-delay: 0.5s;
+      }
+      &:nth-child(2) {
+        animation-delay: 0.7s;
+      }
+      &:nth-child(3) {
+        animation-delay: 0.9s;
+      }
+    }
+  }
+
+  // フェードインアニメーション
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // ===== 案3: カード型デザイン =====
+  .desktopCardProfileContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    padding: clamp(32px, 5vw, 60px) 0;
+  }
+
+  .profileCard {
+    background: #ffffff;
+    border: 2px solid #f0f0f0;
+    border-radius: 24px;
+    width: 100%;
+    max-width: clamp(600px, 80vw, 900px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.04),
+      0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.12),
+        0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
+      border-color: #e0e0e0;
+    }
+  }
+
+  .cardHeader {
+    padding: clamp(32px, 5vw, 48px) clamp(32px, 5vw, 48px)
+      clamp(24px, 4vw, 32px);
+    display: flex;
+    flex-direction: row;
+    gap: clamp(24px, 4vw, 32px);
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+  }
+
+  .cardProfileImage {
+    background: #d9d9d9;
+    border-radius: 20px;
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+    flex-shrink: 0;
+    position: relative;
+    aspect-ratio: 1;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .cardProfileHeader {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vw, 12px);
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cardName {
+    color: $text-color;
+    font-family: $font-japanese;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+    position: relative;
+
+    // グラデーションテキスト効果
+    background: linear-gradient(135deg, #e65853 0%, #ff6b6b 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+  }
+
+  .cardSubtitle {
+    color: #666;
+    font-family: $font-rubik;
+    font-size: clamp(14px, 1.5vw, 18px);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+  }
+
+  .cardDivider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      #e65853 25%,
+      #ff6b6b 50%,
+      #e65853 75%,
+      transparent 100%
+    );
     margin: 0;
   }
 
-  .desktopStrengthSpan {
-    font-family: $font-rubik;
-    color: $text-color;
-    text-align: left;
-    // レスポンシブ対応: セクションタイトルサイズをclampで調整
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 600;
-    transition: font-size 0.5s ease, font-weight 0.5s ease;
-  }
-
-  .desktopWeaknessSpan {
-    font-family: $font-rubik;
-    font-size: 24px;
-    font-weight: 600;
-    transition: font-size 0.5s ease, font-weight 0.5s ease;
-  }
-
-  // デスクトップ版 強調状態のスタイル - デフォルトの大きいサイズ
-  .desktopStrengthSpan.emphasized {
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 600;
-  }
-
-  .desktopWeaknessSpan.emphasized {
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 600;
-  }
-
-  // デスクトップ版 非強調状態のスタイル - デフォルトの小さいサイズ
-  .desktopStrengthSpan.deemphasized {
-    font-size: 24px; // デフォルトのWeaknessサイズ
-    font-weight: 600;
-  }
-
-  .desktopWeaknessSpan.deemphasized {
-    font-size: 24px; // デフォルトのWeaknessサイズ
-    font-weight: 600;
-  }
-
-  .desktopStrengthWeaknessContent {
+  .cardContent {
+    padding: clamp(24px, 4vw, 32px) clamp(32px, 5vw, 48px)
+      clamp(32px, 5vw, 48px);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: clamp(24px, 3vw, 32px);
+    position: relative;
+  }
+
+  .cardSection {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.5vw, 16px);
+    position: relative;
+
+    // ステージャードアニメーション
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.8s ease-out forwards;
+
+    &:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+    &:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.7s;
+    }
+  }
+
+  .cardSectionTitle {
+    color: $text-color;
+    font-family: $font-japanese;
+    font-size: clamp(16px, 1.8vw, 20px);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+
+    // アイコンとテキストの間隙を調整
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cardText {
+    color: $text-color;
+    font-family: $font-japanese;
+    font-size: clamp(15px, 1.6vw, 18px);
+    font-weight: 400;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+    margin: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    opacity: 0.9;
+  }
+
+  // スライドインアニメーション
+  @keyframes slideInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // // ===== DESKTOP SKILLS SECTION =====
+  // .desktopSkillsContent {
+  //   display: flex;
+  //   flex-direction: column;
+  //   gap: clamp(12px, 2vw, 20px);
+  //   align-items: flex-start;
+  //   justify-content: flex-start;
+  //   align-self: stretch;
+  //   flex-shrink: 0;
+  //   position: relative;
+  //   overflow: visible; // box-shadowを途切らないように
+  //   padding: 32px 24px; // パディングを十分に確保
+  // }
+
+  // .desktopSkillsRow {
+  //   display: flex;
+  //   flex-direction: row;
+  //   gap: clamp(20px, 4vw, 40px);
+  //   align-items: center;
+  //   justify-content: center;
+  //   align-self: stretch;
+  //   flex-shrink: 0;
+  //   position: relative;
+  //   overflow: visible;
+  // }
+
+  // .desktopSkillCircle1 {
+  //   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  //   border-radius: 50%;
+  //   flex-shrink: 0;
+  //   width: clamp(60px, 8vw, 80px);
+  //   height: clamp(60px, 8vw, 80px);
+  //   position: relative;
+  //   aspect-ratio: 1;
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //   text-align: center;
+  //   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  //   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  //   cursor: pointer;
+  //   z-index: 1;
+
+  //   &:hover {
+  //     transform: translateY(-4px) scale(1.05);
+  //     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  //     z-index: 1;
+  //   }
+  // }
+
+  // .desktopSkillCircle2 {
+  //   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  //   border-radius: 50%;
+  //   flex-shrink: 0;
+  //   width: clamp(70px, 9vw, 90px);
+  //   height: clamp(70px, 9vw, 90px);
+  //   position: relative;
+  //   aspect-ratio: 1;
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //   text-align: center;
+  //   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  //   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  //   cursor: pointer;
+  //   z-index: 1;
+
+  //   &:hover {
+  //     transform: translateY(-4px) scale(1.05);
+  //     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  //     z-index: 1;
+  //   }
+  // }
+
+  // .desktopSkillCircle3 {
+  //   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  //   border-radius: 50%;
+  //   flex-shrink: 0;
+  //   width: clamp(80px, 10vw, 100px);
+  //   height: clamp(80px, 10vw, 100px);
+  //   position: relative;
+  //   aspect-ratio: 1;
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //   text-align: center;
+  //   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  //   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  //   cursor: pointer;
+  //   z-index: 1;
+
+  //   &:hover {
+  //     transform: translateY(-4px) scale(1.05);
+  //     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  //     z-index: 1;
+  //   }
+  // }
+
+  // // デスクトップ版スキルアイコンの統一サイズ設定
+  // .desktopSkillCircleGrid {
+  //   // 完全統一されたサイズ設定（デスクトップ版）
+  //   width: clamp(80px, 10vw, 100px) !important;
+  //   height: clamp(80px, 10vw, 100px) !important;
+
+  //   // 基本スタイル
+  //   border-radius: 50%;
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //   text-align: center;
+  //   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  //   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  //   cursor: pointer;
+  //   z-index: 1;
+  //   position: relative;
+  //   margin: 4px; // box-shadow用のマージン
+
+  //   // CSSの:hoverを完全に無効化してJavaScriptで制御
+  //   &:hover {
+  //     transform: none !important;
+  //     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+  //     z-index: 1 !important;
+  //   }
+
+  //   // JavaScript制御されるホバー状態のみ有効
+  //   &.hovered {
+  //     transform: translateY(-4px) scale(1.08) !important;
+  //     box-shadow: 0 10px 32px rgba(0, 0, 0, 0.25) !important;
+  //     z-index: 25 !important;
+  //   }
+  // }
+
+  // .desktopSkillsRubyRow {
+  //   display: flex;
+  //   flex-direction: row;
+  //   gap: clamp(20px, 4vw, 32px);
+  //   align-items: center;
+  //   justify-content: center; // スキル行と同じ中央配置ベース
+  //   align-self: stretch;
+  //   flex-shrink: 0;
+  //   position: relative;
+  //   overflow: visible;
+  //   margin-top: clamp(20px, 4vw, 32px);
+  //   padding: 0;
+
+  //   // スキル行と同じ幅を作って、Rubyを右端に配置
+  //   .desktopSkillWrapper {
+  //     margin-left: auto; // Rubyを右端に押しやる
+  //     margin-right: 0;
+  //   }
+  // }
+
+  // .desktopSkillCircleRuby {
+  //   background: linear-gradient(135deg, #cc342d 0%, #a71e1e 100%);
+  //   border-radius: 50%;
+  //   flex-shrink: 0;
+  //   width: clamp(100px, 12vw, 120px);
+  //   height: clamp(100px, 12vw, 120px);
+  //   position: relative;
+  //   aspect-ratio: 1;
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //   text-align: center;
+  //   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  //   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  //   cursor: pointer;
+  //   z-index: 5;
+
+  //   &:hover {
+  //     transform: translateY(-6px) scale(1.08);
+  //     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  //     z-index: 10;
+  //   }
+  // }
+
+  // .desktopRubyImageOnly {
+  //   flex-shrink: 0;
+  //   position: relative;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   cursor: pointer;
+  //   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  //   z-index: 1;
+
+  //   // CSSの:hoverを完全に無効化してJavaScriptで制御
+  //   &:hover {
+  //     transform: none !important;
+  //     z-index: 1 !important;
+  //   }
+
+  //   // JavaScript制御されるホバー状態のみ有効
+  //   &.hovered {
+  //     transform: scale(1.15) !important;
+  //     z-index: 25 !important;
+  //   }
+
+  //   img {
+  //     width: clamp(160px, 16vw, 200px) !important;
+  //     height: clamp(160px, 16vw, 200px) !important;
+  //     object-fit: contain;
+  //     filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.25));
+  //     transition: all 0.3s ease;
+
+  //     // CSSの:hoverを完全に無効化
+  //     &:hover {
+  //       filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.25)) !important;
+  //       transform: none !important;
+  //     }
+  //   }
+
+  //   // JavaScriptで制御されるimgのホバー状態
+  //   &.hovered img {
+  //     filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.4)) !important;
+  //   }
+  // }
+
+  // // Desktop skill icon and text styles with responsive image sizing
+  // .desktopSkillIcon {
+  //   font-size: clamp(20px, 3vw, 32px);
+  //   line-height: 1;
+  //   margin-bottom: 4px;
+  //   color: #ffffff;
+  //   font-weight: bold;
+  //   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+
+  //   // デスクトップ版基本画像のレスポンシブサイズ設定
+  //   img {
+  //     width: clamp(36px, 6vw, 56px) !important;
+  //     height: clamp(36px, 6vw, 56px) !important;
+  //     object-fit: contain;
+  //   }
+  // }
+
+  // // デスクトップ版サークルサイズ別の個別調整
+  // .desktopSkillCircle1 {
+  //   .desktopSkillIcon img {
+  //     width: clamp(32px, 5vw, 48px) !important;
+  //     height: clamp(32px, 5vw, 48px) !important;
+  //   }
+  // }
+
+  // .desktopSkillCircle2 {
+  //   .desktopSkillIcon img {
+  //     width: clamp(36px, 6vw, 54px) !important;
+  //     height: clamp(36px, 6vw, 54px) !important;
+  //   }
+  // }
+
+  // .desktopSkillCircle3 {
+  //   .desktopSkillIcon img {
+  //     width: clamp(40px, 7vw, 60px) !important;
+  //     height: clamp(40px, 7vw, 60px) !important;
+  //   }
+  // }
+
+  // .desktopSkillCircleGrid {
+  //   .desktopSkillIcon img {
+  //     width: clamp(50px, 8vw, 70px) !important;
+  //     height: clamp(50px, 8vw, 70px) !important;
+  //   }
+  // }
+
+  // .desktopSkillCircleRuby {
+  //   .desktopSkillIcon img {
+  //     width: clamp(50px, 9vw, 72px) !important;
+  //     height: clamp(50px, 9vw, 72px) !important;
+  //   }
+  // }
+
+  // .desktopSkillText {
+  //   font-family: $font-japanese;
+  //   font-size: clamp(10px, 1.5vw, 14px);
+  //   font-weight: 600;
+  //   color: #ffffff;
+  //   text-align: center;
+  //   line-height: 1.2;
+  //   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  //   word-break: break-all;
+  //   hyphens: auto;
+  //   max-width: 100%;
+  //   overflow: hidden;
+  // }
+
+  // ===== DESKTOP STRENGTH SECTION (個別カード型) =====
+  .desktopStrengthContent {
+    display: flex;
+    flex-direction: column;
     gap: 0px;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    overflow: hidden;
+    // 影のためのパディングを追加
+    padding: clamp(30px, 5vw, 60px) 0;
   }
 
   .desktopStrengthContainer {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    // レスポンシブ対応: 固定幅を削除してflexを使用
-    flex: 1;
-    max-width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopStrengthHeader {
-    padding: 0px 32px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+    gap: clamp(32px, 5vw, 48px);
     align-items: center;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
     position: relative;
-    overflow: hidden;
-  }
-
-  .desktopStrengthTitle {
-    color: $text-color;
-    text-align: left;
-    font-family: $font-japanese;
-    font-size: 32px;
-    font-weight: 400;
-    position: relative;
+    padding: 0 clamp(20px, 3vw, 40px);
+    // プロフィールセクションと同じサイズに統一
+    max-width: clamp(600px, 80vw, 900px);
+    margin: 0 auto;
   }
 
   .desktopStrengthList {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    align-items: flex-start;
+    gap: clamp(28px, 4vw, 40px);
+    align-items: center;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
@@ -1814,249 +2339,119 @@
   }
 
   .desktopStrengthItem {
-    padding: 0px 56px;
+    background: #ffffff;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    overflow: visible; // 影が表示されるように
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08), 0 4px 18px rgba(0, 0, 0, 0.04),
+      0 2px 6px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: clamp(28px, 4vw, 40px) clamp(32px, 5vw, 48px);
     display: flex;
-    flex-direction: row;
-    gap: 40px;
+    // モバイルと同じ縦並びレイアウトに統一
+    flex-direction: column;
+    gap: clamp(16px, 2vw, 20px);
     align-items: flex-start;
     justify-content: flex-start;
-    align-self: stretch;
     flex-shrink: 0;
-    min-height: 80px;
-    height: auto; // 高さを自動調整
-    position: relative;
-    overflow: hidden;
+    min-height: auto;
+    height: auto;
+
+    // ステージャードアニメーション
+    opacity: 0;
+    transform: translateY(40px);
+    animation: desktopStrengthSlideIn 0.8s ease-out forwards;
+
+    &:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+    &:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.7s;
+    }
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12),
+        0 8px 30px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
   }
 
   .desktopStrengthNameWrapper {
-    padding: 8px 0px;
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: flex-start;
-    justify-content: flex-start; // centerからflex-startに変更
+    justify-content: flex-start;
+    align-self: stretch;
     flex-shrink: 0;
-    width: 200px; // 固定幅を設定して位置ずれを防止
     position: relative;
-    overflow: hidden;
+    // パディングをリセットして幅を自然に
+    padding: 0;
+    width: auto;
   }
 
   .desktopStrengthName {
     color: $text-color;
     text-align: left;
     font-family: $font-japanese;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: clamp(20px, 2.5vw, 28px); // サイズを大きく
+    font-weight: 700; // 太いフォントウェイト
     position: relative;
+    line-height: 1.4;
+    letter-spacing: 0.08em; // 文字間隔を広げる
+    margin: 0;
+
+    // アンダーラインを削除
+  }
+
+  // プロフィールセクションと同じ赤い区切り線を追加
+  .desktopStrengthDivider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      #e65853 25%,
+      #ff6b6b 50%,
+      #e65853 75%,
+      transparent 100%
+    );
+    margin: clamp(12px, 2vw, 16px) 0;
   }
 
   .desktopStrengthDescWrapper {
-    padding: 8px 0px;
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    flex-direction: column;
+    gap: 0px;
     align-items: flex-start;
     justify-content: flex-start;
     align-self: stretch;
-    flex: 1; // 残りのスペースを使用
-    min-width: 0; // flexアイテムの縮小を許可
+    flex: 1;
+    min-width: 0;
     position: relative;
-    overflow: hidden;
+    // パディングとインデントをリセット
+    padding: 0;
   }
 
   .desktopStrengthDescription {
     color: $text-color;
     text-align: left;
     font-family: $font-japanese;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: clamp(16px, 2vw, 20px); // サイズを少し大きく
+    font-weight: 400; // 通常のフォントウェイトで差別化
     position: relative;
     flex: 1;
-    line-height: 1.6;
+    line-height: 1.8; // 行間を幅幅を広げる
+    letter-spacing: 0.06em; // 文字間隔を調整
+    opacity: 0.9; // 少し薄くして差別化
     word-wrap: break-word;
     overflow-wrap: break-word;
-    min-width: 0; // flexアイテムの縮小を許可
-  }
-
-  .desktopWeaknessHeader {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .desktopWeaknessContainer {
-    background: #bababa;
-    border-radius: 16px;
-    padding: 8px 16px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: #a1a1a1;
-      transform: scale(1.05);
-    }
-
-    &:active {
-      transform: scale(0.98);
-    }
-  }
-
-  .desktopWeaknessTitle {
-    color: $text-color;
-    text-align: left;
-    font-family: $font-japanese;
-    font-size: 40px;
-    font-weight: 400;
-    position: relative;
-  }
-
-  // ===== DESKTOP CAREER SECTION =====
-  .desktopCareerContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    padding: 40px 0;
-  }
-
-  .desktopCareerSteps {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 0; // 隙間をなくして階段らしく
-    flex-wrap: nowrap;
-    position: relative;
-    width: 100%;
-    max-width: 900px; // より大きく
-  }
-
-  .desktopCareerStep {
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 0; // 角丸を完全に削除して階段らしく
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-right: 2px solid rgba(255, 255, 255, 0.3); // 境界線を追加
-
-    &:last-child {
-      border-right: none;
-    }
-
-    // 段階的にサイズアップ（左から右へ）- より大きく
-    &[data-step="1"] {
-      width: clamp(80px, 12vw, 120px);
-      height: clamp(60px, 8vw, 90px);
-      background: linear-gradient(135deg, #e8f4fd 0%, #c3dafe 100%);
-    }
-
-    &[data-step="2"] {
-      width: clamp(100px, 14vw, 140px);
-      height: clamp(80px, 10vw, 120px);
-      background: linear-gradient(135deg, #fef3e8 0%, #fed7aa 100%);
-    }
-
-    &[data-step="3"] {
-      width: clamp(120px, 16vw, 160px);
-      height: clamp(100px, 12vw, 150px);
-      background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
-    }
-
-    &[data-step="4"] {
-      width: clamp(140px, 18vw, 180px);
-      height: clamp(120px, 14vw, 180px);
-      background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
-    }
-
-    &[data-step="5"] {
-      width: clamp(160px, 20vw, 200px);
-      height: clamp(140px, 16vw, 210px);
-      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
-    }
-
-    // ホバー時の薄い赤色変化
-    &.hovered {
-      background: linear-gradient(135deg, #fecaca 0%, #f87171 100%) !important;
-      transform: translateY(-8px) scale(1.03); // より大きな動き
-      box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4);
-      z-index: 10;
-
-      .desktopStepNumber {
-        color: #ffffff;
-        font-weight: 700;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-    }
-  }
-
-  .desktopStepNumber {
-    font-family: $font-rubik;
-    font-size: clamp(18px, 4vw, 28px); // より大きく見やすく
-    font-weight: 700; // より太く
-    color: $text-color;
-    text-align: center;
-    line-height: 1;
-    transition: all 0.3s ease;
-  }
-
-  .desktopCareerTextDisplay {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    min-height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(248, 250, 252, 0.8);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(226, 232, 240, 0.5);
-  }
-
-  .desktopCareerText {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-
-    font-family: $font-japanese;
-    font-size: clamp(16px, 2.5vw, 20px);
-    font-weight: 400;
-    color: $text-color;
-    line-height: 1.6;
-    padding: 0 20px;
-
-    // デフォルトで最初のテキストを表示
-    &[data-text="1"] {
-      opacity: 1;
-      visibility: visible;
-    }
+    min-width: 0;
   }
 
   // ===== DESKTOP BOTTOM SECTION =====
@@ -2066,11 +2461,9 @@
     flex-shrink: 0;
     height: 320px;
     position: relative;
-    overflow: hidden;
   }
 
   .desktopBottomCircle {
-    border-radius: 50%;
     width: 320px;
     height: 320px;
     position: absolute;
@@ -2079,13 +2472,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    &:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    }
 
     img {
       width: 100%;
@@ -2093,29 +2479,171 @@
       object-fit: cover;
     }
   }
-
-  .desktopFooter {
-    display: flex !important;
-    background: #d9d9d9;
-    align-self: stretch;
-    flex-shrink: 0;
-    height: 320px;
-    position: relative;
-    overflow: hidden;
-  }
 }
 
-// デスクトップ要素はデフォルトで非表示（mobile-first）
-// sm以上で@include mq(sm)内で表示される
+// ===== JavaScript制御のクリック効果のみ有効化 =====
+// CSSの:hover, :activeを完全に無効化し、JavaScript制御のクリック時のみ有効にする
+.skillCircleGrid,
+.rubyImageOnly,
+.desktopSkillCircleGrid,
+.desktopRubyImageOnly {
+  cursor: pointer; // クリック可能なことを明示
+  user-select: none; // テキスト選択を防止
+  -webkit-tap-highlight-color: transparent; // iOSのタップハイライトを無効化
+
+  &:hover,
+  &:active,
+  &:focus {
+    transform: none !important;
+    z-index: 1 !important;
+    box-shadow: none !important; // ホバー・アクティブ・フォーカス時のシャドウも無効化
+    outline: none; // フォーカスアウトラインを無効化
+  }
+
+  img:hover,
+  img:active,
+  img:focus {
+    filter: none !important;
+    transform: none !important;
+  }
+
+  // アニメーションの安定性向上（即座性を重視）
+  transition-property: transform, box-shadow, z-index;
+  transition-duration: 0.2s; // より素早く反応
+  transition-timing-function: cubic-bezier(
+    0.25,
+    0.46,
+    0.45,
+    0.94
+  ); // よりスムーズなカーブ
+  will-change: transform, z-index;
+}
+
+// JavaScript制御によるクリック状態のみ有効
+.skillCircleGrid.hovered,
+.rubyImageOnly.hovered,
+.desktopSkillCircleGrid.hovered,
+.desktopRubyImageOnly.hovered,
+.skillFigma.hovered,
+.skillIllustrator.hovered,
+.skillPhotoshop.hovered,
+.skillNextjs.hovered,
+.skillRails.hovered,
+.skillSwift.hovered,
+.skillHtmlcssjs.hovered,
+.skillSass.hovered,
+.skillTailwind.hovered,
+.skillGithub.hovered,
+.skillRuby.hovered {
+  z-index: 25 !important; // JavaScript制御のクリック状態で最前面に
+  transition-property: transform, box-shadow, z-index;
+  transition-duration: 0.2s; // ベースと同じ素早い反応
+  transition-timing-function: cubic-bezier(
+    0.25,
+    0.46,
+    0.45,
+    0.94
+  ); // 同じスムーズなカーブ
+}
+
+// 画面リサイズ時のツールチップ安定性向上
+.skillTooltipCursor,
+.desktopSkillTooltipCursor {
+  // リサイズ時にツールチップが変な位置に残らないようにする
+  pointer-events: none;
+  user-select: none;
+
+  // より滑らかなアニメーション
+  transition-property: opacity, transform;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
+
+  // 画面外に出た場合の非表示処理
+  max-width: 90vw;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
 .desktopContainer,
 .desktopTitleHeroGroup,
 .desktopPageTitleSection,
 .desktopHeroSection,
 .desktopSection,
 .desktopProfileSection,
-.desktopBottomSection,
-.desktopFooter {
+.desktopBottomSection {
   display: none;
 
   // sm以上では自動的にdisplay: flex !important;が適用される
+}
+
+// ===== DESKTOP BOTTOM SECTION & SCROLL TO TOP =====
+.desktopBottomSection {
+  @include mq(sm) {
+    display: flex !important;
+    justify-content: flex-end; // 右端配置
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+}
+
+.desktopBottomCircle {
+  position: relative;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+  }
+}
+
+// ===== BOTTOM PROFILE SECTION (Mobile) =====
+.bottomProfileSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+
+  @include mq(sm) {
+    display: none; // デスクトップでは非表示
+  }
+}
+
+.bottomProfileImage {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  img {
+    display: block;
+    width: 192px;
+    height: 192px;
+    object-fit: cover;
+  }
+}
+
+// モバイル時のヒーロー画像最適化
+.heroImageDisplay {
+  img {
+    // 全サイズで画像をコンテナに最適化
+    object-fit: cover !important;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// デスクトップ版のヒーロー画像も同様に対応
+.desktopHeroImageDisplay {
+  img {
+    object-fit: cover !important;
+    width: 100%;
+    height: 100%;
+  }
 }

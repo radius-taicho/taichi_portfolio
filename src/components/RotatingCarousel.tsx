@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Work } from '@/types';
@@ -11,117 +11,203 @@ interface RotatingCarouselProps {
   optimizeCloudinaryUrl: (url: string, width?: number, height?: number) => string;
 }
 
+const CAROUSEL_CONFIG = {
+  autoplayInterval: 4000, // 4秒
+  progressUpdateInterval: 50, // 50msごとに更新
+};
+
 export default function RotatingCarousel({ 
   works, 
   currentIndex, 
   onIndexChange, 
   optimizeCloudinaryUrl 
 }: RotatingCarouselProps) {
-  const [isTransitioning, setIsTransitioning] = React.useState(false);
+  const [progress, setProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const handleWorkHover = (targetIndex: number) => {
-    if (targetIndex !== currentIndex && !isTransitioning) {
-      setIsTransitioning(true);
-      onIndexChange(targetIndex);
-      
-      // トランジション完了後にフラグをリセット
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 600);
+  // refs
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const progressRef = useRef<NodeJS.Timeout | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // タイマーの開始
+  const startTimers = useCallback(() => {
+    // 既存のタイマーをクリア
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
     }
-  };
+    if (progressRef.current) {
+      clearInterval(progressRef.current);
+    }
+
+    // プログレスをリセット
+    setProgress(0);
+
+    // 自動スライドタイマー
+    autoPlayRef.current = setInterval(() => {
+      onIndexChange(prevIndex => (prevIndex + 1) % works.length);
+      setProgress(0); // 進行状況をリセット
+    }, CAROUSEL_CONFIG.autoplayInterval);
+
+    // 進行状況の更新タイマー
+    progressRef.current = setInterval(() => {
+      setProgress(prev => {
+        const newProgress = prev + (CAROUSEL_CONFIG.progressUpdateInterval / CAROUSEL_CONFIG.autoplayInterval) * 100;
+        return Math.min(newProgress, 100);
+      });
+    }, CAROUSEL_CONFIG.progressUpdateInterval);
+  }, [works.length, onIndexChange]);
+
+  // タイマーのリセット
+  const resetTimer = useCallback(() => {
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
+      autoPlayRef.current = null;
+    }
+    if (progressRef.current) {
+      clearInterval(progressRef.current);
+      progressRef.current = null;
+    }
+
+    setProgress(0);
+
+    // 表示中の場合のみ再開
+    if (isVisible && works.length > 1) {
+      startTimers();
+    }
+  }, [isVisible, startTimers, works.length]);
+
+  // スライドインデックスの変更時に自動再生タイマーをリセット
+  useEffect(() => {
+    resetTimer();
+  }, [currentIndex, resetTimer]);
+
+  // Intersection Observer の設定
+  useEffect(() => {
+    if (!carouselRef.current) return;
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.3 }
+    );
+
+    observerRef.current.observe(carouselRef.current);
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
+
+  // 表示状態に基づいてタイマーを制御
+  useEffect(() => {
+    if (isVisible && works.length > 1) {
+      startTimers();
+    } else {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+        autoPlayRef.current = null;
+      }
+      if (progressRef.current) {
+        clearInterval(progressRef.current);
+        progressRef.current = null;
+      }
+    }
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+      if (progressRef.current) {
+        clearInterval(progressRef.current);
+      }
+    };
+  }, [isVisible, startTimers, works.length]);
+
+  const currentWork = works[currentIndex];
+
+  if (!currentWork) {
+    return null;
+  }
 
   return (
-    <div className={styles.threeItemCarouselWrapper}>
-      <div className={styles.threeItemCarousel}>
-        {/* 全作品を配置し、transformで位置制御 */}
-        <div className={styles.carouselTrack}>
-          {works.map((work, index) => {
-            // 現在のインデックスを基準とした相対位置を計算
-            let relativePosition = index - currentIndex;
-            
-            // 循環的な位置計算（左右どちらが近いかを判定）
-            if (relativePosition > works.length / 2) {
-              relativePosition -= works.length;
-            } else if (relativePosition < -works.length / 2) {
-              relativePosition += works.length;
-            }
-
-            // 表示する要素かどうかを判定（中央±1の範囲）
-            const isVisible = Math.abs(relativePosition) <= 1;
-            
-            // 位置に応じたクラス名
-            const positionClass = 
-              relativePosition === -1 ? styles.leftWork :
-              relativePosition === 0 ? styles.centerWork :
-              relativePosition === 1 ? styles.rightWork :
-              styles.hiddenWork;
-
-            return (
-              <div
-                key={work.id} // 安定したkey
-                className={`${styles.carouselItem} ${positionClass}`}
-                style={{
-                  transform: `translate(-50%, -50%) translateX(${relativePosition * 350}px) scale(${
-                    relativePosition === 0 ? 1 : 0.8
-                  })`,
-                  opacity: isVisible ? (relativePosition === 0 ? 1 : 0.6) : 0,
-                  pointerEvents: isVisible ? 'auto' : 'none'
-                }}
-                onMouseEnter={() => handleWorkHover(index)}
-              >
-                <Link href={`/works/${work.id}`} className={styles.workCardLink}>
-                  <div className={`${styles.workCard} ${relativePosition === 0 ? styles.activeCard : ''}`}>
-                    <div className={styles.workImageContainer}>
-                      {work.mainImage && (
-                        <Image
-                          src={optimizeCloudinaryUrl(
-                            work.mainImage, 
-                            relativePosition === 0 ? 420 : 300, 
-                            relativePosition === 0 ? 300 : 220
-                          )}
-                          alt={work.title}
-                          width={relativePosition === 0 ? 420 : 300}
-                          height={relativePosition === 0 ? 300 : 220}
-                          style={{ 
-                            width: '100%', 
-                            height: '100%',
-                            objectFit: 'cover' 
-                          }}
-                          quality={100}
-                          sizes={relativePosition === 0 ? "420px" : "300px"}
-                          {...(relativePosition === 0 ? { priority: true } : { loading: 'lazy' })}
-                        />
-                      )}
-                    </div>
-                    <div className={styles.workCardContent}>
-                      <h3>{work.title}</h3>
-                      <p>{work.type}</p>
-                    </div>
-                  </div>
-                </Link>
+    <div 
+      ref={carouselRef}
+      className={styles.otherWorksCarouselWrapper}
+    >
+      <div className={styles.otherWorksCarousel}>
+        <Link 
+          href={`/works/${currentWork.id}`} 
+          className={styles.otherWorkLink}
+        >
+          <div className={styles.otherWorkImageSection}>
+            {currentWork.mainImage ? (
+              <Image
+                src={optimizeCloudinaryUrl(currentWork.mainImage, 800, 500)}
+                alt={currentWork.title}
+                fill
+                className={styles.otherWorkImage}
+                quality={100}
+                sizes="(max-width: 768px) 90vw, (max-width: 1200px) 80vw, 900px"
+                priority={true}
+                style={{ objectFit: 'cover' }}
+              />
+            ) : (
+              <div className={styles.otherWorkImagePlaceholder}>
+                <span>No Image</span>
               </div>
-            );
-          })}
-        </div>
+            )}
+          </div>
+          
+          <div className={styles.otherWorkInfo}>
+            <h3 className={styles.otherWorkTitle}>{currentWork.title}</h3>
+            <p className={styles.otherWorkType}>{currentWork.type}</p>
+          </div>
+        </Link>
       </div>
 
       {/* ページネーションドット */}
-      <div className={styles.paginationContainer}>
-        <div className={styles.paginationDotsContainer}>
-          {works.map((_, index) => (
-            <div
-              key={index}
-              className={`${styles.paginationDot} ${
-                index === currentIndex ? styles.activeDot : ''
-              }`}
-              onClick={() => handleWorkHover(index)}
-            >
-              <div className={styles.ellipse6}></div>
-              {index === currentIndex && <div className={styles.ellipse3}></div>}
-            </div>
-          ))}
-        </div>
+      <div className={styles.paginationWrapper}>
+        {works.map((_, index) => (
+          <div
+            key={index}
+            className={styles.dotContainer}
+            onClick={() => {
+              setProgress(0); // クリック時に即座にプログレスをリセット
+              onIndexChange(index);
+            }}
+          >
+            {index === currentIndex ? (
+              <div className={styles.activeDot}>
+                <svg className={styles.progressCircle} width="24" height="24">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    fill="none"
+                    stroke="#E65853"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray={62.83}
+                    strokeDashoffset={62.83 * (1 - progress / 100)}
+                    transform="rotate(-90 12 12)"
+                    style={{
+                      transition: progress === 0 ? 'stroke-dashoffset 0.2s ease-out' : 'stroke-dashoffset 0.1s linear'
+                    }}
+                  />
+                </svg>
+                <div className={styles.centerDot}></div>
+              </div>
+            ) : (
+              <div className={styles.inactiveDot}></div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

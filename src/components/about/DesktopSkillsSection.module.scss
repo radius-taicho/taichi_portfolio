@@ -1,0 +1,453 @@
+@use "../../styles/common/_variables.scss" as *;
+
+// ===== DESKTOP SKILLS SECTION STYLES =====
+// Desktop-optimized styles with responsive design
+
+// ===== DESKTOP SKILLS SECTION =====
+.desktopSkillsContent {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 28px); // 統一されたスムーズな隙間
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-height: 420px; // 3-4-4配置用に高さ調整
+  height: auto;
+  position: relative;
+  overflow: visible;
+  padding: 32px 16px;
+  
+  // タブレット横向き以下でのパディングとレイアウト調整
+  @include max-width(md) {
+    min-height: 380px;
+    padding: 28px 12px;
+    gap: clamp(14px, 2.5vw, 24px);
+  }
+  
+  // タブレット縦向き以下でのパディングとレイアウト調整
+  @include max-width(sm) {
+    min-height: 350px;
+    padding: 24px 8px;
+    gap: clamp(12px, 2vw, 20px);
+  }
+  
+  // ========== モバイル(575px未満)専用設定 ==========
+  // より広いコンテンツ表示のためパディングを最小限に
+  @include max-width(xs) {
+    min-height: 320px;
+    padding: 20px 4px; // さらに狭いパディング
+    gap: clamp(10px, 1.5vw, 16px);
+  }
+}
+
+// デスクトップ版スキル行
+.desktopSkillsRow {
+  display: flex;
+  flex-direction: row;
+  gap: clamp(12px, 3vw, 24px); // モバイルと統一されたスムーズな隙間
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  flex-wrap: nowrap;
+  
+  // タブレット横向き以下でのギャップ調整
+  @include max-width(md) {
+    gap: clamp(10px, 2.5vw, 20px);
+  }
+  
+  // タブレット縦向き以下でのギャップ調整
+  @include max-width(sm) {
+    gap: clamp(8px, 2vw, 16px);
+  }
+  
+  // ========== モバイル(575px未満)専用設定 ==========
+  // さらに狭いギャップでより多くのスキルを表示
+  @include max-width(xs) {
+    gap: clamp(6px, 1.5vw, 12px);
+  }
+}
+
+// デスクトップ版スキルラッパー
+.desktopSkillWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px; // box-shadow用のマージン
+}
+
+.desktopSkillsRubyRow {
+  display: flex;
+  flex-direction: row;
+  gap: clamp(12px, 3vw, 24px); // 統一されたスムーズな隙間
+  align-items: center;
+  justify-content: center; // スキル行と同じ中央配置ベース
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+  margin-top: clamp(16px, 3vw, 28px); // 統一されたマージン
+  padding: 0;
+
+  // スキル行と同じ幅を作って、Rubyを右端に配置
+  .desktopSkillWrapper {
+    margin-left: auto; // Rubyを右端に押しやる
+    margin-right: 0;
+  }
+  
+  // タブレット横向き以下でのマージンとギャップ調整
+  @include max-width(md) {
+    margin-top: clamp(14px, 2.5vw, 24px);
+    gap: clamp(10px, 2.5vw, 20px);
+  }
+  
+  // タブレット縦向き以下でのマージンとギャップ調整
+  @include max-width(sm) {
+    margin-top: clamp(12px, 2vw, 20px);
+    gap: clamp(8px, 2vw, 16px);
+  }
+  
+  // ========== モバイル(575px未満)専用設定 ==========
+  // さらにコンパクトな配置
+  @include max-width(xs) {
+    margin-top: clamp(10px, 1.5vw, 16px);
+    gap: clamp(6px, 1.5vw, 12px);
+  }
+}
+
+// ===== DESKTOP TOOLTIP STYLES =====
+.desktopSkillTooltipCursor {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: $font-japanese;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+// ===== デスクトップ版スキルアイコンサイズ管理 =====
+.desktopSkillCircleGrid {
+  // モバイルと統一されたスムーズなレスポンシブサイズ設定
+  width: clamp(75px, 10vw, 110px) !important;
+  height: clamp(75px, 10vw, 110px) !important;
+
+  // 基本スタイル
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 1;
+  position: relative;
+  margin: 4px; // box-shadow用のマージン
+  
+  // サークル内表示領域の実現
+  overflow: hidden;
+
+  // クリック時のスケールアニメーション
+  transition: all 0.2s ease-out;
+
+  &.clicked {
+    transform: scale(1.15) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+    z-index: 25 !important;
+  }
+  
+  // タブレット横向き以下でのサイズ調整
+  @include max-width(md) {
+    width: clamp(65px, 9vw, 95px) !important;
+    height: clamp(65px, 9vw, 95px) !important;
+    margin: 3px;
+  }
+  
+  // タブレット縦向き以下でのサイズ調整
+  @include max-width(sm) {
+    width: clamp(55px, 8vw, 80px) !important;
+    height: clamp(55px, 8vw, 80px) !important;
+    margin: 2px;
+  }
+  
+  // ========== モバイル(575px未満)専用設定 ==========
+  // より大きなスキルアイコンで視認性向上
+  @include max-width(xs) {
+    width: clamp(60px, 12vw, 85px) !important;
+    height: clamp(60px, 12vw, 85px) !important;
+    margin: 1px; // マージンを最小限に
+  }
+}
+
+.desktopRubyImageOnly {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+
+  // クリック時のスケールアニメーション
+  transition: all 0.2s ease-out;
+
+  &.clicked {
+    transform: scale(1.1) !important;
+    z-index: 25 !important;
+  }
+
+  img {
+    // 他のアイコンと同じサイズに統一（サークルなし）
+    width: clamp(75px, 10vw, 110px) !important;
+    height: clamp(75px, 10vw, 110px) !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.25));
+    transition: all 0.2s ease-out;
+    
+    // タブレット横向き以下でのサイズ調整
+    @include max-width(md) {
+      width: clamp(65px, 9vw, 95px) !important;
+      height: clamp(65px, 9vw, 95px) !important;
+    }
+    
+    // タブレット縦向き以下でのサイズ調整
+    @include max-width(sm) {
+      width: clamp(55px, 8vw, 80px) !important;
+      height: clamp(55px, 8vw, 80px) !important;
+    }
+    
+    // ========== モバイル(575px未満)専用設定 ==========
+    // Rubyアイコンもより大きく表示
+    @include max-width(xs) {
+      width: clamp(60px, 12vw, 85px) !important;
+      height: clamp(60px, 12vw, 85px) !important;
+    }
+  }
+
+  &.clicked img {
+    filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.4)) !important;
+  }
+}
+
+// Desktop skill icon and text styles with responsive image sizing
+.desktopSkillIcon {
+  font-size: clamp(20px, 3vw, 32px);
+  line-height: 1;
+  margin-bottom: 4px;
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // デスクトップ版基本画像のレスポンシブサイズ設定
+  img {
+    width: clamp(40px, 6vw, 60px) !important;
+    height: clamp(40px, 6vw, 60px) !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: all 0.2s ease-out;
+  }
+}
+
+.desktopSkillCircleGrid {
+  .desktopSkillIcon img {
+    // モバイルと統一されたスムーズなレスポンシブ画像サイズ
+    width: clamp(50px, 7vw, 75px) !important;
+    height: clamp(50px, 7vw, 75px) !important;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    transition: all 0.2s ease-out;
+  }
+
+  // Next.jsアイコンの個別調整
+  &.skillNextjs .desktopSkillIcon img {
+    transform: translateX(2px) translateY(10px); // 上に2px移動
+    object-position: center center; // 中央配置を明示的に指定
+  }
+
+  // Illustratorアイコンの個別調整
+  &.skillIllustrator .desktopSkillIcon img {
+    transform: translateX(-5px); // 上に1px移動
+    object-position: center center;
+  }
+}
+
+.desktopSkillText {
+  font-family: $font-japanese;
+  font-size: clamp(10px, 1.5vw, 14px);
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  word-break: break-all;
+  hyphens: auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+// ===== DESKTOP TECHNOLOGY-SPECIFIC COLORS =====
+// Figma
+.skillFigma {
+  background: linear-gradient(145deg, #2f2f30, #1f1f20) !important;
+  box-shadow: 0 8px 15px rgba(31, 31, 32, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  z-index: 1;
+}
+
+// Illustrator
+.skillIllustrator {
+  background: linear-gradient(145deg, #5a0200, #390100) !important;
+  box-shadow: 0 8px 15px rgba(57, 1, 0, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  z-index: 1;
+}
+
+// Photoshop
+.skillPhotoshop {
+  background: linear-gradient(145deg, #002a52, #001935) !important;
+  box-shadow: 0 8px 15px rgba(0, 25, 53, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  z-index: 1;
+}
+
+// Next.js
+.skillNextjs {
+  background: linear-gradient(145deg, #333333, #000000) !important;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  z-index: 1;
+}
+
+// Rails
+.skillRails {
+  background: linear-gradient(145deg, #c80b0b, #a00909) !important;
+  box-shadow: 0 8px 15px rgba(200, 11, 11, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  z-index: 1;
+}
+
+// Swift
+.skillSwift {
+  background: linear-gradient(145deg, #fe4317, #cc3512) !important;
+  box-shadow: 0 8px 15px rgba(254, 67, 23, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  z-index: 1;
+}
+
+// HTML/CSS/JS
+.skillHtmlcssjs {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0) !important;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
+  z-index: 1;
+}
+
+// Sass
+.skillSass {
+  background: linear-gradient(145deg, #c96999, #b55a88) !important;
+  box-shadow: 0 8px 15px rgba(201, 105, 153, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  z-index: 1;
+}
+
+// Tailwind
+.skillTailwind {
+  background: linear-gradient(145deg, #43a6b2, #4cb0b3) !important;
+  box-shadow: 0 8px 15px rgba(67, 166, 178, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+  z-index: 1;
+}
+
+// GitHub
+.skillGithub {
+  background: linear-gradient(145deg, #4a5568, #1a202c) !important;
+  box-shadow: 0 8px 15px rgba(24, 23, 23, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+  z-index: 1;
+}
+
+// Ruby
+.skillRuby {
+  background: linear-gradient(145deg, #cc342d, #a71e1e) !important;
+  box-shadow: 0 10px 20px rgba(204, 52, 45, 0.4),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+    inset 0 3px 6px rgba(255, 255, 255, 0.2) !important;
+  z-index: 5;
+}
+
+// ===== クリック可能な要素のスタイル =====
+.desktopSkillCircleGrid,
+.desktopRubyImageOnly {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+// 画面リサイズ時のツールチップ安定性向上（デスクトップ版）
+.desktopSkillTooltipCursor {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition-property: opacity, transform, left, top;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
+
+  max-width: calc(100vw - 60px);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  will-change: opacity, transform;
+
+  &:not(.active) {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+  }
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}

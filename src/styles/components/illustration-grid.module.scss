@@ -1,0 +1,112 @@
+@use "../common/_variables.scss" as *;
+
+// イラスト・アイコングリッド用スタイル（CSS変数対応）
+.illustrationGrid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.gridFrame {
+  // JavaScript から渡される動的な値を CSS 変数として使用
+  max-width: var(--grid-container-max-width, 800px);
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: var(--grid-frame-radius, 16px);
+  padding: var(--grid-frame-padding, 24px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+}
+
+.gridContainer {
+  display: grid;
+  // JavaScript から渡される動的な列数とギャップ
+  grid-template-columns: repeat(var(--grid-columns, 2), 1fr);
+  gap: var(--grid-gap, 16px);
+  width: 100%;
+  justify-items: center;
+}
+
+.gridItem {
+  padding: var(--grid-item-padding, 12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  // デフォルトで浮き上がったスタイル
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: white;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.imageBackground {
+  // JavaScript から渡される動的なサイズ
+  width: var(--grid-image-size, 120px);
+  height: var(--grid-image-size, 120px);
+  border-radius: 12px;
+  background-color: #f7f7f7;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.iconImage {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+}
+
+.itemTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.emptyState {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  background-color: #fafafa;
+  border-radius: 12px;
+  border: 2px dashed #e0e0e0;
+
+  .emptyIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .emptyText {
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+// ローディング状態
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #666;
+  font-size: 16px;
+}
