@@ -23,6 +23,34 @@ const nextConfig = {
   // 本番環境での最適化
   compress: true,
   poweredByHeader: false,
+  // 静的ファイル配信の最適化（Render対応）
+  trailingSlash: false,
+  // ローカル画像の問題を避けるため、リライト設定
+  async rewrites() {
+    return [
+      // 大文字小文字を区別しない画像配信
+      {
+        source: '/images/:path*.PNG',
+        destination: '/images/:path*.png',
+      },
+      {
+        source: '/images/:path*.GIF',
+        destination: '/images/:path*.gif',
+      },
+      {
+        source: '/images/:path*.WEBP',
+        destination: '/images/:path*.webp',
+      },
+      {
+        source: '/images/:path*.JPG',
+        destination: '/images/:path*.jpg',
+      },
+      {
+        source: '/images/:path*.JPEG',
+        destination: '/images/:path*.jpeg',
+      },
+    ];
+  },
   // 画像読み込みエラーのデバッグ用
   onDemandEntries: {
     maxInactiveAge: 25 * 1000,
