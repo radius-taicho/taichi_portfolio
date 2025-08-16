@@ -153,9 +153,12 @@ export default function RotatingCarousel({
                 alt={currentWork.title}
                 fill
                 className={styles.otherWorkImage}
-                quality={100}
+                quality={85}
+                loading="eager"
+                priority
+                placeholder="blur"
+                blurDataURL="data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAwAgCdASoKAAYAAkA4JaQAA3AA/v3AgAA="
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 80vw, 900px"
-                priority={true}
                 style={{ objectFit: 'cover' }}
               />
             ) : (

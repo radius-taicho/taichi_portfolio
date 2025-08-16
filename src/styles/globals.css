@@ -1,66 +1,146 @@
-/* ==========================================
-   SCSSメイン構成のglobals.css
-   ========================================== */
+/* 🚀 高速スムーズスクロール最適化 */
 
-/* Tailwindは最小限のみ使用 (リセット系のみ) */
-@import "tailwindcss/base";
-/* @import "tailwindcss/components"; */  /* コメントアウト */
-/* @import "tailwindcss/utilities"; */  /* コメントアウト */
-
-/* CSS変数定義 */
-:root {
-  --text-color: #252525;
-  --text-secondary: #252525;
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
-  --background-light: #f8f9fa;
-  --background-white: #ffffff;
-  --border-color: #e5e5e5;
-  
-  /* フォント変数 */
-  --font-japanese: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HiraginoMaruGothicProN-W4", "HiraginoMaruGothicPro-W4", "ヒラギノ丸ゴ ProN W4", "ヒラギノ丸ゴ Pro W4", "Meiryo", "メイリオ", sans-serif;
-  /* --font-rubikはNext.jsのGoogle Fontsから自動設定されます */
+/* 全体のスクロール最適化 */
+* {
+  /* GPU加速でスムーズスクロール */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
 }
 
 html {
-  box-sizing: border-box;
   scroll-behavior: smooth;
+  /* スクロール時のパフォーマンス最適化 */
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-top: 80px;
 }
 
-/* メインフォントは日本語 */
-body {
-  font-family: var(--font-japanese);
-  line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--background-white);
+/* 画像の遷移最適化 */
+img {
+  /* レイアウトシフト防止 */
+  height: auto;
+  max-width: 100%;
+  
+  /* 読み込み時のスムーズ表示 */
+  transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+  
+  /* GPU加速 */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  
+  /* 重要画像用：即座に表示開始 */
+  opacity: 1;
+  filter: blur(0);
+  
+  /* チラつき完全防止 */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizeQuality;
 }
 
-/* 基本的な要素の継承 */
-p, div, span, a, li, td, th, label, input, textarea, button {
-  font-family: inherit;
+/* Next.js Image コンポーネントの最適化 */
+[data-nimg] {
+  /* 重要画像用：高速表示 */
+  transition: opacity 0.1s ease, filter 0.1s ease;
+  will-change: opacity, filter;
+  transform: translateZ(0);
+  
+  /* 即座に表示開始（重要画像） */
+  opacity: 1 !important;
+  filter: blur(0) !important;
+  
+  /* fill画像の最適化 */
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-/* フォントユーティリティクラス (SCSSメイン構成用) */
-.font-rubik {
-  font-family: var(--font-rubik) !important;
+/* 作品カードの最適化 */
+.workCard, .mobileWorkCard {
+  /* カード全体の最適化 */
+  will-change: transform;
+  transform: translateZ(0);
+  
+  /* ホバー時の滑らかな変化 */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px) translateZ(0);
+  }
 }
 
-.font-japanese {
-  font-family: var(--font-japanese) !important;
+/* スクロール時のパフォーマンス最適化 */
+.worksGrid, .mobileWorksGrid {
+  /* コンテナの最適化 */
+  contain: layout style paint;
+  will-change: transform;
+  
+  /* 子要素の最適化 */
+  > * {
+    contain: layout style paint;
+  }
 }
 
-/* ポートフォリオのメインコンテナ */
-.pc {
-  width: 100%;
-  min-height: 100vh;
-  background-color: var(--background-white);
+/* ローディングアニメーションの最適化 */
+@keyframes smoothFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) translateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+.workImageContainer {
+  /* 画像コンテナの最適化 */
+  animation: smoothFadeIn 0.2s ease forwards;
+  will-change: auto;
+  
+  /* 画像のアスペクト比固定でレイアウトシフト防止 */
+  aspect-ratio: 440 / 320;
+  overflow: hidden;
   position: relative;
+  background-color: #f5f5f5;
+  
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
-/* モバイル対応 */
-@media screen and (max-width: 767px) {
-  .pc {
-    width: 100%;
-    overflow-x: hidden;
+/* 重要画像最適化 */
+.image-priority-high {
+  opacity: 1 !important;
+  filter: blur(0) !important;
+  transform: translateZ(0) !important;
+  transition-duration: 0.05s !important;
+}
+
+/* GIF画像最適化 */
+img[src*=".GIF"], img[src*=".gif"] {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* フルスクリーンチラつき防止 */
+@media (min-width: 1200px) {
+  [data-nimg="fill"] {
+    contain: layout size paint;
+    transform: translateZ(0) !important;
   }
 }

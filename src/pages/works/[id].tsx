@@ -129,7 +129,10 @@ export default function WorkDetailPage() {
                     fill
                     style={{ objectFit: "cover" }}
                     priority
-                    quality={100}
+                    quality={85}
+                    loading="eager"
+                    placeholder="blur"
+                    blurDataURL="data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAwAgCdASoKAAYAAkA4JaQAA3AA/v3AgAA="
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 1600px) 100vw, 1600px"
                   />
                 </div>
@@ -343,8 +346,12 @@ export default function WorkDetailPage() {
                 width={627}
                 height={836}
                 style={{ width: "100%", height: "auto" }}
-                quality={100}
-                loading="lazy"
+                quality={85}
+                loading="eager"
+                priority
+                placeholder="blur"
+                blurDataURL="data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAwAgCdASoKAAYAAkA4JaQAA3AA/v3AgAA="
+                sizes="(max-width: 768px) 100vw, 627px"
               />
             </div>
           )}
@@ -377,7 +384,11 @@ export default function WorkDetailPage() {
               alt="Top of page"
               width={320}
               height={320}
-              loading="lazy"
+              loading="eager"
+              priority
+              quality={85}
+              sizes="320px"
+              style={{ objectFit: 'contain' }}
             />
             {/* デスクトップ用吹き出し */}
             <ScrollTopBubble
@@ -399,7 +410,11 @@ export default function WorkDetailPage() {
               alt="Top of page"
               width={192}
               height={192}
-              loading="lazy"
+              loading="eager"
+              priority
+              quality={85}
+              sizes="192px"
+              style={{ objectFit: 'contain' }}
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble

@@ -79,6 +79,7 @@ export default function HeroSection() {
             className={styles.heroImage}
             priority={true}
             quality={90}
+            loading="eager"
             style={{ objectFit: 'cover' }}
             placeholder="blur"
             sizes="100vw"

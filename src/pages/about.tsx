@@ -126,9 +126,11 @@ export default function AboutPage() {
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
                           style={{ objectFit: "cover" }}
-                          quality={100}
+                          quality={85}
+                          loading="eager"
+                          priority
                           placeholder="blur"
-                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                          blurDataURL="data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAwAgCdASoKAAYAAkA4JaQAA3AA/v3AgAA="
                         />
                         <button
                           className={styles.heroStartButton}
@@ -191,6 +193,11 @@ export default function AboutPage() {
               alt="Top of page"
               width={192}
               height={192}
+              loading="eager"
+              priority
+              quality={85}
+              sizes="192px"
+              style={{ objectFit: 'contain' }}
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble
@@ -225,9 +232,11 @@ export default function AboutPage() {
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
                         style={{ objectFit: "cover" }}
-                        quality={100}
+                        quality={85}
+                        loading="eager"
+                        priority
                         placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                        blurDataURL="data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAwAgCdASoKAAYAAkA4JaQAA3AA/v3AgAA="
                       />
                       <button
                         className={styles.desktopHeroStartButton}
@@ -288,6 +297,11 @@ export default function AboutPage() {
                 alt="Top of page"
                 width={320}
                 height={320}
+                loading="eager"
+                priority
+                quality={85}
+                sizes="320px"
+                style={{ objectFit: 'contain' }}
               />
               {/* デスクトップ用吹き出し */}
               <ScrollTopBubble

@@ -218,7 +218,7 @@ export default function MainSection() {
     work.type.toLowerCase().includes("website")
   );
 
-  // 🚀 高性能画像最適化の WorkItem コンポーネント
+  // 🚀 最優先読み込みの WorkItem コンポーネント
   const WorkItem = ({ work }: { work: Work }) => (
     <Link href={`/works/${work.id}`} className={styles.workCard}>
       <div className={styles.workImageContainer}>
@@ -229,6 +229,13 @@ export default function MainSection() {
             width={440}
             height={320}
             className={styles.workImage}
+            loading="eager"
+            priority={true}
+            quality={90}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQAEAv/EACgQAAIBAwMEAQQDAAAAAAAAAAABAgMEEQAFITEGE0FRYSKBkbHB8P/EABYBAQEBAAAAAAAAAAAAAAAAAAIDAQT/xAAcEQADAQADAQEAAAAAAAAAAAABAgMAESExEkH/2gAMAwEAAhEDEQA/ALuTuxl3ZlYFWjQAEHngk4yM8ccGuNhm2tpk0iQVFVJGAZiTHGCFBySQO/Y/NdOPdaF9ybgZJpAoWpkWGJ1GCWKqMn6hjA5JGck4/FdcdHdeJd01qCkr1dYnCkF0KnOTnAPC5zw2Se+O2ug/d9JY0a2tr0KYY3ijhmV42kjIjDH6A7cFRxjGcnnnPOB6kXZY+1JOLKFqSGMOCm5uUjkcAdwFwTk85Oa4bdb6C2JKqt1HU2mCojCR0bQPJI8pOc7jjAwRj4zgkA49A2rQ7ZJq9K9+0O/S0xSolSNZJiVUnODlSMEnI5+M4Ocef+y13k+iV2qnWNnuV5tqsC6oSrLIhHZlORg/kED4HGtHbaOv1PWU9ovbwvOqMZBkqwDNk8AAHK4A7ds5IHcbrRpDfJf/2Q=="
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{ objectFit: 'cover' }}
           />
         ) : (
           <div className={styles.workImagePlaceholder}>
@@ -243,7 +250,7 @@ export default function MainSection() {
     </Link>
   );
 
-  // 🚀 高性能画像最適化の MobileWorkCard コンポーネント
+  // 🚀 最優先読み込みの MobileWorkCard コンポーネント
   const MobileWorkCard = ({ work }: { work: Work }) => (
     <Link href={`/works/${work.id}`} className={mobileStyles.mobileWorkCard}>
       <div className={mobileStyles.mobileWorkCardImage}>
@@ -253,6 +260,12 @@ export default function MainSection() {
             alt={work.title}
             width={343}
             height={214}
+            loading="eager"
+            priority={true}
+            quality={90}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQAEAv/EACgQAAIBAwMEAQQDAAAAAAAAAAABAgMEEQAFITEGE0FRYSKBkbHB8P/EABYBAQEBAAAAAAAAAAAAAAAAAAIDAQT/xAAcEQADAQADAQEAAAAAAAAAAAABAgMAESExEkH/2gAMAwEAAhEDEQA/ALuTuxl3ZlYFWjQAEHngk4yM8ccGuNhm2tpk0iQVFVJGAZiTHGCFBySQO/Y/NdOPdaF9ybgZJpAoWpkWGJ1GCWKqMn6hjA5JGck4/FdcdHdeJd01qCkr1dYnCkF0KnOTnAPC5zw2Se+O2ug/d9JY0a2tr0KYY3ijhmV42kjIjDH6A7cFRxjGcnnnPOB6kXZY+1JOLKFqSGMOCm5uUjkcAdwFwTk85Oa4bdb6C2JKqt1HU2mCojCR0bQPJI8pOc7jjAwRj4zgkA49A2rQ7ZJq9K9+0O/S0xSolSNZJiVUnODlSMEnI5+M4Ocef+y13k+iV2qnWNnuV5tqsC6oSrLIhHZlORg/kED4HGtHbaOv1PWU9ovbwvOqMZBkqwDNk8AAHK4A7ds5IHcbrRpDfJf/2Q=="
+            sizes="(max-width: 480px) 100vw, 343px"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         ) : (
@@ -351,6 +364,13 @@ export default function MainSection() {
                         width={layoutConfig.imageSize}
                         height={layoutConfig.imageSize}
                         className={illustrationStyles.iconImage}
+                        loading="eager"
+                        priority={true}
+                        quality={90}
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABwAF/8QAJRAAAQMDBAICAwAAAAAAAAAAAQIDBAAFEQYSEyEHMRRBFVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAaEQACAwEBAAAAAAAAAAAAAAABAgADESFB/9oADAMBAAIRAxEAPwDVaLrOnx3Vvo1wivSfgzGW4pZHChkE4VjJxnGPvyKw9HXzSL1wtt1Y1u3hLbhSkKdQ6pRO3cTtO04SB5APuqfR9TteqGnINvfcDrA/Eyrh8lOAe4yDnHnFFa7DU1r8OOxHbxgWsHv8/wCz3TbJ+7FbAk2K9kYtFWqNfJB4vtRBBSCT0+Kv/9k="
+                        sizes={`${layoutConfig.imageSize}px`}
+                        style={{ objectFit: 'cover' }}
                       />
                     </div>
                     <h4 className={illustrationStyles.itemTitle}>
@@ -461,6 +481,11 @@ export default function MainSection() {
               alt="Top of page"
               width={320}
               height={320}
+              loading="eager"
+              priority={true}
+              quality={90}
+              sizes="320px"
+              style={{ objectFit: 'contain' }}
             />
             {/* デスクトップ用吹き出し */}
             <ScrollTopBubble
@@ -555,6 +580,11 @@ export default function MainSection() {
               alt="Top of page"
               width={192}
               height={192}
+              loading="eager"
+              priority={true}
+              quality={90}
+              sizes="192px"
+              style={{ objectFit: 'contain' }}
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble
