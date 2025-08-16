@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Head from "next/head";
-import OptimizedLocalImage from "@/components/common/OptimizedLocalImage";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ImTaichiGame from "@/components/games/ImTaichiGame";
@@ -94,16 +94,6 @@ export default function AboutPage() {
           name="description"
           content="稲永太一のプロフィール、スキル、経歴について"
         />
-        {/* 重要な画像のプリロード */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/about-taichi-main.webp"
-          type="image/webp"
-        />
-        {/* DNS prefetch for faster subsequent loads */}
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
       </Head>
       <div className={styles.pageContainer}>
         <Header />
@@ -130,12 +120,15 @@ export default function AboutPage() {
                   >
                     {heroState === "image" ? (
                       <div className={styles.heroImageDisplay}>
-                        <OptimizedLocalImage
+                        <Image
                           src="/images/about-taichi-main.webp"
                           alt="Taichi Hero Image"
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
                           style={{ objectFit: "cover" }}
-                          context="hero"
+                          quality={100}
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                         />
                         <button
                           className={styles.heroStartButton}
@@ -193,12 +186,11 @@ export default function AboutPage() {
             onClick={scrollToTop}
             style={{ cursor: "pointer", position: "relative" }}
           >
-            <OptimizedLocalImage
+            <Image
               src="/images/tothetop.GIF"
               alt="Top of page"
               width={192}
               height={192}
-              context="icon"
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble
@@ -227,12 +219,15 @@ export default function AboutPage() {
                 >
                   {heroState === "image" ? (
                     <div className={styles.desktopHeroImageDisplay}>
-                      <OptimizedLocalImage
+                      <Image
                         src="/images/about-taichi-main.webp"
                         alt="Taichi Hero Image"
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
                         style={{ objectFit: "cover" }}
-                        context="hero"
+                        quality={100}
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       />
                       <button
                         className={styles.desktopHeroStartButton}
@@ -288,12 +283,11 @@ export default function AboutPage() {
               onClick={scrollToTop}
               style={{ cursor: "pointer", position: "relative" }}
             >
-              <OptimizedLocalImage
+              <Image
                 src="/images/tothetop.GIF"
                 alt="Top of page"
                 width={320}
                 height={320}
-                context="icon"
               />
               {/* デスクトップ用吹き出し */}
               <ScrollTopBubble
