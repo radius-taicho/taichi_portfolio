@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
@@ -101,9 +99,18 @@ export default async function handler(
       otherWorks
     });
   } catch (error) {
-    console.error('Work detail fetch error:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  } finally {
-    await prisma.$disconnect();
+    console.error('Work detail fetch error:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      workId: id,
+      timestamp: new Date().toISOString()
+    });
+    
+    res.status(500).json({ 
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? 
+        (error instanceof Error ? error.message : 'Unknown error') : 
+        'Server error'
+    });
   }
 }

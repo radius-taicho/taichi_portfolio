@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,6 +10,12 @@ export default async function handler(
   }
 
   try {
+    console.log('Fetching hero image...');
+    
+    // データベース接続テスト
+    await prisma.$connect();
+    console.log('Database connected successfully');
+    
     // アクティブなHeroImageを取得（最新のものを1つ）
     const heroImage = await prisma.heroImage.findFirst({
       where: {
@@ -22,15 +26,25 @@ export default async function handler(
       }
     });
 
+    console.log('Hero image query result:', heroImage ? 'Found' : 'Not found');
+
     if (!heroImage) {
       return res.status(404).json({ message: 'No active hero image found' });
     }
 
     res.status(200).json(heroImage);
   } catch (error) {
-    console.error('Hero image fetch error:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  } finally {
-    await prisma.$disconnect();
+    console.error('Hero image fetch error:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString()
+    });
+    
+    res.status(500).json({ 
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? 
+        (error instanceof Error ? error.message : 'Unknown error') : 
+        'Server error'
+    });
   }
 }

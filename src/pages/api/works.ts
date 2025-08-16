@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,6 +10,12 @@ export default async function handler(
   }
 
   try {
+    console.log('Fetching works...');
+    
+    // データベース接続テスト
+    await prisma.$connect();
+    console.log('Database connected successfully');
+    
     // Works テーブルから表示順に並べて取得（selectでリレーションも含む）
     const works = await prisma.work.findMany({
       select: {
@@ -68,6 +72,8 @@ export default async function handler(
       }
     });
 
+    console.log(`Successfully fetched ${works.length} works`);
+
     // デバッグ：アイコン作品の画像データをコンソールに出力
     const illustrationWorks = works.filter(work => 
       work.type.toLowerCase().includes('illustration') || 
@@ -90,9 +96,17 @@ export default async function handler(
 
     res.status(200).json(works);
   } catch (error) {
-    console.error('Works fetch error:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  } finally {
-    await prisma.$disconnect();
+    console.error('Works fetch error:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString()
+    });
+    
+    res.status(500).json({ 
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? 
+        (error instanceof Error ? error.message : 'Unknown error') : 
+        'Server error'
+    });
   }
 }
