@@ -46,7 +46,8 @@ export default function RotatingCarousel({
 
     // 自動スライドタイマー
     autoPlayRef.current = setInterval(() => {
-      onIndexChange(prevIndex => (prevIndex + 1) % works.length);
+      const nextIndex = (currentIndex + 1) % works.length;
+      onIndexChange(nextIndex);
       setProgress(0); // 進行状況をリセット
     }, CAROUSEL_CONFIG.autoplayInterval);
 
@@ -57,7 +58,7 @@ export default function RotatingCarousel({
         return Math.min(newProgress, 100);
       });
     }, CAROUSEL_CONFIG.progressUpdateInterval);
-  }, [works.length, onIndexChange]);
+  }, [works.length, onIndexChange, currentIndex]);
 
   // タイマーのリセット
   const resetTimer = useCallback(() => {
