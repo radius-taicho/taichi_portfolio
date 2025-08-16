@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import OptimizedImage from "@/components/common/OptimizedImage";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { HeroImage } from "@/types";
 import styles from "@/styles/components/hero.module.scss";
@@ -74,16 +74,17 @@ export default function HeroSection() {
         ) : (
           // 常にデフォルト画像を表示
           <div className={styles.heroContainer}>
-            <Image
+            <OptimizedImage
               src="/images/img_hero1.webp"
               alt="Portfolio Hero Image"
-              fill
+              width={2560}
+              height={1440}
               className={styles.heroImage}
-              priority
-              quality={100}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 2560px) 100vw, 2560px"
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+              priority={true}
+              context="hero"
+              enablePreload={false}
+              enableLazyLoading={false}
+              style={{ objectFit: 'cover' }}
             />
           </div>
         )}

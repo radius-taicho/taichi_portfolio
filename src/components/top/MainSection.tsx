@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import ScrollTopBubble from "@/components/common/ScrollTopBubble";
+import OptimizedImage from "@/components/common/OptimizedImage";
 import { Work } from "@/types";
+import { optimizeCloudinaryUrl, ImageOptimizationTips } from "@/lib/imageOptimization";
 import styles from "@/styles/components/top_page.module.scss";
 import mobileStyles from "@/styles/components/top_page_mobile.module.scss";
 import illustrationStyles from "@/styles/components/illustration-grid.module.scss";
@@ -218,48 +220,20 @@ export default function MainSection() {
     work.type.toLowerCase().includes("website")
   );
 
-  // Cloudinary URL 最適化関数（超最高品質版）
-  const optimizeCloudinaryUrl = (
-    url: string,
-    width?: number,
-    height?: number
-  ) => {
-    if (!url || !url.includes("cloudinary.com")) return url;
-
-    const params = [
-      "f_auto", // 自動フォーマット選択（WebP、AVIF等）
-      "q_100", // 品質100%（非圧縮・最高品質）
-      "c_fill", // クロップ方式でアスペクト比保持
-      width ? `w_${Math.round(width * 2)}` : null, // レティナ対応で解像度〢2倍に
-      height ? `h_${Math.round(height * 2)}` : null, // レティナ対応で解像度〢2倍に
-      "dpr_auto", // デバイスピクセル比自動対応
-      "fl_progressive", // プログレッシブ読み込み
-      "fl_immutable_cache", // キャッシュ最適化
-      "fl_preserve_transparency", // 透明度保持
-      "fl_awebp", // 自動WebP変換
-      "fl_strip_profile", // メタデータ削除でファイルサイズ最適化
-    ]
-      .filter(Boolean)
-      .join(",");
-
-    return url.replace("/upload/", `/upload/${params}/`);
-  };
-
+  // 🚀 高性能画像最適化の WorkItem コンポーネント
   const WorkItem = ({ work }: { work: Work }) => (
     <Link href={`/works/${work.id}`} className={styles.workCard}>
       <div className={styles.workImageContainer}>
         {work.mainImage ? (
-          <Image
-            src={optimizeCloudinaryUrl(work.mainImage, 440, 320)}
+          <OptimizedImage
+            src={work.mainImage}
             alt={work.title}
             width={440}
             height={320}
             className={styles.workImage}
-            quality={100}
-            sizes="(max-width: 768px) 343px, 440px"
-            loading="lazy"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            context="thumbnail"
+            enablePreload={true}
+            enableLazyLoading={true}
           />
         ) : (
           <div className={styles.workImagePlaceholder}>
@@ -274,22 +248,20 @@ export default function MainSection() {
     </Link>
   );
 
-  // モバイル用作品カードコンポーネント
+  // 🚀 高性能画像最適化の MobileWorkCard コンポーネント
   const MobileWorkCard = ({ work }: { work: Work }) => (
     <Link href={`/works/${work.id}`} className={mobileStyles.mobileWorkCard}>
       <div className={mobileStyles.mobileWorkCardImage}>
         {work.mainImage ? (
-          <Image
-            src={optimizeCloudinaryUrl(work.mainImage, 343, 214)}
+          <OptimizedImage
+            src={work.mainImage}
             alt={work.title}
             width={343}
             height={214}
+            context="thumbnail"
+            enablePreload={true}
+            enableLazyLoading={true}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            quality={100}
-            sizes="343px"
-            loading="lazy"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           />
         ) : (
           <span>No Image</span>
@@ -381,18 +353,15 @@ export default function MainSection() {
                 <Link href={`/works/${item.workId}`} key={item.id}>
                   <div className={illustrationStyles.gridItem}>
                     <div className={illustrationStyles.imageBackground}>
-                      <Image
-                        src={optimizeCloudinaryUrl(
-                          item.imageUrl,
-                          layoutConfig.imageSize,
-                          layoutConfig.imageSize
-                        )}
+                      <OptimizedImage
+                        src={item.imageUrl}
                         alt={item.title}
                         width={layoutConfig.imageSize}
                         height={layoutConfig.imageSize}
                         className={illustrationStyles.iconImage}
-                        loading="lazy"
-                        quality={90}
+                        context="icon"
+                        enablePreload={true}
+                        enableLazyLoading={true}
                       />
                     </div>
                     <h4 className={illustrationStyles.itemTitle}>
@@ -498,12 +467,14 @@ export default function MainSection() {
             onClick={scrollToTop}
             style={{ cursor: "pointer", position: "relative" }}
           >
-            <Image
+            <OptimizedImage
               src="/images/tothetop.GIF"
               alt="Top of page"
               width={320}
               height={320}
-              loading="lazy"
+              context="detail"
+              enablePreload={false}
+              enableLazyLoading={true}
             />
             {/* デスクトップ用吹き出し */}
             <ScrollTopBubble
@@ -593,12 +564,14 @@ export default function MainSection() {
             onClick={scrollToTop}
             style={{ cursor: "pointer", position: "relative" }}
           >
-            <Image
+            <OptimizedImage
               src="/images/tothetop.GIF"
               alt="Top of page"
               width={192}
               height={192}
-              loading="lazy"
+              context="detail"
+              enablePreload={false}
+              enableLazyLoading={true}
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble
