@@ -12,27 +12,27 @@ datasource db {
 
 model Work {
   id                String   @id @default(cuid())
-  title            String   @db.VarChar(255)
-  name             String?  @db.VarChar(255)
-  client           String?  @db.VarChar(255)
-  type             String   @db.VarChar(100)
-  status           String   @default("completed") @db.VarChar(50) // "completed", "in_progress", "planning"
-  concept          String?  @db.Text
-  target           String?  @db.Text
-  challenge        String?  @db.Text
-  purpose          String?  @db.Text
-  informationDesign String? @db.Text
-  design           String?  @db.Text
-  implementation   String?  @db.Text
+  title            String
+  name             String?
+  client           String?
+  type             String
+  status           String   @default("completed")
+  concept          String?
+  target           String?
+  challenge        String?
+  purpose          String?
+  informationDesign String?
+  design           String?
+  implementation   String?
   planningDays     Int?
   designDays       Int?
   codingDays       Int?
   
   // 後方互換性のため保持（段階的移行用）
-  mainImage        String?  @db.VarChar(500)
-  designImage      String?  @db.VarChar(500)
+  mainImage        String?
+  designImage      String?
   
-  link             String?  @db.VarChar(500)
+  link             String?
   displayOrder     Int      @default(0)
   
   // 新機能: 複数画像サポート
@@ -54,22 +54,22 @@ model WorkImage {
   workId      String
   
   // 画像情報
-  imageUrl    String   @db.VarChar(500)
-  publicId    String   @db.VarChar(255) // Cloudinary public ID
+  imageUrl    String
+  publicId    String
   
   // メタデータ
-  fileName    String?  @db.VarChar(255) // 元のファイル名
-  title       String?  @db.VarChar(255) // 個別のタイトル（例：「ショッピングカートアイコン」）
-  description String?  @db.Text
+  fileName    String?
+  title       String?
+  description String?
   
   // 分類・整理用
-  imageType   String   @db.VarChar(50)  // "main", "variation", "icon", "illustration"
-  category    String?  @db.VarChar(100) // "ui-icon", "brand-illustration", "process-image"
+  imageType   String
+  category    String?
   sortOrder   Int      @default(0)
   
   // UFOキャッチャー用設定
   isVisible   Boolean  @default(true)   // UFOキャッチャーで表示するか
-  rarity      String?  @db.VarChar(20)  // "common", "rare", "epic" （将来の拡張用）
+  rarity      String?
   
   // リレーション
   work        Work     @relation(fields: [workId], references: [id], onDelete: Cascade)
@@ -82,10 +82,10 @@ model WorkImage {
 
 model Contact {
   id        String   @id @default(cuid())
-  name      String   @db.VarChar(255)
-  email     String   @db.VarChar(255)
-  subject   String?  @db.VarChar(500)
-  message   String   @db.Text
+  name      String
+  email     String
+  subject   String?
+  message   String
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -95,10 +95,10 @@ model Contact {
 
 model HeroImage {
   id          String   @id @default(cuid())
-  title       String   @db.VarChar(255)
-  description String?  @db.Text
-  imageUrl    String   @db.VarChar(500)
-  publicId    String   @db.VarChar(255) // Cloudinary public ID
+  title       String
+  description String?
+  imageUrl    String
+  publicId    String
   isActive    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
