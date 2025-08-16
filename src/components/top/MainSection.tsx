@@ -223,15 +223,12 @@ export default function MainSection() {
     <Link href={`/works/${work.id}`} className={styles.workCard}>
       <div className={styles.workImageContainer}>
         {work.mainImage ? (
-          <OptimizedImage
+          <Image
             src={work.mainImage}
             alt={work.title}
             width={440}
             height={320}
             className={styles.workImage}
-            context="thumbnail"
-            enablePreload={true}
-            enableLazyLoading={true}
           />
         ) : (
           <div className={styles.workImagePlaceholder}>
@@ -251,14 +248,11 @@ export default function MainSection() {
     <Link href={`/works/${work.id}`} className={mobileStyles.mobileWorkCard}>
       <div className={mobileStyles.mobileWorkCardImage}>
         {work.mainImage ? (
-          <OptimizedImage
+          <Image
             src={work.mainImage}
             alt={work.title}
             width={343}
             height={214}
-            context="thumbnail"
-            enablePreload={true}
-            enableLazyLoading={true}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         ) : (
@@ -351,15 +345,12 @@ export default function MainSection() {
                 <Link href={`/works/${item.workId}`} key={item.id}>
                   <div className={illustrationStyles.gridItem}>
                     <div className={illustrationStyles.imageBackground}>
-                      <OptimizedImage
+                      <Image
                         src={item.imageUrl}
                         alt={item.title}
                         width={layoutConfig.imageSize}
                         height={layoutConfig.imageSize}
                         className={illustrationStyles.iconImage}
-                        context="icon"
-                        enablePreload={true}
-                        enableLazyLoading={true}
                       />
                     </div>
                     <h4 className={illustrationStyles.itemTitle}>
@@ -465,14 +456,11 @@ export default function MainSection() {
             onClick={scrollToTop}
             style={{ cursor: "pointer", position: "relative" }}
           >
-            <OptimizedImage
+            <Image
               src="/images/tothetop.GIF"
               alt="Top of page"
               width={320}
               height={320}
-              context="detail"
-              enablePreload={false}
-              enableLazyLoading={true}
             />
             {/* デスクトップ用吹き出し */}
             <ScrollTopBubble
