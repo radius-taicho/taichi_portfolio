@@ -1,5 +1,10 @@
 // 🚨 緊急修正: 全ての最適化機能を無効化
 
+// 必要な型だけをシンプルに定義
+export interface ImageOptimizationTips {
+  // 空のインターface - 互換性のために残す
+}
+
 // 最適化関数を無効化 - URLをそのまま返す
 export const optimizeCloudinaryUrl = (
   url: string,

@@ -4,9 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import ScrollTopBubble from "@/components/common/ScrollTopBubble";
-import OptimizedImage from "@/components/common/OptimizedImage";
 import { Work } from "@/types";
-import { optimizeCloudinaryUrl, ImageOptimizationTips } from "@/lib/imageOptimization";
 import styles from "@/styles/components/top_page.module.scss";
 import mobileStyles from "@/styles/components/top_page_mobile.module.scss";
 import illustrationStyles from "@/styles/components/illustration-grid.module.scss";
@@ -564,14 +562,11 @@ export default function MainSection() {
             onClick={scrollToTop}
             style={{ cursor: "pointer", position: "relative" }}
           >
-            <OptimizedImage
+            <Image
               src="/images/tothetop.GIF"
               alt="Top of page"
               width={192}
               height={192}
-              context="detail"
-              enablePreload={false}
-              enableLazyLoading={true}
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble
