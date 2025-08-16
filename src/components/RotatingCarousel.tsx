@@ -8,7 +8,7 @@ interface RotatingCarouselProps {
   works: Work[];
   currentIndex: number;
   onIndexChange: (index: number) => void;
-  optimizeCloudinaryUrl: (url: string, width?: number, height?: number) => string;
+  // optimizeCloudinaryUrl プロパティを削除
 }
 
 const CAROUSEL_CONFIG = {
@@ -19,8 +19,8 @@ const CAROUSEL_CONFIG = {
 export default function RotatingCarousel({ 
   works, 
   currentIndex, 
-  onIndexChange, 
-  optimizeCloudinaryUrl 
+  onIndexChange
+  // optimizeCloudinaryUrl プロパティを削除
 }: RotatingCarouselProps) {
   const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -149,7 +149,7 @@ export default function RotatingCarousel({
           <div className={styles.otherWorkImageSection}>
             {currentWork.mainImage ? (
               <Image
-                src={optimizeCloudinaryUrl(currentWork.mainImage, 800, 500)}
+                src={currentWork.mainImage}
                 alt={currentWork.title}
                 fill
                 className={styles.otherWorkImage}

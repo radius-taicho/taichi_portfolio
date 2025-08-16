@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import OptimizedImage from "@/components/common/OptimizedImage";
+import Image from "next/image";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { HeroImage } from "@/types";
 import styles from "@/styles/components/hero.module.scss";
@@ -13,24 +13,7 @@ export default function HeroSection() {
   const [error, setError] = useState<string | null>(null);
   const [imageError, setImageError] = useState(false);
 
-  // Cloudinary URL 最適化関数（最高品質版）
-  const optimizeCloudinaryUrl = (url: string, width?: number, height?: number) => {
-    if (!url || !url.includes('cloudinary.com')) return url;
-    
-    const params = [
-      'f_auto', // 自動フォーマット選択（WebP、AVIF等）
-      'q_100', // 品質100%（最高品質・非圧縮レベル）
-      width ? `w_${width}` : 'w_2560', // 4K対応の最大幅を設定
-      height ? `h_${height}` : null,
-      'c_fill', // クロップ方式
-      'dpr_auto', // デバイスピクセル比対応
-      'fl_progressive', // プログレッシブ読み込み
-      'fl_immutable_cache', // キャッシュ最適化
-      'fl_preserve_transparency' // 透明度保持
-    ].filter(Boolean).join(',');
-    
-    return url.replace('/upload/', `/upload/${params}/`);
-  };
+  // 最適化関数を削除
 
   useEffect(() => {
     const fetchHeroImage = async () => {
@@ -74,16 +57,13 @@ export default function HeroSection() {
         ) : (
           // 常にデフォルト画像を表示
           <div className={styles.heroContainer}>
-            <OptimizedImage
+            <Image
               src="/images/img_hero1.webp"
               alt="Portfolio Hero Image"
               width={2560}
               height={1440}
               className={styles.heroImage}
               priority={true}
-              context="hero"
-              enablePreload={false}
-              enableLazyLoading={false}
               style={{ objectFit: 'cover' }}
             />
           </div>

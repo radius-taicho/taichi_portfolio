@@ -32,32 +32,7 @@ export default function WorkDetailPage() {
     });
   };
 
-  // Cloudinary URL 最適化関数（最高品質版）
-  const optimizeCloudinaryUrl = (
-    url: string,
-    width?: number,
-    height?: number
-  ) => {
-    if (!url || !url.includes("cloudinary.com")) return url;
-
-    // Cloudinary URL の最適化パラメータを追加
-    const params = [
-      "f_auto", // 自動フォーマット選択（WebP、AVIF等）
-      "q_100", // 品質100%（最高品質・非圧縮レベル）
-      "c_fill", // クロップ方式
-      width ? `w_${width}` : null,
-      height ? `h_${height}` : null,
-      "dpr_auto", // デバイスピクセル比対応
-      "fl_progressive", // プログレッシブ読み込み
-      "fl_immutable_cache", // キャッシュ最適化
-      "fl_preserve_transparency", // 透明度保持
-    ]
-      .filter(Boolean)
-      .join(",");
-
-    // URLに最適化パラメータを挿入
-    return url.replace("/upload/", `/upload/${params}/`);
-  };
+  // 元のシンプルな実装に戻す
 
   useEffect(() => {
     if (!id) return;
@@ -138,21 +113,7 @@ export default function WorkDetailPage() {
           name="description"
           content={work.concept || `${work.title}の詳細ページ`}
         />
-        {/* 画像プリロード */}
-        {work.mainImage && (
-          <link
-            rel="preload"
-            as="image"
-            href={optimizeCloudinaryUrl(work.mainImage, 1200, 800)}
-          />
-        )}
-        {work.designImage && (
-          <link
-            rel="preload"
-            as="image"
-            href={optimizeCloudinaryUrl(work.designImage, 1200, 800)}
-          />
-        )}
+        {/* プリロードを無効化 */}
       </Head>
       <div className={styles.pc}>
         <Header />
@@ -163,15 +124,13 @@ export default function WorkDetailPage() {
               {work.mainImage ? (
                 <div className={styles.image}>
                   <Image
-                    src={optimizeCloudinaryUrl(work.mainImage, 1600, 1000)}
+                    src={work.mainImage}
                     alt={work.title}
                     fill
                     style={{ objectFit: "cover" }}
                     priority
                     quality={100}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, (max-width: 1600px) 100vw, 1600px"
-                    placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                   />
                 </div>
               ) : (
@@ -379,7 +338,7 @@ export default function WorkDetailPage() {
           {work.designImage && (
             <div className={styles.projectImageSection}>
               <Image
-                src={optimizeCloudinaryUrl(work.designImage)}
+                src={work.designImage}
                 alt={`${work.title} デザイン画像`}
                 width={627}
                 height={836}
@@ -402,7 +361,6 @@ export default function WorkDetailPage() {
                 works={otherWorks}
                 currentIndex={currentWorkIndex}
                 onIndexChange={setCurrentWorkIndex}
-                optimizeCloudinaryUrl={optimizeCloudinaryUrl}
               />
             </div>
           )}
