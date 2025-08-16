@@ -79,7 +79,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     fallbacks.push(`${baseName}.jpg`);
     fallbacks.push(`${baseName}.jpeg`);
     
-    return [...new Set(fallbacks)];
+    return Array.from(new Set(fallbacks));
   };
 
   // 実際に使用するsrc
