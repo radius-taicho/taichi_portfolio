@@ -47,6 +47,28 @@
   border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
   overflow: hidden;
 
+  // 開発時の状態表示
+  .devInfo {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    
+    @include max-width(sm) {
+      top: 8px;
+      right: 8px;
+      padding: 4px 8px;
+      font-size: 10px;
+    }
+  }
+
   // アバウトページのヒーロー画像と同じアスペクト比設定を適用
   aspect-ratio: 5/3; // モバイル: スマホで縦におさまるサイズ（横長）
 
