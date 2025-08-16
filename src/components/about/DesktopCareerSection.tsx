@@ -85,7 +85,7 @@ const DesktopCareerSection: React.FC = () => {
           {careerData.map((item, index) => (
             <div
               key={item.step}
-              ref={el => timelineRefs.current[index] = el} // refを追加
+              ref={el => { timelineRefs.current[index] = el; }} // refを追加
               className={`${styles.timelineItem} ${
                 activeStep === item.step ? styles.active : ""
               }`}
