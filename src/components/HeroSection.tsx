@@ -173,7 +173,6 @@ export default function HeroSection() {
               priority={true}
               quality={90}
               loading="eager"
-              style={{ objectFit: 'cover' }}
               placeholder="blur"
               sizes="100vw"
               // キャッシュ強化で再読み込み防止
@@ -194,12 +193,11 @@ export default function HeroSection() {
                 // エラー時も真っ白にしない
                 setIsVisible(true);
               }}
-              // 真っ白な画面を防ぐための追加設定
+              // 真っ白な画面を防ぐための設定
               style={{
                 objectFit: 'cover',
                 opacity: isVisible ? 1 : 0.8,
                 transition: 'opacity 0.2s ease',
-                // 背景を確実に表示
                 backgroundColor: 'transparent',
               }}
             />
