@@ -9,9 +9,11 @@ $font-japanese: "Hiragino Maru Gothic ProN", "HiraginoMaruGothicProN-W4",
   "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3",
   "Meiryo", "メイリオ", sans-serif;
 
-// ImTaichiGame専用フォント
-$font-pixelmplus: "PixelMplus12-Regular", monospace, "Hiragino Maru Gothic ProN",
-  sans-serif;
+// ImTaichiGame専用フォント（吹き出しにも使用）
+$font-pixelmplus: "PixelMplus12-Regular", "PixelMplus", "BIZ UDPゴシック", "BIZ UDGothic", monospace, "Hiragino Maru Gothic ProN", sans-serif;
+
+// ピクセルフォント専用のCSSクラス用設定
+$font-pixel-display: "PixelMplus12-Regular", "PixelMplus", "DotGothic16", "BIZ UDPゴシック", monospace, sans-serif;
 
 // ブレークポイントの設定
 $breakpoints: (

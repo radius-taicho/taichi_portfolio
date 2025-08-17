@@ -237,6 +237,13 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
               alt={skill.name}
               width={80}
               height={80}
+              loading="eager"
+              quality={90}
+              priority={true}
+              style={{ objectFit: 'contain' }}
+              onLoadStart={() => console.log(`Loading Ruby image: ${skill.name}`)}
+              onLoad={() => console.log(`Loaded Ruby image: ${skill.name}`)}
+              onError={(e) => console.error(`Failed to load Ruby image: ${skill.name}`, e)}
             />
           </div>
         </div>
@@ -279,7 +286,19 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           onClick={(e) => handleClick(skillId, e)}
         >
           <div className={skillStyles.skillIcon}>
-            <Image src={skill.image} alt={skill.name} width={60} height={60} />
+            <Image 
+              src={skill.image} 
+              alt={skill.name} 
+              width={60} 
+              height={60}
+              loading="eager"
+              quality={90}
+              priority={true}
+              style={{ objectFit: 'contain' }}
+              onLoadStart={() => console.log(`Loading skill image: ${skill.name}`)}
+              onLoad={() => console.log(`Loaded skill image: ${skill.name}`)}
+              onError={(e) => console.error(`Failed to load skill image: ${skill.name}`, e)}
+            />
           </div>
         </div>
       </div>

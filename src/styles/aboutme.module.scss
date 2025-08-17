@@ -247,7 +247,7 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
-  overflow: hidden; // Careerセクションに合わせた
+  overflow: visible !important; // スキルセクションのRubyの影が途切れないように修正
 }
 
 .sectionHeader {
