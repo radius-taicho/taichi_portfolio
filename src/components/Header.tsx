@@ -57,63 +57,24 @@ export default function Header() {
     }
   };
 
-  // スムーズスクロール関数（Contact用）
-  const scrollToContactSection = (e: React.MouseEvent) => {
+  // スムーズスクロール関数（Contact用） -> 通常のページ遷移に変更
+  const navigateToContact = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsMobileMenuOpen(false); // メニューを閉じる
-
-    const scrollToElement = () => {
-      const element = document.getElementById("contact-section");
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    };
-
-    // 現在のページがContactページの場合はスクロールのみ
-    if (router.pathname === "/contact") {
-      scrollToElement();
-    } else {
-      // 他のページからの場合はContactページに遷移してからスクロール
-      router.push("/contact").then(() => {
-        // ページ遷移後に少し待ってからスクロール
-        setTimeout(scrollToElement, 100);
-      });
-    }
+    
+    // 直接Contactページに遷移
+    router.push("/contact");
   };
 
-  // スムーズスクロール関数（About用）
-  const scrollToAboutSection = (e: React.MouseEvent) => {
+  // スムーズスクロール関数（About用） -> 通常のページ遷移に変更
+  const navigateToAbout = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsMobileMenuOpen(false); // メニューを閉じる
-
-    const scrollToElement = () => {
-      // モバイルサイズかどうかを判定（768px以下をモバイルとする）
-      const isMobile = window.innerWidth < 768;
-      const elementId = isMobile ? "about-section" : "about-section-desktop";
-      const element = document.getElementById(elementId);
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    };
-
-    // 現在のページがAboutページの場合はスクロールのみ
-    if (router.pathname === "/about") {
-      scrollToElement();
-    } else {
-      // 他のページからの場合はAboutページに遷移してからスクロール
-      router.push("/about").then(() => {
-        // ページ遷移後に少し待ってからスクロール
-        setTimeout(scrollToElement, 100);
-      });
-    }
+    
+    // 直接Aboutページに遷移
+    router.push("/about");
   };
 
   const handleMobileMenuToggle = (e: React.MouseEvent) => {
@@ -167,7 +128,7 @@ export default function Header() {
           <div className={styles.navItem}>
             <button
               className={styles.navText}
-              onClick={scrollToAboutSection}
+              onClick={navigateToAbout}
               data-text="About"
             >
               About
@@ -176,7 +137,7 @@ export default function Header() {
           <div className={styles.navItem}>
             <button
               className={styles.navText}
-              onClick={scrollToContactSection}
+              onClick={navigateToContact}
               data-text="Contact"
             >
               Contact
@@ -244,14 +205,14 @@ export default function Header() {
                   </button>
                   <button
                     className={menuStyles.navLink}
-                    onClick={scrollToAboutSection}
+                    onClick={navigateToAbout}
                     data-text="About"
                   >
                     About
                   </button>
                   <button
                     className={menuStyles.navLink}
-                    onClick={scrollToContactSection}
+                    onClick={navigateToContact}
                     data-text="Contact"
                   >
                     Contact
@@ -285,14 +246,14 @@ export default function Header() {
                   </button>
                   <button
                     className={menuStyles.navLink}
-                    onClick={scrollToAboutSection}
+                    onClick={navigateToAbout}
                     data-text="About"
                   >
                     About
                   </button>
                   <button
                     className={menuStyles.navLink}
-                    onClick={scrollToContactSection}
+                    onClick={navigateToContact}
                     data-text="Contact"
                   >
                     Contact

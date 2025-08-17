@@ -173,59 +173,20 @@ export default function Footer() {
     }
   };
 
-  // スムーズスクロール関数（Contact用）
-  const scrollToContactSection = (e: React.MouseEvent) => {
+  // スムーズスクロール関数（Contact用） -> 通常のページ遷移に変更
+  const navigateToContact = (e: React.MouseEvent) => {
     e.preventDefault();
-
-    const scrollToElement = () => {
-      const element = document.getElementById("contact-section");
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    };
-
-    // 現在のページがContactページの場合はスクロールのみ
-    if (router.pathname === "/contact") {
-      scrollToElement();
-    } else {
-      // 他のページからの場合はContactページに遷移してからスクロール
-      router.push("/contact").then(() => {
-        // ページ遷移後に少し待ってからスクロール
-        setTimeout(scrollToElement, 100);
-      });
-    }
+    
+    // 直接Contactページに遷移
+    router.push("/contact");
   };
 
-  // スムーズスクロール関数（About用）
-  const scrollToAboutSection = (e: React.MouseEvent) => {
+  // スムーズスクロール関数（About用） -> 通常のページ遷移に変更
+  const navigateToAbout = (e: React.MouseEvent) => {
     e.preventDefault();
-
-    const scrollToElement = () => {
-      // モバイルサイズかどうかを判定（768px以下をモバイルとする）
-      const isMobile = window.innerWidth < 768;
-      const elementId = isMobile ? "about-section" : "about-section-desktop";
-      const element = document.getElementById(elementId);
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    };
-
-    // 現在のページがAboutページの場合はスクロールのみ
-    if (router.pathname === "/about") {
-      scrollToElement();
-    } else {
-      // 他のページからの場合はAboutページに遷移してからスクロール
-      router.push("/about").then(() => {
-        // ページ遷移後に少し待ってからスクロール
-        setTimeout(scrollToElement, 100);
-      });
-    }
+    
+    // 直接Aboutページに遷移
+    router.push("/about");
   };
 
   return (
@@ -284,14 +245,14 @@ export default function Footer() {
             </button>
             <button
               className={styles.mobileNavLink}
-              onClick={scrollToAboutSection}
+              onClick={navigateToAbout}
               data-text="About"
             >
               About
             </button>
             <button
               className={styles.mobileNavLink}
-              onClick={scrollToContactSection}
+              onClick={navigateToContact}
               data-text="Contact"
             >
               Contact
@@ -379,14 +340,14 @@ export default function Footer() {
                 </button>
                 <button
                   className={styles.desktopNavLink}
-                  onClick={scrollToAboutSection}
+                  onClick={navigateToAbout}
                   data-text="About"
                 >
                   About
                 </button>
                 <button
                   className={styles.desktopNavLink}
-                  onClick={scrollToContactSection}
+                  onClick={navigateToContact}
                   data-text="Contact"
                 >
                   Contact
