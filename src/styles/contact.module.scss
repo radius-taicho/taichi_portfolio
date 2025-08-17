@@ -76,13 +76,16 @@
   color: $text-color;
   text-align: left;
   font-family: $font-rubik !important;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: 700;
   position: relative;
   margin: 0;
+  line-height: 1.2;
 
   @include mq(sm) {
-    font-size: 72px;
+    // レスポンシブ対応: タイトルサイズをclampで調整
+    font-size: clamp(48px, 8vw, 72px);
+    font-weight: 800;
   }
 }
 
