@@ -62,7 +62,7 @@
     font-weight: 600;
     z-index: 10;
     backdrop-filter: blur(4px);
-    
+
     @include max-width(sm) {
       top: 8px;
       right: 8px;
@@ -92,13 +92,13 @@
   position: relative;
   display: block;
   overflow: hidden;
-  
+
   // 🎯 真っ白画面防止: 常に表示される背景
   background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%);
-  
+
   // blurDataURLのフォールバック背景
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -109,14 +109,14 @@
     opacity: 1;
     transition: opacity 0.3s ease;
   }
-  
+
   // 画像が完全に読み込まれた後は背景を透明に
   &.imageLoaded {
     &::before {
       opacity: 0;
     }
   }
-  
+
   // GPU加速とキャッシュ最適化
   will-change: contents;
   contain: layout style paint;
@@ -128,28 +128,28 @@
   height: 100%;
   object-fit: cover;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); // モバイル向けシャドウ（デフォルト）
-  
+
   // 画像の安定表示設定
   display: block;
   position: relative;
   z-index: 2; // 背景の上に表示
-  
+
   // 真っ白画面防止の強力な設定
   opacity: 1 !important;
   visibility: visible !important;
-  
+
   // 強力なキャッシュ設定
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimizeQuality;
-  
+
   // GPU加速でスムーズな再表示
   will-change: auto;
   contain: layout size paint;
   transform: translateZ(0);
-  
+
   // 再読み込み時のスムーズ遷移
   transition: opacity 0.1s ease;
-  
+
   // Next.js Imageのデフォルトスタイルを上書き
   &[data-nimg] {
     opacity: 1 !important;
@@ -163,7 +163,12 @@
 }
 
 .heroImagePlaceholder {
-  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%); // 真っ白ではなくグラデーション
+  background: linear-gradient(
+    135deg,
+    #f1f3f4 0%,
+    #e8eaed 50%,
+    #dadce0 100%
+  ); // 真っ白ではなくグラデーション
   border-radius: clamp(16px, 4vw, 48px); // レスポンシブなborder-radius
   width: 100%;
   height: auto;
@@ -175,7 +180,7 @@
   padding: clamp(1.5rem, 4vw, 2rem); // レスポンシブパディング
   color: #666;
   overflow: hidden;
-  
+
   // 絶対に表示されるように
   position: relative;
   z-index: 1;
@@ -214,7 +219,7 @@
   width: 50px;
   height: 50px;
   border: 4px solid #ddd;
-  border-top: 4px solid #667eea;
+  border-top: 4px solid #e65853;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;

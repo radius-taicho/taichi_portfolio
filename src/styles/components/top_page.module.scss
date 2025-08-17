@@ -359,7 +359,7 @@
     width: 40px;
     height: 40px;
     border: 3px solid #ddd;
-    border-top: 3px solid #667eea;
+    border-top: 3px solid #e65853;
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -398,7 +398,7 @@
     color: #666;
 
     button {
-      background: #667eea;
+      background: #e65853;
       color: white;
       border: none;
       border-radius: 8px;
@@ -408,7 +408,7 @@
       transition: background 0.3s ease;
 
       &:hover {
-        background: #5a6fd8;
+        background: #e65853;
       }
     }
   }
