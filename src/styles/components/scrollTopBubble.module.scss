@@ -88,28 +88,12 @@
 // ===== BUBBLE TEXT =====
 .bubbleText {
   color: #333333;
-  // ピクセルフォントの優先順位を強化
-  font-family: "PixelMplus12-Regular", "PixelMplus", "DotGothic16", "BIZ UDPゴシック", "BIZ UDGothic", "Courier New", monospace !important;
+  font-family: $font-pixelmplus !important;
   font-size: 14px;
-  font-weight: normal !important; // ピクセルフォントは通常weightのみ
-  line-height: 1.2; // ピクセルフォント用に調整
+  font-weight: 400;
+  line-height: 1.3;
   text-align: center;
   position: relative;
-  // ピクセルフォント描画の最適化
-  font-smooth: never;
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: unset;
-  // 文字の鮮明度向上
-  text-rendering: optimizeSpeed;
-  font-variant-ligatures: none;
-  image-rendering: pixelated; // ピクセル描画の強化
-  // モバイルでの表示改善
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
-  // フォントのレンダリングをピクセルパーフェクトに設定
-  text-rendering: geometricPrecision;
-  // フォントのアンチエイリアシングを無効化
-  font-feature-settings: "kern" 0;
 
   .desktop & {
     font-size: 16px;
