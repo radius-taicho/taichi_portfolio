@@ -1,16 +1,6 @@
-/* 🚀 高速スムーズスクロール最適化 */
+/* 🚀 高速スムーズスクロール最適化（競合問題を修正） */
 
 /* 全体のスクロール最適化 */
-body {
-  /* GPU加速でスムーズスクロール */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  perspective: 1000;
-}
-
 html {
   scroll-behavior: smooth;
   /* スクロール時のパフォーマンス最適化 */
@@ -18,14 +8,16 @@ html {
   scroll-padding-top: 80px;
 }
 
-/* 画像の遷移最適化 */
-img {
+body {
+  /* GPU加速でスムーズスクロール（ナビゲーションアニメーションと競合しないように調整） */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 画像の遷移最適化（フォント・レイアウトに影響しないように修正） */
+img:not([data-priority="true"]):not([loading="eager"]) {
   /* レイアウトシフト防止 */
   height: auto;
   max-width: 100%;
-  
-  /* GPU加速 */
-  will-change: auto;
 }
 
 /* 重要画像のみに特別な最適化を適用 */
@@ -33,8 +25,6 @@ img[loading="eager"],
 img[data-priority="true"] {
   /* 読み込み時のスムーズ表示 */
   transition: opacity 0.2s ease, filter 0.2s ease;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
   
   /* 重要画像用：即座に表示開始 */
   opacity: 1;
@@ -45,12 +35,10 @@ img[data-priority="true"] {
   image-rendering: optimizeQuality;
 }
 
-/* Next.js Image コンポーネントの最適化 */
-[data-nimg] {
+/* Next.js Image コンポーネントの最適化（アニメーションと競合しないように調整） */
+[data-nimg]:not(.navText *):not(.logoText *):not(.mobileLogoText *) {
   /* 重要画像用：高速表示 */
   transition: opacity 0.1s ease, filter 0.1s ease;
-  will-change: opacity, filter;
-  transform: translateZ(0);
   
   /* 即座に表示開始（重要画像） */
   opacity: 1;
@@ -67,44 +55,30 @@ img[data-priority="true"] {
 }
 
 /* 作品カードの最適化 */
-.workCard, .mobileWorkCard {
-  /* カード全体の最適化 */
-  will-change: auto;
-  
+.workCard, .mobileWorkCard {  
   /* ホバー時の滑らかな変化 */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .workCard:hover, .mobileWorkCard:hover {
-  transform: translateY(-2px) translateZ(0);
-}
-
-/* スクロール時のパフォーマンス最適化 */
-.worksGrid, .mobileWorksGrid {
-  /* コンテナの最適化 */
-  will-change: auto;
-}
-
-.worksGrid > *, .mobileWorksGrid > * {
-  will-change: auto;
+  transform: translateY(-2px);
 }
 
 /* ローディングアニメーションの最適化 */
 @keyframes smoothFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(10px) translateZ(0);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) translateZ(0);
+    transform: translateY(0);
   }
 }
 
 .workImageContainer {
   /* 画像コンテナの最適化 */
   animation: smoothFadeIn 0.2s ease forwards;
-  will-change: auto;
   
   /* 画像のアスペクト比固定でレイアウトシフト防止 */
   aspect-ratio: 440 / 320;
@@ -128,7 +102,6 @@ img[data-priority="true"] {
 .image-priority-high {
   opacity: 1 !important;
   filter: blur(0) !important;
-  transform: translateZ(0) !important;
   transition-duration: 0.05s !important;
 }
 
@@ -136,33 +109,16 @@ img[data-priority="true"] {
 img[src*=".GIF"], img[src*=".gif"] {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-  transform: translateZ(0);
-  will-change: auto;
-}
-
-/* フルスクリーンチラつき防止 */
-@media (min-width: 1200px) {
-  [data-nimg="fill"] {
-    contain: layout size paint;
-    transform: translateZ(0) !important;
-  }
 }
 
 /* 🎯 ヒーロー画像専用：真っ白な画面を完全に防止 */
 .heroImageWrapper {
   /* 画像再読み込み時の安定性確保 */
-  will-change: contents;
-  
-  /* フォールバック背景が常に表示されることを確保 */
   position: relative;
   background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%) !important;
 }
 
 .heroImageWrapper img {
-  /* ヒーロー画像は絶対にキャッシュから消さない */
-  content-visibility: visible !important;
-  will-change: auto !important;
-  
   /* 真っ白画面防止の最強設定 */
   opacity: 1 !important;
   visibility: visible !important;
@@ -174,21 +130,10 @@ img[src*=".GIF"], img[src*=".gif"] {
   
   /* 即座に表示 */
   filter: none !important;
-  transform: translateZ(0) !important;
-  
-  /* スクロール時のキャッシュ保持 */
-  -webkit-transform: translateZ(0) !important;
-  backface-visibility: hidden !important;
   
   /* Next.js Imageのデフォルトスタイルを強制上書き */
   position: relative !important;
   z-index: 2 !important;
-}
-
-/* 読み込み成功後 */
-.heroImageWrapper.imageLoaded img {
-  /* 完全に安定した状態 */
-  will-change: auto;
 }
 
 /* Next.js Imageコンポーネントの真っ白画面防止 */
@@ -198,15 +143,4 @@ img[src*=".GIF"], img[src*=".gif"] {
   visibility: visible !important;
   display: block !important;
   transition: none !important;
-}
-
-/* ヒーローセクション全体の安定性 */
-.heroSection {
-  /* セクション全体のキャッシュ最適化 */
-  will-change: auto;
-}
-
-.heroSection .heroContainer {
-  will-change: auto;
-  transform: translateZ(0);
 }

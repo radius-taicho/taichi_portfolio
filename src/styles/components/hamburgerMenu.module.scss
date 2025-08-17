@@ -119,6 +119,9 @@
   padding: 8px 0;
   width: 100%;
   overflow: hidden;
+  /* アニメーションのためのGPU加速 */
+  transform: translateZ(0);
+  will-change: auto;
 
   &::before {
     content: attr(data-text);
@@ -134,6 +137,10 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    z-index: 1;
+    /* 痾似要素の安定性確保 */
+    transform: translateZ(0);
+    will-change: width;
   }
 
   &:hover::before {
