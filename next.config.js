@@ -27,6 +27,11 @@ const nextConfig = {
   poweredByHeader: false,
   trailingSlash: false,
   
+  // 🚀 ビルドパフォーマンス向上の実験機能を有効化
+  experimental: {
+    webpackBuildWorker: true, // Webpack Build Workerを強制有効化
+  },
+  
   // webpack設定
   webpack: (config, { isServer }) => {
     if (!isServer) {

@@ -1,16 +1,28 @@
 /* 🚀 高速スムーズスクロール最適化（競合問題を修正） */
 
+/* 完全リセット - 隙間問題を根本解決 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* 全体のスクロール最適化 */
 html {
   scroll-behavior: smooth;
   /* スクロール時のパフォーマンス最適化 */
   -webkit-overflow-scrolling: touch;
   scroll-padding-top: 80px;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   /* GPU加速でスムーズスクロール（ナビゲーションアニメーションと競合しないように調整） */
   -webkit-overflow-scrolling: touch;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
 /* 画像の遷移最適化（フォント・レイアウトに影響しないように修正） */

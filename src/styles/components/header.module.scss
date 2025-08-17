@@ -170,6 +170,9 @@
     /* 疾似要素の安定性確保 */
     transform: translateZ(0);
     will-change: width;
+    /* 左から赤くなるアニメーションの位置修正 */
+    text-align: left;
+    padding-left: 0;
   }
 
   &:hover::before {
@@ -238,6 +241,9 @@
     /* 痾似要素の安定性確保 */
     transform: translateZ(0);
     will-change: width;
+    /* 左から赤くなるアニメーションの位置修正 */
+    text-align: left;
+    padding-left: 0;
   }
 
   &:hover::before {
@@ -323,6 +329,9 @@
     /* 痾似要素の安定性確保 */
     transform: translateZ(0);
     will-change: width;
+    /* 左から赤くなるアニメーションの位置修正 */
+    text-align: left;
+    padding-left: 0;
   }
 
   &:hover::before {
