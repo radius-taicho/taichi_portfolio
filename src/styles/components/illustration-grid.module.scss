@@ -45,10 +45,28 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: white;
-
+  
+  // リンクスタイルを確実に無効化
+  text-decoration: none;
+  color: inherit;
+  
+  // ホバー時のアニメーションを保持
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    text-decoration: none; // ホバー時も下線を無効化
+    color: inherit;
+  }
+  
+  // visited、activeなどのスタイルも無効化
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  &:active {
+    text-decoration: none;
+    color: inherit;
   }
 }
 
@@ -73,11 +91,18 @@
 
 .itemTitle {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600; // 500から600に少しだけ上げる
+  font-family: $font-japanese; // Hiragino Maru Gothicを適用
   color: #333;
   margin: 0;
   line-height: 1.4;
   word-break: break-word;
+  text-decoration: none; // 下線を削除
+  
+  // Linkタグのデフォルトスタイルを無効化
+  a & {
+    text-decoration: none;
+  }
 }
 
 .emptyState {
