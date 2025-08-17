@@ -1,7 +1,7 @@
 /* 🚀 高速スムーズスクロール最適化 */
 
 /* 全体のスクロール最適化 */
-* {
+body {
   /* GPU加速でスムーズスクロール */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
@@ -24,11 +24,15 @@ img {
   height: auto;
   max-width: 100%;
   
-  /* 読み込み時のスムーズ表示 */
-  transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
-  
   /* GPU加速 */
-  will-change: transform, opacity;
+  will-change: auto;
+}
+
+/* 重要画像のみに特別な最適化を適用 */
+img[loading="eager"],
+img[data-priority="true"] {
+  /* 読み込み時のスムーズ表示 */
+  transition: opacity 0.2s ease, filter 0.2s ease;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   
@@ -49,41 +53,40 @@ img {
   transform: translateZ(0);
   
   /* 即座に表示開始（重要画像） */
-  opacity: 1 !important;
-  filter: blur(0) !important;
-  
-  /* fill画像の最適化 */
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* fill画像のみ最適化 */
+[data-nimg="fill"] {
   position: absolute;
   inset: 0;
   object-fit: cover;
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: 100%;
 }
 
 /* 作品カードの最適化 */
 .workCard, .mobileWorkCard {
   /* カード全体の最適化 */
-  will-change: transform;
-  transform: translateZ(0);
+  will-change: auto;
   
   /* ホバー時の滑らかな変化 */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-2px) translateZ(0);
-  }
+}
+
+.workCard:hover, .mobileWorkCard:hover {
+  transform: translateY(-2px) translateZ(0);
 }
 
 /* スクロール時のパフォーマンス最適化 */
 .worksGrid, .mobileWorksGrid {
   /* コンテナの最適化 */
-  contain: layout style paint;
-  will-change: transform;
-  
-  /* 子要素の最適化 */
-  > * {
-    contain: layout style paint;
-  }
+  will-change: auto;
+}
+
+.worksGrid > *, .mobileWorksGrid > * {
+  will-change: auto;
 }
 
 /* ローディングアニメーションの最適化 */
@@ -148,48 +151,44 @@ img[src*=".GIF"], img[src*=".gif"] {
 /* 🎯 ヒーロー画像専用：真っ白な画面を完全に防止 */
 .heroImageWrapper {
   /* 画像再読み込み時の安定性確保 */
-  contain: layout style paint;
   will-change: contents;
   
   /* フォールバック背景が常に表示されることを確保 */
   position: relative;
   background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%) !important;
+}
+
+.heroImageWrapper img {
+  /* ヒーロー画像は絶対にキャッシュから消さない */
+  content-visibility: visible !important;
+  will-change: auto !important;
   
-  /* 画像キャッシュ強化 */
-  img {
-    /* ヒーロー画像は絶対にキャッシュから消さない */
-    content-visibility: visible !important;
-    contain: none !important;
-    will-change: auto !important;
-    
-    /* 真っ白画面防止の最強設定 */
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-    
-    /* 再読み込み防止の強力な設定 */
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimizeQuality;
-    
-    /* 即座に表示 */
-    filter: none !important;
-    transform: translateZ(0) !important;
-    
-    /* スクロール時のキャッシュ保持 */
-    -webkit-transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
-    
-    /* Next.js Imageのデフォルトスタイルを強制上書き */
-    position: relative !important;
-    z-index: 2 !important;
-  }
+  /* 真っ白画面防止の最強設定 */
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
   
-  /* 読み込み成功後 */
-  &.imageLoaded img {
-    /* 完全に安定した状態 */
-    will-change: auto;
-    contain: layout size style paint;
-  }
+  /* 再読み込み防止の強力な設定 */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizeQuality;
+  
+  /* 即座に表示 */
+  filter: none !important;
+  transform: translateZ(0) !important;
+  
+  /* スクロール時のキャッシュ保持 */
+  -webkit-transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  
+  /* Next.js Imageのデフォルトスタイルを強制上書き */
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* 読み込み成功後 */
+.heroImageWrapper.imageLoaded img {
+  /* 完全に安定した状態 */
+  will-change: auto;
 }
 
 /* Next.js Imageコンポーネントの真っ白画面防止 */
@@ -204,13 +203,10 @@ img[src*=".GIF"], img[src*=".gif"] {
 /* ヒーローセクション全体の安定性 */
 .heroSection {
   /* セクション全体のキャッシュ最適化 */
-  contain: layout style;
   will-change: auto;
-  
-  /* コンテナの安定性 */
-  .heroContainer {
-    contain: layout style paint;
-    will-change: auto;
-    transform: translateZ(0);
-  }
+}
+
+.heroSection .heroContainer {
+  will-change: auto;
+  transform: translateZ(0);
 }
