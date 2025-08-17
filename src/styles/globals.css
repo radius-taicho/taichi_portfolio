@@ -156,3 +156,34 @@ img[src*=".GIF"], img[src*=".gif"] {
   display: block !important;
   transition: none !important;
 }
+
+/* 🎯 アイコングリッド専用：Next.js Linkコンポーネントの下線問題を根本解決 */
+.illustrationGrid a[href],
+.gridFrame a[href] {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.illustrationGrid a[href]:hover,
+.gridFrame a[href]:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.illustrationGrid a[href]:visited,
+.gridFrame a[href]:visited {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.illustrationGrid a[href]:active,
+.gridFrame a[href]:active {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.illustrationGrid a[href]:focus,
+.gridFrame a[href]:focus {
+  text-decoration: none !important;
+  color: inherit !important;
+}

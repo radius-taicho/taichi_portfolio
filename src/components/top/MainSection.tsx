@@ -355,7 +355,14 @@ export default function MainSection() {
           <div className={illustrationStyles.gridContainer}>
             {currentItems.length > 0 ? (
               currentItems.map((item) => (
-                <Link href={`/works/${item.workId}`} key={item.id}>
+                <Link 
+                  href={`/works/${item.workId}`} 
+                  key={item.id}
+                  style={{
+                    textDecoration: 'none',
+                    color: 'inherit'
+                  }}
+                >
                   <div className={illustrationStyles.gridItem}>
                     <div className={illustrationStyles.imageBackground}>
                       <Image
