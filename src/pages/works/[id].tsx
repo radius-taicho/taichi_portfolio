@@ -92,18 +92,7 @@ export default function WorkDetailPage() {
 
   const { work, otherWorks } = data;
 
-  // デバッグ用：コンソールに作品データを出力
-  console.log("Work data:", {
-    id: work.id,
-    title: work.title,
-    name: work.name,
-    nameType: typeof work.name,
-    nameLength: work.name ? work.name.length : 0,
-    hasMainImage: !!work.mainImage,
-    hasDesignImage: !!work.designImage,
-    mainImageUrl: work.mainImage,
-    designImageUrl: work.designImage,
-  });
+
 
   return (
     <>

@@ -10,11 +10,7 @@ export default async function handler(
   }
 
   try {
-    console.log('Fetching hero image...');
-    
-    // データベース接続テスト
     await prisma.$connect();
-    console.log('Database connected successfully');
     
     // アクティブなHeroImageを取得（最新のものを1つ）
     const heroImage = await prisma.heroImage.findFirst({
@@ -26,7 +22,7 @@ export default async function handler(
       }
     });
 
-    console.log('Hero image query result:', heroImage ? 'Found' : 'Not found');
+
 
     if (!heroImage) {
       return res.status(404).json({ message: 'No active hero image found' });

@@ -101,9 +101,7 @@ export default async function handler(
   } catch (error) {
     console.error('Work detail fetch error:', {
       message: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined,
-      workId: id,
-      timestamp: new Date().toISOString()
+      workId: id
     });
     
     res.status(500).json({ 

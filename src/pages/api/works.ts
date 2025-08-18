@@ -10,11 +10,7 @@ export default async function handler(
   }
 
   try {
-    console.log('Fetching works...');
-    
-    // データベース接続テスト
     await prisma.$connect();
-    console.log('Database connected successfully');
     
     // Works テーブルから表示順に並べて取得（selectでリレーションも含む）
     const works = await prisma.work.findMany({
@@ -72,27 +68,7 @@ export default async function handler(
       }
     });
 
-    console.log(`Successfully fetched ${works.length} works`);
 
-    // デバッグ：アイコン作品の画像データをコンソールに出力
-    const illustrationWorks = works.filter(work => 
-      work.type.toLowerCase().includes('illustration') || 
-      work.type.toLowerCase().includes('icon')
-    );
-    
-    if (illustrationWorks.length > 0) {
-      console.log('API Debug - Illustration Works:', illustrationWorks.map(work => ({
-        workId: work.id,
-        workTitle: work.title,
-        imageCount: work.images?.length || 0,
-        images: work.images?.map(img => ({
-          id: img.id,
-          title: img.title,
-          description: img.description,
-          fileName: img.imageUrl?.split('/').pop()
-        }))
-      })));
-    }
 
     res.status(200).json(works);
   } catch (error) {

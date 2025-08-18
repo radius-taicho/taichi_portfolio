@@ -15,7 +15,7 @@ const ImTaichiGame: React.FC<ImTaichiGameProps> = ({ onGameStart }) => {
     const checkDevice = () => {
       const isMobileDevice = window.innerWidth < 768;
       setIsMobile(isMobileDevice);
-      console.log(`ImTaichiGame: デバイス判定 - ${isMobileDevice ? 'モバイル' : 'デスクトップ'} (${window.innerWidth}px)`);
+
     };
 
     // 初期判定
@@ -38,10 +38,10 @@ const ImTaichiGame: React.FC<ImTaichiGameProps> = ({ onGameStart }) => {
 
   // デバイスに応じたコンポーネントを表示
   if (isMobile) {
-    console.log('ImTaichiGame: モバイル版コンポーネントを表示');
+
     return <MobileImTaichiGame onGameStart={onGameStart} />;
   } else {
-    console.log('ImTaichiGame: デスクトップ版コンポーネントを表示');
+
     return <DesktopImTaichiGame onGameStart={onGameStart} />;
   }
 };

@@ -12,11 +12,8 @@ export default async function handler(
   const startTime = Date.now();
 
   try {
-    console.log('=== Database Health Check Started ===');
     
-    // 1. 基本的な接続テスト
     await prisma.$connect();
-    console.log('✅ Database connection established');
 
     // 2. テーブル存在確認
     const tableChecks = await Promise.allSettled([
@@ -33,8 +30,6 @@ export default async function handler(
       workImages: tableChecks[3].status === 'fulfilled' ? '✅ OK' : '❌ Error',
     };
 
-    console.log('Table status:', tableStatus);
-
     // 3. 簡単なカウントクエリ
     const counts = await Promise.allSettled([
       prisma.work.count(),
@@ -49,8 +44,6 @@ export default async function handler(
       contacts: counts[2].status === 'fulfilled' ? counts[2].value : 'Error',
       workImages: counts[3].status === 'fulfilled' ? counts[3].value : 'Error',
     };
-
-    console.log('Data counts:', dataCounts);
 
     const responseTime = Date.now() - startTime;
 
@@ -74,16 +67,14 @@ export default async function handler(
       }
     };
 
-    console.log('=== Database Health Check Completed ===');
     res.status(200).json(healthStatus);
 
   } catch (error) {
     const responseTime = Date.now() - startTime;
     
-    console.error('❌ Database Health Check Failed:', {
+    console.error('Database Health Check Failed:', {
       message: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined,
-      responseTime: `${responseTime}ms`,
+      responseTime: `${responseTime}ms`
     });
 
     const errorStatus = {

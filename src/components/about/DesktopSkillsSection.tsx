@@ -154,7 +154,7 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const clientX = e.clientX;
     const clientY = e.clientY;
 
-    console.log(`Desktop ${skillId} interaction:`, { clientX, clientY });
+
 
     // ビューポートサイズを取得
     const viewportWidth = window.innerWidth;
@@ -190,7 +190,7 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
       // 同じスキルを再クリック → 非表示
       setActiveTooltip(null);
       setClickedSkill(null);
-      console.log(`Desktop ${skillId} - hiding tooltip and scale`);
+
     } else {
       // 新しいスキルまたは別のスキル → 表示
 
@@ -204,10 +204,7 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
           setClickedSkill(skillId);
           setActiveTooltip(skillId);
           setTooltipPosition({ x: tooltipX, y: tooltipY });
-          console.log(
-            `Desktop ${skillId} - showing tooltip and scale (delayed):`,
-            { x: tooltipX, y: tooltipY }
-          );
+
           startTooltipTimeout();
         }, 80);
       } else {
@@ -215,10 +212,7 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
         setClickedSkill(skillId);
         setActiveTooltip(skillId);
         setTooltipPosition({ x: tooltipX, y: tooltipY });
-        console.log(
-          `Desktop ${skillId} - showing tooltip and scale (immediate):`,
-          { x: tooltipX, y: tooltipY }
-        );
+
         startTooltipTimeout();
       }
     }

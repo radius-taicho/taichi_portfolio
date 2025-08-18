@@ -87,22 +87,7 @@ const useResponsiveLayout = () => {
     const actualContentWidth = actualItemWidth * columns + totalGaps;
     const containerMaxWidth = actualContentWidth + containerPadding;
 
-    // デバッグ用ログ
-    if (process.env.NODE_ENV === "development") {
-      console.log("🎆 シンプルレスポンシブ:", {
-        画面幅: width,
-        列数: columns,
-        アイテムサイズ: imageSize,
-        コンテナ幅: containerMaxWidth,
-        利用率: Math.round((containerMaxWidth / availableWidth) * 100) + "%",
-        ブレークポイント:
-          width < 300
-            ? "極小スマホ(1列)"
-            : width < 992
-            ? "Md未満(2列)"
-            : "Md以上(3列)",
-      });
-    }
+
 
     return {
       columns,

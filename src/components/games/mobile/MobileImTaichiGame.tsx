@@ -22,7 +22,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({ onGameStart }) 
 
   // 画像の事前読み込み（即座に開始）
   useEffect(() => {
-    console.log('モバイル版: 画像の事前読み込み開始');
+
     
     const preloadImages = async () => {
       const imageUrls = [
@@ -37,11 +37,11 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({ onGameStart }) 
           return new Promise<string>((resolve, reject) => {
             const img = new window.Image();
             img.onload = () => {
-              console.log(`モバイル版: 画像読み込み完了: ${url}`);
+
               resolve(url);
             };
             img.onerror = (error) => {
-              console.warn(`モバイル版: 画像読み込み失敗: ${url}`, error);
+
               resolve(url); // エラーでも続行
             };
             // 高優先度で読み込み
@@ -52,10 +52,10 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({ onGameStart }) 
         });
 
         await Promise.all(imagePromises);
-        console.log('モバイル版: すべての画像読み込み完了');
+
         setImagesLoaded(true);
       } catch (error) {
-        console.error('モバイル版: 画像読み込みエラー:', error);
+
         setImagesLoaded(true); // エラーでも続行
       }
     };
@@ -137,14 +137,14 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({ onGameStart }) 
   // 画像読み込み完了後にProfileセクションにスクロールしてメニュー状態に変更
   useEffect(() => {
     if (gameState === "intro" && imagesLoaded) {
-      console.log('モバイル版: イントロ状態開始 - 画像読み込み完了後処理開始');
+
       
       const timer = setTimeout(() => {
         // Profileセクションを検索してスクロール
         const profileSection = document.querySelector('[data-section="profile"]') as HTMLElement;
         
         if (profileSection) {
-          console.log('モバイル版: Profileセクションが見つかりました、スクロール実行');
+
           profileSection.scrollIntoView({ 
             behavior: 'smooth', 
             block: 'start' 
@@ -152,14 +152,14 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({ onGameStart }) 
           
           // スクロール完了後にメニュー状態に変更
           setTimeout(() => {
-            console.log('モバイル版: メニュー状態に変更');
+
             setGameState("menu");
             setClickedItem(null);
             setHoveredItem(null);
           }, 800);
         } else {
           // Profileセクションが見つからない場合は即座にメニューに変更
-          console.log('モバイル版: Profileセクションが見つからないため即座にメニューに変更');
+
           setGameState("menu");
           setClickedItem(null);
           setHoveredItem(null);

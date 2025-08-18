@@ -10,21 +10,21 @@ export const registerImageCacheServiceWorker = () => {
       scope: "/",
     })
     .then((registration) => {
-      console.log("🚀 Image Cache SW registered:", registration.scope);
+
 
       // Service Workerの更新チェック
       registration.addEventListener("updatefound", () => {
-        console.log("🔄 New Image Cache SW version found");
+
       });
     })
     .catch((error) => {
-      console.error("❌ Image Cache SW registration failed:", error);
+
     });
 
   // Service Workerとの通信チャネル設定
   navigator.serviceWorker.addEventListener("message", (event) => {
     if (event.data.type === "IMAGE_CACHE_STATUS") {
-      console.log("📊 Image cache status:", event.data);
+      // Image cache status updated
     }
   });
 };
@@ -64,25 +64,7 @@ export const trackImagePerformance = (() => {
         });
       }
 
-      // パフォーマンス統計をコンソールに出力（開発環境のみ）
-      if (process.env.NODE_ENV === "development") {
-        const avg =
-          metrics.reduce((sum, m) => sum + m.loadTime, 0) / metrics.length;
-        const cacheHitRate =
-          (metrics.filter((m) => m.cached).length / metrics.length) * 100;
 
-        console.log(`📈 Image Performance Summary:`, {
-          totalImages: metrics.length,
-          averageLoadTime: `${avg.toFixed(0)}ms`,
-          cacheHitRate: `${cacheHitRate.toFixed(1)}%`,
-          latest: {
-            url: url.split("/").pop(),
-            loadTime: `${loadTime}ms`,
-            context,
-            cached,
-          },
-        });
-      }
     },
 
     getMetrics: () => ({
@@ -122,7 +104,7 @@ export const preloadCriticalImages = () => {
     document.head.appendChild(link);
   });
 
-  console.log("🎯 Critical images preloaded:", criticalImages.length);
+
 };
 
 // 接続状況に応じた画像品質調整
@@ -165,12 +147,7 @@ export const getAdaptiveImageQuality = () => {
 
 // 画像読み込みエラーの追跡
 export const trackImageError = (src: string, error: any, context: string) => {
-  console.warn(`❌ Image failed to load:`, {
-    src: src.length > 50 ? src.substring(0, 50) + "..." : src,
-    context,
-    error: error.message || "Unknown error",
-    timestamp: new Date().toISOString(),
-  });
+
 
   // エラー統計をService Workerに送信
   if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {

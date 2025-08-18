@@ -41,14 +41,14 @@ export default function HeroSection() {
           const data = await response.json();
           setHeroImage(data);
           setUseDefault(false);
-          console.log("✅ カスタムHero画像を読み込みました");
+
           // カスタム画像をプリロード
           if (data.imageUrl) {
             preloadHeroImage(data.imageUrl);
           }
         } else if (response.status === 404) {
           // 404の場合はデフォルト画像を使用（エラーではない）
-          console.log("ℹ️ カスタムHero画像なし - デフォルト画像を表示");
+
           setUseDefault(true);
           // デフォルト画像をプリロード
           preloadHeroImage("/images/taichi-portfolio-top.png");
@@ -56,10 +56,7 @@ export default function HeroSection() {
           throw new Error(`API Error: ${response.status}`);
         }
       } catch (err) {
-        console.log(
-          "⚠️ Hero画像API呼び出し失敗 - デフォルト画像を表示:",
-          err instanceof Error ? err.message : "Unknown error"
-        );
+
         setUseDefault(true);
         // エラー時もデフォルト画像をプリロード
         preloadHeroImage("/images/taichi-portfolio-top.png");
@@ -79,7 +76,7 @@ export default function HeroSection() {
           if (entry.isIntersecting) {
             // ビューポートに入ったら表示状態を確実に保持
             setIsVisible(true);
-            console.log("👁️ ヒーロー画像が表示エリアに入りました");
+  
           }
         });
       },
@@ -182,7 +179,7 @@ export default function HeroSection() {
                 // キャッシュ強化で再読み込み防止
                 unoptimized={false}
                 onLoad={(e) => {
-                  console.log("🎆 ヒーロー画像読み込み完了");
+
                   setImageLoaded(true);
                   setIsVisible(true);
                   // 画像が成功したらコンテナにクラスを追加
@@ -194,9 +191,7 @@ export default function HeroSection() {
                   }
                 }}
                 onError={(e) => {
-                  console.warn(
-                    "⚠️ ヒーロー画像エラー - プレースホルダーを維持"
-                  );
+
                   setImageLoaded(false);
                   // エラー時も真っ白にしない
                   setIsVisible(true);

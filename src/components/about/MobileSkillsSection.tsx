@@ -155,7 +155,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const clientX = touch?.clientX || 0;
     const clientY = touch?.clientY || 0;
 
-    console.log(`Mobile ${skillId} touch:`, { clientX, clientY });
+
 
     // ビューポートサイズを取得
     const viewportWidth = window.innerWidth;
@@ -189,16 +189,13 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       // 同じスキルを再タップ → 非表示
       setActiveTooltip(null);
       setClickedSkill(null);
-      console.log(`Mobile ${skillId} - hiding tooltip and scale`);
+
     } else {
       // 新しいスキルまたは別のスキル → 表示
       setClickedSkill(skillId);
       setActiveTooltip(skillId);
       setTooltipPosition({ x: tooltipX, y: tooltipY });
-      console.log(`Mobile ${skillId} - showing tooltip and scale:`, {
-        x: tooltipX,
-        y: tooltipY,
-      });
+
       startTooltipTimeout();
     }
   };

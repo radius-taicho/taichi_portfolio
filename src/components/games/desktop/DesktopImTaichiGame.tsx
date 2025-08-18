@@ -34,7 +34,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({ onGameStart }
     const baseSize = Math.min(containerWidth / 40, containerHeight / 25);
     const clampedSize = Math.max(20, Math.min(32, baseSize));
     
-    console.log(`デスクトップ版: 最適テキストサイズ計算 - コンテナ: ${containerWidth}x${containerHeight}, サイズ: ${clampedSize}px`);
+
     return clampedSize;
   };
 
@@ -54,7 +54,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({ onGameStart }
 
   // 画像の事前読み込み（高解像度対応）
   useEffect(() => {
-    console.log('デスクトップ版: 画像の事前読み込み開始');
+
     
     const preloadImages = async () => {
       const imageUrls = [
@@ -69,11 +69,11 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({ onGameStart }
           await new Promise<void>((resolve, reject) => {
             const img = new window.Image();
             img.onload = () => {
-              console.log(`デスクトップ版: 画像読み込み完了: ${url}`);
+
               resolve();
             };
             img.onerror = (error) => {
-              console.warn(`デスクトップ版: 画像読み込み失敗: ${url}`, error);
+
               resolve(); // エラーでも続行
             };
             // 高品質で読み込み
@@ -83,10 +83,10 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({ onGameStart }
           });
         }
 
-        console.log('デスクトップ版: すべての画像読み込み完了');
+
         setImagesLoaded(true);
       } catch (error) {
-        console.error('デスクトップ版: 画像読み込みエラー:', error);
+
         setImagesLoaded(true);
       }
     };
@@ -168,7 +168,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({ onGameStart }
   // 画像読み込み完了後にProfileセクションにスクロールしてメニュー状態に変更
   useEffect(() => {
     if (gameState === "intro" && imagesLoaded) {
-      console.log('デスクトップ版: イントロ状態開始 - 画像読み込み完了後処理開始');
+
       
       const timer = setTimeout(() => {
         // デスクトップ版のProfileセクションを検索してスクロール
@@ -176,7 +176,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({ onGameStart }
                              document.querySelector('[class*="desktopProfileSection"]') as HTMLElement;
         
         if (profileSection) {
-          console.log('デスクトップ版: デスクトップProfileセクションが見つかりました、スクロール実行');
+
           profileSection.scrollIntoView({ 
             behavior: 'smooth', 
             block: 'start' 
@@ -184,14 +184,14 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({ onGameStart }
           
           // スクロール完了後にメニュー状態に変更
           setTimeout(() => {
-            console.log('デスクトップ版: メニュー状態に変更');
+
             setGameState("menu");
             setClickedItem(null);
             setHoveredItem(null);
           }, 800);
         } else {
           // Profileセクションが見つからない場合は即座にメニューに変更
-          console.log('デスクトップ版: Profileセクションが見つからないため即座にメニューに変更');
+
           setGameState("menu");
           setClickedItem(null);
           setHoveredItem(null);
