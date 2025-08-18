@@ -511,17 +511,11 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
             }
           >
             <div className={styles.conversationMessage}>
-              {conversationStep === "question"
-                ? conversationData[
-                    selectedItem as keyof typeof conversationData
-                  ].details[
-                    selectedDetail as keyof (typeof conversationData)[keyof typeof conversationData]["details"]
-                  ].question
-                : conversationData[
-                    selectedItem as keyof typeof conversationData
-                  ].details[
-                    selectedDetail as keyof (typeof conversationData)[keyof typeof conversationData]["details"]
-                  ].answer}
+              {(() => {
+                const topicData = conversationData[selectedItem as keyof typeof conversationData];
+                const detailData = topicData.details[selectedDetail as keyof typeof topicData.details];
+                return conversationStep === "question" ? detailData.question : detailData.answer;
+              })()}}
             </div>
             {conversationStep === "answer" && (
               <div className={styles.nextArrow}>▶</div>
