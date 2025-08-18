@@ -7,7 +7,13 @@ interface MobileImTaichiGameProps {
   onGameEnd?: () => void;
 }
 
-type GameState = "intro" | "menu" | "conversation" | "detailed" | "detailedConversation" | "completed";
+type GameState =
+  | "intro"
+  | "menu"
+  | "conversation"
+  | "detailed"
+  | "detailedConversation"
+  | "completed";
 type ConversationStep = "question" | "answer";
 
 const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
@@ -23,7 +29,9 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
   const [clickedItem, setClickedItem] = useState<string | null>(null);
   const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
   const [askedDetails, setAskedDetails] = useState<Set<string>>(new Set());
-  const [completedTopics, setCompletedTopics] = useState<Set<string>>(new Set());
+  const [completedTopics, setCompletedTopics] = useState<Set<string>>(
+    new Set()
+  );
 
   // ゲームコンテナへの参照
   const gameContainerRef = useRef<HTMLDivElement>(null);
@@ -35,7 +43,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
       gameContainer.scrollIntoView({
         behavior: "smooth",
         block: "center",
-        inline: "center"
+        inline: "center",
       });
     }
   };
@@ -96,11 +104,11 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
           label: "ゲーム",
           question: "あなた：どんなゲームが好きなの？",
           answer:
-            "たいち：ケロケロキングってゲームが好きだよ。あと最近だとSLUDGE LIFEってゲームが好きだな雰囲気がすごく良いんだ",
+            "たいち：ケロケロキングってゲームが好きだよ。あと最近だとSLUDGE LIFEってゲームが好きだな。雰囲気がすごく良いんだ",
         },
         山登り: {
           label: "山登り",
-          question: "あなた：どこの山に登ったことがあるの？",
+          question: "あなた：どこの山に登っているの？",
           answer:
             "たいち：いつも天拝山に登っているよ。頂上にある社があるところの木の下で木漏れ日を見るのが好きだよ",
         },
@@ -120,22 +128,22 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
           label: "1年後",
           question: "あなた：1年後はどうなっていたい？",
           answer:
-            "たいち：自分のデザイン力をもっと上げて会社でデザインするものと自分のサービスをより良いものにしていくよ",
+            "たいち：自分のデザイン力をもっと上げて、会社でデザインするものと自分のサービスをより良いものにしていくよ",
         },
         "5年後": {
           label: "3年後",
           question: "あなた：3年後の目標は？",
           answer:
-            "たいち：会社で働きながら自分のデザインしたキャラクターに関する商品を自分のサイトで実際に売り出すことだね",
+            "たいち：会社で働きながら、自分のデザインしたキャラクターに関する商品を自分のサイトで実際に売り出すことだね",
         },
         "7年後": {
           label: "5年後",
           question: "あなた：5年後の目標は？",
           answer:
-            "たいち：会社で働きながらゲームやサービスをリリースして、得た資金が少なくてもそのお金を使って社会貢献することだよ",
+            "たいち：会社で働きながら、ゲームやサービスをリリースして、得た資金が少なくてもそのお金を使って社会貢献することだよ",
         },
         "10年後": {
-          label: "10年後〜",
+          label: "20年後",
           question: "あなた：20年後は？",
           answer:
             "たいち：自分のコインランドリーを経営して、自分のキャラクターのガチャガチャをお店に置くことだよ",
@@ -151,13 +159,13 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
           label: "絵画教室",
           question: "あなた：なぜ絵画教室に興味があるの？",
           answer:
-            "たいち：自分の表現方法に幅を持たせたいのと、自分が思い描くキャラクターを思い通りに描いたりより良いデザインにしたいんだ",
+            "たいち：自分の表現方法に幅を持たせたいのと、自分が思い描くキャラクターを思い通りに描いたり、既存の生み出したキャラクターをより良いデザインにしたいんだ",
         },
         作家塾: {
           label: "作家塾",
           question: "あなた：作家塾で何を書くの？",
           answer:
-            "たいち：自分が考えているゲームのプロットをより良いものにしたいんだ。hello worldっていうの楽しみにしててね",
+            "たいち：自分が考えているゲームのプロットをより良いものにしたいんだ。『hello world』っていうんだ。楽しみにしててね",
         },
         Xfit: {
           label: "Xfit",
@@ -176,13 +184,13 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
     デザイン: {
       question: "あなた：好きなデザインってどんなもの？",
       answer:
-        "たいち：UI&UXを損なわない、意図のある遊び心があるデザインが好きだよ。",
+        "たいち：UI&UXを損なわない、意図のある、遊び心があるデザインが好きだよ。",
       details: {
         遊び心: {
           label: "遊び心",
           question: "あなた：遊び心のあるデザインって？",
           answer:
-            "たいち：面白いキャラクターや要素が配置されていたり、アニメーションなどを用いてユーザーを楽しませるようなデザインかな",
+            "たいち：興味深いキャラクターや要素が配置されていたり、アニメーションなどを用いてユーザーを楽しませるようなデザインかな",
         },
         意図: {
           label: "意図",
@@ -201,7 +209,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
           label: "例",
           question: "あなた：好きなデザインの具体例は？",
           answer:
-            "たいち：長野県の移住総合WEBメディアのSuuHaa（スーハー）やワンス・アポン・ア塊魂のサイトが遊び心を感じられて発信している情報に対してより興味を持つことができるから好きだよ ",
+            "たいち：長野県の移住総合WEBメディアのSuuHaa（スーハー）やワンス・アポン・ア塊魂のサイトが遊び心を感じられて、発信している情報に対してより興味を持つことができるから好きだよ ",
         },
       },
     },
@@ -248,15 +256,17 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
     setAskedDetails(newAskedDetails);
 
     // 現在のトピックの詳細項目数を取得
-    const currentTopicDetails = Object.keys(conversationData[selectedItem as keyof typeof conversationData].details);
-    
+    const currentTopicDetails = Object.keys(
+      conversationData[selectedItem as keyof typeof conversationData].details
+    );
+
     // 4つ全て質問し終わったか確認
     if (newAskedDetails.size >= currentTopicDetails.length) {
       // 4つ全て聞いたらトピックを完了済みに追加
       const newCompletedTopics = new Set(completedTopics);
       newCompletedTopics.add(selectedItem);
       setCompletedTopics(newCompletedTopics);
-      
+
       // 全てのトピック（4つ）が完了したかチェック
       if (newCompletedTopics.size >= 4) {
         // 全質問完了 - 終了画面へ
@@ -302,7 +312,10 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
 
   // 会話の流れを管理
   useEffect(() => {
-    if ((gameState === "conversation" || gameState === "detailedConversation") && conversationStep === "question") {
+    if (
+      (gameState === "conversation" || gameState === "detailedConversation") &&
+      conversationStep === "question"
+    ) {
       const timer = setTimeout(() => {
         setConversationStep("answer");
       }, 2000);
@@ -376,7 +389,8 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                   priority={true}
                   style={{ objectFit: "contain" }}
                 />
-              ) : (gameState === "conversation" || gameState === "detailedConversation") &&
+              ) : (gameState === "conversation" ||
+                  gameState === "detailedConversation") &&
                 conversationStep === "answer" ? (
                 <Image
                   src="/images/taichi-talking.GIF"
@@ -498,8 +512,16 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
           >
             <div className={styles.conversationMessage}>
               {conversationStep === "question"
-                ? conversationData[selectedItem as keyof typeof conversationData].details[selectedDetail as keyof typeof conversationData[keyof typeof conversationData]['details']].question
-                : conversationData[selectedItem as keyof typeof conversationData].details[selectedDetail as keyof typeof conversationData[keyof typeof conversationData]['details']].answer}
+                ? conversationData[
+                    selectedItem as keyof typeof conversationData
+                  ].details[
+                    selectedDetail as keyof (typeof conversationData)[keyof typeof conversationData]["details"]
+                  ].question
+                : conversationData[
+                    selectedItem as keyof typeof conversationData
+                  ].details[
+                    selectedDetail as keyof (typeof conversationData)[keyof typeof conversationData]["details"]
+                  ].answer}
             </div>
             {conversationStep === "answer" && (
               <div className={styles.nextArrow}>▶</div>
@@ -514,7 +536,11 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
 
             <div className={styles.menuSection}>
               <div className={styles.menuGrid}>
-                {Object.entries(conversationData[selectedItem as keyof typeof conversationData].details).map(([key, detail]) => {
+                {Object.entries(
+                  conversationData[
+                    selectedItem as keyof typeof conversationData
+                  ].details
+                ).map(([key, detail]) => {
                   const isAsked = askedDetails.has(key);
                   return (
                     <button
@@ -539,7 +565,9 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                       >
                         ▶
                       </span>
-                      <span className={styles.menuItemText}>{detail.label}</span>
+                      <span className={styles.menuItemText}>
+                        {detail.label}
+                      </span>
                     </button>
                   );
                 })}
