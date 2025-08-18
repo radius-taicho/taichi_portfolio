@@ -159,7 +159,13 @@ export default function AboutPage() {
                       </div>
                     ) : (
                       <div className={`${styles.gameWrapper}`}>
-                        <ImTaichiGame onGameStart={() => {}} />
+                        <ImTaichiGame 
+                          onGameStart={() => {}}
+                          onGameEnd={() => {
+                            // ゲーム終了時にヒーロー画像に戻す
+                            setHeroState("image");
+                          }}
+                        />
                       </div>
                     )}
                   </div>
@@ -265,7 +271,13 @@ export default function AboutPage() {
                     </div>
                   ) : (
                     <div className={`${styles.gameWrapper}`}>
-                      <ImTaichiGame onGameStart={() => {}} />
+                      <ImTaichiGame 
+                        onGameStart={() => {}}
+                        onGameEnd={() => {
+                          // ゲーム終了時にヒーロー画像に戻す
+                          setHeroState("image");
+                        }}
+                      />
                     </div>
                   )}
                 </div>

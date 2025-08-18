@@ -285,6 +285,15 @@
     }
   }
 
+  &.asked {
+    background: #f0f0f0;
+    color: #666666;
+    
+    .menuItemTriangle {
+      color: #666666;
+    }
+  }
+
   @include mq(lg) {
     font-size: clamp(24px, 3vw, 32px);
     padding-left: clamp(16px, 2.5vw, 24px);
@@ -293,6 +302,7 @@
 
 // 黒い三角形のスタイル
 .menuItemTriangle {
+  font-family: $font-pixelmplus !important;
   color: #000000;
   font-size: clamp(16px, 2vw, 22px);
   margin-right: clamp(10px, 1.5vw, 16px);
@@ -317,6 +327,37 @@
 .menuItemText {
   flex: 1;
   text-align: left;
+}
+
+// 戻るボタンのスタイル
+.backButton {
+  font-family: $font-pixelmplus !important;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: normal !important;
+  color: #1e1e1e;
+  background: #f0f0f0;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: clamp(8px, 1vw, 12px) clamp(12px, 1.5vw, 16px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.03em;
+  margin-top: clamp(8px, 1vw, 12px);
+  
+  &:hover {
+    background: #e0e0e0;
+    border-color: #999;
+  }
+  
+  &:active {
+    transform: translateY(1px);
+    background: #d0d0d0;
+  }
+
+  @include mq(lg) {
+    font-size: clamp(18px, 2.5vw, 24px);
+    padding: clamp(10px, 1.2vw, 14px) clamp(16px, 2vw, 20px);
+  }
 }
 
 // 会話セクション
@@ -375,16 +416,22 @@
   }
 }
 
-// 右向きの三角形（右下配置）
+// ピクセル風右向き三角形（右下配置）
 .nextArrow {
   position: absolute;
   bottom: clamp(16px, 2.5vw, 24px);
   right: clamp(16px, 2.5vw, 24px);
+  font-family: $font-pixelmplus !important;
   font-size: clamp(18px, 2vw, 24px);
   color: #1e1e1e;
-  font-weight: 600;
+  font-weight: normal !important;
   transition: all 0.2s ease;
   pointer-events: none;
+  
+  // 角をシャープにするため、フィルタを無効化
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 
   @include mq(lg) {
     bottom: clamp(20px, 3vw, 32px);

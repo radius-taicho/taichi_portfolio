@@ -4,9 +4,10 @@ import DesktopImTaichiGame from "./desktop/DesktopImTaichiGame";
 
 interface ImTaichiGameProps {
   onGameStart?: () => void;
+  onGameEnd?: () => void;
 }
 
-const ImTaichiGame: React.FC<ImTaichiGameProps> = ({ onGameStart }) => {
+const ImTaichiGame: React.FC<ImTaichiGameProps> = ({ onGameStart, onGameEnd }) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
@@ -39,10 +40,10 @@ const ImTaichiGame: React.FC<ImTaichiGameProps> = ({ onGameStart }) => {
   // デバイスに応じたコンポーネントを表示
   if (isMobile) {
 
-    return <MobileImTaichiGame onGameStart={onGameStart} />;
+    return <MobileImTaichiGame onGameStart={onGameStart} onGameEnd={onGameEnd} />;
   } else {
 
-    return <DesktopImTaichiGame onGameStart={onGameStart} />;
+    return <DesktopImTaichiGame onGameStart={onGameStart} onGameEnd={onGameEnd} />;
   }
 };
 
