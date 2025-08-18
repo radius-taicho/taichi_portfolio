@@ -566,11 +566,10 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({
               ref={conversationMessageRef}
               style={{ fontSize: `${optimalTextSize}px` }}
             >
-              {(() => {
-                const topicData = conversationData[selectedItem as keyof typeof conversationData];
-                const detailData = (topicData.details as any)[selectedDetail];
-                return conversationStep === "question" ? detailData.question : detailData.answer;
-              })()}}
+              {conversationStep === "question"
+                ? (conversationData[selectedItem as keyof typeof conversationData].details as any)[selectedDetail].question
+                : (conversationData[selectedItem as keyof typeof conversationData].details as any)[selectedDetail].answer
+              }
             </div>
             {conversationStep === "answer" && (
               <div className={styles.nextArrow}>▶</div>
