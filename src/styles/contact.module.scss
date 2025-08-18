@@ -802,6 +802,10 @@
   height: 320px;
   position: relative;
   overflow: hidden;
+
+  @include mq(sm) {
+    height: 160px;
+  }
 }
 
 // ===== ANIMATIONS =====
