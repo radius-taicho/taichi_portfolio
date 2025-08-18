@@ -513,7 +513,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
             <div className={styles.conversationMessage}>
               {(() => {
                 const topicData = conversationData[selectedItem as keyof typeof conversationData];
-                const detailData = topicData.details[selectedDetail as keyof typeof topicData.details];
+                const detailData = (topicData.details as any)[selectedDetail];
                 return conversationStep === "question" ? detailData.question : detailData.answer;
               })()}}
             </div>
