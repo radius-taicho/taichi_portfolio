@@ -15,14 +15,14 @@ export default function Header() {
   // メニューが開いているときはbody要素のスクロールを無効化
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
 
     // クリーンアップ
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isMobileMenuOpen]);
 
@@ -62,7 +62,7 @@ export default function Header() {
     e.preventDefault();
     e.stopPropagation();
     setIsMobileMenuOpen(false); // メニューを閉じる
-    
+
     // 直接Contactページに遷移
     router.push("/contact");
   };
@@ -72,7 +72,7 @@ export default function Header() {
     e.preventDefault();
     e.stopPropagation();
     setIsMobileMenuOpen(false); // メニューを閉じる
-    
+
     // 直接Aboutページに遷移
     router.push("/about");
   };
@@ -101,16 +101,31 @@ export default function Header() {
         <div className={styles.hamburgerContainer}>
           <svg
             className={styles.hamburgerMenu}
-            width="33"
+            width="32"
             height="24"
-            viewBox="0 0 33 24"
+            viewBox="0 0 32 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             onClick={handleMobileMenuToggle}
           >
-            <path d="M0 0H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
-            <path d="M0 12H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
-            <path d="M0 24H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M0 0H33.1392"
+              stroke="#252525"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <path
+              d="M0 12H33.1392"
+              stroke="#252525"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <path
+              d="M0 24H33.1392"
+              stroke="#252525"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
           </svg>
         </div>
 
@@ -166,16 +181,31 @@ export default function Header() {
         <div className={styles.mobileHamburgerContainer}>
           <svg
             className={styles.mobileHamburgerMenu}
-            width="33"
+            width="32"
             height="24"
-            viewBox="0 0 33 24"
+            viewBox="0 0 32 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             onClick={handleMobileMenuToggle}
           >
-            <path d="M0 0H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
-            <path d="M0 12H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
-            <path d="M0 24H33.1392" stroke="#252525" strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M0 0H33.1392"
+              stroke="#252525"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <path
+              d="M0 12H33.1392"
+              stroke="#252525"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <path
+              d="M0 24H33.1392"
+              stroke="#252525"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
           </svg>
         </div>
       </div>
@@ -184,15 +214,15 @@ export default function Header() {
       {isMobileMenuOpen && (
         <>
           {/* 背景オーバーレイ（最下層） */}
-          <div 
-            className={menuStyles.overlay}
-            onClick={handleOverlayClick}
-          />
-          
+          <div className={menuStyles.overlay} onClick={handleOverlayClick} />
+
           {/* メニューコンテンツ（最上層） */}
           <div className={menuStyles.menuWrapper}>
             {/* デスクトップ用メニュー */}
-            <div className={menuStyles.desktopMenu} onClick={handleMenuContentClick}>
+            <div
+              className={menuStyles.desktopMenu}
+              onClick={handleMenuContentClick}
+            >
               <div className={menuStyles.menuContent}>
                 {/* ナビゲーションリンク */}
                 <div className={menuStyles.navigationSection}>
@@ -224,16 +254,34 @@ export default function Header() {
                   {/* 言語設定 */}
                   <div className={menuStyles.settingGroup}>
                     <div className={menuStyles.settingTitle}>言語設定</div>
-                    <div className={menuStyles.settingOption} data-text="日本語">日本語</div>
-                    <div className={menuStyles.settingOption} data-text="English">English</div>
-                    <div className={menuStyles.settingOption} data-text="한국어">한국어</div>
+                    <div
+                      className={menuStyles.settingOption}
+                      data-text="日本語"
+                    >
+                      日本語
+                    </div>
+                    <div
+                      className={menuStyles.settingOption}
+                      data-text="English"
+                    >
+                      English
+                    </div>
+                    <div
+                      className={menuStyles.settingOption}
+                      data-text="한국어"
+                    >
+                      한국어
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* モバイル用メニュー */}
-            <div className={menuStyles.mobileMenu} onClick={handleMenuContentClick}>
+            <div
+              className={menuStyles.mobileMenu}
+              onClick={handleMenuContentClick}
+            >
               <div className={menuStyles.menuContent}>
                 {/* ナビゲーションリンク */}
                 <div className={menuStyles.navigationSection}>
@@ -265,9 +313,24 @@ export default function Header() {
                   {/* 言語設定 */}
                   <div className={menuStyles.settingGroup}>
                     <div className={menuStyles.settingTitle}>言語設定</div>
-                    <div className={menuStyles.settingOption} data-text="日本語">日本語</div>
-                    <div className={menuStyles.settingOption} data-text="English">English</div>
-                    <div className={menuStyles.settingOption} data-text="한국어">한국어</div>
+                    <div
+                      className={menuStyles.settingOption}
+                      data-text="日本語"
+                    >
+                      日本語
+                    </div>
+                    <div
+                      className={menuStyles.settingOption}
+                      data-text="English"
+                    >
+                      English
+                    </div>
+                    <div
+                      className={menuStyles.settingOption}
+                      data-text="한국어"
+                    >
+                      한국어
+                    </div>
                   </div>
                 </div>
               </div>
