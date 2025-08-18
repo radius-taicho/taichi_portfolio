@@ -153,25 +153,25 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({
       question: "あなた：たいちの将来の目標は？",
       answer: "たいち：1年後、3年後、5年後、20年後の目標があるよ",
       details: {
-        "2年後": {
+        "1年後": {
           label: "1年後",
           question: "あなた：1年後はどうなっていたい？",
           answer:
             "たいち：自分のデザイン力をもっと上げて、会社でデザインするものと自分のサービスをより良いものにしていくよ",
         },
-        "5年後": {
+        "3年後": {
           label: "3年後",
           question: "あなた：3年後の目標は？",
           answer:
             "たいち：会社で働きながら、自分のデザインしたキャラクターに関する商品を自分のサイトで実際に売り出すことだね",
         },
-        "7年後": {
+        "5年後": {
           label: "5年後",
           question: "あなた：5年後の目標は？",
           answer:
             "たいち：会社で働きながら、ゲームやサービスをリリースして、得た資金が少なくてもそのお金を使って社会貢献することだよ",
         },
-        "10年後": {
+        "20年後": {
           label: "20年後",
           question: "あなた：20年後は？",
           answer:
@@ -567,9 +567,16 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({
               style={{ fontSize: `${optimalTextSize}px` }}
             >
               {conversationStep === "question"
-                ? (conversationData[selectedItem as keyof typeof conversationData].details as any)[selectedDetail].question
-                : (conversationData[selectedItem as keyof typeof conversationData].details as any)[selectedDetail].answer
-              }
+                ? (
+                    conversationData[
+                      selectedItem as keyof typeof conversationData
+                    ].details as any
+                  )[selectedDetail].question
+                : (
+                    conversationData[
+                      selectedItem as keyof typeof conversationData
+                    ].details as any
+                  )[selectedDetail].answer}
             </div>
             {conversationStep === "answer" && (
               <div className={styles.nextArrow}>▶</div>
