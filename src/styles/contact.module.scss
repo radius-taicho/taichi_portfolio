@@ -803,7 +803,7 @@
   position: relative;
   overflow: hidden;
 
-  @include mq(sm) {
+  @include max-width(sm) {
     height: 160px;
   }
 }
