@@ -2,95 +2,83 @@
 
 /* フッター */
 .footer {
-  width: 100vw; // ビューポート全幅を明示的に指定
-  margin-left: calc(-50vw + 50%); // 親コンテナの制限を無視して全幅表示
-  margin-bottom: 0; // 下部の隙間を削除
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: 0;
   background-color: #1e1e1e;
   position: relative;
   overflow: hidden;
-  z-index: 100; // 適切なフッターレベル
+  z-index: 100;
+
+  /* === 統一スペーシングシステム === */
+  --footer-space-xs: 8px;
+  --footer-space-sm: 16px;
+  --footer-space-md: 24px;
+  --footer-space-lg: 32px;
+  --footer-space-xl: 48px;
+  --footer-space-xxl: 64px;
 }
 
-// ===== モバイル版レイアウト（デフォルト） =====
+// ===== モバイル版レイアウト（効率的な縦配置） =====
 .mobileLayout {
   display: flex;
   flex-direction: column;
-  gap: 48px; // 言語設定と著作権の間の隙間を拡大
-  align-items: center; // 中央配置に変更
+  gap: var(--footer-space-lg); // 32pxに効率化
+  align-items: stretch; // 全幅活用
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
   max-width: 100%;
-
-  @include max-width(sm) {
-    padding: 16px 120px;
-  }
+  padding: var(--footer-space-md) clamp(20px, 5vw, 40px) var(--footer-space-sm);
 
   @include max-width(xs) {
-    padding: 16px 32px;
-  }
-
-  @include max-width(xxs) {
-    padding: 16px clamp(12px, 4vw, 16px) 8px;
+    padding: var(--footer-space-sm) clamp(16px, 4vw, 24px)
+      var(--footer-space-xs);
+    gap: var(--footer-space-md);
   }
 
   @include mq(xs) {
-    display: none; // デスクトップで非表示
+    display: none;
   }
 }
 
-// モバイル ヘッダー部分
+// モバイル ヘッダー部分（コンパクト化）
 .mobileHeader {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
+  width: 100%;
+  margin-bottom: var(--footer-space-xs);
 }
 
 .mobileBrandSection {
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: var(--footer-space-sm);
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-
-  // xs以上sm未満（575px以上768px未満）でもxs未満と同じ距離感にする
-  @include mq(xs) {
-    gap: 16px; // xs未満時と同じ距離感を保持
-  }
+  justify-content: flex-start; // 左寄せに統一
+  flex-grow: 1;
 }
 
 .mobileBrandContainer {
   display: flex;
-  flex-direction: row;
-  gap: 16px;
   align-items: center;
-  justify-content: center;
   flex-shrink: 0;
-  position: relative;
 }
 
 .mobileBrandName {
   color: #ffffff;
-  text-align: center;
+  text-align: left; // 左寄せに統一
   font-family: $font-rubik !important;
-  font-size: 36px;
+  font-size: clamp(28px, 7vw, 36px); // レスポンシブサイズ
   font-weight: 700;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   overflow: hidden;
-  /* アニメーションのためのGPU加速 */
   transform: translateZ(0);
   will-change: auto;
+  line-height: 1.2;
 
   &::before {
     content: attr(data-text);
@@ -107,12 +95,9 @@
     align-items: center;
     justify-content: flex-start;
     z-index: 1;
-    /* 痾似要素の安定性確保 */
     transform: translateZ(0);
     will-change: width;
-    /* 左から赤くなるアニメーションの位置修正 */
-    text-align: left;
-    padding-left: 0;
+    line-height: inherit;
   }
 
   &:hover::before {
@@ -131,38 +116,32 @@
 
 .mobileSocialIcons {
   display: flex;
-  flex-direction: row;
-  gap: 16px;
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
-  height: 70px; // スマホサイズ60pxに十分な余裕を持たせる
+  height: clamp(60px, 15vw, 70px); // レスポンシブ高さ
   position: relative;
-  overflow: visible; // 画像が途切れないように
+  overflow: visible;
 }
 
-// モバイル メインコンテンツ
+// モバイル メインコンテンツ（効率化）
 .mobileMainContent {
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  align-items: center; // 中央配置に変更
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
+  gap: var(--footer-space-lg);
+  align-items: stretch; // 全幅活用
+  justify-content: flex-start;
   width: 100%;
 }
 
 .mobileNavigation {
   display: flex;
   flex-direction: row;
-  gap: 32px; // 左寄せ等間隔のためのギャップ
-  align-items: center; // 中央配置に変更
-  justify-content: flex-start; // 左寄せ配置
-  flex-shrink: 0;
-  position: relative;
+  gap: clamp(24px, 6vw, 32px); // レスポンシブギャップ
+  align-items: center;
+  justify-content: center; // 中央配置で統一感
   width: 100%;
-  max-width: 100%; // 最大幅を確保
+  padding: var(--footer-space-xs) 0;
 }
 
 .mobileNavLink,
@@ -230,53 +209,50 @@
 
 .mobileSettings {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start; // より均等な配置
-  flex-shrink: 0;
-  gap: clamp(32px, 8vw, 56px); // レスポンシブギャップ
-  position: relative;
-  flex-wrap: wrap; // 小さい画面で折り返し
+  flex-direction: column; // 縦配置でより効率的に
+  align-items: center;
+  justify-content: center;
+  gap: var(--footer-space-md);
   width: 100%;
-  max-width: 100%; // 最大幅を拡張
+  padding: var(--footer-space-sm) 0;
+  // background: rgba(255, 255, 255, 0.02); // 微細な背景で区別
+  // border-radius: 8px;
 
-  @include mq(xxs) {
-    justify-content: space-between;
+  @include max-width(xs) {
+    padding: var(--footer-space-sm);
   }
 }
 
 .mobileLanguageSettings {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  align-items: center; // 中央配置に変更
-  justify-content: flex-start;
-  flex-shrink: 0;
-  flex: 1; // 均等分割
-  min-width: 200px; // 横並びのために最小幅を拡大
-  max-width: 300px; // 横並びのために最大幅を拡大
-  position: relative;
-  overflow: hidden;
+  gap: var(--footer-space-sm);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 320px; // 適度な最大幅
 }
 
 .mobileLanguageOptions {
-  display: flex;
-  flex-direction: row; // 横並び
-  gap: 8px; // 等間隔配置時は小さいギャップに設定
-  align-items: center;
-  justify-content: space-between; // 等間隔配置
-  flex-wrap: nowrap; // 折り返しを禁止して1行で表示
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // 3等分グリッド
+  gap: var(--footer-space-sm);
   width: 100%;
-  position: relative;
+  align-items: center;
+  justify-items: center;
 
-  // 横並び時の.mobileSettingOptionのスタイルを上書き
   .mobileSettingOption {
-    width: auto !important; // 100%を上書きして自動幅に
-    min-width: auto;
-    flex-shrink: 0; // 縮むことを防ぐ
-    white-space: nowrap; // 改行を防ぐ
-    text-align: center; // 中央揃えに変更
-    justify-content: center; // 中央配置
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+    padding: var(--footer-space-xs) var(--footer-space-sm);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    min-height: 32px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
   }
 }
 
@@ -296,94 +272,77 @@
 
 .mobileSettingTitle {
   color: #ffffff;
-  text-align: left; // 左寄せに変更
+  text-align: center; // 中央配置で統一
   font-family: $font-japanese;
-  font-weight: 400;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; // 左寄せ配置
-  width: 100%; // 幅を確保
-  @include max-width(xxs) {
-    font-size: 16px;
-  }
-  @include max-width(mic) {
-    font-size: 14px;
-  }
+  font-size: clamp(14px, 3.5vw, 16px);
+  font-weight: 500; // 少し太く
+  opacity: 0.9;
+  margin-bottom: var(--footer-space-xs);
 }
 
 .mobileSettingOption {
   color: #ffffff;
-  text-align: left; // 左寄せに変更
+  text-align: center;
   font-family: $font-japanese;
+  font-size: clamp(12px, 3vw, 14px);
   font-weight: 400;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start; // 左寄せ配置
+  justify-content: center;
   cursor: pointer;
-  width: 100%; // 幅を確保
+  width: 100%;
   overflow: hidden;
-  /* アニメーションのためのGPU加速 */
   transform: translateZ(0);
   will-change: auto;
+  opacity: 0.8;
 
   &::before {
     content: attr(data-text);
     position: absolute;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 0;
     height: 100%;
     color: #e65853;
     overflow: hidden;
-    transition: width 0.6s ease-in-out;
+    transition: width 0.4s ease-in-out;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     z-index: 1;
-    /* 痾似要素の安定性確保 */
-    transform: translateZ(0);
+    transform: translateZ(0) translateX(-50%);
     will-change: width;
   }
 
-  &:hover::before {
-    width: 100%;
-  }
+  &:hover {
+    opacity: 1;
 
-  @include max-width(xxs) {
-    font-size: 14px;
-  }
-  @include max-width(mic) {
-    font-size: 12px;
+    &::before {
+      width: 100%;
+    }
   }
 }
 
-// モバイル 著作権
+// モバイル 著作権（効率化）
 .mobileCopyright {
   display: flex;
-  flex-direction: row;
-  gap: 0px;
   align-items: center;
   justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-  margin-top: 40px;
+  padding-top: var(--footer-space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mobileCopyrightText {
   color: #ffffff;
   text-align: center;
   font-family: $font-rubik;
-  font-size: 12px;
+  font-size: clamp(10px, 2.5vw, 12px);
   font-weight: 400;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  opacity: 0.7;
+  line-height: 1.4;
 }
 
 // ===== デスクトップ版レイアウト =====
@@ -730,18 +689,15 @@
   }
 }
 
-// デスクトップ 著作権（下部）
+// デスクトップ 著作権（下部・モバイルと同じスタイル）
 .desktopCopyright {
   @include mq(xs) {
     display: flex;
-    flex-direction: row;
-    gap: 0px;
     align-items: center;
     justify-content: center;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
+    width: 100%;
+    padding-top: var(--footer-space-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1); // モバイルと同じ線
   }
 }
 
@@ -750,12 +706,10 @@
     color: #ffffff;
     text-align: center;
     font-family: $font-rubik !important;
-    font-size: 16px;
+    font-size: clamp(14px, 1.2vw, 17px); // モバイルと同じレスポンシブサイズ
     font-weight: 400;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    opacity: 0.7; // モバイルと同じ透明度
+    line-height: 1.4; // モバイルと同じ行間
   }
 }
 
