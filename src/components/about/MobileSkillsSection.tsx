@@ -324,10 +324,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
     const handleSkillClick = useCallback(
       (e: React.MouseEvent) => {
-        // タッチデバイスではない場合のみクリック処理
-        if (!e.nativeEvent.touches || e.nativeEvent.touches.length === 0) {
-          handleClick(skillId, e);
-        }
+        // マウスクリックイベントを直接処理
+        handleClick(skillId, e);
       },
       [skillId, handleClick]
     );
