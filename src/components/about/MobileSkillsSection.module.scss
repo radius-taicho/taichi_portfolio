@@ -18,6 +18,18 @@
   overflow: visible; // box-shadowが途切れるのを防ぐ
   padding: 32px 20px; // 左右のパディングを増やして小画面での途切れを防止
 
+  // iOS Safari対応 - 青いハイライトを完全に無効化
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  // スクロール最適化
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
   // 小さい画面での調整
   @media screen and (max-width: 375px) {
     gap: clamp(4px, 2.5vw, 8px); // 3-4-4レイアウト用に隙間調整
@@ -114,14 +126,14 @@
   }
 }
 
-// カーソル追従ツールチップ（モバイル）- テキスト幅に合わせるバージョン
+// カーソル追従ツールチップ（モバイル）- テキスト幅に合わせるバージョン（改良版）
 .skillTooltipCursor {
   position: fixed;
   // 固定幅を削除し、テキストに合わせたサイズに変更
   min-width: 60px; // 最小幅を設定
   max-width: calc(100vw - 32px); // 画面幅を超えないように制限
   width: auto; // テキストに合わせて自動調整
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.92);
   color: white;
   padding: 8px 12px;
   border-radius: 6px;
@@ -133,11 +145,24 @@
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; // 長いテキストは省略記号で処理
+  
+  // 完全な青いハイライト無効化
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  // パフォーマンス最適化
+  will-change: opacity, transform, visibility;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 
   // 小画面対応
   @include max-width(micro) {
@@ -154,8 +179,16 @@
     min-width: 45px;
   }
 
+  &:not(.active) {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(3px) translateZ(0);
+  }
+
   &.active {
     opacity: 1;
+    visibility: visible;
+    transform: translateY(0) translateZ(0);
   }
 }
 
@@ -215,7 +248,7 @@
   }
 }
 
-// ===== 統一されたスキルアイコンサイズ管理（全面再構築） =====
+// ===== 統一されたスキルアイコンサイズ管理（全面再構築）（改良版） =====
 .skillCircleGrid {
   // ===== ベースサイズ（375px以下） =====
   width: clamp(52px, 11vw, 72px) !important;
@@ -234,15 +267,32 @@
   z-index: 1;
   position: relative;
 
+  // 完全なタッチハイライト無効化（改良版）
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  // タッチアクション最適化
+  touch-action: manipulation;
+  
+  // iOS Safari特有の問題を解決
+  -webkit-appearance: none;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+
   // パフォーマンス最適化
-  will-change: transform;
+  will-change: transform, box-shadow, z-index;
   backface-visibility: hidden;
   contain: layout style;
   transform: translateZ(0);
 
-  // クリック時のスケールアニメーション
-  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
-    z-index 0s ease-out;
+  // クリック時のスケールアニメーション（改良版）
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              z-index 0s ease-out;
 
   &.clicked {
     transform: scale(1.12) translateZ(0) !important;
@@ -345,14 +395,31 @@
   cursor: pointer;
   z-index: 1;
 
+  // 完全なタッチハイライト無効化（改良版）
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  // タッチアクション最適化
+  touch-action: manipulation;
+  
+  // iOS Safari特有の問題を解決
+  -webkit-appearance: none;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+
   // パフォーマンス最適化
-  will-change: transform;
+  will-change: transform, z-index;
   backface-visibility: hidden;
   contain: layout style;
   transform: translateZ(0);
 
-  // クリック時のスケールアニメーション
-  transition: transform 0.15s ease-out, z-index 0s ease-out;
+  // クリック時のスケールアニメーション（改良版）
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              z-index 0s ease-out;
 
   &.clicked {
     transform: scale(1.15) translateZ(0) !important;
@@ -423,7 +490,7 @@
     // パフォーマンス最適化
     will-change: filter;
     backface-visibility: hidden;
-    transition: filter 0.15s ease-out;
+    transition: filter 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   &.clicked img {
@@ -464,7 +531,7 @@
     // パフォーマンス最適化
     will-change: transform;
     backface-visibility: hidden;
-    transition: transform 0.15s ease-out;
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     // ===== 小モバイル（375px～575px） =====
     @media screen and (min-width: 376px) and (max-width: 575px) {
@@ -653,12 +720,12 @@
 }
 */
 
-// ===== クリック可能な要素のスタイル（モバイル最適化） =====
+// ===== クリック可能な要素のスタイル（モバイル最適化）（改良版） =====
 .skillCircleGrid,
 .rubyImageOnly {
   cursor: pointer;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -666,15 +733,21 @@
 
   // タッチイベントの安定性向上
   touch-action: manipulation;
+  
+  // iOS Safari特有の問題を解決
+  -webkit-appearance: none;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 
-  // タッチデバイスでのスムーズなアニメーション
+  // タッチデバイスでのスムーズなアニメーション（改良版）
   @media (hover: none) and (pointer: coarse) {
-    transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-      filter 0.12s ease-out;
+    transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                filter 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// 画面リサイズ時のツールチップ安定性向上（モバイル版）
+// 画面リサイズ時のツールチップ安定性向上（モバイル版）（改良版）
 .skillTooltipCursor {
   pointer-events: none;
   user-select: none;
@@ -684,29 +757,11 @@
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 
-  transition-property: opacity, transform, left, top;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-out;
-
   max-width: calc(100vw - 20px);
   word-wrap: break-word;
   overflow-wrap: break-word;
-  will-change: opacity, transform;
 
   @media (hover: none) and (pointer: coarse) {
-    transition-duration: 0.06s;
     max-width: calc(100vw - 16px);
-  }
-
-  &:not(.active) {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(3px);
-  }
-
-  &.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
   }
 }

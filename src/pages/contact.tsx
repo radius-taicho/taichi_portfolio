@@ -96,10 +96,10 @@ export default function ContactPage() {
       <div className={styles.pageContainer}>
         <Header />
         <div className={styles.mainContent}>
-          {/* Contact タイトルセクション */}
+          {/* Contact タイトルセクション - デスクトップ専用 */}
           <section
-            id="contact-section"
-            className={`${styles.titleSection} sm:hidden`} // ← クラス名に含める
+            id="contact-section-desktop"
+            className={styles.titleSectionDesktop}
           >
             <div className={styles.titleContainer}>
               <h1 className={styles.pageTitle}>Contact</h1>
@@ -107,10 +107,10 @@ export default function ContactPage() {
           </section>
           {/* コンタクトフォーム */}
           <section className={styles.contactForm}>
-            {/* Contact タイトルセクション */}
+            {/* Contact タイトルセクション - モバイル専用 */}
             <section
-              id="contact-section"
-              className={`${styles.titleSection} sm:block`} // ← クラス名に含める
+              id="contact-section-mobile"
+              className={styles.titleSectionMobile}
             >
               <div className={styles.titleContainer}>
                 <h1 className={styles.pageTitle}>Contact</h1>

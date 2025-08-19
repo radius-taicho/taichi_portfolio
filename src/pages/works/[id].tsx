@@ -92,8 +92,6 @@ export default function WorkDetailPage() {
 
   const { work, otherWorks } = data;
 
-
-
   return (
     <>
       <Head>
@@ -377,7 +375,7 @@ export default function WorkDetailPage() {
               priority
               quality={85}
               sizes="320px"
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: "contain" }}
             />
             {/* デスクトップ用吹き出し */}
             <ScrollTopBubble
@@ -403,7 +401,7 @@ export default function WorkDetailPage() {
               priority
               quality={85}
               sizes="192px"
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: "contain" }}
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble

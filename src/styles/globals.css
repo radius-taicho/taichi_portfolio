@@ -1,3 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🎯 カスタムフォントの読み込み */
+@font-face {
+  font-family: 'PixelMplus12-Regular';
+  src: url('/fonts/PixelMplus12-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* 🚀 高速スムーズスクロール最適化（競合問題を修正） */
 
 /* 完全リセット - 隙間問題を根本解決 */

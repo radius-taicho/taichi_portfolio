@@ -177,6 +177,54 @@
   }
 }
 
+// 三角形のバウンスアニメーション（左から右へ）
+@keyframes triangleBounce {
+  0% {
+    transform: translateX(-12px);
+    opacity: 0;
+  }
+  25% {
+    transform: translateX(4px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-2px);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateX(1px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// 次の矢印のバウンスアニメーション（会話画面用）
+@keyframes nextArrowBounce {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  30% {
+    transform: translateX(6px);
+    opacity: 0.7;
+  }
+  60% {
+    transform: translateX(-3px);
+    opacity: 0.9;
+  }
+  80% {
+    transform: translateX(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 // 左側：質問セクション
 .questionSection {
   flex: 0 0 25%;
@@ -314,6 +362,10 @@
     opacity: 1;
     transform: translateX(0);
   }
+  
+  &.bouncing {
+    animation: triangleBounce 0.6s ease-out;
+  }
 
   @include max-width(xxs) {
     font-size: clamp(8px, 2vw, 12px);
@@ -423,6 +475,9 @@
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+  
+  // 会話画面表示時にバウンスアニメーション
+  animation: nextArrowBounce 0.8s ease-out;
 
   @include max-width(xxs) {
     bottom: clamp(6px, 2vw, 10px);

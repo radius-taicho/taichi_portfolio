@@ -32,9 +32,29 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
   const [completedTopics, setCompletedTopics] = useState<Set<string>>(
     new Set()
   );
+  const [showNextArrow, setShowNextArrow] = useState<boolean>(false);
+  const [animatingTriangles, setAnimatingTriangles] = useState<Set<string>>(
+    new Set()
+  );
 
   // ゲームコンテナへの参照
   const gameContainerRef = useRef<HTMLDivElement>(null);
+
+  // モバイルデバイス判定
+  const isTouchDevice = () => {
+    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  };
+
+  // 三角カーソルの表示判定関数（モバイル対応）
+  const shouldShowTriangle = (itemKey: string) => {
+    if (isTouchDevice()) {
+      // モバイル実機ではクリック時のみ表示
+      return clickedItem === itemKey;
+    } else {
+      // PCではホバーまたはクリック時に表示
+      return hoveredItem === itemKey || clickedItem === itemKey;
+    }
+  };
 
   // ゲームコンテナを画面中央に配置する関数
   const scrollToGameCenter = () => {
@@ -216,36 +236,66 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
   };
 
   const handleItemClick = (item: string) => {
+    // 全ての状態をクリア
+    setHoveredItem(null);
+    setClickedItem(null);
+    setAnimatingTriangles(new Set());
+
+    // 新しい状態を設定
     setSelectedItem(item);
-    setClickedItem(item);
+    setShowNextArrow(false);
     setGameState("conversation");
     setConversationStep("question");
-    setAskedDetails(new Set()); // 新しいトピックを選んだ時は質問履歴をリセット
+    setAskedDetails(new Set());
+
     // ゲーム画面を中央に配置
     setTimeout(() => scrollToGameCenter(), 100);
   };
 
   const handleDetailClick = (detail: string) => {
+    // 全ての状態をクリア
+    setHoveredItem(null);
+    setClickedItem(null);
+    setAnimatingTriangles(new Set());
+
+    // 新しい状態を設定
     setSelectedDetail(detail);
-    setClickedItem(detail);
+    setShowNextArrow(false);
     setGameState("detailedConversation");
     setConversationStep("question");
+
     // ゲーム画面を中央に配置
     setTimeout(() => scrollToGameCenter(), 100);
   };
 
   const handleItemMouseDown = (item: string) => {
     setClickedItem(item);
+    // アニメーショントリガー
+    const newAnimating = new Set(animatingTriangles);
+    newAnimating.add(item);
+    setAnimatingTriangles(newAnimating);
+
+    // アニメーション終了後に状態をクリア
+    setTimeout(() => {
+      setAnimatingTriangles((prev) => {
+        const updated = new Set(prev);
+        updated.delete(item);
+        return updated;
+      });
+    }, 600); // アニメーション時間と同じ
   };
 
   const handleItemMouseUp = () => {
-    setClickedItem(null);
+    // マウスアップ時は状態をクリアしない（アニメーションを継続）
   };
 
   const handleConversationClick = () => {
-    setGameState("detailed");
+    // 全ての状態をクリア
     setClickedItem(null);
-    // ゲーム画面を中央に配置
+    setHoveredItem(null);
+    setAnimatingTriangles(new Set());
+
+    setGameState("detailed");
     setTimeout(() => scrollToGameCenter(), 100);
   };
 
@@ -286,6 +336,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
         setHoveredItem(null);
         setSelectedDetail("");
         setAskedDetails(new Set()); // 履歴をリセット
+        setAnimatingTriangles(new Set()); // アニメーション状態をクリア
         // ゲーム画面を中央に配置
         setTimeout(() => scrollToGameCenter(), 100);
       }
@@ -293,7 +344,9 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
       // まだ聞いていない質問があるので詳細選択に戻る
       setGameState("detailed");
       setClickedItem(null);
+      setHoveredItem(null);
       setSelectedDetail("");
+      setAnimatingTriangles(new Set()); // アニメーション状態をクリア
       // ゲーム画面を中央に配置
       setTimeout(() => scrollToGameCenter(), 100);
     }
@@ -316,9 +369,14 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
       (gameState === "conversation" || gameState === "detailedConversation") &&
       conversationStep === "question"
     ) {
+      setShowNextArrow(false); // 質問時は矢印を非表示
       const timer = setTimeout(() => {
         setConversationStep("answer");
-      }, 2000);
+        // 回答表示時に矢印を表示（アニメーション付き）
+        setTimeout(() => {
+          setShowNextArrow(true);
+        }, 300); // 回答表示後少し遅らせて矢印表示
+      }, 2400);
 
       return () => clearTimeout(timer);
     }
@@ -357,7 +415,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
 
           setGameState("menu");
           setClickedItem(null);
-          setHoveredItem(null);
+          setHoveredItem(null); // ホバー状態をクリア
         }
       }, 1800); // 1.8秒後に実行
 
@@ -458,16 +516,20 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                         clickedItem === item ? styles.clicked : ""
                       } ${isCompleted ? styles.asked : ""}`}
                       onClick={() => handleItemClick(item)}
-                      onMouseEnter={() => setHoveredItem(item)}
-                      onMouseLeave={() => setHoveredItem(null)}
+                      onMouseEnter={() =>
+                        !isTouchDevice() && setHoveredItem(item)
+                      }
+                      onMouseLeave={() =>
+                        !isTouchDevice() && setHoveredItem(null)
+                      }
                       onMouseDown={() => handleItemMouseDown(item)}
                       onMouseUp={handleItemMouseUp}
                     >
                       <span
                         className={`${styles.menuItemTriangle} ${
-                          hoveredItem === item || clickedItem === item
-                            ? styles.visible
-                            : ""
+                          shouldShowTriangle(item) ? styles.visible : ""
+                        } ${
+                          animatingTriangles.has(item) ? styles.bouncing : ""
                         }`}
                       >
                         ▶
@@ -497,7 +559,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                     selectedItem as keyof typeof conversationData
                   ].answer}
             </div>
-            {conversationStep === "answer" && (
+            {conversationStep === "answer" && showNextArrow && (
               <div className={styles.nextArrow}>▶</div>
             )}
           </div>
@@ -523,7 +585,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                     ].details as any
                   )[selectedDetail].answer}
             </div>
-            {conversationStep === "answer" && (
+            {conversationStep === "answer" && showNextArrow && (
               <div className={styles.nextArrow}>▶</div>
             )}
           </div>
@@ -551,16 +613,20 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                         isAsked ? styles.asked : ""
                       }`}
                       onClick={() => handleDetailClick(key)}
-                      onMouseEnter={() => setHoveredItem(key)}
-                      onMouseLeave={() => setHoveredItem(null)}
+                      onMouseEnter={() =>
+                        !isTouchDevice() && setHoveredItem(key)
+                      }
+                      onMouseLeave={() =>
+                        !isTouchDevice() && setHoveredItem(null)
+                      }
                       onMouseDown={() => handleItemMouseDown(key)}
                       onMouseUp={handleItemMouseUp}
                     >
                       <span
                         className={`${styles.menuItemTriangle} ${
-                          hoveredItem === key || clickedItem === key
-                            ? styles.visible
-                            : ""
+                          shouldShowTriangle(key) ? styles.visible : ""
+                        } ${
+                          animatingTriangles.has(key) ? styles.bouncing : ""
                         }`}
                       >
                         ▶

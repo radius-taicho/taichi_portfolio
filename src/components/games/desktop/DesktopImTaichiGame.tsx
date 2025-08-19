@@ -347,7 +347,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({
     ) {
       const timer = setTimeout(() => {
         setConversationStep("answer");
-      }, 2000);
+      }, 2400);
 
       return () => clearTimeout(timer);
     }

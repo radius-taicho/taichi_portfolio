@@ -54,6 +54,25 @@
   }
 }
 
+// モバイル専用タイトル（sm未満で表示、sm以上で非表示）
+.titleSectionMobile {
+  @extend .titleSection;
+  
+  @include mq(sm) {
+    display: none !important;
+  }
+}
+
+// デスクトップ専用タイトル（sm未満で非表示、sm以上で表示）
+.titleSectionDesktop {
+  @extend .titleSection;
+  display: none;
+  
+  @include mq(sm) {
+    display: flex !important;
+  }
+}
+
 .titleContainer {
   display: flex;
   flex-direction: row;
