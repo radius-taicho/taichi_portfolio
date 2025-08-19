@@ -114,9 +114,13 @@
   }
 }
 
-// カーソル追従ツールチップ（モバイル）- シンプル版
+// カーソル追従ツールチップ（モバイル）- テキスト幅に合わせるバージョン
 .skillTooltipCursor {
   position: fixed;
+  // 固定幅を削除し、テキストに合わせたサイズに変更
+  min-width: 60px; // 最小幅を設定
+  max-width: calc(100vw - 32px); // 画面幅を超えないように制限
+  width: auto; // テキストに合わせて自動調整
   background: rgba(0, 0, 0, 0.9);
   color: white;
   padding: 8px 12px;
@@ -132,16 +136,22 @@
   transition: opacity 0.15s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; // 長いテキストは省略記号で処理
 
   // 小画面対応
   @include max-width(micro) {
+    max-width: calc(100vw - 24px); // 小画面用に幅制限を調整
     font-size: 13px;
     padding: 6px 10px;
+    min-width: 50px;
   }
 
   @include max-width(nano) {
+    max-width: calc(100vw - 20px); // さらに小さい画面用
     font-size: 12px;
     padding: 5px 8px;
+    min-width: 45px;
   }
 
   &.active {
@@ -159,7 +169,7 @@
 .skillsRowContainer {
   display: flex;
   flex-direction: row;
-  gap: clamp(8px, 4vw, 16px); // 十分な隙間を確保して窄屈さを解消
+  gap: clamp(8px, 3vw, 16px); // ベース間隔
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -167,9 +177,29 @@
   position: relative;
   flex-wrap: nowrap;
 
-  // 小さい画面での調整
+  // ===== 小モバイル（375px～575px） =====
+  @media screen and (min-width: 376px) and (max-width: 575px) {
+    gap: clamp(10px, 3.5vw, 20px);
+  }
+
+  // ===== 大モバイル（576px～767px） =====
+  @media screen and (min-width: 576px) and (max-width: 767px) {
+    gap: clamp(12px, 4vw, 24px);
+  }
+
+  // ===== SM～MD範囲（768px～991px）- 大幅増加 =====
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    gap: clamp(20px, 5vw, 40px); // 大幅増加
+  }
+
+  // ===== MD以上（992px以上）- デスクトップ =====
+  @include mq(md) {
+    gap: clamp(28px, 5vw, 48px); // デスクトップ間隔
+  }
+
+  // ===== 超小画面対応 =====
   @include max-width(micro) {
-    gap: clamp(6px, 3vw, 10px); // 隙間を増やして窄屈さを解消
+    gap: clamp(6px, 3vw, 10px);
   }
 
   @include max-width(nano) {
@@ -180,17 +210,17 @@
     gap: clamp(4px, 2vw, 6px);
   }
 
-  // 300px以下でも十分な隙間を確保してレイアウト崩れを防ぐ
   @media screen and (max-width: 300px) {
     gap: clamp(3px, 2vw, 5px);
   }
 }
 
-// ===== 統一されたスキルアイコンサイズ管理（モバイル版） =====
+// ===== 統一されたスキルアイコンサイズ管理（全面再構築） =====
 .skillCircleGrid {
-  // モバイルでも適切なサイズを確保（窄屈さを解消）
-  width: clamp(56px, 12vw, 80px) !important;
-  height: clamp(56px, 12vw, 80px) !important;
+  // ===== ベースサイズ（375px以下） =====
+  width: clamp(52px, 11vw, 72px) !important;
+  height: clamp(52px, 11vw, 72px) !important;
+  margin: 3px;
 
   // 基本スタイル
   border-radius: 50%;
@@ -204,46 +234,78 @@
   z-index: 1;
   position: relative;
 
-  // サークル内表示領域の実現
-  overflow: hidden;
+  // パフォーマンス最適化
+  will-change: transform;
+  backface-visibility: hidden;
+  contain: layout style;
+  transform: translateZ(0);
 
   // クリック時のスケールアニメーション
-  transition: all 0.15s ease-out;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+    z-index 0s ease-out;
 
   &.clicked {
-    transform: scale(1.12) !important;
+    transform: scale(1.12) translateZ(0) !important;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
     z-index: 25 !important;
   }
 
-  // 小さい画面でのサークルサイズ調整
-  @media screen and (max-width: 375px) {
-    width: clamp(52px, 11vw, 72px) !important;
-    height: clamp(52px, 11vw, 72px) !important;
+  // ===== 小モバイル（375px～575px） =====
+  @media screen and (min-width: 376px) and (max-width: 575px) {
+    width: clamp(58px, 12vw, 85px) !important;
+    height: clamp(58px, 12vw, 85px) !important;
+    margin: 4px;
   }
 
+  // ===== 大モバイル（576px～767px） =====
+  @media screen and (min-width: 576px) and (max-width: 767px) {
+    width: clamp(68px, 13vw, 100px) !important;
+    height: clamp(68px, 13vw, 100px) !important;
+    margin: 5px;
+  }
+
+  // ===== SM～MD範囲（768px～991px）- 大幅増加 =====
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: clamp(120px, 16vw, 180px) !important; // 大幅増加
+    height: clamp(120px, 16vw, 180px) !important;
+    margin: 10px;
+  }
+
+  // ===== MD以上（992px以上）- デスクトップ =====
+  @include mq(md) {
+    width: clamp(140px, 14vw, 180px) !important; // デスクトップサイズ
+    height: clamp(140px, 14vw, 180px) !important;
+    margin: 14px;
+  }
+
+  // ===== 超小画面対応 =====
   @include max-width(micro) {
     width: clamp(48px, 11vw, 64px) !important;
     height: clamp(48px, 11vw, 64px) !important;
+    margin: 2px;
   }
 
   @include max-width(nano) {
     width: clamp(44px, 12vw, 58px) !important;
     height: clamp(44px, 12vw, 58px) !important;
+    margin: 2px;
   }
 
   @include max-width(tiny) {
     width: clamp(42px, 13vw, 54px) !important;
     height: clamp(42px, 13vw, 54px) !important;
+    margin: 1px;
   }
 
-  // 300px以下の超小画面対応 - サークルも適切に縮小
   @media screen and (max-width: 300px) {
     width: clamp(40px, 14vw, 50px) !important;
     height: clamp(40px, 14vw, 50px) !important;
+    margin: 1px;
   }
 }
 
+// Ruby用の特別行コンテナ（現在は使用していない - 統一された構造を使用）
+/*
 .skillsRubyRowContainer {
   display: flex;
   flex-direction: row;
@@ -267,8 +329,14 @@
     padding: 0 4px;
   }
 }
+*/
 
 .rubyImageOnly {
+  // ===== ベースサイズ（375px以下） =====
+  width: clamp(52px, 11vw, 72px) !important;
+  height: clamp(52px, 11vw, 72px) !important;
+  margin: 3px;
+
   flex-shrink: 0;
   position: relative;
   display: flex;
@@ -277,50 +345,85 @@
   cursor: pointer;
   z-index: 1;
 
+  // パフォーマンス最適化
+  will-change: transform;
+  backface-visibility: hidden;
+  contain: layout style;
+  transform: translateZ(0);
+
   // クリック時のスケールアニメーション
-  transition: all 0.15s ease-out;
+  transition: transform 0.15s ease-out, z-index 0s ease-out;
 
   &.clicked {
-    transform: scale(1.15) !important;
+    transform: scale(1.15) translateZ(0) !important;
     z-index: 25 !important;
   }
 
+  // ===== 小モバイル（375px～575px） =====
+  @media screen and (min-width: 376px) and (max-width: 575px) {
+    width: clamp(58px, 12vw, 85px) !important;
+    height: clamp(58px, 12vw, 85px) !important;
+    margin: 4px;
+  }
+
+  // ===== 大モバイル（576px～767px） =====
+  @media screen and (min-width: 576px) and (max-width: 767px) {
+    width: clamp(68px, 13vw, 100px) !important;
+    height: clamp(68px, 13vw, 100px) !important;
+    margin: 5px;
+  }
+
+  // ===== SM～MD範囲（768px～991px）- 大幅増加 =====
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: clamp(120px, 16vw, 180px) !important; // skillCircleGridと同じサイズ
+    height: clamp(120px, 16vw, 180px) !important;
+    margin: 10px;
+  }
+
+  // ===== MD以上（992px以上）- デスクトップ =====
+  @include mq(md) {
+    width: clamp(140px, 14vw, 180px) !important; // skillCircleGridと同じサイズ
+    height: clamp(140px, 14vw, 180px) !important;
+    margin: 14px;
+  }
+
+  // ===== 超小画面対応 =====
+  @include max-width(micro) {
+    width: clamp(48px, 11vw, 64px) !important;
+    height: clamp(48px, 11vw, 64px) !important;
+    margin: 2px;
+  }
+
+  @include max-width(nano) {
+    width: clamp(44px, 12vw, 58px) !important;
+    height: clamp(44px, 12vw, 58px) !important;
+    margin: 2px;
+  }
+
+  @include max-width(tiny) {
+    width: clamp(42px, 13vw, 54px) !important;
+    height: clamp(42px, 13vw, 54px) !important;
+    margin: 1px;
+  }
+
+  @media screen and (max-width: 300px) {
+    width: clamp(40px, 14vw, 50px) !important;
+    height: clamp(40px, 14vw, 50px) !important;
+    margin: 1px;
+  }
+
   img {
-    // 他のアイコンと同じサイズに統一（サークルなし）
-    width: clamp(56px, 12vw, 80px) !important;
-    height: clamp(56px, 12vw, 80px) !important;
+    // コンテナ内で適切なサイズに調整
+    width: 100% !important;
+    height: 100% !important;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.25));
-    transition: all 0.15s ease-out;
-
-    // 小さい画面での調整 - 他のアイコンと同じサイズに統一
-    @media screen and (max-width: 375px) {
-      width: clamp(52px, 11vw, 72px) !important;
-      height: clamp(52px, 11vw, 72px) !important;
-    }
-
-    @include max-width(micro) {
-      width: clamp(48px, 11vw, 64px) !important;
-      height: clamp(48px, 11vw, 64px) !important;
-    }
-
-    @include max-width(nano) {
-      width: clamp(44px, 12vw, 58px) !important;
-      height: clamp(44px, 12vw, 58px) !important;
-    }
-
-    @include max-width(tiny) {
-      width: clamp(40px, 13vw, 52px) !important;
-      height: clamp(40px, 13vw, 52px) !important;
-    }
-
-    // 300px以下の超小画面対応 - レイアウト崩れを防ぐ
-    @media screen and (max-width: 300px) {
-      width: clamp(36px, 14vw, 48px) !important;
-      height: clamp(36px, 14vw, 48px) !important;
-    }
+    // パフォーマンス最適化
+    will-change: filter;
+    backface-visibility: hidden;
+    transition: filter 0.15s ease-out;
   }
 
   &.clicked img {
@@ -352,13 +455,40 @@
 
 .skillCircleGrid {
   .skillIcon img {
-    // よりスムーズなレスポンシブ画像サイズ（デスクトップとの差を縮める）
-    width: clamp(40px, 8vw, 60px) !important;
-    height: clamp(40px, 8vw, 60px) !important;
+    // 新しいサークルサイズに合わせた画像サイズ（ベース）
+    width: clamp(30px, 6vw, 50px) !important;
+    height: clamp(30px, 6vw, 50px) !important;
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
-    transition: all 0.15s ease-out;
+    // パフォーマンス最適化
+    will-change: transform;
+    backface-visibility: hidden;
+    transition: transform 0.15s ease-out;
+
+    // ===== 小モバイル（375px～575px） =====
+    @media screen and (min-width: 376px) and (max-width: 575px) {
+      width: clamp(36px, 7vw, 60px) !important;
+      height: clamp(36px, 7vw, 60px) !important;
+    }
+
+    // ===== 大モバイル（576px～767px） =====
+    @media screen and (min-width: 576px) and (max-width: 767px) {
+      width: clamp(45px, 8vw, 70px) !important;
+      height: clamp(45px, 8vw, 70px) !important;
+    }
+
+    // ===== SM～MD範囲（768px～991px）- 大幅増加 =====
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+      width: clamp(80px, 12vw, 120px) !important; // 大幅増加
+      height: clamp(80px, 12vw, 120px) !important;
+    }
+
+    // ===== MD以上（992px以上）- デスクトップ =====
+    @include mq(md) {
+      width: clamp(95px, 11vw, 130px) !important; // デスクトップサイズ
+      height: clamp(95px, 11vw, 130px) !important;
+    }
 
     // 325px-375px範囲での特別対応
     @media screen and (min-width: 325px) and (max-width: 375px) {
@@ -512,14 +642,16 @@
   z-index: 1;
 }
 
-// Ruby
+// Ruby（円形画像のためスタイル不要）
+/*
 .skillRuby {
   background: linear-gradient(145deg, #cc342d, #a71e1e) !important;
   box-shadow: 0 10px 20px rgba(204, 52, 45, 0.4),
     inset 0 -3px 6px rgba(0, 0, 0, 0.3),
     inset 0 3px 6px rgba(255, 255, 255, 0.2) !important;
-  z-index: 5;
+  z-index: 1;
 }
+*/
 
 // ===== クリック可能な要素のスタイル（モバイル最適化） =====
 .skillCircleGrid,

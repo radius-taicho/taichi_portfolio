@@ -154,8 +154,6 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const clientX = e.clientX;
     const clientY = e.clientY;
 
-
-
     // ビューポートサイズを取得
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -190,7 +188,6 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
       // 同じスキルを再クリック → 非表示
       setActiveTooltip(null);
       setClickedSkill(null);
-
     } else {
       // 新しいスキルまたは別のスキル → 表示
 
@@ -218,6 +215,24 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
     }
   };
 
+  // スキルクラス名マッピング関数（Rubyは除外）
+  const getSkillClassName = (skillId: string): string => {
+    const classNameMap: Record<string, string> = {
+      figma: skillStyles.skillFigma,
+      illustrator: skillStyles.skillIllustrator,
+      photoshop: skillStyles.skillPhotoshop,
+      nextjs: skillStyles.skillNextjs,
+      rails: skillStyles.skillRails,
+      html: skillStyles.skillHtmlcssjs,
+      sass: skillStyles.skillSass,
+      tailwind: skillStyles.skillTailwind,
+      github: skillStyles.skillGithub,
+      swift: skillStyles.skillSwift,
+      // ruby は除外（既に円形画像のため）
+    };
+    return classNameMap[skillId] || "";
+  };
+
   const DesktopSkillIcon = ({
     skillId,
     className,
@@ -228,63 +243,37 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const skill = getSkillData(skillId);
     if (!skill) return null;
 
-    // Ruby画像の特別処理 - サークルなしでサイズを統一
+    // Ruby画像はシンプルな画像表示のみ（円形スタイルなし）
     if (skillId === "ruby") {
+      const isClicked = clickedSkill === skillId;
       return (
         <div className={skillStyles.desktopSkillWrapper}>
           <div
             className={`${skillStyles.desktopRubyImageOnly} ${
-              clickedSkill === skillId ? skillStyles.clicked : ""
+              isClicked ? skillStyles.clicked : ""
             }`}
             onClick={(e) => handleSkillInteraction(skillId, e)}
           >
-            <Image
-              src={skill.image}
-              alt={skill.name}
-              width={110}
-              height={110}
-            />
+            <Image src={skill.image} alt={skill.name} width={120} height={120} />
           </div>
         </div>
       );
     }
 
-    // その他のスキルは円形アイコンとして表示
-
-    // classNameを正しく解決して適用（Rubyは除外）
-    const skillClassName =
-      skillId === "figma"
-        ? skillStyles.skillFigma
-        : skillId === "illustrator"
-        ? skillStyles.skillIllustrator
-        : skillId === "photoshop"
-        ? skillStyles.skillPhotoshop
-        : skillId === "nextjs"
-        ? skillStyles.skillNextjs
-        : skillId === "rails"
-        ? skillStyles.skillRails
-        : skillId === "html"
-        ? skillStyles.skillHtmlcssjs
-        : skillId === "sass"
-        ? skillStyles.skillSass
-        : skillId === "tailwind"
-        ? skillStyles.skillTailwind
-        : skillId === "github"
-        ? skillStyles.skillGithub
-        : skillId === "swift"
-        ? skillStyles.skillSwift
-        : "";
+    // その他のスキルは円形サークル背景を適用
+    const skillClassName = getSkillClassName(skillId);
+    const isClicked = clickedSkill === skillId;
 
     return (
       <div className={skillStyles.desktopSkillWrapper}>
         <div
           className={`${skillStyles.desktopSkillCircleGrid} ${skillClassName} ${
-            clickedSkill === skillId ? skillStyles.clicked : ""
+            isClicked ? skillStyles.clicked : ""
           }`}
           onClick={(e) => handleSkillInteraction(skillId, e)}
         >
           <div className={skillStyles.desktopSkillIcon}>
-            <Image src={skill.image} alt={skill.name} width={70} height={70} />
+            <Image src={skill.image} alt={skill.name} width={120} height={120} />
           </div>
         </div>
       </div>
@@ -292,7 +281,7 @@ const DesktopSkillsSection: React.FC<Props> = ({ skillsState }) => {
   };
 
   return (
-    <div className={styles.desktopSection}>
+    <div className={skillStyles.desktopSkillsSection}>
       <div className={styles.desktopSectionHeader}>
         <div className={styles.desktopSectionTitleContainer}>
           <h2 className={styles.desktopSectionTitle}>Skills</h2>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import Image from "next/image";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
@@ -125,163 +125,219 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   const secondRow = ["nextjs", "html", "sass", "tailwind"]; // 4個
   const thirdRow = ["rails", "github", "swift", "ruby"]; // 4個（railsを移動、rubyも通常アイコン）
 
-  // タイマーをクリアする関数
-  const clearTooltipTimeout = () => {
+  // タイマーをクリアする関数（メモ化）
+  const clearTooltipTimeout = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-  };
+  }, []);
 
-  // 3秒後にツールチップとスケールを非表示にする関数
-  const startTooltipTimeout = () => {
+  // 3秒後にツールチップとスケールを非表示にする関数（メモ化）
+  const startTooltipTimeout = useCallback(() => {
     clearTooltipTimeout();
     timeoutRef.current = setTimeout(() => {
       setActiveTooltip(null);
       setClickedSkill(null);
     }, 1500);
-  };
+  }, [clearTooltipTimeout, setActiveTooltip, setClickedSkill]);
 
-  // タッチイベント専用ハンドラー（モバイル最適化版）- passive: false対応
-  const handleTouchStart = (skillId: string, e: React.TouchEvent) => {
-    // passive: falseにできないReact TouchEventではpreventDefault()を削除
-    e.stopPropagation();
-
-    // 既存のタイマーをクリア
-    clearTooltipTimeout();
-
-    // タッチ座標を取得
-    const touch = e.touches[0];
-    const clientX = touch?.clientX || 0;
-    const clientY = touch?.clientY || 0;
-
-
-
-    // ビューポートサイズを取得
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    // ツールチップのサイズ定数（モバイル版）
-    const TOOLTIP_WIDTH = 180;
-    const TOOLTIP_HEIGHT = 40;
-    const MARGIN = 16;
-
-    // ツールチップをタッチ位置の上に表示
-    let tooltipX = clientX;
-    let tooltipY = clientY - TOOLTIP_HEIGHT - MARGIN;
-
-    // 左右の境界調整
-    const minX = TOOLTIP_WIDTH / 2 + MARGIN;
-    const maxX = viewportWidth - TOOLTIP_WIDTH / 2 - MARGIN;
-    tooltipX = Math.max(minX, Math.min(maxX, tooltipX));
-
-    // 上下の境界調整
-    if (tooltipY < MARGIN) {
-      tooltipY = clientY + MARGIN;
-    }
-
-    if (tooltipY + TOOLTIP_HEIGHT > viewportHeight - MARGIN) {
-      tooltipY = viewportHeight - TOOLTIP_HEIGHT - MARGIN;
-    }
-
-    // 状態の更新
-    if (activeTooltip === skillId && clickedSkill === skillId) {
-      // 同じスキルを再タップ → 非表示
-      setActiveTooltip(null);
-      setClickedSkill(null);
-
-    } else {
-      // 新しいスキルまたは別のスキル → 表示
-      setClickedSkill(skillId);
-      setActiveTooltip(skillId);
-      setTooltipPosition({ x: tooltipX, y: tooltipY });
-
-      startTooltipTimeout();
-    }
-  };
-
-  // クリックイベントハンドラー（フォールバック用）
-  const handleClick = (skillId: string, e: React.MouseEvent) => {
-    // タッチデバイスでない場合のフォールバック
-    if (window.ontouchstart === undefined) {
-      e.preventDefault();
+  // タッチイベント専用ハンドラー（モバイル最適化版）- passive: false対応（メモ化）
+  const handleTouchStart = useCallback(
+    (skillId: string, e: React.TouchEvent) => {
+      // passive: falseにできないReact TouchEventではpreventDefault()を削除
       e.stopPropagation();
-      handleTouchStart(skillId, {
-        preventDefault: () => {},
-        stopPropagation: () => {},
-        touches: [{ clientX: e.clientX, clientY: e.clientY }],
-      } as any);
-    }
-  };
 
-  const MobileSkillIcon = ({ skillId }: { skillId: string }) => {
+      // 既存のタイマーをクリア
+      clearTooltipTimeout();
+
+      // タッチ座標を取得
+      const touch = e.touches[0];
+      const clientX = touch?.clientX || 0;
+      const clientY = touch?.clientY || 0;
+
+      // ビューポートサイズを取得
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      // レスポンシブなツールチップサイズ推定（テキスト幅に合わせた動的計算）
+      const skillData = getSkillData(skillId);
+      const skillName = skillData?.name || "";
+
+      // テキスト長に基づいたツールチップ幅の推定（文字数×フォントサイズ + パディング）
+      let estimatedWidth = Math.max(
+        60, // 最小幅
+        skillName.length *
+          (viewportWidth <= 320 ? 11 : viewportWidth <= 480 ? 12 : 13) +
+          24 // 文字幅 + パディング
+      );
+
+      // 最大幅の制限
+      const maxTooltipWidth = viewportWidth - 32;
+      estimatedWidth = Math.min(estimatedWidth, maxTooltipWidth);
+
+      const TOOLTIP_HEIGHT = 40;
+      const MARGIN = 16;
+
+      // ツールチップをタッチ位置の上に表示
+      let tooltipX = clientX;
+      let tooltipY = clientY - TOOLTIP_HEIGHT - MARGIN;
+
+      // 左右の境界調整（推定幅を使用）
+      const minX = estimatedWidth / 2 + MARGIN;
+      const maxX = viewportWidth - estimatedWidth / 2 - MARGIN;
+      tooltipX = Math.max(minX, Math.min(maxX, tooltipX));
+
+      // 上下の境界調整
+      if (tooltipY < MARGIN) {
+        tooltipY = clientY + MARGIN;
+      }
+
+      if (tooltipY + TOOLTIP_HEIGHT > viewportHeight - MARGIN) {
+        tooltipY = viewportHeight - TOOLTIP_HEIGHT - MARGIN;
+      }
+
+      // 状態の更新
+      if (activeTooltip === skillId && clickedSkill === skillId) {
+        // 同じスキルを再タップ → 非表示
+        setActiveTooltip(null);
+        setClickedSkill(null);
+      } else {
+        // 新しいスキルまたは別のスキル → 表示
+        setClickedSkill(skillId);
+        setActiveTooltip(skillId);
+        setTooltipPosition({ x: tooltipX, y: tooltipY });
+
+        startTooltipTimeout();
+      }
+    },
+    [
+      activeTooltip,
+      clickedSkill,
+      setActiveTooltip,
+      setClickedSkill,
+      setTooltipPosition,
+      clearTooltipTimeout,
+      startTooltipTimeout,
+    ]
+  );
+
+  // クリックイベントハンドラー（フォールバック用）（メモ化）
+  const handleClick = useCallback(
+    (skillId: string, e: React.MouseEvent) => {
+      // タッチデバイスでない場合のフォールバック
+      if (window.ontouchstart === undefined) {
+        e.preventDefault();
+        e.stopPropagation();
+        handleTouchStart(skillId, {
+          preventDefault: () => {},
+          stopPropagation: () => {},
+          touches: [{ clientX: e.clientX, clientY: e.clientY }],
+        } as any);
+      }
+    },
+    [handleTouchStart]
+  );
+
+  // メモ化されたスキルクラス名取得関数（Rubyは除外）
+  const getSkillClassName = useMemo(() => {
+    const classNameMap: Record<string, string> = {
+      figma: skillStyles.skillFigma,
+      illustrator: skillStyles.skillIllustrator,
+      photoshop: skillStyles.skillPhotoshop,
+      nextjs: skillStyles.skillNextjs,
+      rails: skillStyles.skillRails,
+      html: skillStyles.skillHtmlcssjs,
+      sass: skillStyles.skillSass,
+      tailwind: skillStyles.skillTailwind,
+      github: skillStyles.skillGithub,
+      swift: skillStyles.skillSwift,
+      // ruby は除外（既に円形画像のため）
+    };
+    return (skillId: string) => classNameMap[skillId] || "";
+  }, []);
+
+  // メモ化された画像コンポーネント（画像再読み込み防止）
+  const MemoizedSkillImage = React.memo<{ skill: SkillData }>(({ skill }) => {
+    return (
+      <Image
+        src={skill.image}
+        alt={skill.name}
+        width={60}
+        height={60}
+        loading="eager"
+        priority
+        quality={90}
+        sizes="60px"
+        style={{ objectFit: "contain" }}
+        placeholder="blur"
+        blurDataURL="data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAAAwAQCdASoEAAQAAkA4JZwAA3AA/v8A"
+      />
+    );
+  });
+
+  MemoizedSkillImage.displayName = "MemoizedSkillImage";
+
+  // メモ化されたスキルアイコンコンポーネント
+  const MobileSkillIcon = React.memo<{ skillId: string }>(({ skillId }) => {
     const skill = getSkillData(skillId);
     if (!skill) return null;
 
-    // Ruby画像の特別処理 - サークルなしでサイズを統一
+    // タッチハンドラーをコールバック化（再レンダリング防止）
+    const handleSkillTouchStart = useCallback(
+      (e: React.TouchEvent) => {
+        handleTouchStart(skillId, e);
+      },
+      [skillId, handleTouchStart]
+    );
+
+    const handleSkillClick = useCallback(
+      (e: React.MouseEvent) => {
+        handleClick(skillId, e);
+      },
+      [skillId, handleClick]
+    );
+
+    // Ruby画像はシンプルな画像表示のみ（円形スタイルなし）
     if (skillId === "ruby") {
+      const isClicked = clickedSkill === skillId;
       return (
         <div className={skillStyles.skillWrapper}>
           <div
             className={`${skillStyles.rubyImageOnly} ${
-              clickedSkill === skillId ? skillStyles.clicked : ""
+              isClicked ? skillStyles.clicked : ""
             }`}
-            onTouchStart={(e) => handleTouchStart(skillId, e)}
-            onClick={(e) => handleClick(skillId, e)}
+            onTouchStart={handleSkillTouchStart}
+            onClick={handleSkillClick}
           >
-            <Image
-              src={skill.image}
-              alt={skill.name}
-              width={80}
-              height={80}
-            />
+            <MemoizedSkillImage skill={skill} />
           </div>
         </div>
       );
     }
 
-    // その他のスキルは円形アイコンとして表示
-
-    // classNameを正しく解決して適用（Rubyは除外）
-    const skillClassName =
-      skillId === "figma"
-        ? skillStyles.skillFigma
-        : skillId === "illustrator"
-        ? skillStyles.skillIllustrator
-        : skillId === "photoshop"
-        ? skillStyles.skillPhotoshop
-        : skillId === "nextjs"
-        ? skillStyles.skillNextjs
-        : skillId === "rails"
-        ? skillStyles.skillRails
-        : skillId === "html"
-        ? skillStyles.skillHtmlcssjs
-        : skillId === "sass"
-        ? skillStyles.skillSass
-        : skillId === "tailwind"
-        ? skillStyles.skillTailwind
-        : skillId === "github"
-        ? skillStyles.skillGithub
-        : skillId === "swift"
-        ? skillStyles.skillSwift
-        : "";
+    // その他のスキルは円形サークル背景を適用
+    const skillClassName = getSkillClassName(skillId);
+    const isClicked = clickedSkill === skillId;
 
     return (
       <div className={skillStyles.skillWrapper}>
         <div
           className={`${skillStyles.skillCircleGrid} ${skillClassName} ${
-            clickedSkill === skillId ? skillStyles.clicked : ""
+            isClicked ? skillStyles.clicked : ""
           }`}
-          onTouchStart={(e) => handleTouchStart(skillId, e)}
-          onClick={(e) => handleClick(skillId, e)}
+          onTouchStart={handleSkillTouchStart}
+          onClick={handleSkillClick}
         >
           <div className={skillStyles.skillIcon}>
-            <Image src={skill.image} alt={skill.name} width={60} height={60} />
+            <MemoizedSkillImage skill={skill} />
           </div>
         </div>
       </div>
     );
-  };
+  });
+
+  MobileSkillIcon.displayName = "MobileSkillIcon";
 
   return (
     <div className={styles.sectionContainer}>

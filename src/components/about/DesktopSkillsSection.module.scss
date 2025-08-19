@@ -3,35 +3,51 @@
 // ===== DESKTOP SKILLS SECTION STYLES =====
 // Desktop-optimized styles with responsive design
 
+// ===== DESKTOP SKILLS SECTION CONTAINER =====
+.desktopSkillsSection {
+  display: flex !important;
+  flex-direction: column;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible; // box-shadowが途切れないように変更
+
+  // 他のセクションと同じ横幅設定を使用
+  @include about-section-container;
+}
+
 // ===== DESKTOP SKILLS SECTION =====
 .desktopSkillsContent {
   display: flex;
   flex-direction: column;
-  gap: clamp(16px, 3vw, 28px); // 統一されたスムーズな隙間
+  gap: clamp(16px, 3vw, 32px); // 適度なギャップでスキルを表示
   align-items: center;
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
-  min-height: 420px; // 3-4-4配置用に高さ調整
+  min-height: 400px; // コンパクトな高さ
   height: auto;
   position: relative;
   overflow: visible;
-  padding: 32px 16px;
-  
+  padding: 32px 16px; // 通常のパディングに戻す
+
   // タブレット横向き以下でのパディングとレイアウト調整
   @include max-width(md) {
     min-height: 380px;
     padding: 28px 12px;
     gap: clamp(14px, 2.5vw, 24px);
   }
-  
+
   // タブレット縦向き以下でのパディングとレイアウト調整
   @include max-width(sm) {
     min-height: 350px;
     padding: 24px 8px;
     gap: clamp(12px, 2vw, 20px);
   }
-  
+
   // ========== モバイル(575px未満)専用設定 ==========
   // より広いコンテンツ表示のためパディングを最小限に
   @include max-width(xs) {
@@ -45,24 +61,24 @@
 .desktopSkillsRow {
   display: flex;
   flex-direction: row;
-  gap: clamp(12px, 3vw, 24px); // モバイルと統一されたスムーズな隙間
+  gap: clamp(14px, 3.5vw, 28px); // 適度なギャップでスキルを配置
   align-items: center;
   justify-content: center;
   width: 100%;
   flex-shrink: 0;
   position: relative;
   flex-wrap: nowrap;
-  
+
   // タブレット横向き以下でのギャップ調整
   @include max-width(md) {
     gap: clamp(10px, 2.5vw, 20px);
   }
-  
+
   // タブレット縦向き以下でのギャップ調整
   @include max-width(sm) {
     gap: clamp(8px, 2vw, 16px);
   }
-  
+
   // ========== モバイル(575px未満)専用設定 ==========
   // さらに狭いギャップでより多くのスキルを表示
   @include max-width(xs) {
@@ -79,6 +95,8 @@
   margin: 4px; // box-shadow用のマージン
 }
 
+// Ruby用の特別行コンテナ（現在は使用していない - 統一された構造を使用）
+/*
 .desktopSkillsRubyRow {
   display: flex;
   flex-direction: row;
@@ -117,6 +135,7 @@
     gap: clamp(6px, 1.5vw, 12px);
   }
 }
+*/
 
 // ===== DESKTOP TOOLTIP STYLES =====
 .desktopSkillTooltipCursor {
@@ -143,10 +162,14 @@
 }
 
 // ===== デスクトップ版スキルアイコンサイズ管理 =====
-.desktopSkillCircleGrid {
-  // モバイルと統一されたスムーズなレスポンシブサイズ設定
-  width: clamp(75px, 10vw, 110px) !important;
-  height: clamp(75px, 10vw, 110px) !important;
+.desktopSkillWrapper .desktopSkillCircleGrid {
+  // 基本サイズ（992px以上）- 一回り大きく
+  width: clamp(100px, 10vw, 120px) !important;
+  height: clamp(100px, 10vw, 120px) !important;
+  min-width: 100px !important;
+  min-height: 100px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
 
   // 基本スタイル
   border-radius: 50%;
@@ -159,8 +182,8 @@
   cursor: pointer;
   z-index: 1;
   position: relative;
-  margin: 4px; // box-shadow用のマージン
-  
+  margin: 4px; // box-shadow用のマージン（統一）
+
   // サークル内表示領域の実現
   overflow: hidden;
 
@@ -172,31 +195,21 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
     z-index: 25 !important;
   }
-  
-  // タブレット横向き以下でのサイズ調整
-  @include max-width(md) {
-    width: clamp(65px, 9vw, 95px) !important;
-    height: clamp(65px, 9vw, 95px) !important;
-    margin: 3px;
-  }
-  
-  // タブレット縦向き以下でのサイズ調整
-  @include max-width(sm) {
-    width: clamp(55px, 8vw, 80px) !important;
-    height: clamp(55px, 8vw, 80px) !important;
-    margin: 2px;
-  }
-  
-  // ========== モバイル(575px未満)専用設定 ==========
-  // より大きなスキルアイコンで視認性向上
-  @include max-width(xs) {
-    width: clamp(60px, 12vw, 85px) !important;
-    height: clamp(60px, 12vw, 85px) !important;
-    margin: 1px; // マージンを最小限に
-  }
-}
 
-.desktopRubyImageOnly {
+  // ===== SM～MD範囲（768px～991px）- 一回り大きく =====
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: clamp(90px, 11vw, 110px) !important;
+    height: clamp(90px, 11vw, 110px) !important;
+    margin: 8px;
+  }
+
+  // ===== MD以上（992px以上）- デスクトップ、一回り大きく =====
+  @include mq(md) {
+    width: clamp(100px, 10vw, 120px) !important;
+    height: clamp(100px, 10vw, 120px) !important;
+    margin: 10px;
+  }
+
   flex-shrink: 0;
   position: relative;
   display: flex;
@@ -204,6 +217,7 @@
   justify-content: center;
   cursor: pointer;
   z-index: 1;
+  margin: 4px; // 他のスキルと同じマージン
 
   // クリック時のスケールアニメーション
   transition: all 0.2s ease-out;
@@ -213,34 +227,81 @@
     z-index: 25 !important;
   }
 
+  // タブレット横向き以下でのサイズ調整
+  @include max-width(sm) {
+    // md → sm に変更（768px以下）
+    width: clamp(65px, 9vw, 95px) !important;
+    height: clamp(65px, 9vw, 95px) !important;
+    margin: 3px;
+  }
+
+  // タブレット縦向き以下でのサイズ調整
+  @include max-width(sm) {
+    width: clamp(55px, 8vw, 80px) !important;
+    height: clamp(55px, 8vw, 80px) !important;
+    margin: 2px;
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  // より大きなスキルアイコンで視認性向上
+  @include max-width(xs) {
+    width: clamp(60px, 12vw, 85px) !important;
+    height: clamp(60px, 12vw, 85px) !important;
+    margin: 1px; // マージンを最小限に
+  }
+}
+
+.desktopSkillWrapper .desktopRubyImageOnly {
+  // 基本サイズ（992px以上）- 一回り大きく
+  width: clamp(100px, 10vw, 120px) !important;
+  height: clamp(100px, 10vw, 120px) !important;
+  min-width: 100px !important;
+  min-height: 100px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+
+  // ===== SM～MD範囲（768px～991px）- 一回り大きく =====
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: clamp(90px, 11vw, 110px) !important;
+    height: clamp(90px, 11vw, 110px) !important;
+    margin: 8px;
+  }
+
+  // ===== MD以上（992px以上）- デスクトップ、一回り大きく =====
+  @include mq(md) {
+    width: clamp(100px, 10vw, 120px) !important;
+    height: clamp(100px, 10vw, 120px) !important;
+    margin: 10px;
+  }
+
+  // タブレット横向き以下でのサイズ調整
+  @include max-width(sm) {
+    // md → sm に変更（768px以下）
+    width: clamp(65px, 9vw, 95px) !important;
+    height: clamp(65px, 9vw, 95px) !important;
+  }
+
+  // タブレット縦向き以下でのサイズ調整
+  @include max-width(sm) {
+    width: clamp(55px, 8vw, 80px) !important;
+    height: clamp(55px, 8vw, 80px) !important;
+  }
+
+  // ========== モバイル(575px未満)専用設定 ==========
+  @include max-width(xs) {
+    width: clamp(60px, 12vw, 85px) !important;
+    height: clamp(60px, 12vw, 85px) !important;
+  }
+
   img {
-    // 他のアイコンと同じサイズに統一（サークルなし）
-    width: clamp(75px, 10vw, 110px) !important;
-    height: clamp(75px, 10vw, 110px) !important;
+    // コンテナ内で適切なサイズに調整（大きく）
+    width: 100% !important;
+    height: 100% !important;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.25));
     transition: all 0.2s ease-out;
-    
-    // タブレット横向き以下でのサイズ調整
-    @include max-width(md) {
-      width: clamp(65px, 9vw, 95px) !important;
-      height: clamp(65px, 9vw, 95px) !important;
-    }
-    
-    // タブレット縦向き以下でのサイズ調整
-    @include max-width(sm) {
-      width: clamp(55px, 8vw, 80px) !important;
-      height: clamp(55px, 8vw, 80px) !important;
-    }
-    
-    // ========== モバイル(575px未満)専用設定 ==========
-    // Rubyアイコンもより大きく表示
-    @include max-width(xs) {
-      width: clamp(60px, 12vw, 85px) !important;
-      height: clamp(60px, 12vw, 85px) !important;
-    }
   }
 
   &.clicked img {
@@ -260,10 +321,10 @@
   align-items: center;
   justify-content: center;
 
-  // デスクトップ版基本画像のレスポンシブサイズ設定
+  // デスクトップ版基本画像のレスポンシブサイズ設定（二回り小さく）
   img {
-    width: clamp(40px, 6vw, 60px) !important;
-    height: clamp(40px, 6vw, 60px) !important;
+    width: clamp(40px, 5vw, 50px) !important;
+    height: clamp(40px, 5vw, 50px) !important;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
@@ -273,9 +334,9 @@
 
 .desktopSkillCircleGrid {
   .desktopSkillIcon img {
-    // モバイルと統一されたスムーズなレスポンシブ画像サイズ
-    width: clamp(50px, 7vw, 75px) !important;
-    height: clamp(50px, 7vw, 75px) !important;
+    // モバイルと統一されたスムーズなレスポンシブ画像サイズ（二回り小さく）
+    width: clamp(60px, 6vw, 80px) !important;
+    height: clamp(60px, 6vw, 80px) !important;
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
@@ -399,14 +460,16 @@
   z-index: 1;
 }
 
-// Ruby
+// Ruby（円形画像のためスタイル不要）
+/*
 .skillRuby {
   background: linear-gradient(145deg, #cc342d, #a71e1e) !important;
   box-shadow: 0 10px 20px rgba(204, 52, 45, 0.4),
     inset 0 -3px 6px rgba(0, 0, 0, 0.3),
     inset 0 3px 6px rgba(255, 255, 255, 0.2) !important;
-  z-index: 5;
+  z-index: 1;
 }
+*/
 
 // ===== クリック可能な要素のスタイル =====
 .desktopSkillCircleGrid,
