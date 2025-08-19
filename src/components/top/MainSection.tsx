@@ -87,8 +87,6 @@ const useResponsiveLayout = () => {
     const actualContentWidth = actualItemWidth * columns + totalGaps;
     const containerMaxWidth = actualContentWidth + containerPadding;
 
-
-
     return {
       columns,
       imageSize,
@@ -220,7 +218,7 @@ export default function MainSection() {
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQAEAv/EACgQAAIBAwMEAQQDAAAAAAAAAAABAgMEEQAFITEGE0FRYSKBkbHB8P/EABYBAQEBAAAAAAAAAAAAAAAAAAIDAQT/xAAcEQADAQADAQEAAAAAAAAAAAABAgMAESExEkH/2gAMAwEAAhEDEQA/ALuTuxl3ZlYFWjQAEHngk4yM8ccGuNhm2tpk0iQVFVJGAZiTHGCFBySQO/Y/NdOPdaF9ybgZJpAoWpkWGJ1GCWKqMn6hjA5JGck4/FdcdHdeJd01qCkr1dYnCkF0KnOTnAPC5zw2Se+O2ug/d9JY0a2tr0KYY3ijhmV42kjIjDH6A7cFRxjGcnnnPOB6kXZY+1JOLKFqSGMOCm5uUjkcAdwFwTk85Oa4bdb6C2JKqt1HU2mCojCR0bQPJI8pOc7jjAwRj4zgkA49A2rQ7ZJq9K9+0O/S0xSolSNZJiVUnODlSMEnI5+M4Ocef+y13k+iV2qnWNnuV5tqsC6oSrLIhHZlORg/kED4HGtHbaOv1PWU9ovbwvOqMZBkqwDNk8AAHK4A7ds5IHcbrRpDfJf/2Q=="
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: "cover" }}
           />
         ) : (
           <div className={styles.workImagePlaceholder}>
@@ -340,12 +338,12 @@ export default function MainSection() {
           <div className={illustrationStyles.gridContainer}>
             {currentItems.length > 0 ? (
               currentItems.map((item) => (
-                <Link 
-                  href={`/works/${item.workId}`} 
+                <Link
+                  href={`/works/${item.workId}`}
                   key={item.id}
                   style={{
-                    textDecoration: 'none',
-                    color: 'inherit'
+                    textDecoration: "none",
+                    color: "inherit",
                   }}
                 >
                   <div className={illustrationStyles.gridItem}>
@@ -362,7 +360,7 @@ export default function MainSection() {
                         placeholder="blur"
                         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABwAF/8QAJRAAAQMDBAICAwAAAAAAAAAAAQIDBAAFEQYSEyEHMRRBFVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAaEQACAwEBAAAAAAAAAAAAAAABAgADESFB/9oADAMBAAIRAxEAPwDVaLrOnx3Vvo1wivSfgzGW4pZHChkE4VjJxnGPvyKw9HXzSL1wtt1Y1u3hLbhSkKdQ6pRO3cTtO04SB5APuqfR9TteqGnINvfcDrA/Eyrh8lOAe4yDnHnFFa7DU1r8OOxHbxgWsHv8/wCz3TbJ+7FbAk2K9kYtFWqNfJB4vtRBBSCT0+Kv/9k="
                         sizes={`${layoutConfig.imageSize}px`}
-                        style={{ objectFit: 'cover' }}
+                        style={{ objectFit: "cover" }}
                       />
                     </div>
                     <h4 className={illustrationStyles.itemTitle}>
@@ -477,7 +475,7 @@ export default function MainSection() {
               priority={true}
               quality={90}
               sizes="320px"
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: "contain" }}
             />
             {/* デスクトップ用吹き出し */}
             <ScrollTopBubble
@@ -541,7 +539,7 @@ export default function MainSection() {
               <div className={mobileStyles.mobileCategoryHeader}>
                 <div className={mobileStyles.mobileCategoryTitleContainer}>
                   <h2 className={mobileStyles.mobileCategoryTitle}>
-                    {t("works.illustration") || "Illustration & Icon Design"}
+                    {t("works.illustration") || "Illustration & Icon"}
                   </h2>
                 </div>
               </div>
@@ -576,7 +574,7 @@ export default function MainSection() {
               priority={true}
               quality={90}
               sizes="192px"
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: "contain" }}
             />
             {/* モバイル用吹き出し */}
             <ScrollTopBubble

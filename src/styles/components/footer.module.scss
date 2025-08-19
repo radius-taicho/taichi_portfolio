@@ -124,23 +124,24 @@
   overflow: visible;
 }
 
-// モバイル メインコンテンツ（効率化）
+// モバイル メインコンテンツ（デスクトップと同じ横並びレイアウト）
 .mobileMainContent {
   display: flex;
-  flex-direction: column;
-  gap: var(--footer-space-lg);
-  align-items: stretch; // 全幅活用
-  justify-content: flex-start;
+  flex-direction: row; // 横並びに変更
+  gap: clamp(16px, 4vw, 24px); // レスポンシブギャップ
+  align-items: flex-start;
+  justify-content: space-between; // 両端配置
   width: 100%;
 }
 
 .mobileNavigation {
   display: flex;
-  flex-direction: row;
-  gap: clamp(24px, 6vw, 32px); // レスポンシブギャップ
-  align-items: center;
-  justify-content: center; // 中央配置で統一感
-  width: 100%;
+  flex-direction: column; // 縦配置に変更
+  gap: var(--footer-space-md); // 24px
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1; // フレックス成長
+  max-width: 48%; // 最大幅制限
   padding: var(--footer-space-xs) 0;
 }
 
@@ -148,19 +149,19 @@
 .mobileNavLink:is(a),
 .mobileNavLink:is(button) {
   color: #ffffff;
-  text-align: center; // 中央揃えに変更
+  text-align: left; // 左揃えに変更
   font-family: $font-rubik !important;
   font-size: 20px;
   font-weight: 600;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center; // 中央配置に変更
+  justify-content: flex-start; // 左配置に変更
   text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
-  min-width: auto; // 最小幅を自動に変更
+  min-width: auto;
   overflow: hidden;
   /* アニメーションのためのGPU加速 */
   transform: translateZ(0);
@@ -209,17 +210,16 @@
 
 .mobileSettings {
   display: flex;
-  flex-direction: column; // 縦配置でより効率的に
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start; // 左寄せに変更
+  justify-content: flex-start;
   gap: var(--footer-space-md);
-  width: 100%;
-  padding: var(--footer-space-sm) 0;
-  // background: rgba(255, 255, 255, 0.02); // 微細な背景で区別
-  // border-radius: 8px;
+  flex: 1; // フレックス成長
+  max-width: 48%; // 最大幅制限
+  padding: var(--footer-space-xs) 0; // paddingを統一
 
   @include max-width(xs) {
-    padding: var(--footer-space-sm);
+    padding: var(--footer-space-xs) 0;
   }
 }
 
@@ -227,31 +227,29 @@
   display: flex;
   flex-direction: column;
   gap: var(--footer-space-sm);
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start; // 左寄せに変更
+  justify-content: flex-start;
   width: 100%;
-  max-width: 320px; // 適度な最大幅
 }
 
 .mobileLanguageOptions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); // 3等分グリッド
+  display: flex;
+  flex-direction: column; // 縦配置に変更
   gap: var(--footer-space-sm);
   width: 100%;
-  align-items: center;
-  justify-items: center;
+  align-items: flex-start;
 
   .mobileSettingOption {
-    width: 100% !important;
-    text-align: center !important;
-    justify-content: center !important;
-    padding: var(--footer-space-xs) var(--footer-space-sm);
-    border-radius: 6px;
+    width: auto !important; // 幅を自動に
+    text-align: left !important; // 左寄せに
+    justify-content: flex-start !important; // 左寄せに
+    padding: 0; // パディングをリセット
+    border-radius: 0;
     transition: all 0.3s ease;
-    min-height: 32px;
+    min-height: auto;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: transparent; // ホバー背景をリセット
     }
   }
 }
@@ -272,26 +270,26 @@
 
 .mobileSettingTitle {
   color: #ffffff;
-  text-align: center; // 中央配置で統一
+  text-align: left; // 左寄せに変更
   font-family: $font-japanese;
   font-size: clamp(14px, 3.5vw, 16px);
-  font-weight: 500; // 少し太く
+  font-weight: 500;
   opacity: 0.9;
   margin-bottom: var(--footer-space-xs);
 }
 
 .mobileSettingOption {
   color: #ffffff;
-  text-align: center;
+  text-align: left; // 左寄せに変更
   font-family: $font-japanese;
   font-size: clamp(12px, 3vw, 14px);
   font-weight: 400;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; // 左寄せに変更
   cursor: pointer;
-  width: 100%;
+  width: auto; // 幅を自動に
   overflow: hidden;
   transform: translateZ(0);
   will-change: auto;
@@ -301,8 +299,8 @@
     content: attr(data-text);
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0; // 左から開始
+    transform: none; // transformをリセット
     width: 0;
     height: 100%;
     color: #e65853;
@@ -311,9 +309,9 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; // 左寄せに変更
     z-index: 1;
-    transform: translateZ(0) translateX(-50%);
+    transform: translateZ(0); // GPU加速のみ
     will-change: width;
   }
 

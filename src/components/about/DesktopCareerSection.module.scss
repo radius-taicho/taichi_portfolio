@@ -214,7 +214,7 @@
 
 .timelineLine {
   width: 3px;
-  height: 120px; // 正方形画像に合わせて調整
+  height: 150px; // 画像サイズの拡大に合わせて調整
   background: linear-gradient(to bottom, #E65853, rgba(226, 232, 240, 0.5));
   margin-top: 8px;
   position: relative;
@@ -228,7 +228,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  min-height: 150px;
+  min-height: 180px;
 }
 
 .timelineContent {
@@ -240,8 +240,8 @@
 }
 
 .timelineImageContainer {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
@@ -268,23 +268,23 @@
   
   // タブレット横向き以下でのサイズ調整
   @include max-width(md) {
-    width: 130px;
-    height: 130px;
+    width: 160px;
+    height: 160px;
     border-radius: 10px;
   }
   
   // タブレット縦向き以下でのサイズ調整
   @include max-width(sm) {
-    width: 110px;
-    height: 110px;
+    width: 140px;
+    height: 140px;
     border-radius: 8px;
   }
   
   // ========== モバイル(575px未満)専用設定 ==========
   // よりコンパクトなサイズでスペースを有効活用
   @include max-width(xs) {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 6px;
   }
 }

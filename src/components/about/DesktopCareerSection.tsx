@@ -115,8 +115,8 @@ const DesktopCareerSection: React.FC = () => {
                   <Image
                     src={`/images/img_step${item.step}.PNG`}
                     alt={`Step ${item.step} Image`}
-                    width={150}
-                    height={150}
+                    width={180}
+                    height={180}
                     style={{ objectFit: "contain" }}
                   />
                 </div>

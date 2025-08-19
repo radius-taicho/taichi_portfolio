@@ -116,8 +116,8 @@ const MobileCareerSection: React.FC = () => {
                   <Image
                     src={`/images/img_step${item.step}.PNG`}
                     alt={`Step ${item.step} Image`}
-                    width={100}
-                    height={100}
+                    width={120}
+                    height={120}
                     style={{ objectFit: "contain" }}
                   />
                 </div>
