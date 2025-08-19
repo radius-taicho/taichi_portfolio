@@ -177,22 +177,32 @@
   }
 }
 
-// 三角形のバウンスアニメーション（左から右へ）
+// 三角形の無限バウンスアニメーション（左から右へ）- 規則的で早い
+@keyframes triangleBounceInfinite {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+// 三角形の初回表示バウンスアニメーション（左から右へ）
 @keyframes triangleBounce {
   0% {
-    transform: translateX(-12px);
+    transform: translateX(-16px);
     opacity: 0;
   }
   25% {
-    transform: translateX(4px);
+    transform: translateX(6px);
     opacity: 0.7;
   }
   50% {
-    transform: translateX(-2px);
+    transform: translateX(-3px);
     opacity: 0.9;
   }
   75% {
-    transform: translateX(1px);
+    transform: translateX(2px);
     opacity: 1;
   }
   100% {
@@ -201,22 +211,32 @@
   }
 }
 
+// 次の矢印の無限バウンスアニメーション（会話画面用）- 規則的で早い
+@keyframes nextArrowBounceInfinite {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(7px);
+  }
+}
+
 // 次の矢印のバウンスアニメーション（会話画面用）
 @keyframes nextArrowBounce {
   0% {
-    transform: translateX(-20px);
+    transform: translateX(-24px);
     opacity: 0;
   }
   30% {
-    transform: translateX(6px);
+    transform: translateX(8px);
     opacity: 0.7;
   }
   60% {
-    transform: translateX(-3px);
+    transform: translateX(-4px);
     opacity: 0.9;
   }
   80% {
-    transform: translateX(2px);
+    transform: translateX(3px);
     opacity: 1;
   }
   100% {
@@ -353,18 +373,15 @@
   font-size: clamp(10px, 2.5vw, 14px);
   margin-right: clamp(4px, 1.5vw, 8px);
   opacity: 0;
-  transform: translateX(-8px);
-  transition: all 0.2s ease;
+  transform: translateX(-12px);
+  transition: opacity 0.2s ease;
   display: inline-block;
   flex-shrink: 0;
 
   &.visible {
     opacity: 1;
     transform: translateX(0);
-  }
-  
-  &.bouncing {
-    animation: triangleBounce 0.6s ease-out;
+    animation: triangleBounceInfinite 1.2s ease-in-out infinite;
   }
 
   @include max-width(xxs) {
@@ -468,7 +485,7 @@
   font-size: clamp(14px, 3.5vw, 16px);
   color: #1e1e1e;
   font-weight: normal !important;
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease;
   pointer-events: none;
   
   // 角をシャープにするため、フィルタを無効化
@@ -476,8 +493,8 @@
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   
-  // 会話画面表示時にバウンスアニメーション
-  animation: nextArrowBounce 0.8s ease-out;
+  // 会話画面表示時に無限バウンス - 規則的で早い
+  animation: nextArrowBounceInfinite 1.2s ease-in-out infinite;
 
   @include max-width(xxs) {
     bottom: clamp(6px, 2vw, 10px);
@@ -485,8 +502,8 @@
     font-size: clamp(12px, 3vw, 14px);
   }
 
-  // 親要素のホバー時にアニメーション
+  // 親要素のホバー時にアニメーション（無限バウンスがあるので軽めに）
   .conversationSection:hover & {
-    transform: translateX(2px);
+    transform: translateX(1px);
   }
 }

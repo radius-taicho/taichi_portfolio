@@ -253,7 +253,9 @@ export default function Header() {
                 <div className={menuStyles.settingsSection}>
                   {/* 言語設定 */}
                   <div className={menuStyles.settingGroup}>
-                    <div className={menuStyles.settingTitle}>言語設定</div>
+                    <div className={menuStyles.settingTitle}>
+                      言語設定(実装中)
+                    </div>
                     <div
                       className={menuStyles.settingOption}
                       data-text="日本語"
@@ -312,7 +314,9 @@ export default function Header() {
                 <div className={menuStyles.settingsSection}>
                   {/* 言語設定 */}
                   <div className={menuStyles.settingGroup}>
-                    <div className={menuStyles.settingTitle}>言語設定</div>
+                    <div className={menuStyles.settingTitle}>
+                      言語設定(実装中)
+                    </div>
                     <div
                       className={menuStyles.settingOption}
                       data-text="日本語"

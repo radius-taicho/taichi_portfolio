@@ -33,16 +33,13 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
     new Set()
   );
   const [showNextArrow, setShowNextArrow] = useState<boolean>(false);
-  const [animatingTriangles, setAnimatingTriangles] = useState<Set<string>>(
-    new Set()
-  );
 
   // ゲームコンテナへの参照
   const gameContainerRef = useRef<HTMLDivElement>(null);
 
   // モバイルデバイス判定
   const isTouchDevice = () => {
-    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   };
 
   // 三角カーソルの表示判定関数（モバイル対応）
@@ -56,14 +53,27 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
     }
   };
 
-  // ゲームコンテナを画面中央に配置する関数
+  // ゲームコンテナを画面中央に配置する関数（改良版）
   const scrollToGameCenter = () => {
     const gameContainer = gameContainerRef.current;
     if (gameContainer) {
-      gameContainer.scrollIntoView({
+      // 要素の位置とサイズを取得
+      const rect = gameContainer.getBoundingClientRect();
+      
+      // 現在のスクロール位置を取得
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // ビューポートの中央を計算
+      const viewportHeight = window.innerHeight;
+      const elementHeight = rect.height;
+      
+      // 要素を画面のちょうど中央に配置するためのスクロール位置を計算
+      const targetScrollTop = currentScrollTop + rect.top - (viewportHeight - elementHeight) / 2;
+      
+      // スムーズスクロールで中央に移動
+      window.scrollTo({
+        top: Math.max(0, targetScrollTop), // マイナス値を防ぐ
         behavior: "smooth",
-        block: "center",
-        inline: "center",
       });
     }
   };
@@ -239,15 +249,14 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
     // 全ての状態をクリア
     setHoveredItem(null);
     setClickedItem(null);
-    setAnimatingTriangles(new Set());
-
+    
     // 新しい状態を設定
     setSelectedItem(item);
     setShowNextArrow(false);
     setGameState("conversation");
     setConversationStep("question");
     setAskedDetails(new Set());
-
+    
     // ゲーム画面を中央に配置
     setTimeout(() => scrollToGameCenter(), 100);
   };
@@ -256,45 +265,30 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
     // 全ての状態をクリア
     setHoveredItem(null);
     setClickedItem(null);
-    setAnimatingTriangles(new Set());
-
+    
     // 新しい状態を設定
     setSelectedDetail(detail);
     setShowNextArrow(false);
     setGameState("detailedConversation");
     setConversationStep("question");
-
+    
     // ゲーム画面を中央に配置
     setTimeout(() => scrollToGameCenter(), 100);
   };
 
   const handleItemMouseDown = (item: string) => {
     setClickedItem(item);
-    // アニメーショントリガー
-    const newAnimating = new Set(animatingTriangles);
-    newAnimating.add(item);
-    setAnimatingTriangles(newAnimating);
-
-    // アニメーション終了後に状態をクリア
-    setTimeout(() => {
-      setAnimatingTriangles((prev) => {
-        const updated = new Set(prev);
-        updated.delete(item);
-        return updated;
-      });
-    }, 600); // アニメーション時間と同じ
   };
 
   const handleItemMouseUp = () => {
-    // マウスアップ時は状態をクリアしない（アニメーションを継続）
+    setClickedItem(null);
   };
 
   const handleConversationClick = () => {
     // 全ての状態をクリア
     setClickedItem(null);
     setHoveredItem(null);
-    setAnimatingTriangles(new Set());
-
+    
     setGameState("detailed");
     setTimeout(() => scrollToGameCenter(), 100);
   };
@@ -336,7 +330,6 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
         setHoveredItem(null);
         setSelectedDetail("");
         setAskedDetails(new Set()); // 履歴をリセット
-        setAnimatingTriangles(new Set()); // アニメーション状態をクリア
         // ゲーム画面を中央に配置
         setTimeout(() => scrollToGameCenter(), 100);
       }
@@ -346,7 +339,6 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
       setClickedItem(null);
       setHoveredItem(null);
       setSelectedDetail("");
-      setAnimatingTriangles(new Set()); // アニメーション状態をクリア
       // ゲーム画面を中央に配置
       setTimeout(() => scrollToGameCenter(), 100);
     }
@@ -376,7 +368,7 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
         setTimeout(() => {
           setShowNextArrow(true);
         }, 300); // 回答表示後少し遅らせて矢印表示
-      }, 2400);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
@@ -412,10 +404,9 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
           }, 800);
         } else {
           // Profileセクションが見つからない場合は即座にメニューに変更
-
           setGameState("menu");
           setClickedItem(null);
-          setHoveredItem(null); // ホバー状態をクリア
+          setHoveredItem(null);
         }
       }, 1800); // 1.8秒後に実行
 
@@ -516,20 +507,14 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                         clickedItem === item ? styles.clicked : ""
                       } ${isCompleted ? styles.asked : ""}`}
                       onClick={() => handleItemClick(item)}
-                      onMouseEnter={() =>
-                        !isTouchDevice() && setHoveredItem(item)
-                      }
-                      onMouseLeave={() =>
-                        !isTouchDevice() && setHoveredItem(null)
-                      }
+                      onMouseEnter={() => !isTouchDevice() && setHoveredItem(item)}
+                      onMouseLeave={() => !isTouchDevice() && setHoveredItem(null)}
                       onMouseDown={() => handleItemMouseDown(item)}
                       onMouseUp={handleItemMouseUp}
                     >
                       <span
                         className={`${styles.menuItemTriangle} ${
                           shouldShowTriangle(item) ? styles.visible : ""
-                        } ${
-                          animatingTriangles.has(item) ? styles.bouncing : ""
                         }`}
                       >
                         ▶
@@ -613,20 +598,14 @@ const MobileImTaichiGame: React.FC<MobileImTaichiGameProps> = ({
                         isAsked ? styles.asked : ""
                       }`}
                       onClick={() => handleDetailClick(key)}
-                      onMouseEnter={() =>
-                        !isTouchDevice() && setHoveredItem(key)
-                      }
-                      onMouseLeave={() =>
-                        !isTouchDevice() && setHoveredItem(null)
-                      }
+                      onMouseEnter={() => !isTouchDevice() && setHoveredItem(key)}
+                      onMouseLeave={() => !isTouchDevice() && setHoveredItem(null)}
                       onMouseDown={() => handleItemMouseDown(key)}
                       onMouseUp={handleItemMouseUp}
                     >
                       <span
                         className={`${styles.menuItemTriangle} ${
                           shouldShowTriangle(key) ? styles.visible : ""
-                        } ${
-                          animatingTriangles.has(key) ? styles.bouncing : ""
                         }`}
                       >
                         ▶

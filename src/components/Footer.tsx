@@ -176,7 +176,7 @@ export default function Footer() {
   // スムーズスクロール関数（Contact用） -> 通常のページ遷移に変更
   const navigateToContact = (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     // 直接Contactページに遷移
     router.push("/contact");
   };
@@ -184,7 +184,7 @@ export default function Footer() {
   // スムーズスクロール関数（About用） -> 通常のページ遷移に変更
   const navigateToAbout = (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     // 直接Aboutページに遷移
     router.push("/about");
   };
@@ -262,7 +262,7 @@ export default function Footer() {
           {/* 設定セクション */}
           <div className={styles.mobileSettings}>
             <div className={styles.mobileLanguageSettings}>
-              <div className={styles.mobileSettingTitle}>言語設定</div>
+              <div className={styles.mobileSettingTitle}>言語設定(実装中)</div>
               <div className={styles.mobileLanguageOptions}>
                 <div className={styles.mobileSettingOption} data-text="日本語">
                   日本語
@@ -358,7 +358,9 @@ export default function Footer() {
             {/* 右側：設定セクション */}
             <div className={styles.desktopSettings}>
               <div className={styles.desktopLanguageSettings}>
-                <div className={styles.desktopSettingTitle}>言語設定</div>
+                <div className={styles.desktopSettingTitle}>
+                  言語設定(実装中)
+                </div>
                 <div className={styles.desktopSettingOption} data-text="日本語">
                   日本語
                 </div>

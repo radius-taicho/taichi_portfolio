@@ -179,6 +179,74 @@
   }
 }
 
+// 三角形の無限バウンスアニメーション（左から右へ）- 規則的で早い
+@keyframes triangleBounceInfinite {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+// 三角形の初回表示バウンスアニメーション（左から右へ）
+@keyframes triangleBounce {
+  0% {
+    transform: translateX(-16px);
+    opacity: 0;
+  }
+  25% {
+    transform: translateX(6px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-3px);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateX(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// 次の矢印の無限バウンスアニメーション（会話画面用）- 規則的で早い
+@keyframes nextArrowBounceInfinite {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(7px);
+  }
+}
+
+// 次の矢印のバウンスアニメーション（会話画面用）
+@keyframes nextArrowBounce {
+  0% {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+  30% {
+    transform: translateX(8px);
+    opacity: 0.7;
+  }
+  60% {
+    transform: translateX(-4px);
+    opacity: 0.9;
+  }
+  80% {
+    transform: translateX(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 // 左側：質問セクション
 .questionSection {
   flex: 0 0 25%;
@@ -307,7 +375,7 @@
   font-size: clamp(16px, 2vw, 22px);
   margin-right: clamp(10px, 1.5vw, 16px);
   opacity: 0;
-  transform: translateX(-12px);
+  transform: translateX(-16px);
   transition: all 0.2s ease;
   display: inline-block;
   flex-shrink: 0;
@@ -315,6 +383,7 @@
   &.visible {
     opacity: 1;
     transform: translateX(0);
+    animation: triangleBounceInfinite 1.2s ease-in-out infinite;
   }
 
   @include mq(lg) {
@@ -439,8 +508,11 @@
     font-size: clamp(20px, 2.5vw, 28px);
   }
 
-  // 親要素のホバー時にアニメーション
+  // 会話画面表示時に無限バウンス - 規則的で早い
+  animation: nextArrowBounceInfinite 1.2s ease-in-out infinite;
+
+  // 親要素のホバー時にアニメーション（無限バウンスがあるので軽めに）
   .conversationSection:hover & {
-    transform: translateX(3px);
+    transform: translateX(1px);
   }
 }

@@ -27,11 +27,11 @@
   }
 
   @include max-width(xs) {
-    padding: 16px 48px;
+    padding: 16px 32px;
   }
 
   @include max-width(xxs) {
-    padding: 16px clamp(12px, 4vw, 32px) 8px;
+    padding: 16px clamp(12px, 4vw, 16px) 8px;
   }
 
   @include mq(xs) {
@@ -436,7 +436,7 @@
 
     // sm以上（768px以上）で元の幅広い距離感に戻す
     @include mq(sm) {
-      gap: 48px; // 元の距離感に戻す
+      gap: 32px; // 元の距離感に戻す
     }
   }
 }
@@ -805,8 +805,8 @@
   color: #ffffff;
   cursor: pointer;
   // PCサイズ（1024px以上）- 大きくて存在感あるアイコン
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 23px;
   // 位置変更をスムーズにアニメーション
   transition: all 0.4s ease, top 0.4s ease, left 0.4s ease, right 0.4s ease;
   z-index: 2; // 背景よりも前面に表示（背景はz-index: 1）
@@ -852,7 +852,7 @@
 .rightEye {
   // PCサイズ（1024px以上）
   top: 43%;
-  right: 17%;
+  right: 18%;
 
   // タブレットサイズ（768px~1023px）
   @include max-width(lg) {

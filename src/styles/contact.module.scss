@@ -57,7 +57,7 @@
 // モバイル専用タイトル（sm未満で表示、sm以上で非表示）
 .titleSectionMobile {
   @extend .titleSection;
-  
+
   @include mq(sm) {
     display: none !important;
   }
@@ -67,7 +67,7 @@
 .titleSectionDesktop {
   @extend .titleSection;
   display: none;
-  
+
   @include mq(sm) {
     display: flex !important;
   }
@@ -787,28 +787,28 @@
 
 .instagramIcon {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 18px;
 
   // 極小画面（320px未満）での調整
   @include max-width(mic) {
-    font-size: 10px;
+    font-size: 14px;
   }
 
   // 小さいスマートフォン（375px未満）での調整
   @include max-width(xxs) {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   @include mq(sm) {
-    font-size: 18px;
-  }
-
-  @include mq(lg) {
     font-size: 22px;
   }
 
-  @include mq(xl) {
+  @include mq(lg) {
     font-size: 26px;
+  }
+
+  @include mq(xl) {
+    font-size: 30px;
   }
 }
 
