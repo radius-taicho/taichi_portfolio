@@ -44,7 +44,7 @@
   height: auto;
   max-width: 100%;
   position: relative;
-  border-radius: clamp(4px, 4vw, 12px); // レスポンシブなborder-radius
+  border-radius: clamp(6px, 4vw, 20px); // レスポンシブなborder-radius
   overflow: hidden;
   // 白い背景を防ぐためのグラデーション背景
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
