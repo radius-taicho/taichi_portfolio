@@ -133,7 +133,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({
           label: "ゲーム",
           question: "あなた：どんなゲームが好きなの？",
           answer:
-            "たいち：ケロケロキングってゲームが好きだよ。あと最近だとSLUDGE LIFEってゲームが好きだな。雰囲気がすごく良いんだ",
+            "たいち：『ケロケロキング』ってゲームが好きだよ。あと最近だと『SLUDGE LIFE』ってゲームが好きだな。雰囲気がすごく良いんだ",
         },
         山登り: {
           label: "山登り",
@@ -188,7 +188,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({
           label: "絵画教室",
           question: "あなた：なぜ絵画教室に興味があるの？",
           answer:
-            "たいち：自分の表現方法に幅を持たせたいのと、自分が思い描くキャラクターを思い通りに描いたり、既存の生み出したキャラクターをより良いデザインにしたいんだ",
+            "たいち：自分の表現方法に幅を持たせたいのと、自分が思い描くキャラクターを思い通りに描いたり、既存の生み出したキャラクターたちをより良いデザインにしたいんだ",
         },
         作家塾: {
           label: "作家塾",
@@ -200,7 +200,7 @@ const DesktopImTaichiGame: React.FC<DesktopImTaichiGameProps> = ({
           label: "Xfit",
           question: "あなた：クロスフィットって激しそうだけど大丈夫？",
           answer:
-            "たいち：一回体験に行ったことがあってまた行きたいんだ。自分をより良い見た目にするためにもね",
+            "たいち：一回体験に行ったことがあってキツかったけどとても気持ちよかったからまた行きたいんだ。自分をより良い見た目にするためにもね",
         },
         ネクタイ: {
           label: "ネクタイ",

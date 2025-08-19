@@ -163,7 +163,19 @@ export default function AboutPage() {
                           onGameStart={() => {}}
                           onGameEnd={() => {
                             // ゲーム終了時にヒーロー画像に戻す
-                            setHeroState("image");
+                            setTimeout(() => {
+                              setHeroState("image");
+                              // モバイル版でのアスペクト比修正のため、レイアウトを強制リフロー
+                              setTimeout(() => {
+                                const heroContainer = document.querySelector(`.${styles.heroImageContainer}`);
+                                if (heroContainer) {
+                                  // スタイルを再適用することでアスペクト比を修正
+                                  (heroContainer as HTMLElement).style.display = 'none';
+                                  (heroContainer as HTMLElement).offsetHeight; // リフローを強制
+                                  (heroContainer as HTMLElement).style.display = '';
+                                }
+                              }, 50);
+                            }, 100);
                           }}
                         />
                       </div>
@@ -275,7 +287,19 @@ export default function AboutPage() {
                         onGameStart={() => {}}
                         onGameEnd={() => {
                           // ゲーム終了時にヒーロー画像に戻す
-                          setHeroState("image");
+                          setTimeout(() => {
+                            setHeroState("image");
+                            // レイアウトを強制リフロー
+                            setTimeout(() => {
+                              const heroContainer = document.querySelector(`.${styles.desktopHeroContainer}`);
+                              if (heroContainer) {
+                                // スタイルを再適用することでアスペクト比を修正
+                                (heroContainer as HTMLElement).style.display = 'none';
+                                (heroContainer as HTMLElement).offsetHeight; // リフローを強制
+                                (heroContainer as HTMLElement).style.display = '';
+                              }
+                            }, 50);
+                          }, 100);
                         }}
                       />
                     </div>

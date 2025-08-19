@@ -96,15 +96,14 @@ export default function ContactPage() {
       <div className={styles.pageContainer}>
         <Header />
         <div className={styles.mainContent}>
-          {/* Contact タイトルセクション */}
-          <section id="contact-section" className={styles.titleSection}>
-            <div className={styles.titleContainer}>
-              <h1 className={styles.pageTitle}>Contact</h1>
-            </div>
-          </section>
-
           {/* コンタクトフォーム */}
           <section className={styles.contactForm}>
+            {/* Contact タイトルセクション */}
+            <section id="contact-section" className={styles.titleSection}>
+              <div className={styles.titleContainer}>
+                <h1 className={styles.pageTitle}>Contact</h1>
+              </div>
+            </section>
             <form onSubmit={handleSubmit}>
               {/* ソーシャルリンクセクション */}
               <div className={styles.socialLinksSection}>
@@ -114,7 +113,7 @@ export default function ContactPage() {
                   </div>
                   <Image
                     src="/images/img_denwa-bug.webp"
-                    alt="電話バグ"
+                    alt="でんわ虫くん"
                     width={400}
                     height={400}
                     className={styles.socialImage}

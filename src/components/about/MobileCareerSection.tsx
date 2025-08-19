@@ -32,7 +32,7 @@ const MobileCareerSection: React.FC = () => {
     },
   ];
 
-  // Intersection Observerでスクロール位置を監視
+  // Intersection Observerでスクロール位置を監視（画面中央でアクティブ化）
   useEffect(() => {
     const observers = timelineRefs.current.map((ref, index) => {
       if (!ref) return null;
@@ -46,8 +46,8 @@ const MobileCareerSection: React.FC = () => {
           });
         },
         {
-          threshold: 0.6, // 60%が表示されたらアクティブに
-          rootMargin: '-20% 0px -20% 0px' // 上下20%のマージン
+          threshold: [0.3, 0.5, 0.7], // 複数の闾値で精密に検出
+          rootMargin: '-40% 0px -40% 0px' // 画面中央20%の領域でのみアクティブ化
         }
       );
       

@@ -211,15 +211,16 @@
 
 .heroStartButton {
   position: absolute;
-  bottom: clamp(12px, 3vw, 20px);
-  right: clamp(12px, 3vw, 20px);
+  bottom: clamp(8px, 2.5vw, 20px);
+  right: clamp(8px, 2.5vw, 20px);
   background: #e65853;
   color: #ffffff;
   border: 1px solid #1e1e1e;
-  border-radius: 8px;
-  padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 24px);
+  // ヒーローイメージの丸みと視覚的に調和する比率でレスポンシブ対応
+  border-radius: clamp(6px, 1.2vw, 10px);
+  padding: clamp(4px, 1.5vw, 8px) clamp(8px, 3vw, 20px);
   font-family: $font-rubik;
-  font-size: clamp(14px, 3.5vw, 18px);
+  font-size: clamp(12px, 2.8vw, 18px);
   font-weight: 700;
   text-transform: lowercase;
   cursor: pointer;
@@ -1339,7 +1340,8 @@
     background: #e65853;
     color: #ffffff;
     border: 1px solid #1e1e1e;
-    border-radius: 24px;
+    // ヒーローイメージ（48px）と視覚的に調和する比率でレスポンシブ対応
+    border-radius: clamp(10px, 2.5vw, 16px);
     padding: clamp(12px, 2vw, 18px) clamp(24px, 4vw, 36px);
     font-family: $font-rubik;
     font-size: clamp(18px, 3vw, 24px);
