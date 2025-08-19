@@ -125,12 +125,11 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   const secondRow = ["nextjs", "html", "sass", "tailwind"]; // 4個
   const thirdRow = ["rails", "github", "swift", "ruby"]; // 4個（railsを移動、rubyも通常アイコン）
 
-  // デバイス種別を判定する関数（改良版）
+    // デバイス種別を判定する関数（改良版）
   const isTouchDevice = useCallback(() => {
     // 開発環境では画面サイズも考慮した判定
     const hasTouch = "ontouchstart" in window ||
-      navigator.maxTouchPoints > 0 ||
-      navigator.msMaxTouchPoints > 0;
+      navigator.maxTouchPoints > 0;
     
     // 768px以下の場合はモバイルとして扱う（開発環境対応）
     const isMobileSize = window.innerWidth <= 768;
