@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect } from "react";
+import React, { useMemo, useCallback, useEffect, useState, useRef } from "react";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
 
@@ -116,15 +116,46 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🎯 簡略化された無競合プリロードシステム
+  // 🎉 Step4の成功パターン: デバイス判定と高速タップ防止
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const lastTapTime = useRef<number>(0);
+
+  // デバイス判定（マウント時のみ実行）
   useEffect(() => {
-    // シンプルなプリロード（競合なし）
-    skillsData.forEach((skill) => {
-      const preloadImage = new Image();
-      preloadImage.src = skill.image;
-      // キャッシュに保存するだけ
-    });
+    const checkDevice = () => {
+      const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isMobileSize = window.innerWidth <= 768;
+      return hasTouch || isMobileSize;
+    };
+    
+    setIsTouchDevice(checkDevice());
   }, []);
+
+  // 🎉 Step4成功パターン: タイマーをクリアする関数
+  const clearTimer = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }, [timeoutRef]);
+
+  // 🎉 Step4成功パターン: タイマー管理付きのスキルリセット
+  const resetSkillWithTimer = useCallback((delay: number = 1000) => {
+    clearTimer(); // 既存のタイマーをクリア
+    
+    timeoutRef.current = setTimeout(() => {
+      setActiveTooltip(null);
+      setClickedSkill(null);
+      timeoutRef.current = null;
+    }, delay);
+  }, [clearTimer, setActiveTooltip, setClickedSkill, timeoutRef]);
+
+  // 🎉 コンポーネントがアンマウントされる時にタイマーをクリーンアップ
+  useEffect(() => {
+    return () => {
+      clearTimer();
+    };
+  }, [clearTimer]);
 
   const getSkillData = (id: string) =>
     skillsData.find((skill) => skill.id === id);
@@ -134,63 +165,49 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   const secondRow = ["nextjs", "html", "sass", "tailwind"]; // 4個
   const thirdRow = ["rails", "github", "swift", "ruby"]; // 4個（railsを移動、rubyも通常アイコン）
 
-  // デバイス種別を判定する関数（改良版）
-  const isTouchDevice = useCallback(() => {
-    // 開発環境では画面サイズも考慮した判定
-    const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
-    // 768px以下の場合はモバイルとして扱う（開発環境対応）
-    const isMobileSize = window.innerWidth <= 768;
-
-    return hasTouch || isMobileSize;
-  }, []);
-
-  // タイマーをクリアする関数（メモ化）
-  const clearTooltipTimeout = useCallback(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+  // 🎉 Step4成功パターン: 高速タップ防止機能付きのタッチハンドラー
+  const handleSkillTouch = useCallback((skillId: string, e: React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // 🔥 高速タップ防止（300ms以内の連続タップを無視）
+    const currentTime = Date.now();
+    const timeSinceLastTap = currentTime - lastTapTime.current;
+    
+    if (timeSinceLastTap < 300) {
+      return; // 高速タップを無視
     }
-  }, [timeoutRef]);
+    
+    lastTapTime.current = currentTime;
+    
+    // ツールチップ位置の計算と状態更新
+    const touch = e.touches[0];
+    const clientX = touch?.clientX || 0;
+    const clientY = touch?.clientY || 0;
+    
+    handleSkillInteraction(skillId, clientX, clientY);
+  }, [lastTapTime, handleSkillInteraction]);
 
-  // タイムアウト時間を動的に決定（メモ化）
-  const startTooltipTimeout = useCallback(() => {
-    clearTooltipTimeout();
-    // 1.4秒で統一
-    const timeoutDuration = 1300;
+  // 🎉 Step4成功パターン: デスクトップ用クリックハンドラー
+  const handleSkillClick = useCallback((skillId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    
+    handleSkillInteraction(skillId, clientX, clientY);
+  }, [handleSkillInteraction]);
 
-    timeoutRef.current = setTimeout(() => {
-      setActiveTooltip(null);
-      setClickedSkill(null);
-    }, timeoutDuration);
-  }, [clearTooltipTimeout, setActiveTooltip, setClickedSkill, timeoutRef]);
-
-  // 統一されたイベントハンドラー（メモ化）
+  // 🎉 Step4成功パターン: 統一されたシンプルなイベントハンドラー
   const handleSkillInteraction = useCallback(
     (skillId: string, clientX: number, clientY: number) => {
       // 既存のタイマーをクリア
-      clearTooltipTimeout();
+      clearTimer();
 
-      // ビューポートサイズを取得
+      // シンプルなツールチップ位置計算
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
-
-      // レスポンシブなツールチップサイズ推定（テキスト幅に合わせた動的計算）
-      const skillData = getSkillData(skillId);
-      const skillName = skillData?.name || "";
-
-      // テキスト長に基づいたツールチップ幅の推定（文字数×フォントサイズ + パディング）
-      let estimatedWidth = Math.max(
-        60, // 最小幅
-        skillName.length *
-          (viewportWidth <= 320 ? 11 : viewportWidth <= 480 ? 12 : 13) +
-          24 // 文字幅 + パディング
-      );
-
-      // 最大幅の制限
-      const maxTooltipWidth = viewportWidth - 32;
-      estimatedWidth = Math.min(estimatedWidth, maxTooltipWidth);
-
       const TOOLTIP_HEIGHT = 40;
       const MARGIN = 16;
 
@@ -198,18 +215,15 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       let tooltipX = clientX;
       let tooltipY = clientY - TOOLTIP_HEIGHT - MARGIN;
 
-      // 左右の境界調整（推定幅を使用）
-      const minX = estimatedWidth / 2 + MARGIN;
-      const maxX = viewportWidth - estimatedWidth / 2 - MARGIN;
-      tooltipX = Math.max(minX, Math.min(maxX, tooltipX));
-
-      // 上下の境界調整
+      // 簡単な境界調整
       if (tooltipY < MARGIN) {
         tooltipY = clientY + MARGIN;
       }
-
-      if (tooltipY + TOOLTIP_HEIGHT > viewportHeight - MARGIN) {
-        tooltipY = viewportHeight - TOOLTIP_HEIGHT - MARGIN;
+      if (tooltipX < MARGIN) {
+        tooltipX = MARGIN;
+      }
+      if (tooltipX > viewportWidth - MARGIN) {
+        tooltipX = viewportWidth - MARGIN;
       }
 
       // 状態の更新
@@ -223,7 +237,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         setActiveTooltip(skillId);
         setTooltipPosition({ x: tooltipX, y: tooltipY });
 
-        startTooltipTimeout();
+        // タイマー付きリセット
+        resetSkillWithTimer(1000);
       }
     },
     [
@@ -232,72 +247,37 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       setActiveTooltip,
       setClickedSkill,
       setTooltipPosition,
-      clearTooltipTimeout,
-      startTooltipTimeout,
+      clearTimer,
+      resetSkillWithTimer,
     ]
   );
 
-  // タッチイベントハンドラー（超強化版）
-  const handleTouchStart = useCallback(
-    (skillId: string, e: React.TouchEvent) => {
-      // 🎯 タッチイベントの適切な処理（青いプレースホルダー対策も含む）
-      e.preventDefault();
-      e.stopPropagation();
-
-      const touch = e.touches[0];
-      const clientX = touch?.clientX || 0;
-      const clientY = touch?.clientY || 0;
-
-      handleSkillInteraction(skillId, clientX, clientY);
-    },
-    [handleSkillInteraction]
-  );
-
-  // クリックイベントハンドラー（強化版）
-  const handleClick = useCallback(
-    (skillId: string, e: React.MouseEvent) => {
-      // クリックイベントの適切な処理
-      e.preventDefault();
-      e.stopPropagation();
-
-      const clientX = e.clientX;
-      const clientY = e.clientY;
-
-      handleSkillInteraction(skillId, clientX, clientY);
-    },
-    [handleSkillInteraction]
-  );
-
-  // 背景クリックでツールチップを閉じる（強化版）
+  // 🎉 Step4成功パターン: シンプルな背景クリックハンドラー
   const handleBackgroundClick = useCallback(
     (e: React.MouseEvent) => {
-      // イベントのターゲットが背景の場合のみ処理
       if (e.target === e.currentTarget) {
         e.preventDefault();
         e.stopPropagation();
-        clearTooltipTimeout();
+        clearTimer();
         setActiveTooltip(null);
         setClickedSkill(null);
       }
     },
-    [clearTooltipTimeout, setActiveTooltip, setClickedSkill]
+    [clearTimer, setActiveTooltip, setClickedSkill]
   );
 
-  // 背景タッチイベントハンドラー（強化版）
+  // 🎉 Step4成功パターン: シンプルな背景タッチハンドラー
   const handleBackgroundTouchStart = useCallback(
     (e: React.TouchEvent) => {
-      // イベントのターゲットが背景の場合のみ処理
       if (e.target === e.currentTarget) {
         e.preventDefault();
         e.stopPropagation();
-        e.nativeEvent.preventDefault();
-        e.nativeEvent.stopImmediatePropagation();
-        clearTooltipTimeout();
+        clearTimer();
         setActiveTooltip(null);
         setClickedSkill(null);
       }
     },
-    [clearTooltipTimeout, setActiveTooltip, setClickedSkill]
+    [clearTimer, setActiveTooltip, setClickedSkill]
   );
 
   // メモ化されたスキルクラス名取得関数（Rubyは除外）
@@ -409,38 +389,49 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
   MemoizedSkillImage.displayName = "MemoizedSkillImage";
 
-  // メモ化されたスキルアイコンコンポーネント
+  // 🎉 Step4成功パターン: メモ化されたスキルアイコンコンポーネント
   const MobileSkillIcon = React.memo<{ skillId: string }>(({ skillId }) => {
     const skill = getSkillData(skillId);
     if (!skill) return null;
 
-    // 統一されたイベントハンドラー（再レンダリング防止）
+    // 🎉 Step4成功パターン: デバイス判定によるイベント分離
     const handleSkillTouchStart = useCallback(
       (e: React.TouchEvent) => {
-        handleTouchStart(skillId, e);
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 🔥 高速タップ防止（300ms以内の連続タップを無視）
+        const currentTime = Date.now();
+        const timeSinceLastTap = currentTime - lastTapTime.current;
+        
+        if (timeSinceLastTap < 300) {
+          return; // 高速タップを無視
+        }
+        
+        lastTapTime.current = currentTime;
+        
+        // ツールチップ位置の計算と状態更新
+        const touch = e.touches[0];
+        const clientX = touch?.clientX || 0;
+        const clientY = touch?.clientY || 0;
+        
+        handleSkillInteraction(skillId, clientX, clientY);
       },
-      [skillId, handleTouchStart]
+      [skillId, lastTapTime, handleSkillInteraction]
     );
 
-    const handleSkillClick = useCallback(
+    const handleSkillClickLocal = useCallback(
       (e: React.MouseEvent) => {
-        // マウスクリックイベントを直接処理
-        handleClick(skillId, e);
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        
+        handleSkillInteraction(skillId, clientX, clientY);
       },
-      [skillId, handleClick]
+      [skillId, handleSkillInteraction]
     );
-
-    // タッチエンドイベント（最適化版）
-    const handleSkillTouchEnd = useCallback((e: React.TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-    }, []);
-
-    // タッチキャンセルイベント（最適化版）
-    const handleSkillTouchCancel = useCallback((e: React.TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-    }, []);
 
     // Ruby画像はシンプルな画像表示のみ（円形スタイルなし）
     if (skillId === "ruby") {
@@ -451,10 +442,17 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             className={`${skillStyles.rubyImageOnly} ${
               isClicked ? skillStyles.clicked : ""
             }`}
-            onTouchStart={handleSkillTouchStart}
-            onTouchEnd={handleSkillTouchEnd}
-            onTouchCancel={handleSkillTouchCancel}
-            onClick={handleSkillClick}
+            // 🎉 Step4成功パターン: デバイス判定によるイベント分離
+            {...(isTouchDevice 
+              ? {
+                  // タッチデバイス: onTouchStart のみ
+                  onTouchStart: handleSkillTouchStart
+                }
+              : {
+                  // デスクトップ: onClick のみ
+                  onClick: handleSkillClickLocalLocal
+                }
+            )}
             onMouseDown={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -462,6 +460,12 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             onContextMenu={(e) => {
               e.preventDefault();
               e.stopPropagation();
+            }}
+            style={{
+              WebkitTapHighlightColor: "transparent",
+              WebkitTouchCallout: "none",
+              WebkitUserSelect: "none",
+              userSelect: "none",
             }}
           >
             <MemoizedSkillImage skill={skill} />
@@ -480,10 +484,17 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           className={`${skillStyles.skillCircleGrid} ${skillClassName} ${
             isClicked ? skillStyles.clicked : ""
           }`}
-          onTouchStart={handleSkillTouchStart}
-          onTouchEnd={handleSkillTouchEnd}
-          onTouchCancel={handleSkillTouchCancel}
-          onClick={handleSkillClick}
+          // 🎉 Step4成功パターン: デバイス判定によるイベント分離
+          {...(isTouchDevice 
+            ? {
+                // タッチデバイス: onTouchStart のみ
+                onTouchStart: handleSkillTouchStart
+              }
+            : {
+                // デスクトップ: onClick のみ
+                onClick: handleSkillClick
+              }
+          )}
           onMouseDown={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -491,6 +502,12 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           onContextMenu={(e) => {
             e.preventDefault();
             e.stopPropagation();
+          }}
+          style={{
+            WebkitTapHighlightColor: "transparent",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
+            userSelect: "none",
           }}
         >
           <div className={skillStyles.skillIcon}>

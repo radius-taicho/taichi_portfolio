@@ -8,7 +8,7 @@ import MobileCareerSection from "@/components/about/MobileCareerSection";
 import DesktopCareerSection from "@/components/about/DesktopCareerSection";
 import MobileProfileSection from "@/components/about/MobileProfileSection";
 import DesktopProfileSection from "@/components/about/DesktopProfileSection";
-import SkillsTestStep4 from "@/components/about/debug/SkillsTestStep4";
+
 import MobileSkillsSection from "@/components/about/MobileSkillsSection";
 import DesktopSkillsSection from "@/components/about/DesktopSkillsSection";
 import MobileStrengthSection from "@/components/about/MobileStrengthSection";
@@ -189,9 +189,8 @@ export default function AboutPage() {
             {/* Profile セクション - モバイル版カード型コンポーネント */}
             <MobileProfileSection />
 
-            {/* Skills セクション - Step4テスト版（高速タップ問題解決） */}
-            {/* <MobileSkillsSection skillsState={skillsState} /> */}
-            <SkillsTestStep4 />
+            {/* Skills セクション - Step4解決版適用済み */}
+            <MobileSkillsSection skillsState={skillsState} />
 
             {/* Strength セクション - モバイル版コンポーネント */}
             <MobileStrengthSection />
