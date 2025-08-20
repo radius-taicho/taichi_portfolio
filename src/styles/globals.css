@@ -377,7 +377,7 @@ img[src*=".gif"] {
   }
 }
 
-/* Next.js Imageコンポーネント専用対策 - バランス版 */
+/* Next.js Imageコンポーネント専用対策 - 青いプレースホルダー完全除去版 */
 img,
 [data-nimg],
 [data-nimg] img,
@@ -399,4 +399,11 @@ img,
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
   -webkit-tap-highlight: none !important;
+  
+  /* 🎯 重要：青いプレースホルダー完全除去 */
+  background-color: transparent !important;
+  background-image: none !important;
+  background-size: auto !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
 }

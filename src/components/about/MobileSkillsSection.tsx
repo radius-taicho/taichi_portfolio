@@ -117,311 +117,56 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🔍 詳細診断用：要素の存在とエラーを確認
+  // 🎯 重要：青いプレースホルダー完全除去用フック
   useEffect(() => {
-    // デバッグ情報を画面に表示
-    const addDebugInfo = () => {
-      try {
-        const debugDiv = document.createElement('div');
-        debugDiv.id = 'tap-debug-info';
-        debugDiv.style.cssText = `
-          position: fixed;
-          top: 10px;
-          left: 10px;
-          background: rgba(0,0,0,0.9);
-          color: white;
-          padding: 15px;
-          font-size: 11px;
-          z-index: 99999;
-          max-width: 350px;
-          border-radius: 5px;
-          font-family: monospace;
-          white-space: pre-wrap;
-          overflow-y: auto;
-          max-height: 300px;
-        `;
-        
-        let debugText = '🔍 詳細診断レポート:\n';
-        
-        // 1. 要素の存在確認（CSS Modules対応）
-        const skillCircleElements = document.querySelectorAll('[class*="skillCircleGrid"]');
-        const rubyImageElements = document.querySelectorAll('[class*="rubyImageOnly"]');
-        const allSkillElements = document.querySelectorAll('[class*="skillCircleGrid"], [class*="rubyImageOnly"]');
-        
-        debugText += `\n要素の数:`;
-        debugText += `\n  [class*="skillCircleGrid"]: ${skillCircleElements.length}個`;
-        debugText += `\n  [class*="rubyImageOnly"]: ${rubyImageElements.length}個`;
-        debugText += `\n  合計: ${allSkillElements.length}個`;
-        
-        if (allSkillElements.length === 0) {
-          debugText += `\n\n⚠️ 警告: スキル要素が見つかりません！`;
-          
-          // 他の関連要素を探してみる
-          const skillsContainer = document.querySelector('.skillsContentContainer');
-          const aboutSection = document.querySelector('[class*="skill"]');
-          const allDivs = document.querySelectorAll('div');
-          
-          debugText += `\n\n関連要素探索:`;
-          debugText += `\n  .skillsContentContainer: ${skillsContainer ? '✓ あり' : '✗ なし'}`;
-          debugText += `\n  [class*="skill"]: ${aboutSection ? '✓ あり' : '✗ なし'}`;
-          debugText += `\n  全div数: ${allDivs.length}個`;
-          
-          // クラス名に"skill"を含む要素を探す
-          const skillRelatedElements = Array.from(document.querySelectorAll('*')).filter(el => 
-            el.className && el.className.toString().toLowerCase().includes('skill')
-          );
-          
-          debugText += `\n  "skill"含む要素: ${skillRelatedElements.length}個`;
-          
-          if (skillRelatedElements.length > 0) {
-            debugText += `\n\n発見されたクラス:`;
-            skillRelatedElements.slice(0, 5).forEach((el, i) => {
-              debugText += `\n    ${i + 1}. ${el.className}`;
-            });
-          }
-        } else {
-          // 2. 各要素の詳細情報
-          allSkillElements.forEach((el, index) => {
-            try {
-              const computedStyle = window.getComputedStyle(el);
-              const tapHighlight = computedStyle.getPropertyValue('-webkit-tap-highlight-color');
-              const cursor = computedStyle.getPropertyValue('cursor');
-              const touchAction = computedStyle.getPropertyValue('touch-action');
-              const display = computedStyle.getPropertyValue('display');
-              const visibility = computedStyle.getPropertyValue('visibility');
-              
-              debugText += `\n\n要素 ${index + 1} (${el.className}):`;
-              debugText += `\n  表示: ${display}, ${visibility}`;
-              debugText += `\n  ハイライト: ${tapHighlight}`;
-              debugText += `\n  カーソル: ${cursor}`;
-              debugText += `\n  タッチ: ${touchAction}`;
-              
-              // 画像要素確認
-              const images = el.querySelectorAll('img, [data-nimg]');
-              debugText += `\n  画像数: ${images.length}個`;
-              
-              if (images.length > 0) {
-                const img = images[0];
-                const imgStyle = window.getComputedStyle(img);
-                const imgHighlight = imgStyle.getPropertyValue('-webkit-tap-highlight-color');
-                const pointerEvents = imgStyle.getPropertyValue('pointer-events');
-                debugText += `\n  画像ハイライト: ${imgHighlight}`;
-                debugText += `\n  画像ポインタ: ${pointerEvents}`;
-              }
-            } catch (elemError) {
-              const errorMessage = elemError instanceof Error ? elemError.message : String(elemError);
-              debugText += `\n\n要素 ${index + 1} エラー: ${errorMessage}`;
-            }
-          });
-        }
-        
-        // 3. ブラウザ情報
-        debugText += `\n\nブラウザ情報:`;
-        debugText += `\n  UserAgent: ${navigator.userAgent.substring(0, 50)}...`;
-        debugText += `\n  サポート: ${'-webkit-tap-highlight-color' in document.body.style ? '✓' : '✗'}`;
-        
-        debugDiv.innerText = debugText;
-        document.body.appendChild(debugDiv);
-        
-        // クリックで消す
-        debugDiv.addEventListener('click', () => {
-          debugDiv.remove();
-        });
-        
-        // 15秒後に自動で消す
-        setTimeout(() => {
-          if (document.getElementById('tap-debug-info')) {
-            debugDiv.remove();
-          }
-        }, 15000);
-        
-      } catch (error) {
-        // エラー情報を表示
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        const errorDiv = document.createElement('div');
-        errorDiv.style.cssText = `
-          position: fixed;
-          top: 10px;
-          left: 10px;
-          background: red;
-          color: white;
-          padding: 10px;
-          z-index: 99999;
-          border-radius: 5px;
-        `;
-        errorDiv.innerText = `エラー: ${errorMessage}`;
-        document.body.appendChild(errorDiv);
-        
-        setTimeout(() => errorDiv.remove(), 10000);
-      }
-    };
-    
-    // DOMが完全に読み込まれてから実行
-    if (document.readyState === 'complete') {
-      setTimeout(addDebugInfo, 1500); // 1.5秒待つ
-    } else {
-      window.addEventListener('load', () => {
-        setTimeout(addDebugInfo, 1500);
+    // DOMが読み込まれた後に実行
+    const removeBlueBackground = () => {
+      // Next.js Imageコンポーネントの青い背景を強制除去
+      const images = document.querySelectorAll('img, [data-nimg]');
+      images.forEach((img) => {
+        const element = img as HTMLElement;
+        element.style.backgroundColor = 'transparent';
+        element.style.backgroundImage = 'none';
+        element.style.backgroundSize = 'auto';
+        element.style.backgroundRepeat = 'no-repeat';
+        element.style.backgroundPosition = 'center';
       });
-    }
-  }, []);
-
-  // 🚨 最終手段：iOS Safari タップハイライト完全根絶（超強力版）
-  useEffect(() => {
-    // Step 1: 最強のグローバル無効化
-    const applyNuclearFix = () => {
-      // 全ページレベルでの無効化
-      const css = `
-        /* CSS Modulesのクラス名でスタイル更新 */
-        *, *:before, *:after, 
-        img, [data-nimg], [data-nimg] *, 
-        [class*="skillCircleGrid"], [class*="skillCircleGrid"] *,
-        [class*="rubyImageOnly"], [class*="rubyImageOnly"] * {
-          -webkit-tap-highlight-color: transparent !important;
-          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-          -webkit-touch-callout: none !important;
-          -webkit-user-select: none !important;
-          user-select: none !important;
-          outline: none !important;
-          -webkit-appearance: none !important;
-          -webkit-focus-ring-color: transparent !important;
-          -webkit-highlight: none !important;
-          touch-action: manipulation !important;
-        }
-        
-        /* 画像の完全無効化（CSS Modules対応） */
-        [class*="skillCircleGrid"] img, [class*="rubyImageOnly"] img,
-        [class*="skillCircleGrid"] [data-nimg], [class*="rubyImageOnly"] [data-nimg] {
-          pointer-events: none !important;
-          -webkit-tap-highlight-color: transparent !important;
-          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-          -webkit-touch-callout: none !important;
-          -webkit-user-select: none !important;
-          user-select: none !important;
-          outline: none !important;
-          cursor: default !important;
-          -webkit-user-drag: none !important;
-          -webkit-appearance: none !important;
-        }
-        
-        /* クリッカブル要素の完全無効化（CSS Modules対応） */
-        [class*="skillCircleGrid"], [class*="rubyImageOnly"] {
-          -webkit-tap-highlight-color: transparent !important;
-          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-          -webkit-touch-callout: none !important;
-          outline: none !important;
-          cursor: default !important;
-          -webkit-user-select: none !important;
-          user-select: none !important;
-          -webkit-appearance: none !important;
-          touch-action: manipulation !important;
-        }
-        
-        /* アクティブ状態での無効化（CSS Modules対応） */
-        [class*="skillCircleGrid"]:active, [class*="rubyImageOnly"]:active,
-        [class*="skillCircleGrid"]:focus, [class*="rubyImageOnly"]:focus,
-        [class*="skillCircleGrid"]:hover, [class*="rubyImageOnly"]:hover {
-          -webkit-tap-highlight-color: transparent !important;
-          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-          outline: none !important;
-        }
-      `;
-      
-      const style = document.createElement('style');
-      style.id = 'tap-highlight-killer';
-      style.innerHTML = css;
-      document.head.appendChild(style);
-    };
-    
-    // Step 2: DOM要素への直接適用（CSS Modules対応版）
-    const applyDirectFix = () => {
-      // CSS Modulesの実際のクラス名を使用してスキル要素を取得
-      const skillElements = document.querySelectorAll(
-        `[class*="skillCircleGrid"], [class*="rubyImageOnly"]`
-      );
-      
-      console.log(`見つかったスキル要素: ${skillElements.length}個`);
-      
-      skillElements.forEach(element => {
-        const htmlElement = element as HTMLElement;
-        
-        // 親要素への全プロパティ適用
-        const properties = [
-          ['-webkit-tap-highlight-color', 'transparent'],
-          ['-webkit-tap-highlight-color', 'rgba(0,0,0,0)'],
-          ['-webkit-touch-callout', 'none'],
-          ['-webkit-user-select', 'none'],
-          ['user-select', 'none'],
-          ['outline', 'none'],
-          ['cursor', 'default'],
-          ['-webkit-appearance', 'none'],
-          ['touch-action', 'manipulation'],
-          ['-webkit-focus-ring-color', 'transparent'],
-          ['-webkit-highlight', 'none']
-        ];
-        
-        properties.forEach(([prop, value]) => {
-          htmlElement.style.setProperty(prop, value, 'important');
-        });
-        
-        // 子要素（画像含む）への適用
-        const allChildren = htmlElement.querySelectorAll('*');
-        allChildren.forEach(child => {
-          const childElement = child as HTMLElement;
-          properties.forEach(([prop, value]) => {
-            childElement.style.setProperty(prop, value, 'important');
-          });
-          
-          // 画像要素には pointer-events も適用
-          if (childElement.tagName === 'IMG' || childElement.hasAttribute('data-nimg')) {
-            childElement.style.setProperty('pointer-events', 'none', 'important');
-            childElement.style.setProperty('-webkit-user-drag', 'none', 'important');
-          }
-        });
-      });
-    };
-    
-    // Step 3: イベントレベルでの完全ブロック（CSS Modules対応版）
-    const blockAllEvents = () => {
-      const skillElements = document.querySelectorAll(
-        `[class*="skillCircleGrid"], [class*="rubyImageOnly"]`
-      );
-      
-      skillElements.forEach(element => {
-        // 全てのタッチ関連イベントをブロック
-        const events = ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'mousedown', 'mouseup', 'click'];
-        
-        events.forEach(eventType => {
-          element.addEventListener(eventType, (e) => {
-            // ハイライト関連の処理のみブロック、機能は維持
-            e.stopPropagation();
-          }, { passive: true, capture: true });
-        });
-      });
-    };
-    
-    // 複数回実行で確実に適用
-    const executeAll = () => {
-      applyNuclearFix();
-      applyDirectFix();
-      blockAllEvents();
     };
     
     // 即座に実行
-    executeAll();
-    // 100ms後に再実行
-    setTimeout(executeAll, 100);
-    // 500ms後に再実行
-    setTimeout(executeAll, 500);
-    // 1秒後に最終実行
-    setTimeout(executeAll, 1000);
+    removeBlueBackground();
+    
+    // 100ms後に再実行（遅延読み込み対応）
+    const timeout1 = setTimeout(removeBlueBackground, 100);
+    
+    // 500ms後に再実行（確実な除去）
+    const timeout2 = setTimeout(removeBlueBackground, 500);
+    
+    // 画像の読み込みイベントを監視
+    const handleImageLoad = (event: Event) => {
+      const img = event.target as HTMLElement;
+      if (img) {
+        img.style.backgroundColor = 'transparent';
+        img.style.backgroundImage = 'none';
+      }
+    };
+    
+    // 全ての画像にリスナーを追加
+    const currentImages = document.querySelectorAll('img, [data-nimg]');
+    currentImages.forEach((img) => {
+      img.addEventListener('load', handleImageLoad);
+      img.addEventListener('loadstart', handleImageLoad);
+    });
     
     return () => {
-      // クリーンアップ
-      const style = document.getElementById('tap-highlight-killer');
-      if (style) {
-        style.remove();
-      }
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      // リスナーをクリーンアップ
+      const currentImages = document.querySelectorAll('img, [data-nimg]');
+      currentImages.forEach((img) => {
+        img.removeEventListener('load', handleImageLoad);
+        img.removeEventListener('loadstart', handleImageLoad);
+      });
     };
   }, []);
 
@@ -539,16 +284,9 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   // タッチイベントハンドラー（超強化版）
   const handleTouchStart = useCallback(
     (skillId: string, e: React.TouchEvent) => {
-      // 🎯 iOS Safariタップハイライトを完全に防ぐための強力な処理
+      // 🎯 タッチイベントの適切な処理（青いプレースホルダー対策も含む）
       e.preventDefault();
       e.stopPropagation();
-      e.nativeEvent.preventDefault();
-      e.nativeEvent.stopImmediatePropagation();
-      
-      // returnValueを使用した追加のブロック（非推奨だが効果的）
-      if ('returnValue' in e.nativeEvent) {
-        (e.nativeEvent as any).returnValue = false;
-      }
       
       const touch = e.touches[0];
       const clientX = touch?.clientX || 0;
@@ -562,11 +300,9 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   // クリックイベントハンドラー（強化版）
   const handleClick = useCallback(
     (skillId: string, e: React.MouseEvent) => {
-      // タップハイライトを完全に防ぐためのpreventDefault
+      // クリックイベントの適切な処理
       e.preventDefault();
       e.stopPropagation();
-      e.nativeEvent.preventDefault();
-      e.nativeEvent.stopImmediatePropagation();
       
       const clientX = e.clientX;
       const clientY = e.clientY;
@@ -583,8 +319,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       if (e.target === e.currentTarget) {
         e.preventDefault();
         e.stopPropagation();
-        e.nativeEvent.preventDefault();
-        e.nativeEvent.stopImmediatePropagation();
         clearTooltipTimeout();
         setActiveTooltip(null);
         setClickedSkill(null);
@@ -628,7 +362,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     return (skillId: string) => classNameMap[skillId] || "";
   }, []);
 
-  // メモ化された画像コンポーネント（画像再読み込み防止）
+  // メモ化された画像コンポーネント（青いプレースホルダー完全除去版）
   const MemoizedSkillImage = React.memo<{ skill: SkillData }>(({ skill }) => {
     return (
       <Image
@@ -640,9 +374,31 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         priority
         quality={90}
         sizes="60px"
-        style={{ objectFit: "contain" }}
-        placeholder="blur"
-        blurDataURL="data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAAAwAQCdASoEAAQAAkA4JZwAA3AA/v8A"
+        style={{ 
+          objectFit: "contain",
+          // 🎯 重要：青いプレースホルダー完全除去
+          backgroundColor: "transparent",
+          backgroundImage: "none",
+          backgroundSize: "auto",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center"
+        }}
+        // 🚨 重要：placeholder="blur"を完全に削除！
+        // placeholder="blur" <- この行を削除
+        // blurDataURL も削除
+        unoptimized={false}
+        onLoad={(e) => {
+          // 画像読み込み完了時に青い背景を確実に除去
+          const imgElement = e.currentTarget;
+          imgElement.style.backgroundColor = "transparent";
+          imgElement.style.backgroundImage = "none";
+        }}
+        onError={(e) => {
+          // エラー時も青い表示を防ぐ
+          const imgElement = e.currentTarget;
+          imgElement.style.backgroundColor = "transparent";
+          imgElement.style.backgroundImage = "none";
+        }}
       />
     );
   });
@@ -670,20 +426,16 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       [skillId, handleClick]
     );
 
-    // タッチエンドイベント（強化版）
+    // タッチエンドイベント（最適化版）
     const handleSkillTouchEnd = useCallback((e: React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      e.nativeEvent.preventDefault();
-      e.nativeEvent.stopImmediatePropagation();
     }, []);
 
-    // タッチキャンセルイベント（強化版）
+    // タッチキャンセルイベント（最適化版）
     const handleSkillTouchCancel = useCallback((e: React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      e.nativeEvent.preventDefault();
-      e.nativeEvent.stopImmediatePropagation();
     }, []);
 
     // Ruby画像はシンプルな画像表示のみ（円形スタイルなし）
@@ -702,14 +454,10 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             onMouseDown={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              e.nativeEvent.preventDefault();
-              e.nativeEvent.stopImmediatePropagation();
             }}
             onContextMenu={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              e.nativeEvent.preventDefault();
-              e.nativeEvent.stopImmediatePropagation();
             }}
           >
             <MemoizedSkillImage skill={skill} />
@@ -735,14 +483,10 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           onMouseDown={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.nativeEvent.preventDefault();
-            e.nativeEvent.stopImmediatePropagation();
           }}
           onContextMenu={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.nativeEvent.preventDefault();
-            e.nativeEvent.stopImmediatePropagation();
           }}
         >
           <div className={skillStyles.skillIcon}>
@@ -802,20 +546,14 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           onMouseDown={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.nativeEvent.preventDefault();
-            e.nativeEvent.stopImmediatePropagation();
           }}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.nativeEvent.preventDefault();
-            e.nativeEvent.stopImmediatePropagation();
           }}
           onTouchStart={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.nativeEvent.preventDefault();
-            e.nativeEvent.stopImmediatePropagation();
           }}
         >
           {getSkillData(activeTooltip)?.name}
