@@ -122,50 +122,50 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     // DOMが読み込まれた後に実行
     const removeBlueBackground = () => {
       // Next.js Imageコンポーネントの青い背景を強制除去
-      const images = document.querySelectorAll('img, [data-nimg]');
+      const images = document.querySelectorAll("img, [data-nimg]");
       images.forEach((img) => {
         const element = img as HTMLElement;
-        element.style.backgroundColor = 'transparent';
-        element.style.backgroundImage = 'none';
-        element.style.backgroundSize = 'auto';
-        element.style.backgroundRepeat = 'no-repeat';
-        element.style.backgroundPosition = 'center';
+        element.style.backgroundColor = "transparent";
+        element.style.backgroundImage = "none";
+        element.style.backgroundSize = "auto";
+        element.style.backgroundRepeat = "no-repeat";
+        element.style.backgroundPosition = "center";
       });
     };
-    
+
     // 即座に実行
     removeBlueBackground();
-    
+
     // 100ms後に再実行（遅延読み込み対応）
     const timeout1 = setTimeout(removeBlueBackground, 100);
-    
+
     // 500ms後に再実行（確実な除去）
     const timeout2 = setTimeout(removeBlueBackground, 500);
-    
+
     // 画像の読み込みイベントを監視
     const handleImageLoad = (event: Event) => {
       const img = event.target as HTMLElement;
       if (img) {
-        img.style.backgroundColor = 'transparent';
-        img.style.backgroundImage = 'none';
+        img.style.backgroundColor = "transparent";
+        img.style.backgroundImage = "none";
       }
     };
-    
+
     // 全ての画像にリスナーを追加
-    const currentImages = document.querySelectorAll('img, [data-nimg]');
+    const currentImages = document.querySelectorAll("img, [data-nimg]");
     currentImages.forEach((img) => {
-      img.addEventListener('load', handleImageLoad);
-      img.addEventListener('loadstart', handleImageLoad);
+      img.addEventListener("load", handleImageLoad);
+      img.addEventListener("loadstart", handleImageLoad);
     });
-    
+
     return () => {
       clearTimeout(timeout1);
       clearTimeout(timeout2);
       // リスナーをクリーンアップ
-      const currentImages = document.querySelectorAll('img, [data-nimg]');
+      const currentImages = document.querySelectorAll("img, [data-nimg]");
       currentImages.forEach((img) => {
-        img.removeEventListener('load', handleImageLoad);
-        img.removeEventListener('loadstart', handleImageLoad);
+        img.removeEventListener("load", handleImageLoad);
+        img.removeEventListener("loadstart", handleImageLoad);
       });
     };
   }, []);
@@ -200,8 +200,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   // タイムアウト時間を動的に決定（メモ化）
   const startTooltipTimeout = useCallback(() => {
     clearTooltipTimeout();
-    // 2秒で統一
-    const timeoutDuration = 2000;
+    // 1.4秒で統一
+    const timeoutDuration = 1300;
 
     timeoutRef.current = setTimeout(() => {
       setActiveTooltip(null);
@@ -287,7 +287,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       // 🎯 タッチイベントの適切な処理（青いプレースホルダー対策も含む）
       e.preventDefault();
       e.stopPropagation();
-      
+
       const touch = e.touches[0];
       const clientX = touch?.clientX || 0;
       const clientY = touch?.clientY || 0;
@@ -303,7 +303,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       // クリックイベントの適切な処理
       e.preventDefault();
       e.stopPropagation();
-      
+
       const clientX = e.clientX;
       const clientY = e.clientY;
 
@@ -370,17 +370,17 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         alt={skill.name}
         width={60}
         height={60}
-        loading="lazy"  // 🎯 遅延読み込みでチカチキを防止
-        priority={false}  // 🎯 優先読み込みを無効化
-        quality={75}  // 🎯 品質を下げて読み込み速度向上
-        style={{ 
+        loading="lazy" // 🎯 遅延読み込みでチカチキを防止
+        priority={false} // 🎯 優先読み込みを無効化
+        quality={75} // 🎯 品質を下げて読み込み速度向上
+        style={{
           objectFit: "contain",
           // 🎯 重要：青いプレースホルダー完全除去
           backgroundColor: "transparent",
           backgroundImage: "none",
           backgroundSize: "auto",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "center"
+          backgroundPosition: "center",
         }}
         // 🎯 最適化をスキップして安定した表示
         unoptimized={true}
