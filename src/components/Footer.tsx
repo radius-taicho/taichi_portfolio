@@ -104,7 +104,8 @@ export default function Footer() {
       if (!iconElement || !backgroundElement) return;
 
       // タッチデバイス判定を関数トップで定義
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isTouchDevice =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
       const handleClick = (e: Event) => {
         e.preventDefault();
@@ -114,7 +115,7 @@ export default function Footer() {
         if (isTransitioning) return;
 
         setIsTransitioning(true);
-        
+
         // 背景画像を変更
         changeBackgroundWithPosition(
           backgroundElement,
