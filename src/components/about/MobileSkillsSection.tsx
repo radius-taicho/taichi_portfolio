@@ -116,50 +116,14 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🎯 画像プリロードとモバイル安定性向上用フック（強化版）
+  // 🎯 簡略化された無競合プリロードシステム
   useEffect(() => {
-    // 画像を事前にプリロードして、チカチカを完全に防ぐ
-    const preloadImages = () => {
-      skillsData.forEach((skill) => {
-        const img = new Image();
-        img.src = skill.image;
-        // 画像をキャッシュに保存
-        img.onload = () => {
-          // プリロード完了後の安定化処理
-          const existingImages = document.querySelectorAll(`img[src="${skill.image}"]`);
-          existingImages.forEach((element) => {
-            const imgEl = element as HTMLImageElement;
-            imgEl.style.backgroundColor = 'transparent';
-            imgEl.style.opacity = '1';
-          });
-        };
-      });
-    };
-
-    // 画像の青い背景問題を軽量に対応
-    const handleImageLoad = () => {
-      const images = document.querySelectorAll('img[src*="/images/"]');
-      images.forEach((img) => {
-        const element = img as HTMLElement;
-        element.style.backgroundColor = 'transparent';
-        element.style.opacity = '1';
-      });
-    };
-
-    // 即座にプリロードを開始
-    preloadImages();
-
-    // DOM画像も処理
-    handleImageLoad();
-
-    // 短時間後に再処理（確実性向上）
-    const timeout = setTimeout(() => {
-      handleImageLoad();
-    }, 100);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    // シンプルなプリロード（競合なし）
+    skillsData.forEach((skill) => {
+      const preloadImage = new Image();
+      preloadImage.src = skill.image;
+      // キャッシュに保存するだけ
+    });
   }, []);
 
   const getSkillData = (id: string) =>
@@ -354,41 +318,92 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     return (skillId: string) => classNameMap[skillId] || "";
   }, []);
 
-  // メモ化された画像コンポーネント（通常imgタグ版 - チカチカ完全解決）
+  // 🎯 グローバルCSS競合完全回避型画像コンポーネント
   const MemoizedSkillImage = React.memo<{ skill: SkillData }>(({ skill }) => {
+    const [imageLoaded, setImageLoaded] = React.useState(false);
+    const [imageError, setImageError] = React.useState(false);
+    
     return (
-      <img
-        src={skill.image}
-        alt={skill.name}
+      <div 
         style={{
           width: "100%",
           height: "100%",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          objectFit: "contain",
-          backgroundColor: "transparent",
-          // モバイル描画安定性最適化
-          transform: "translateZ(0)",
-          WebkitBackfaceVisibility: "hidden",
-          backfaceVisibility: "hidden",
-          // チカチカ防止のための安定性向上
-          imageRendering: "auto",
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          // 🎯 グローバルCSSを完全に無効化
+          all: "unset",
+          boxSizing: "border-box",
         }}
-        // プリロードで即座表示
-        loading="eager"
-        // キャッシュを有効化
-        decoding="auto"
-        onLoad={(e) => {
-          // 読み込み完了時の安定性確保
-          const imgElement = e.currentTarget;
-          imgElement.style.backgroundColor = "transparent";
-          imgElement.style.opacity = "1";
-        }}
-        onError={(e) => {
-          // エラー時のフォールバック
-          console.warn(`Failed to load image: ${skill.image}`);
-        }}
-      />
+      >
+        <img
+          src={skill.image}
+          alt={skill.name}
+          style={{
+            // 🎯 グローバルCSSを完全にオーバーライド
+            all: "unset",
+            width: "100%",
+            height: "100%",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            objectFit: "contain",
+            display: "block",
+            // 🎯 青いプレースホルダー完全防止
+            backgroundColor: "transparent",
+            background: "none",
+            // 🎯 iOS Safari最適化
+            transform: "translateZ(0)",
+            WebkitBackfaceVisibility: "hidden",
+            backfaceVisibility: "hidden",
+            // 🎯 タップハイライト無効化
+            WebkitTapHighlightColor: "transparent",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
+            userSelect: "none",
+            // 🎯 アンチエイリアシング無効化（チラつき防止）
+            imageRendering: "pixelated",
+            // 🎯 完全に表示されるまで待つ
+            opacity: imageLoaded && !imageError ? 1 : 0,
+            transition: "opacity 0.1s ease-out",
+            // 🎯 グローバルCSSで上書きされないように
+            position: "static",
+            zIndex: "auto",
+            filter: "none",
+            boxSizing: "border-box",
+          }}
+          loading="eager"
+          decoding="sync" // 🎯 同期デコードでチラつき防止
+          onLoad={(e) => {
+            // 🎯 読み込み完了時の安定化
+            const img = e.currentTarget;
+            img.style.backgroundColor = "transparent";
+            img.style.background = "none";
+            setImageLoaded(true);
+          }}
+          onError={() => {
+            console.warn(`Failed to load skill image: ${skill.image}`);
+            setImageError(true);
+          }}
+          // 🎯 ブラウザキャッシュを最大限活用
+          crossOrigin="anonymous"
+        />
+        {/* 🎯 フォールバック表示 */}
+        {imageError && (
+          <div 
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "12px",
+              color: "#999",
+            }}
+          >
+            {skill.name}
+          </div>
+        )}
+      </div>
     );
   });
 
