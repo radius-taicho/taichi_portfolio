@@ -348,7 +348,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           // GPUアクセラレーションを使って描画安定性向上
           transform: "translateZ(0)",
           // iOS Safariでの描画問題を防ぐ
-          webkitBackfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
           backfaceVisibility: "hidden",
         }}
         // 🎯 Next.jsの最適化を有効にしてモバイル描画安定性向上
