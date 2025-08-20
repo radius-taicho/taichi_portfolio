@@ -303,6 +303,7 @@ img[src*=".gif"] {
   outline: none !important;
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
+  /* touch-action は削除！スクロールを阻害するため */
 }
 
 /* 🎯 クリッカブル要素専用の完全無効化（最重要） */
@@ -322,8 +323,8 @@ img[src*=".gif"] {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   
-  /* 重要：タッチアクションの完全制御 */
-  touch-action: none !important;
+  /* 重要：タッチアクションはmanipulation（スクロールは維持）*/
+  touch-action: manipulation !important;
   
   /* 重要：アウトラインとフォーカスの完全無効化 */
   outline: 0 !important;
@@ -342,7 +343,7 @@ img[src*=".gif"] {
     -webkit-focus-ring-color: transparent !important;
   }
   
-  /* 重要：子要素も完全無効化 */
+  /* 重要：子要素も完全無効化（ただしスクロールは維持）*/
   *,
   *::before,
   *::after {
@@ -350,7 +351,7 @@ img[src*=".gif"] {
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     user-select: none !important;
-    touch-action: none !important;
+    /* touch-action: none を削除！スクロール阻害のため */
     outline: none !important;
     pointer-events: none !important;
   }

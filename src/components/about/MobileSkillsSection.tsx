@@ -117,9 +117,9 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🚨 根本的解決：iOS Safari タップハイライト完全無効化（最終版）
+  // 🚨 根本的解決：iOS Safari タップハイライト完全無効化（スクロール修正版）
   useEffect(() => {
-    // Step 1: 強力なグローバル無効化
+    // Step 1: 強力なグローバル無効化（スクロールは維持）
     const disableTapHighlight = () => {
       const elements = [document.documentElement, document.body];
       const properties = [
@@ -127,7 +127,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         ['-webkit-tap-highlight-color', 'rgba(0,0,0,0)'],
         ['-webkit-touch-callout', 'none'],
         ['-webkit-user-select', 'none'],
-        ['touch-action', 'none'],
+        // touch-action: none を削除！スクロール阻害のため
         ['outline', 'none'],
         ['-webkit-focus-ring-color', 'transparent']
       ];
@@ -139,28 +139,29 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       });
     };
     
-    // Step 2: クリッカブル要素の完全無効化
+    // Step 2: クリッカブル要素の完全無効化（スクロールは維持）
     const disableClickableElements = () => {
       const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
       skillElements.forEach(element => {
         const htmlElement = element as HTMLElement;
         htmlElement.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
-        htmlElement.style.setProperty('touch-action', 'none', 'important');
+        // touch-action: manipulation でスクロールは維持
+        htmlElement.style.setProperty('touch-action', 'manipulation', 'important');
         htmlElement.style.setProperty('outline', 'none', 'important');
         
-        // 🎯 重要：イベント委譲を防ぐため直接無効化
+        // 🎯 重要：イベント委譲を防ぐため直接無効化（スクロールは維持）
         const preventHighlight = (e: Event) => {
-          e.preventDefault();
+          // preventDefaultをしつつ、スクロールは阻害しない
           e.stopPropagation();
           e.stopImmediatePropagation();
-          return false;
+          // return false を削除（スクロール阻害の可能性）
         };
         
-        // 複数のイベントで無効化
-        ['touchstart', 'touchmove', 'touchend', 'mousedown'].forEach(eventType => {
+        // 複数のイベントで無効化（ただしスクロールは維持）
+        ['touchstart', 'mousedown'].forEach(eventType => {
           htmlElement.addEventListener(eventType, preventHighlight, {
-            passive: false,
-            capture: true  // 🎯 重要：キャプチャフェーズで早期にキャッチ
+            passive: true,  // passive: true でスクロールパフォーマンス向上
+            capture: false  // capture: false でスクロールとの競合を回避
           });
         });
       });
@@ -174,7 +175,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     
     applyFixes();
     
-    // touchstart を無効化してアクティブスタイルを維持
+    // touchstart を維持してアクティブスタイルを維持（スクロールは阻害しない）
     document.addEventListener('touchstart', () => {}, { passive: true });
     
     return () => {
