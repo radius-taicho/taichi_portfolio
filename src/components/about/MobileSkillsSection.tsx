@@ -117,56 +117,25 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🎯 重要：青いプレースホルダー完全除去用フック
+  // 🎯 画像の安定性向上用フック（簡略化版）
   useEffect(() => {
-    // DOMが読み込まれた後に実行
-    const removeBlueBackground = () => {
-      // Next.js Imageコンポーネントの青い背景を強制除去
-      const images = document.querySelectorAll("img, [data-nimg]");
+    // 画像の青い背景問題を軽量に対応
+    const handleImageLoad = () => {
+      const images = document.querySelectorAll('[data-nimg]');
       images.forEach((img) => {
         const element = img as HTMLElement;
-        element.style.backgroundColor = "transparent";
-        element.style.backgroundImage = "none";
-        element.style.backgroundSize = "auto";
-        element.style.backgroundRepeat = "no-repeat";
-        element.style.backgroundPosition = "center";
+        element.style.backgroundColor = 'transparent';
       });
     };
 
     // 即座に実行
-    removeBlueBackground();
+    handleImageLoad();
 
-    // 100ms後に再実行（遅延読み込み対応）
-    const timeout1 = setTimeout(removeBlueBackground, 100);
-
-    // 500ms後に再実行（確実な除去）
-    const timeout2 = setTimeout(removeBlueBackground, 500);
-
-    // 画像の読み込みイベントを監視
-    const handleImageLoad = (event: Event) => {
-      const img = event.target as HTMLElement;
-      if (img) {
-        img.style.backgroundColor = "transparent";
-        img.style.backgroundImage = "none";
-      }
-    };
-
-    // 全ての画像にリスナーを追加
-    const currentImages = document.querySelectorAll("img, [data-nimg]");
-    currentImages.forEach((img) => {
-      img.addEventListener("load", handleImageLoad);
-      img.addEventListener("loadstart", handleImageLoad);
-    });
+    // 画像読み込み完了後に再実行（1回のみ）
+    const timeout = setTimeout(handleImageLoad, 200);
 
     return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-      // リスナーをクリーンアップ
-      const currentImages = document.querySelectorAll("img, [data-nimg]");
-      currentImages.forEach((img) => {
-        img.removeEventListener("load", handleImageLoad);
-        img.removeEventListener("loadstart", handleImageLoad);
-      });
+      clearTimeout(timeout);
     };
   }, []);
 
@@ -362,7 +331,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     return (skillId: string) => classNameMap[skillId] || "";
   }, []);
 
-  // メモ化された画像コンポーネント（チカチカ防止・最適化版）
+  // メモ化された画像コンポーネント（モバイル安定性重視版）
   const MemoizedSkillImage = React.memo<{ skill: SkillData }>(({ skill }) => {
     return (
       <Image
@@ -370,31 +339,23 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         alt={skill.name}
         width={60}
         height={60}
-        loading="lazy" // 🎯 遅延読み込みでチカチキを防止
-        priority={false} // 🎯 優先読み込みを無効化
-        quality={75} // 🎯 品質を下げて読み込み速度向上
+        loading="eager" // 🎯 即座に読み込みでチラつき防止
+        priority={true} // 🎯 優先読み込みでモバイル安定性向上
+        quality={85} // 🎯 品質を上げて描画安定性向上
         style={{
           objectFit: "contain",
-          // 🎯 重要：青いプレースホルダー完全除去
           backgroundColor: "transparent",
-          backgroundImage: "none",
-          backgroundSize: "auto",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
+          // GPUアクセラレーションを使って描画安定性向上
+          transform: "translateZ(0)",
+          // iOS Safariでの描画問題を防ぐ
+          webkitBackfaceVisibility: "hidden",
+          backfaceVisibility: "hidden",
         }}
-        // 🎯 最適化をスキップして安定した表示
-        unoptimized={true}
+        // 🎯 Next.jsの最適化を有効にしてモバイル描画安定性向上
         onLoad={(e) => {
-          // 画像読み込み完了時に青い背景を確実に除去
+          // 画像読み込み完了時に背景を透明に設定
           const imgElement = e.currentTarget;
           imgElement.style.backgroundColor = "transparent";
-          imgElement.style.backgroundImage = "none";
-        }}
-        onError={(e) => {
-          // エラー時も青い表示を防ぐ
-          const imgElement = e.currentTarget;
-          imgElement.style.backgroundColor = "transparent";
-          imgElement.style.backgroundImage = "none";
         }}
       />
     );

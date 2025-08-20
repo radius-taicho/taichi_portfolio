@@ -133,7 +133,7 @@
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out, visibility 0.15s ease-out;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   white-space: nowrap;
   overflow: hidden;
@@ -244,9 +244,12 @@
   z-index: 1;
   position: relative;
 
-  // クリック時のスケールアニメーション（改良版）
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    box-shadow 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), z-index 0s ease-out;
+  // クリック時のスケールアニメーション（iOS Safari最適化版）
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, z-index 0s ease-out;
+  // GPU描画最適化
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
 
   &.clicked {
     transform: scale(1.12) translateZ(0) !important;
@@ -323,9 +326,12 @@
   justify-content: center;
   overflow: visible;
 
-  // クリック時のスケールアニメーション（改良版）
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    z-index 0s ease-out;
+  // クリック時のスケールアニメーション（iOS Safari最適化版）
+  transition: transform 0.15s ease-out, z-index 0s ease-out;
+  // GPU描画最適化
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
 
   &.clicked {
     transform: scale(1.15) translateZ(0) !important;
@@ -394,10 +400,11 @@
     object-fit: contain;
     filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.25));
 
-    // パフォーマンス最適化
-    will-change: filter;
+    // iOS Safari安定性向上
     backface-visibility: hidden;
-    transition: filter 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: filter 0.15s ease-out;
   }
 
   &.clicked img {
@@ -435,10 +442,11 @@
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
-    // パフォーマンス最適化
-    will-change: transform;
+    // iOS Safari描画安定性向上
     backface-visibility: hidden;
-    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform 0.15s ease-out;
 
     // ===== 小モバイル（375px～575px） =====
     @media screen and (min-width: 376px) and (max-width: 575px) {
@@ -647,9 +655,7 @@
     cursor: pointer !important;
     -webkit-cursor: pointer !important;
     -moz-cursor: pointer !important;
-    transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      filter 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, filter 0.12s ease-out;
   }
 
   // 🎯 タッチデバイス向けの追加対策
