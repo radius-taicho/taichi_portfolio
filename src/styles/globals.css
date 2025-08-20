@@ -1,4 +1,4 @@
-/* 🎯 iOS Safari特殊対策 - 軽量版 */
+/* 🎯 iOS Safari特殊対策 - バランス版 */
 /* スキルセクション専用のタップハイライト禁止 */
 [class*="skill"],
 [class*="skill"] *,
@@ -7,15 +7,43 @@
 .skillsContentContainer * {
   -webkit-tap-highlight-color: transparent !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
   touch-action: manipulation !important;
   outline: none !important;
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
+  -webkit-tap-highlight: none !important;
+}
+
+/* 画像専用の特別対策（バランス版） */
+.skillsContentContainer img,
+.skillsContentContainer [data-nimg],
+.skillsContentContainer [data-nimg] img {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  outline: none !important;
+  -webkit-focus-ring-color: transparent !important;
+  -webkit-highlight: none !important;
+  -webkit-tap-highlight: none !important;
+  pointer-events: none !important;
+  
+  /* GPU加速で安定化（軽量版） */
+  -webkit-transform: translateZ(0);
+  will-change: auto;
 }@tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -277,7 +305,7 @@ img[src*=".gif"] {
   -webkit-highlight: none !important;
 }
 
-/* Next.js Imageコンポーネント専用対策 - 軽量版 */
+/* Next.js Imageコンポーネント専用対策 - バランス版 */
 img,
 [data-nimg],
 [data-nimg] img,
@@ -287,12 +315,16 @@ img,
 [data-nimg="fixed"] {
   -webkit-tap-highlight-color: transparent !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
   outline: none !important;
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
+  -webkit-tap-highlight: none !important;
 }
