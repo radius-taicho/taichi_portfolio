@@ -79,7 +79,7 @@
   }
 }
 
-// タイムラインコンテナ
+// タイムラインコンテナ（縦並び形式を維持）
 .timelineContainer {
   display: flex;
   flex-direction: column;
@@ -91,25 +91,23 @@
   @include about-section-content;
 }
 
-// タイムラインアイテム
+// タイムラインアイテム（各アイテム内をグリッドレイアウトに）
 .timelineItem {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 60px 1fr 200px; // ステップ、テキスト、画像の順（画像幅を200pxに縮小）
+  align-items: start;
   gap: 32px;
-  padding: 24px 16px; // 最初から左右パディングを固定
+  padding: 24px 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 12px; // 最初から角丸を適用
+  border-radius: 12px;
   
   &:hover {
     background: rgba(248, 250, 252, 0.5);
-    // paddingの変更を削除して横移動を防止
   }
   
   &.active {
     background: rgba(230, 88, 83, 0.05);
-    // paddingの変更を削除して横移動を防止
     
     .timelineStep {
       background: #E65853;
@@ -118,25 +116,27 @@
     }
   }
   
-  // タブレット横向き以下でのギャップとパディング調整
+  // タブレット横向き以下での調整
   @include max-width(md) {
+    grid-template-columns: 55px 1fr 180px;
     gap: 28px;
     padding: 20px 14px;
     border-radius: 10px;
   }
   
-  // タブレット縦向き以下でのギャップとパディング調整
+  // タブレット縦向き以下での調整
   @include max-width(sm) {
+    grid-template-columns: 50px 1fr 160px;
     gap: 24px;
     padding: 16px 12px;
     border-radius: 8px;
   }
   
-  // ========== モバイル(575px未満)専用設定 ==========
-  // コンパクトなレイアウトでより多くの情報を表示
+  // モバイル専用設定
   @include max-width(xs) {
+    grid-template-columns: 45px 1fr 140px;
     gap: 20px;
-    padding: 12px 8px; // さらに狭いパディング
+    padding: 12px 8px;
     border-radius: 6px;
   }
 }
@@ -148,7 +148,7 @@
   align-items: center;
   gap: 0;
   width: 60px;
-  flex-shrink: 0;
+  grid-column: 1; // グリッドの1列目に配置
   
   // タブレット横向き以下での幅調整
   @include max-width(md) {
@@ -160,16 +160,15 @@
     width: 50px;
   }
   
-  // ========== モバイル(575px未満)専用設定 ==========
-  // さらにコンパクトな幅でコンテンツを広く
+  // モバイル専用設定
   @include max-width(xs) {
     width: 45px;
   }
 }
 
 .timelineStep {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: $text-color;
   color: #ffffff;
@@ -177,81 +176,73 @@
   align-items: center;
   justify-content: center;
   font-family: $font-rubik;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
   z-index: 2;
   
   &.active {
     background: #E65853;
     transform: scale(1.1);
-    box-shadow: 0 6px 24px rgba(230, 88, 83, 0.3);
+    box-shadow: 0 8px 32px rgba(230, 88, 83, 0.3);
   }
   
-  // タブレット横向き以下でのサイズとフォント調整
+  // タブレット横向き以下でのサイズ調整
   @include max-width(md) {
-    width: 44px;
-    height: 44px;
-    font-size: 16px;
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
   }
   
-  // タブレット縦向き以下でのサイズとフォント調整
+  // タブレット縦向き以下でのサイズ調整
   @include max-width(sm) {
-    width: 40px;
-    height: 40px;
-    font-size: 14px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
   }
   
-  // ========== モバイル(575px未満)専用設定 ==========
-  // コンパクトなサイズでスペースを有効活用
+  // モバイル専用設定
   @include max-width(xs) {
-    width: 36px;
-    height: 36px;
-    font-size: 12px;
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
   }
 }
 
 .timelineLine {
   width: 3px;
-  height: 150px; // 画像サイズの拡大に合わせて調整
+  height: 200px; // 画像サイズの拡大に合わせて調整
   background: linear-gradient(to bottom, #E65853, rgba(226, 232, 240, 0.5));
   margin-top: 8px;
   position: relative;
   z-index: 1;
 }
 
-// 右側: 画像とテキスト
-.timelineRight {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  min-height: 180px;
-}
-
+// 中央: テキストコンテンツ
 .timelineContent {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
+  grid-column: 2; // グリッドの2列目に配置
+  align-self: center; // 縦方向中央寄せ
 }
 
+// 右側: 画像
 .timelineImageContainer {
-  width: 180px;
-  height: 180px;
-  border-radius: 12px;
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  border: 2px solid #e2e8f0;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #ffffff;
-  align-self: flex-end; // 右端に配置
+  grid-column: 3; // グリッドの3列目に配置
+  align-self: center; // 縦方向中央寄せ
   
   img {
     max-width: 100%;
@@ -268,35 +259,35 @@
   
   // タブレット横向き以下でのサイズ調整
   @include max-width(md) {
-    width: 160px;
-    height: 160px;
-    border-radius: 10px;
+    width: 180px;
+    height: 180px;
+    border-radius: 14px;
   }
   
   // タブレット縦向き以下でのサイズ調整
   @include max-width(sm) {
-    width: 140px;
-    height: 140px;
-    border-radius: 8px;
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
   }
   
-  // ========== モバイル(575px未満)専用設定 ==========
-  // よりコンパクトなサイズでスペースを有効活用
+  // モバイル専用設定
   @include max-width(xs) {
-    width: 120px;
-    height: 120px;
-    border-radius: 6px;
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
   }
 }
 
 .timelineTitle {
   font-family: $font-japanese;
-  font-size: clamp(18px, 2.5vw, 22px);
+  font-size: clamp(18px, 2.5vw, 24px); // フォントサイズを大きくする
   font-weight: 600;
   color: $text-color;
   line-height: 1.7;
   letter-spacing: 0.08em;
   margin: 0;
+  text-align: left; // 左寄せに戻す
 }
 
 // 以下、タイムライン実装により不要になったスタイル

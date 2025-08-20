@@ -130,7 +130,7 @@
 
 .timelineLine {
   width: 2px; // モバイル用に細く
-  height: 120px; // 画像サイズの拡大に合わせて調整
+  height: 120px; // 画像サイズに合わせて調整
   background: linear-gradient(to bottom, #e65853, rgba(226, 232, 240, 0.5));
   margin-top: 8px;
   position: relative;
@@ -144,7 +144,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  min-height: 140px;
+  min-height: 140px; // 画像サイズに合わせて調整
 }
 
 .timelineContent {
@@ -156,12 +156,11 @@
 }
 
 .timelineImageContainer {
-  width: 100px; // モバイル用に一回り大きく
-  height: 100px;
+  width: 130px; // モバイル用に少し小さく（150px→130px）
+  height: 130px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;

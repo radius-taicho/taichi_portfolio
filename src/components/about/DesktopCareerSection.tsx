@@ -80,12 +80,12 @@ const DesktopCareerSection: React.FC = () => {
       </div>
 
       <div className={styles.desktopCareerContainer}>
-        {/* タイムライン型レイアウト */}
+        {/* タイムライン型レイアウト（各アイテム内はグリッド） */}
         <div className={styles.timelineContainer}>
           {careerData.map((item, index) => (
             <div
               key={item.step}
-              ref={el => { timelineRefs.current[index] = el; }} // refを追加
+              ref={el => { timelineRefs.current[index] = el; }}
               className={`${styles.timelineItem} ${
                 activeStep === item.step ? styles.active : ""
               }`}
@@ -106,20 +106,20 @@ const DesktopCareerSection: React.FC = () => {
                 )}
               </div>
 
-              {/* 右側: 画像とテキスト */}
-              <div className={styles.timelineRight}>
-                <div className={styles.timelineContent}>
-                  <h4 className={styles.timelineTitle}>{item.title}</h4>
-                </div>
-                <div className={styles.timelineImageContainer}>
-                  <Image
-                    src={`/images/img_step${item.step}.PNG`}
-                    alt={`Step ${item.step} Image`}
-                    width={180}
-                    height={180}
-                    style={{ objectFit: "contain" }}
-                  />
-                </div>
+              {/* 中央: テキストコンテンツ */}
+              <div className={styles.timelineContent}>
+                <h4 className={styles.timelineTitle}>{item.title}</h4>
+              </div>
+
+              {/* 右側: 画像 */}
+              <div className={styles.timelineImageContainer}>
+                <Image
+                  src={`/images/img_step${item.step}.PNG`}
+                  alt={`Step ${item.step} Image`}
+                  width={200}
+                  height={200}
+                  style={{ objectFit: "contain" }}
+                />
               </div>
             </div>
           ))}
