@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useEffect } from "react";
 import Image from "next/image";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
@@ -116,6 +116,55 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     setClickedSkill,
     timeoutRef,
   } = skillsState;
+
+  // コンポーネントマウント時にグローバルなタップハイライト対策を適用
+  useEffect(() => {
+    const originalStyles = {
+      webkitTapHighlightColor: document.body.style.webkitTapHighlightColor,
+      webkitTouchCallout: document.body.style.webkitTouchCallout,
+      webkitUserSelect: document.body.style.webkitUserSelect,
+      userSelect: document.body.style.userSelect,
+      touchAction: document.body.style.touchAction
+    };
+
+    // グローバルなタップハイライト無効化を適用
+    document.body.style.webkitTapHighlightColor = 'transparent';
+    document.body.style.webkitTouchCallout = 'none';
+    document.body.style.webkitUserSelect = 'none';
+    document.body.style.userSelect = 'none';
+    document.body.style.touchAction = 'manipulation';
+
+    // HTMLエレメントにも適用
+    const htmlElement = document.documentElement;
+    const originalHtmlStyles = {
+      webkitTapHighlightColor: htmlElement.style.webkitTapHighlightColor,
+      webkitTouchCallout: htmlElement.style.webkitTouchCallout,
+      webkitUserSelect: htmlElement.style.webkitUserSelect,
+      userSelect: htmlElement.style.userSelect,
+      touchAction: htmlElement.style.touchAction
+    };
+
+    htmlElement.style.webkitTapHighlightColor = 'transparent';
+    htmlElement.style.webkitTouchCallout = 'none';
+    htmlElement.style.webkitUserSelect = 'none';
+    htmlElement.style.userSelect = 'none';
+    htmlElement.style.touchAction = 'manipulation';
+
+    // クリーンアップ
+    return () => {
+      document.body.style.webkitTapHighlightColor = originalStyles.webkitTapHighlightColor;
+      document.body.style.webkitTouchCallout = originalStyles.webkitTouchCallout;
+      document.body.style.webkitUserSelect = originalStyles.webkitUserSelect;
+      document.body.style.userSelect = originalStyles.userSelect;
+      document.body.style.touchAction = originalStyles.touchAction;
+
+      htmlElement.style.webkitTapHighlightColor = originalHtmlStyles.webkitTapHighlightColor;
+      htmlElement.style.webkitTouchCallout = originalHtmlStyles.webkitTouchCallout;
+      htmlElement.style.webkitUserSelect = originalHtmlStyles.webkitUserSelect;
+      htmlElement.style.userSelect = originalHtmlStyles.userSelect;
+      htmlElement.style.touchAction = originalHtmlStyles.touchAction;
+    };
+  }, []);
 
   const getSkillData = (id: string) =>
     skillsData.find((skill) => skill.id === id);
@@ -454,7 +503,11 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         style={{
           WebkitTapHighlightColor: 'transparent',
           WebkitUserSelect: 'none',
-          WebkitTouchCallout: 'none'
+          WebkitTouchCallout: 'none',
+          MozUserSelect: 'none',
+          msUserSelect: 'none',
+          userSelect: 'none',
+          touchAction: 'manipulation'
         }}
       >
       <div className={styles.sectionHeader}>
