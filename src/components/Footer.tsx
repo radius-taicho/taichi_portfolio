@@ -103,6 +103,9 @@ export default function Footer() {
     ) => {
       if (!iconElement || !backgroundElement) return;
 
+      // タッチデバイス判定を関数トップで定義
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
       const handleClick = (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
@@ -111,10 +114,7 @@ export default function Footer() {
         if (isTransitioning) return;
 
         setIsTransitioning(true);
-
-        // iOS対応：即座にウィンドウを開く（ユーザージェスチャーのコンテキストを保持）
-        const newWindow = window.open("", "_blank", "noopener,noreferrer");
-
+        
         // 背景画像を変更
         changeBackgroundWithPosition(
           backgroundElement,
@@ -122,23 +122,20 @@ export default function Footer() {
           isXBackground
         );
 
-        // 1秒後に実際のURLに遷移
-        setTimeout(() => {
-          if (newWindow) {
-            newWindow.location.href = url;
-          } else {
-            // fallback: 新しいウィンドウが開けない場合は現在のタブで開く
+        if (isTouchDevice) {
+          // タッチデバイス: 背景画像のトランジション完了を待ってから同じタブで遷移
+          setTimeout(() => {
             window.location.href = url;
-          }
+            setIsTransitioning(false);
+          }, 300);
+        } else {
+          // デスクトップ: 即座に新しいタブで開く（ディレイ不要）
+          window.open(url, "_blank", "noopener,noreferrer");
           setIsTransitioning(false);
-          // クリックしたアイコンに対応する背景を保持（元に戻さない）
-        }, 1000);
+        }
       };
 
-      // タッチデバイス判定
-      const isTouchDevice =
-        "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
+      // イベントリスナーの設定
       if (isTouchDevice) {
         // タッチデバイスではtouchendイベントのみを使用
         const handleTouchEnd = (e: Event) => {
