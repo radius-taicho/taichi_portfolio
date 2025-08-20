@@ -306,11 +306,11 @@ img[src*=".gif"] {
   /* touch-action は削除！スクロールを阻害するため */
 }
 
-/* 🎯 クリッカブル要素専用の完全無効化（最重要） */
+/* 🎯 クリッカブル要素専用の完全無効化（CSS Modules対応版） */
 [class*="skillCircle"],
 [class*="rubyImage"],
-.skillCircleGrid,
-.rubyImageOnly {
+[class*="skillCircleGrid"],
+[class*="rubyImageOnly"] {
   /* iOS Safari タップハイライト根絶 */
   -webkit-tap-highlight-color: transparent !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;

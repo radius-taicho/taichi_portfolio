@@ -143,14 +143,14 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         
         let debugText = '🔍 詳細診断レポート:\n';
         
-        // 1. 要素の存在確認
-        const skillCircleElements = document.querySelectorAll('.skillCircleGrid');
-        const rubyImageElements = document.querySelectorAll('.rubyImageOnly');
-        const allSkillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+        // 1. 要素の存在確認（CSS Modules対応）
+        const skillCircleElements = document.querySelectorAll('[class*="skillCircleGrid"]');
+        const rubyImageElements = document.querySelectorAll('[class*="rubyImageOnly"]');
+        const allSkillElements = document.querySelectorAll('[class*="skillCircleGrid"], [class*="rubyImageOnly"]');
         
         debugText += `\n要素の数:`;
-        debugText += `\n  .skillCircleGrid: ${skillCircleElements.length}個`;
-        debugText += `\n  .rubyImageOnly: ${rubyImageElements.length}個`;
+        debugText += `\n  [class*="skillCircleGrid"]: ${skillCircleElements.length}個`;
+        debugText += `\n  [class*="rubyImageOnly"]: ${rubyImageElements.length}個`;
         debugText += `\n  合計: ${allSkillElements.length}個`;
         
         if (allSkillElements.length === 0) {
@@ -272,10 +272,11 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const applyNuclearFix = () => {
       // 全ページレベルでの無効化
       const css = `
+        /* CSS Modulesのクラス名でスタイル更新 */
         *, *:before, *:after, 
         img, [data-nimg], [data-nimg] *, 
-        .skillCircleGrid, .skillCircleGrid *,
-        .rubyImageOnly, .rubyImageOnly * {
+        [class*="skillCircleGrid"], [class*="skillCircleGrid"] *,
+        [class*="rubyImageOnly"], [class*="rubyImageOnly"] * {
           -webkit-tap-highlight-color: transparent !important;
           -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
           -webkit-touch-callout: none !important;
@@ -288,9 +289,9 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           touch-action: manipulation !important;
         }
         
-        /* 画像の完全無効化 */
-        .skillCircleGrid img, .rubyImageOnly img,
-        .skillCircleGrid [data-nimg], .rubyImageOnly [data-nimg] {
+        /* 画像の完全無効化（CSS Modules対応） */
+        [class*="skillCircleGrid"] img, [class*="rubyImageOnly"] img,
+        [class*="skillCircleGrid"] [data-nimg], [class*="rubyImageOnly"] [data-nimg] {
           pointer-events: none !important;
           -webkit-tap-highlight-color: transparent !important;
           -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
@@ -303,8 +304,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           -webkit-appearance: none !important;
         }
         
-        /* クリッカブル要素の完全無効化 */
-        .skillCircleGrid, .rubyImageOnly {
+        /* クリッカブル要素の完全無効化（CSS Modules対応） */
+        [class*="skillCircleGrid"], [class*="rubyImageOnly"] {
           -webkit-tap-highlight-color: transparent !important;
           -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
           -webkit-touch-callout: none !important;
@@ -316,10 +317,10 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           touch-action: manipulation !important;
         }
         
-        /* アクティブ状態での無効化 */
-        .skillCircleGrid:active, .rubyImageOnly:active,
-        .skillCircleGrid:focus, .rubyImageOnly:focus,
-        .skillCircleGrid:hover, .rubyImageOnly:hover {
+        /* アクティブ状態での無効化（CSS Modules対応） */
+        [class*="skillCircleGrid"]:active, [class*="rubyImageOnly"]:active,
+        [class*="skillCircleGrid"]:focus, [class*="rubyImageOnly"]:focus,
+        [class*="skillCircleGrid"]:hover, [class*="rubyImageOnly"]:hover {
           -webkit-tap-highlight-color: transparent !important;
           -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
           outline: none !important;
@@ -332,9 +333,14 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       document.head.appendChild(style);
     };
     
-    // Step 2: DOM要素への直接適用
+    // Step 2: DOM要素への直接適用（CSS Modules対応版）
     const applyDirectFix = () => {
-      const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+      // CSS Modulesの実際のクラス名を使用してスキル要素を取得
+      const skillElements = document.querySelectorAll(
+        `[class*="skillCircleGrid"], [class*="rubyImageOnly"]`
+      );
+      
+      console.log(`見つかったスキル要素: ${skillElements.length}個`);
       
       skillElements.forEach(element => {
         const htmlElement = element as HTMLElement;
@@ -375,9 +381,11 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       });
     };
     
-    // Step 3: イベントレベルでの完全ブロック
+    // Step 3: イベントレベルでの完全ブロック（CSS Modules対応版）
     const blockAllEvents = () => {
-      const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+      const skillElements = document.querySelectorAll(
+        `[class*="skillCircleGrid"], [class*="rubyImageOnly"]`
+      );
       
       skillElements.forEach(element => {
         // 全てのタッチ関連イベントをブロック
