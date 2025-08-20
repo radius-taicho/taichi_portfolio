@@ -325,9 +325,15 @@
   z-index: 1;
   position: relative;
 
-  // 超強化版：タップハイライト完全無効化
+  // 🎯 クリッカブル要素のタップハイライト完全無効化（これが根本的な原因）
+  cursor: pointer;
+  z-index: 1;
+  position: relative;
+
+  // 🚨 重要：クリッカブルな親要素のハイライト無効化
   -webkit-tap-highlight-color: transparent !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -346,6 +352,15 @@
   outline: none !important;
   -webkit-highlight: none !important;
   -webkit-tap-highlight: none !important;
+  
+  // フォーカス時も完全無効化
+  &:focus,
+  &:active,
+  &:hover {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+  }
 
   // パフォーマンス最適化
   will-change: transform, box-shadow, z-index;
@@ -500,9 +515,14 @@
   cursor: pointer;
   z-index: 1;
 
-  // 超強化版：タップハイライト完全無効化
+  // 🎯 クリッカブル要素のタップハイライト完全無効化（Ruby用）
+  cursor: pointer;
+  z-index: 1;
+  
+  // 🚨 重要：クリッカブルな親要素のハイライト無効化
   -webkit-tap-highlight-color: transparent !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -521,6 +541,15 @@
   outline: none !important;
   -webkit-highlight: none !important;
   -webkit-tap-highlight: none !important;
+  
+  // フォーカス時も完全無効化
+  &:focus,
+  &:active,
+  &:hover {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+  }
 
   // パフォーマンス最適化
   will-change: transform, z-index;
