@@ -1,3 +1,5 @@
+@use "../../styles/common/_variables.scss" as *;
+
 // ⚡️ iOS Safariタップハイライト完全無効化 - 終極版
 .skillsContentContainer {
   // イベント委譲の問題を解決
@@ -74,8 +76,6 @@
     }
   }
 }
-
-@use "../../styles/common/_variables.scss" as *;
 
 // ===== MOBILE SKILLS SECTION STYLES =====
 // Mobile-first approach with responsive design
