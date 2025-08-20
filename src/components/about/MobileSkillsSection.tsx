@@ -231,11 +231,20 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     ]
   );
 
-  // タッチイベントハンドラー（メモ化）
+  // タッチイベントハンドラー（メモ化）- ハイライト対策強化
   const handleTouchStart = useCallback(
     (skillId: string, e: React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      // タップハイライトを完全に無効化
+      const target = e.currentTarget as HTMLElement;
+      if (target) {
+        target.style.webkitTapHighlightColor = 'transparent';
+        target.style.webkitUserSelect = 'none';
+        target.style.webkitTouchCallout = 'none';
+      }
 
       const touch = e.touches[0];
       const clientX = touch?.clientX || 0;
@@ -246,11 +255,20 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     [handleSkillInteraction]
   );
 
-  // クリックイベントハンドラー（改良版PC対応）（メモ化）
+  // クリックイベントハンドラー（改良版PC対応）（メモ化）- ハイライト対策強化
   const handleClick = useCallback(
     (skillId: string, e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      // マウスイベントでもハイライト対策
+      const target = e.currentTarget as HTMLElement;
+      if (target) {
+        target.style.webkitTapHighlightColor = 'transparent';
+        target.style.webkitUserSelect = 'none';
+        target.style.webkitTouchCallout = 'none';
+      }
       
       const clientX = e.clientX;
       const clientY = e.clientY;
@@ -260,10 +278,25 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     [handleSkillInteraction]
   );
 
-  // 背景クリックでツールチップを閉じる（メモ化）
+  // 背景クリックでツールチップを閉じる（メモ化）- ハイライト対策強化
   const handleBackgroundClick = useCallback((e: React.MouseEvent) => {
     // イベントのターゲットが背景の場合のみ処理
     if (e.target === e.currentTarget) {
+      e.preventDefault();
+      e.stopPropagation();
+      clearTooltipTimeout();
+      setActiveTooltip(null);
+      setClickedSkill(null);
+    }
+  }, [clearTooltipTimeout, setActiveTooltip, setClickedSkill]);
+
+  // 背景タッチイベントハンドラー追加
+  const handleBackgroundTouchStart = useCallback((e: React.TouchEvent) => {
+    // イベントのターゲットが背景の場合のみ処理
+    if (e.target === e.currentTarget) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
       clearTooltipTimeout();
       setActiveTooltip(null);
       setClickedSkill(null);
@@ -314,7 +347,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const skill = getSkillData(skillId);
     if (!skill) return null;
 
-    // 統一されたイベントハンドラー（再レンダリング防止）
+    // 統一されたイベントハンドラー（再レンダリング防止）- ハイライト対策強化
     const handleSkillTouchStart = useCallback(
       (e: React.TouchEvent) => {
         handleTouchStart(skillId, e);
@@ -330,6 +363,26 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       [skillId, handleClick]
     );
 
+    // タッチエンドイベントでもハイライト対策
+    const handleSkillTouchEnd = useCallback(
+      (e: React.TouchEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      },
+      []
+    );
+
+    // タッチキャンセルイベントでもハイライト対策
+    const handleSkillTouchCancel = useCallback(
+      (e: React.TouchEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      },
+      []
+    );
+
     // Ruby画像はシンプルな画像表示のみ（円形スタイルなし）
     if (skillId === "ruby") {
       const isClicked = clickedSkill === skillId;
@@ -340,7 +393,18 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           isClicked ? skillStyles.clicked : ""
           }`}
           onTouchStart={handleSkillTouchStart}
+          onTouchEnd={handleSkillTouchEnd}
+          onTouchCancel={handleSkillTouchCancel}
           onMouseDown={handleSkillClick}
+          onContextMenu={(e) => e.preventDefault()}
+          style={{
+            WebkitTapHighlightColor: 'transparent',
+            WebkitUserSelect: 'none',
+            WebkitTouchCallout: 'none',
+            MozUserSelect: 'none',
+            msUserSelect: 'none',
+            userSelect: 'none'
+          }}
           >
             <MemoizedSkillImage skill={skill} />
           </div>
@@ -359,7 +423,18 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             isClicked ? skillStyles.clicked : ""
           }`}
           onTouchStart={handleSkillTouchStart}
+          onTouchEnd={handleSkillTouchEnd}
+          onTouchCancel={handleSkillTouchCancel}
           onMouseDown={handleSkillClick}
+          onContextMenu={(e) => e.preventDefault()}
+          style={{
+            WebkitTapHighlightColor: 'transparent',
+            WebkitUserSelect: 'none',
+            WebkitTouchCallout: 'none',
+            MozUserSelect: 'none',
+            msUserSelect: 'none',
+            userSelect: 'none'
+          }}
         >
           <div className={skillStyles.skillIcon}>
             <MemoizedSkillImage skill={skill} />
@@ -375,13 +450,11 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   <div 
         className={styles.sectionContainer} 
         onClick={handleBackgroundClick}
-        onTouchStart={(e) => {
-          // 背景のタッチイベントのみ処理
-          if (e.target === e.currentTarget) {
-            clearTooltipTimeout();
-            setActiveTooltip(null);
-            setClickedSkill(null);
-          }
+        onTouchStart={handleBackgroundTouchStart}
+        style={{
+          WebkitTapHighlightColor: 'transparent',
+          WebkitUserSelect: 'none',
+          WebkitTouchCallout: 'none'
         }}
       >
       <div className={styles.sectionHeader}>

@@ -3,6 +3,16 @@
 // ===== MOBILE SKILLS SECTION STYLES =====
 // Mobile-first approach with responsive design
 
+// ===== グローバルなタップハイライト無効化 =====
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
 // ===== MOBILE SKILLS SECTION =====
 .skillsContentContainer {
   display: flex;
@@ -18,17 +28,47 @@
   overflow: visible; // box-shadowが途切れるのを防ぐ
   padding: 32px 20px; // 左右のパディングを増やして小画面での途切れを防止
 
-  // iOS Safari対応 - 青いハイライトを完全に無効化
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  // 強化されたiOS Safari対応 - 青いハイライトを完全に無効化
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  touch-action: manipulation !important;
   
   // スクロール最適化
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+
+  // 子要素への強制適用
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: manipulation !important;
+  }
+
+  // すべての画像に対する強制適用
+  img {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: none !important;
+    pointer-events: none !important;
+  }
 
   // 小さい画面での調整
   @media screen and (max-width: 375px) {
@@ -151,13 +191,17 @@
   overflow: hidden;
   text-overflow: ellipsis; // 長いテキストは省略記号で処理
   
-  // 完全な青いハイライト無効化
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  // 完全な青いハイライト無効化（超強化版）
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  touch-action: none !important;
+  outline: none !important;
   
   // パフォーマンス最適化
   will-change: opacity, transform, visibility;
@@ -267,21 +311,24 @@
   z-index: 1;
   position: relative;
 
-  // 完全なタッチハイライト無効化（改良版）
+  // 完全なタッチハイライト無効化（超強化版）
   -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
   
   // タッチアクション最適化
-  touch-action: manipulation;
+  touch-action: manipulation !important;
   
-  // iOS Safari特有の問題を解決
-  -webkit-appearance: none;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+  // iOS Safari特有の問題を解決（強化版）
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
+  -webkit-focus-ring-color: transparent !important;
+  outline: none !important;
 
   // パフォーマンス最適化
   will-change: transform, box-shadow, z-index;
@@ -298,6 +345,36 @@
     transform: scale(1.12) translateZ(0) !important;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
     z-index: 25 !important;
+  }
+
+  // 子要素への強制適用
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: none !important;
+    outline: none !important;
+  }
+
+  // 画像への強制適用
+  img {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: none !important;
+    pointer-events: none !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
   }
 
   // ===== 小モバイル（375px～575px） =====
@@ -395,21 +472,24 @@
   cursor: pointer;
   z-index: 1;
 
-  // 完全なタッチハイライト無効化（改良版）
+  // 完全なタッチハイライト無効化（超強化版）
   -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
   
   // タッチアクション最適化
-  touch-action: manipulation;
+  touch-action: manipulation !important;
   
-  // iOS Safari特有の問題を解決
-  -webkit-appearance: none;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+  // iOS Safari特有の問題を解決（強化版）
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
+  -webkit-focus-ring-color: transparent !important;
+  outline: none !important;
 
   // パフォーマンス最適化
   will-change: transform, z-index;
@@ -424,6 +504,20 @@
   &.clicked {
     transform: scale(1.15) translateZ(0) !important;
     z-index: 25 !important;
+  }
+
+  // 子要素への強制適用
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: none !important;
+    outline: none !important;
   }
 
   // ===== 小モバイル（375px～575px） =====
@@ -487,6 +581,21 @@
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.25));
+    
+    // 完全なタッチハイライト無効化（画像専用）
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: none !important;
+    pointer-events: none !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+    
     // パフォーマンス最適化
     will-change: filter;
     backface-visibility: hidden;
@@ -720,24 +829,51 @@
 }
 */
 
-// ===== クリック可能な要素のスタイル（モバイル最適化）（改良版） =====
+// ===== クリック可能な要素のスタイル（モバイル最適化）（超強化版） =====
 .skillCircleGrid,
 .rubyImageOnly {
   cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-
-  // タッチイベントの安定性向上
-  touch-action: manipulation;
   
-  // iOS Safari特有の問題を解決
-  -webkit-appearance: none;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+  // 完全なタッチハイライト無効化（超強化版）
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+
+  // タッチイベントの安定性向上（強化版）
+  touch-action: manipulation !important;
+  
+  // iOS Safari特有の問題を解決（強化版）
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
+  -webkit-focus-ring-color: transparent !important;
+  outline: none !important;
+  
+  // フォーカス時の無効化
+  &:focus {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-focus-ring-color: transparent !important;
+  }
+  
+  // アクティブ時の無効化
+  &:active {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+  }
+  
+  // 疑似要素でのハイライト無効化
+  &::before,
+  &::after {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+  }
 
   // タッチデバイスでのスムーズなアニメーション（改良版）
   @media (hover: none) and (pointer: coarse) {
