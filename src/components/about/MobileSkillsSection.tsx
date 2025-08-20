@@ -3,11 +3,13 @@ import Image from "next/image";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
 
-// WebKit vendor prefix styles interface
-interface WebkitCSSProperties extends CSSStyleDeclaration {
+// WebKit vendor prefix styles type
+interface WebkitStyle {
   webkitTapHighlightColor?: string;
   webkitTouchCallout?: string;
   webkitUserSelect?: string;
+  userSelect?: string;
+  touchAction?: string;
 }
 
 // スキルデータの型定義
@@ -126,10 +128,10 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
   // コンポーネントマウント時にグローバルなタップハイライト対策を適用
   useEffect(() => {
-    const bodyStyle = document.body.style as WebkitCSSProperties;
-    const htmlStyle = document.documentElement.style as WebkitCSSProperties;
+    const bodyStyle = document.body.style as any;
+    const htmlStyle = document.documentElement.style as any;
     
-    const originalStyles = {
+    const originalStyles: WebkitStyle = {
       webkitTapHighlightColor: bodyStyle.webkitTapHighlightColor || '',
       webkitTouchCallout: bodyStyle.webkitTouchCallout || '',
       webkitUserSelect: bodyStyle.webkitUserSelect || '',
@@ -137,7 +139,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       touchAction: bodyStyle.touchAction || ''
     };
 
-    const originalHtmlStyles = {
+    const originalHtmlStyles: WebkitStyle = {
       webkitTapHighlightColor: htmlStyle.webkitTapHighlightColor || '',
       webkitTouchCallout: htmlStyle.webkitTouchCallout || '',
       webkitUserSelect: htmlStyle.webkitUserSelect || '',
