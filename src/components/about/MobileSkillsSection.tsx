@@ -117,6 +117,63 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
+  // 🔍 緊急診断用：青い四角の正体を特定
+  useEffect(() => {
+    // デバッグ情報を画面に表示
+    const addDebugInfo = () => {
+      const debugDiv = document.createElement('div');
+      debugDiv.id = 'tap-debug-info';
+      debugDiv.style.cssText = `
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 10px;
+        font-size: 12px;
+        z-index: 9999;
+        max-width: 300px;
+        border-radius: 5px;
+      `;
+      
+      const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+      let debugText = '🔍 タップハイライト診断:\n';
+      
+      skillElements.forEach((el, index) => {
+        const computedStyle = window.getComputedStyle(el);
+        const tapHighlight = computedStyle.getPropertyValue('-webkit-tap-highlight-color');
+        const cursor = computedStyle.getPropertyValue('cursor');
+        const touchAction = computedStyle.getPropertyValue('touch-action');
+        
+        debugText += `\n要素${index + 1}:`;
+        debugText += `\n  ハイライト: ${tapHighlight}`;
+        debugText += `\n  カーソル: ${cursor}`;
+        debugText += `\n  タッチ: ${touchAction}`;
+        
+        // 画像要素も確認
+        const img = el.querySelector('img, [data-nimg]');
+        if (img) {
+          const imgStyle = window.getComputedStyle(img);
+          const imgHighlight = imgStyle.getPropertyValue('-webkit-tap-highlight-color');
+          const pointerEvents = imgStyle.getPropertyValue('pointer-events');
+          debugText += `\n  画像ハイライト: ${imgHighlight}`;
+          debugText += `\n  画像ポインタ: ${pointerEvents}`;
+        }
+      });
+      
+      debugDiv.innerText = debugText;
+      document.body.appendChild(debugDiv);
+      
+      // 5秒後に自動で非表示
+      setTimeout(() => {
+        debugDiv.remove();
+      }, 10000);
+    };
+    
+    // 1秒後に診断実行
+    setTimeout(addDebugInfo, 1000);
+  }, []);
+
   // 🚨 最終手段：iOS Safari タップハイライト完全根絶（超強力版）
   useEffect(() => {
     // Step 1: 最強のグローバル無効化
