@@ -373,7 +373,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           backfaceVisibility: "hidden",
           // チカチカ防止のための安定性向上
           imageRendering: "auto",
-          WebkitImageSmoothing: "auto",
         }}
         // プリロードで即座表示
         loading="eager"
