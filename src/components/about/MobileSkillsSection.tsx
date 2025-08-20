@@ -117,61 +117,151 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🔍 緊急診断用：青い四角の正体を特定
+  // 🔍 詳細診断用：要素の存在とエラーを確認
   useEffect(() => {
     // デバッグ情報を画面に表示
     const addDebugInfo = () => {
-      const debugDiv = document.createElement('div');
-      debugDiv.id = 'tap-debug-info';
-      debugDiv.style.cssText = `
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        background: rgba(0,0,0,0.8);
-        color: white;
-        padding: 10px;
-        font-size: 12px;
-        z-index: 9999;
-        max-width: 300px;
-        border-radius: 5px;
-      `;
-      
-      const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
-      let debugText = '🔍 タップハイライト診断:\n';
-      
-      skillElements.forEach((el, index) => {
-        const computedStyle = window.getComputedStyle(el);
-        const tapHighlight = computedStyle.getPropertyValue('-webkit-tap-highlight-color');
-        const cursor = computedStyle.getPropertyValue('cursor');
-        const touchAction = computedStyle.getPropertyValue('touch-action');
+      try {
+        const debugDiv = document.createElement('div');
+        debugDiv.id = 'tap-debug-info';
+        debugDiv.style.cssText = `
+          position: fixed;
+          top: 10px;
+          left: 10px;
+          background: rgba(0,0,0,0.9);
+          color: white;
+          padding: 15px;
+          font-size: 11px;
+          z-index: 99999;
+          max-width: 350px;
+          border-radius: 5px;
+          font-family: monospace;
+          white-space: pre-wrap;
+          overflow-y: auto;
+          max-height: 300px;
+        `;
         
-        debugText += `\n要素${index + 1}:`;
-        debugText += `\n  ハイライト: ${tapHighlight}`;
-        debugText += `\n  カーソル: ${cursor}`;
-        debugText += `\n  タッチ: ${touchAction}`;
+        let debugText = '🔍 詳細診断レポート:\n';
         
-        // 画像要素も確認
-        const img = el.querySelector('img, [data-nimg]');
-        if (img) {
-          const imgStyle = window.getComputedStyle(img);
-          const imgHighlight = imgStyle.getPropertyValue('-webkit-tap-highlight-color');
-          const pointerEvents = imgStyle.getPropertyValue('pointer-events');
-          debugText += `\n  画像ハイライト: ${imgHighlight}`;
-          debugText += `\n  画像ポインタ: ${pointerEvents}`;
+        // 1. 要素の存在確認
+        const skillCircleElements = document.querySelectorAll('.skillCircleGrid');
+        const rubyImageElements = document.querySelectorAll('.rubyImageOnly');
+        const allSkillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+        
+        debugText += `\n要素の数:`;
+        debugText += `\n  .skillCircleGrid: ${skillCircleElements.length}個`;
+        debugText += `\n  .rubyImageOnly: ${rubyImageElements.length}個`;
+        debugText += `\n  合計: ${allSkillElements.length}個`;
+        
+        if (allSkillElements.length === 0) {
+          debugText += `\n\n⚠️ 警告: スキル要素が見つかりません！`;
+          
+          // 他の関連要素を探してみる
+          const skillsContainer = document.querySelector('.skillsContentContainer');
+          const aboutSection = document.querySelector('[class*="skill"]');
+          const allDivs = document.querySelectorAll('div');
+          
+          debugText += `\n\n関連要素探索:`;
+          debugText += `\n  .skillsContentContainer: ${skillsContainer ? '✓ あり' : '✗ なし'}`;
+          debugText += `\n  [class*="skill"]: ${aboutSection ? '✓ あり' : '✗ なし'}`;
+          debugText += `\n  全div数: ${allDivs.length}個`;
+          
+          // クラス名に"skill"を含む要素を探す
+          const skillRelatedElements = Array.from(document.querySelectorAll('*')).filter(el => 
+            el.className && el.className.toString().toLowerCase().includes('skill')
+          );
+          
+          debugText += `\n  "skill"含む要素: ${skillRelatedElements.length}個`;
+          
+          if (skillRelatedElements.length > 0) {
+            debugText += `\n\n発見されたクラス:`;
+            skillRelatedElements.slice(0, 5).forEach((el, i) => {
+              debugText += `\n    ${i + 1}. ${el.className}`;
+            });
+          }
+        } else {
+          // 2. 各要素の詳細情報
+          allSkillElements.forEach((el, index) => {
+            try {
+              const computedStyle = window.getComputedStyle(el);
+              const tapHighlight = computedStyle.getPropertyValue('-webkit-tap-highlight-color');
+              const cursor = computedStyle.getPropertyValue('cursor');
+              const touchAction = computedStyle.getPropertyValue('touch-action');
+              const display = computedStyle.getPropertyValue('display');
+              const visibility = computedStyle.getPropertyValue('visibility');
+              
+              debugText += `\n\n要素 ${index + 1} (${el.className}):`;
+              debugText += `\n  表示: ${display}, ${visibility}`;
+              debugText += `\n  ハイライト: ${tapHighlight}`;
+              debugText += `\n  カーソル: ${cursor}`;
+              debugText += `\n  タッチ: ${touchAction}`;
+              
+              // 画像要素確認
+              const images = el.querySelectorAll('img, [data-nimg]');
+              debugText += `\n  画像数: ${images.length}個`;
+              
+              if (images.length > 0) {
+                const img = images[0];
+                const imgStyle = window.getComputedStyle(img);
+                const imgHighlight = imgStyle.getPropertyValue('-webkit-tap-highlight-color');
+                const pointerEvents = imgStyle.getPropertyValue('pointer-events');
+                debugText += `\n  画像ハイライト: ${imgHighlight}`;
+                debugText += `\n  画像ポインタ: ${pointerEvents}`;
+              }
+            } catch (elemError) {
+              debugText += `\n\n要素 ${index + 1} エラー: ${elemError.message}`;
+            }
+          });
         }
-      });
-      
-      debugDiv.innerText = debugText;
-      document.body.appendChild(debugDiv);
-      
-      // 5秒後に自動で非表示
-      setTimeout(() => {
-        debugDiv.remove();
-      }, 10000);
+        
+        // 3. ブラウザ情報
+        debugText += `\n\nブラウザ情報:`;
+        debugText += `\n  UserAgent: ${navigator.userAgent.substring(0, 50)}...`;
+        debugText += `\n  サポート: ${'-webkit-tap-highlight-color' in document.body.style ? '✓' : '✗'}`;
+        
+        debugDiv.innerText = debugText;
+        document.body.appendChild(debugDiv);
+        
+        // クリックで消す
+        debugDiv.addEventListener('click', () => {
+          debugDiv.remove();
+        });
+        
+        // 15秒後に自動で消す
+        setTimeout(() => {
+          if (document.getElementById('tap-debug-info')) {
+            debugDiv.remove();
+          }
+        }, 15000);
+        
+      } catch (error) {
+        // エラー情報を表示
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = `
+          position: fixed;
+          top: 10px;
+          left: 10px;
+          background: red;
+          color: white;
+          padding: 10px;
+          z-index: 99999;
+          border-radius: 5px;
+        `;
+        errorDiv.innerText = `エラー: ${error.message}`;
+        document.body.appendChild(errorDiv);
+        
+        setTimeout(() => errorDiv.remove(), 10000);
+      }
     };
     
-    // 1秒後に診断実行
-    setTimeout(addDebugInfo, 1000);
+    // DOMが完全に読み込まれてから実行
+    if (document.readyState === 'complete') {
+      setTimeout(addDebugInfo, 1500); // 1.5秒待つ
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(addDebugInfo, 1500);
+      });
+    }
   }, []);
 
   // 🚨 最終手段：iOS Safari タップハイライト完全根絶（超強力版）
