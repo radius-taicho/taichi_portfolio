@@ -244,7 +244,6 @@ export default function Footer() {
     e.preventDefault();
 
     const scrollToElement = () => {
-      // モバイルサイズかどうかを判定（768px以下をモバイルとする）
       const isMobile = window.innerWidth < 768;
       const elementId = isMobile ? "works-section-mobile" : "works-section";
       const element = document.getElementById(elementId);
@@ -259,11 +258,14 @@ export default function Footer() {
     if (pathname === "/") {
       scrollToElement();
     } else {
-      // 他のページからの場合はトップページに遷移してからスクロール
-      router.push("/").then(() => {
-        // ページ遷移後に少し待ってからスクロール
-        setTimeout(scrollToElement, 100);
-      });
+      // ページ遷移を実行
+      router.push("/");
+
+      // ページ遷移後に少し待ってからスクロール
+      // 修正: .then() を削除し、setTimeout を直接呼び出す
+      setTimeout(() => {
+        scrollToElement();
+      }, 100);
     }
   };
 
