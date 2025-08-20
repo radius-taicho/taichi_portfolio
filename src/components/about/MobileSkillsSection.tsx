@@ -209,7 +209,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
                 debugText += `\n  画像ポインタ: ${pointerEvents}`;
               }
             } catch (elemError) {
-              debugText += `\n\n要素 ${index + 1} エラー: ${elemError.message}`;
+              const errorMessage = elemError instanceof Error ? elemError.message : String(elemError);
+              debugText += `\n\n要素 ${index + 1} エラー: ${errorMessage}`;
             }
           });
         }
@@ -236,6 +237,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         
       } catch (error) {
         // エラー情報を表示
+        const errorMessage = error instanceof Error ? error.message : String(error);
         const errorDiv = document.createElement('div');
         errorDiv.style.cssText = `
           position: fixed;
@@ -247,7 +249,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           z-index: 99999;
           border-radius: 5px;
         `;
-        errorDiv.innerText = `エラー: ${error.message}`;
+        errorDiv.innerText = `エラー: ${errorMessage}`;
         document.body.appendChild(errorDiv);
         
         setTimeout(() => errorDiv.remove(), 10000);
