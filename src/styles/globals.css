@@ -209,11 +209,42 @@ img[src*=".gif"] {
   color: inherit !important;
 }
 
-* {
+/* 超強化版：グローバルタップハイライト完全無効化 */
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  outline: none !important;
+  -webkit-focus-ring-color: transparent !important;
+  -webkit-highlight: none !important;
+}
+
+/* Next.js Imageコンポーネント専用対策 */
+img,
+[data-nimg],
+[data-nimg] img {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  touch-action: none !important;
+  pointer-events: none !important;
+  outline: none !important;
+  -webkit-focus-ring-color: transparent !important;
+  -webkit-highlight: none !important;
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
 }

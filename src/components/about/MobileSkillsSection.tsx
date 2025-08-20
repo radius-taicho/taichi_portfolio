@@ -233,11 +233,15 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     ]
   );
 
-  // タッチイベントハンドラー（メモ化）
+  // タッチイベントハンドラー（強化版）
   const handleTouchStart = useCallback(
     (skillId: string, e: React.TouchEvent) => {
+      // タップハイライトを完全に防ぐためのpreventDefault
       e.preventDefault();
       e.stopPropagation();
+      e.nativeEvent.preventDefault();
+      e.nativeEvent.stopImmediatePropagation();
+      
       const touch = e.touches[0];
       const clientX = touch?.clientX || 0;
       const clientY = touch?.clientY || 0;
@@ -247,11 +251,15 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     [handleSkillInteraction]
   );
 
-  // クリックイベントハンドラー（改良版PC対応）（メモ化）
+  // クリックイベントハンドラー（強化版）
   const handleClick = useCallback(
     (skillId: string, e: React.MouseEvent) => {
+      // タップハイライトを完全に防ぐためのpreventDefault
       e.preventDefault();
       e.stopPropagation();
+      e.nativeEvent.preventDefault();
+      e.nativeEvent.stopImmediatePropagation();
+      
       const clientX = e.clientX;
       const clientY = e.clientY;
 
@@ -260,13 +268,15 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     [handleSkillInteraction]
   );
 
-  // 背景クリックでツールチップを閉じる（メモ化）
+  // 背景クリックでツールチップを閉じる（強化版）
   const handleBackgroundClick = useCallback(
     (e: React.MouseEvent) => {
       // イベントのターゲットが背景の場合のみ処理
       if (e.target === e.currentTarget) {
         e.preventDefault();
         e.stopPropagation();
+        e.nativeEvent.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
         clearTooltipTimeout();
         setActiveTooltip(null);
         setClickedSkill(null);
@@ -275,13 +285,15 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     [clearTooltipTimeout, setActiveTooltip, setClickedSkill]
   );
 
-  // 背景タッチイベントハンドラー追加
+  // 背景タッチイベントハンドラー（強化版）
   const handleBackgroundTouchStart = useCallback(
     (e: React.TouchEvent) => {
       // イベントのターゲットが背景の場合のみ処理
       if (e.target === e.currentTarget) {
         e.preventDefault();
         e.stopPropagation();
+        e.nativeEvent.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
         clearTooltipTimeout();
         setActiveTooltip(null);
         setClickedSkill(null);
@@ -350,16 +362,20 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       [skillId, handleClick]
     );
 
-    // タッチエンドイベント
+    // タッチエンドイベント（強化版）
     const handleSkillTouchEnd = useCallback((e: React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
+      e.nativeEvent.preventDefault();
+      e.nativeEvent.stopImmediatePropagation();
     }, []);
 
-    // タッチキャンセルイベント
+    // タッチキャンセルイベント（強化版）
     const handleSkillTouchCancel = useCallback((e: React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
+      e.nativeEvent.preventDefault();
+      e.nativeEvent.stopImmediatePropagation();
     }, []);
 
     // Ruby画像はシンプルな画像表示のみ（円形スタイルなし）
@@ -374,8 +390,19 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             onTouchStart={handleSkillTouchStart}
             onTouchEnd={handleSkillTouchEnd}
             onTouchCancel={handleSkillTouchCancel}
-            onMouseDown={handleSkillClick}
-            onContextMenu={(e) => e.preventDefault()}
+            onClick={handleSkillClick}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              e.nativeEvent.preventDefault();
+              e.nativeEvent.stopImmediatePropagation();
+            }}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              e.nativeEvent.preventDefault();
+              e.nativeEvent.stopImmediatePropagation();
+            }}
           >
             <MemoizedSkillImage skill={skill} />
           </div>
@@ -396,8 +423,19 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           onTouchStart={handleSkillTouchStart}
           onTouchEnd={handleSkillTouchEnd}
           onTouchCancel={handleSkillTouchCancel}
-          onMouseDown={handleSkillClick}
-          onContextMenu={(e) => e.preventDefault()}
+          onClick={handleSkillClick}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.nativeEvent.preventDefault();
+            e.nativeEvent.stopImmediatePropagation();
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.nativeEvent.preventDefault();
+            e.nativeEvent.stopImmediatePropagation();
+          }}
         >
           <div className={skillStyles.skillIcon}>
             <MemoizedSkillImage skill={skill} />
@@ -453,9 +491,24 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             top: tooltipPosition.y,
             transform: "translate(-50%, 0)",
           }}
-          onMouseDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.nativeEvent.preventDefault();
+            e.nativeEvent.stopImmediatePropagation();
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.nativeEvent.preventDefault();
+            e.nativeEvent.stopImmediatePropagation();
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.nativeEvent.preventDefault();
+            e.nativeEvent.stopImmediatePropagation();
+          }}
         >
           {getSkillData(activeTooltip)?.name}
         </div>

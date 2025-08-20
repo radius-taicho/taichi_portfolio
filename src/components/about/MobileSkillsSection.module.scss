@@ -18,8 +18,9 @@
   overflow: visible; // box-shadowが途切れるのを防ぐ
   padding: 32px 20px; // 左右のパディングを増やして小画面での途切れを防止
 
-  // 強化されたiOS Safari対応 - 青いハイライトを完全に無効化
+  // 超強化版：iOS Safari タップハイライト完全無効化
   -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -28,14 +29,20 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   touch-action: manipulation !important;
+  outline: none !important;
+  -webkit-focus-ring-color: transparent !important;
+  -webkit-highlight: none !important;
   
   // スクロール最適化
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 
-  // 子要素への強制適用
-  * {
+  // 子要素への強制適用（完全版）
+  *,
+  *::before,
+  *::after {
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -44,11 +51,17 @@
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
     touch-action: manipulation !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
   }
 
-  // すべての画像に対する強制適用
-  img {
+  // 画像要素への完全無効化（Next.js Image対応）
+  img,
+  [data-nimg],
+  [data-nimg] img {
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -58,6 +71,11 @@
     -moz-appearance: none !important;
     touch-action: none !important;
     pointer-events: none !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
   }
 
   // 小さい画面での調整
@@ -301,8 +319,9 @@
   z-index: 1;
   position: relative;
 
-  // 完全なタッチハイライト無効化（超強化版）
+  // 超強化版：タップハイライト完全無効化
   -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -314,11 +333,13 @@
   // タッチアクション最適化
   touch-action: manipulation !important;
   
-  // iOS Safari特有の問題を解決（強化版）
+  // iOS Safari特有の問題を解決（超強化版）
   -webkit-background-clip: padding-box !important;
   background-clip: padding-box !important;
   -webkit-focus-ring-color: transparent !important;
   outline: none !important;
+  -webkit-highlight: none !important;
+  -webkit-tap-highlight: none !important;
 
   // パフォーマンス最適化
   will-change: transform, box-shadow, z-index;
@@ -337,9 +358,12 @@
     z-index: 25 !important;
   }
 
-  // 子要素への強制適用
-  * {
+  // 子要素への強制適用（完全版）
+  *,
+  *::before,
+  *::after {
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -349,11 +373,16 @@
     -moz-appearance: none !important;
     touch-action: none !important;
     outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
   }
 
-  // 画像への強制適用
-  img {
+  // 画像への強制適用（Next.js Image対応）
+  img,
+  [data-nimg],
+  [data-nimg] img {
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -365,6 +394,9 @@
     pointer-events: none !important;
     outline: none !important;
     -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
   }
 
   // ===== 小モバイル（375px～575px） =====
@@ -462,8 +494,9 @@
   cursor: pointer;
   z-index: 1;
 
-  // 完全なタッチハイライト無効化（超強化版）
+  // 超強化版：タップハイライト完全無効化
   -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -475,11 +508,13 @@
   // タッチアクション最適化
   touch-action: manipulation !important;
   
-  // iOS Safari特有の問題を解決（強化版）
+  // iOS Safari特有の問題を解決（超強化版）
   -webkit-background-clip: padding-box !important;
   background-clip: padding-box !important;
   -webkit-focus-ring-color: transparent !important;
   outline: none !important;
+  -webkit-highlight: none !important;
+  -webkit-tap-highlight: none !important;
 
   // パフォーマンス最適化
   will-change: transform, z-index;
@@ -496,9 +531,12 @@
     z-index: 25 !important;
   }
 
-  // 子要素への強制適用
-  * {
+  // 子要素への強制適用（完全版）
+  *,
+  *::before,
+  *::after {
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -508,6 +546,8 @@
     -moz-appearance: none !important;
     touch-action: none !important;
     outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
   }
 
   // ===== 小モバイル（375px～575px） =====
@@ -572,8 +612,9 @@
     object-fit: contain;
     filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.25));
     
-    // 完全なタッチハイライト無効化（画像専用）
+    // 超強化版：タップハイライト完全無効化（画像専用）
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -585,6 +626,9 @@
     pointer-events: none !important;
     outline: none !important;
     -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
     
     // パフォーマンス最適化
     will-change: filter;
