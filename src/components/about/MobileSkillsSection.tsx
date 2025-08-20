@@ -117,69 +117,154 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🚨 根本的解決：iOS Safari タップハイライト完全無効化（cursor:pointer対応版）
+  // 🚨 最終手段：iOS Safari タップハイライト完全根絶（超強力版）
   useEffect(() => {
-    // Step 1: 強力なグローバル無効化（スクロールは維持）
-    const disableTapHighlight = () => {
-      const elements = [document.documentElement, document.body];
-      const properties = [
-        ['-webkit-tap-highlight-color', 'transparent'],
-        ['-webkit-tap-highlight-color', 'rgba(0,0,0,0)'],
-        ['-webkit-touch-callout', 'none'],
-        ['-webkit-user-select', 'none'],
-        // touch-action: none を削除！スクロール阻害のため
-        ['outline', 'none'],
-        ['-webkit-focus-ring-color', 'transparent']
-      ];
+    // Step 1: 最強のグローバル無効化
+    const applyNuclearFix = () => {
+      // 全ページレベルでの無効化
+      const css = `
+        *, *:before, *:after, 
+        img, [data-nimg], [data-nimg] *, 
+        .skillCircleGrid, .skillCircleGrid *,
+        .rubyImageOnly, .rubyImageOnly * {
+          -webkit-tap-highlight-color: transparent !important;
+          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+          -webkit-touch-callout: none !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
+          outline: none !important;
+          -webkit-appearance: none !important;
+          -webkit-focus-ring-color: transparent !important;
+          -webkit-highlight: none !important;
+          touch-action: manipulation !important;
+        }
+        
+        /* 画像の完全無効化 */
+        .skillCircleGrid img, .rubyImageOnly img,
+        .skillCircleGrid [data-nimg], .rubyImageOnly [data-nimg] {
+          pointer-events: none !important;
+          -webkit-tap-highlight-color: transparent !important;
+          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+          -webkit-touch-callout: none !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
+          outline: none !important;
+          cursor: default !important;
+          -webkit-user-drag: none !important;
+          -webkit-appearance: none !important;
+        }
+        
+        /* クリッカブル要素の完全無効化 */
+        .skillCircleGrid, .rubyImageOnly {
+          -webkit-tap-highlight-color: transparent !important;
+          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+          -webkit-touch-callout: none !important;
+          outline: none !important;
+          cursor: default !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
+          -webkit-appearance: none !important;
+          touch-action: manipulation !important;
+        }
+        
+        /* アクティブ状態での無効化 */
+        .skillCircleGrid:active, .rubyImageOnly:active,
+        .skillCircleGrid:focus, .rubyImageOnly:focus,
+        .skillCircleGrid:hover, .rubyImageOnly:hover {
+          -webkit-tap-highlight-color: transparent !important;
+          -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+          outline: none !important;
+        }
+      `;
       
-      elements.forEach(element => {
-        properties.forEach(([prop, value]) => {
-          element.style.setProperty(prop, value, 'important');
-        });
-      });
+      const style = document.createElement('style');
+      style.id = 'tap-highlight-killer';
+      style.innerHTML = css;
+      document.head.appendChild(style);
     };
     
-    // Step 2: クリッカブル要素の完全無効化（cursor:pointer対応）
-    const disableClickableElements = () => {
+    // Step 2: DOM要素への直接適用
+    const applyDirectFix = () => {
       const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+      
       skillElements.forEach(element => {
         const htmlElement = element as HTMLElement;
-        // 強力なハイライト無効化
-        htmlElement.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
-        htmlElement.style.setProperty('-webkit-tap-highlight-color', 'rgba(0,0,0,0)', 'important');
-        // touch-action: manipulation でスクロールは維持
-        htmlElement.style.setProperty('touch-action', 'manipulation', 'important');
-        htmlElement.style.setProperty('outline', 'none', 'important');
-        // 🚨 cursor:pointerを一時的に除去（ハイライト原因のため）
-        htmlElement.style.setProperty('cursor', 'default', 'important');
         
-        // 画像要素の完全無効化
-        const images = htmlElement.querySelectorAll('img, [data-nimg]');
-        images.forEach(img => {
-          const imgElement = img as HTMLElement;
-          imgElement.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
-          imgElement.style.setProperty('-webkit-tap-highlight-color', 'rgba(0,0,0,0)', 'important');
-          imgElement.style.setProperty('pointer-events', 'none', 'important');
-          imgElement.style.setProperty('cursor', 'default', 'important');
-          imgElement.style.setProperty('outline', 'none', 'important');
+        // 親要素への全プロパティ適用
+        const properties = [
+          ['-webkit-tap-highlight-color', 'transparent'],
+          ['-webkit-tap-highlight-color', 'rgba(0,0,0,0)'],
+          ['-webkit-touch-callout', 'none'],
+          ['-webkit-user-select', 'none'],
+          ['user-select', 'none'],
+          ['outline', 'none'],
+          ['cursor', 'default'],
+          ['-webkit-appearance', 'none'],
+          ['touch-action', 'manipulation'],
+          ['-webkit-focus-ring-color', 'transparent'],
+          ['-webkit-highlight', 'none']
+        ];
+        
+        properties.forEach(([prop, value]) => {
+          htmlElement.style.setProperty(prop, value, 'important');
+        });
+        
+        // 子要素（画像含む）への適用
+        const allChildren = htmlElement.querySelectorAll('*');
+        allChildren.forEach(child => {
+          const childElement = child as HTMLElement;
+          properties.forEach(([prop, value]) => {
+            childElement.style.setProperty(prop, value, 'important');
+          });
+          
+          // 画像要素には pointer-events も適用
+          if (childElement.tagName === 'IMG' || childElement.hasAttribute('data-nimg')) {
+            childElement.style.setProperty('pointer-events', 'none', 'important');
+            childElement.style.setProperty('-webkit-user-drag', 'none', 'important');
+          }
         });
       });
     };
     
-    // Step 3: 遅延実行で確実に適用
-    const applyFixes = () => {
-      disableTapHighlight();
-      setTimeout(disableClickableElements, 100); // DOM構築後に実行
-      setTimeout(disableClickableElements, 500); // 念のためさらに遅延実行
+    // Step 3: イベントレベルでの完全ブロック
+    const blockAllEvents = () => {
+      const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+      
+      skillElements.forEach(element => {
+        // 全てのタッチ関連イベントをブロック
+        const events = ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'mousedown', 'mouseup', 'click'];
+        
+        events.forEach(eventType => {
+          element.addEventListener(eventType, (e) => {
+            // ハイライト関連の処理のみブロック、機能は維持
+            e.stopPropagation();
+          }, { passive: true, capture: true });
+        });
+      });
     };
     
-    applyFixes();
+    // 複数回実行で確実に適用
+    const executeAll = () => {
+      applyNuclearFix();
+      applyDirectFix();
+      blockAllEvents();
+    };
     
-    // touchstart を維持してアクティブスタイルを維持（スクロールは阻害しない）
-    document.addEventListener('touchstart', () => {}, { passive: true });
+    // 即座に実行
+    executeAll();
+    // 100ms後に再実行
+    setTimeout(executeAll, 100);
+    // 500ms後に再実行
+    setTimeout(executeAll, 500);
+    // 1秒後に最終実行
+    setTimeout(executeAll, 1000);
     
     return () => {
-      // 必要に応じてクリーンアップ（基本的には不要）
+      // クリーンアップ
+      const style = document.getElementById('tap-highlight-killer');
+      if (style) {
+        style.remove();
+      }
     };
   }, []);
 
