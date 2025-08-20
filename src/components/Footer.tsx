@@ -113,8 +113,8 @@ export default function Footer() {
         setIsTransitioning(true);
 
         // iOS対応：即座にウィンドウを開く（ユーザージェスチャーのコンテキストを保持）
-        const newWindow = window.open('', '_blank', 'noopener,noreferrer');
-        
+        const newWindow = window.open("", "_blank", "noopener,noreferrer");
+
         // 背景画像を変更
         changeBackgroundWithPosition(
           backgroundElement,
@@ -136,26 +136,29 @@ export default function Footer() {
       };
 
       // タッチデバイス判定
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      
+      const isTouchDevice =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
       if (isTouchDevice) {
         // タッチデバイスではtouchendイベントのみを使用
         const handleTouchEnd = (e: Event) => {
           e.preventDefault();
           handleClick(e);
         };
-        
-        iconElement.addEventListener('touchend', handleTouchEnd, { passive: false });
-        
+
+        iconElement.addEventListener("touchend", handleTouchEnd, {
+          passive: false,
+        });
+
         return () => {
-          iconElement.removeEventListener('touchend', handleTouchEnd);
+          iconElement.removeEventListener("touchend", handleTouchEnd);
         };
       } else {
         // デスクトップではclickイベントを使用
-        iconElement.addEventListener('click', handleClick);
-        
+        iconElement.addEventListener("click", handleClick);
+
         return () => {
-          iconElement.removeEventListener('click', handleClick);
+          iconElement.removeEventListener("click", handleClick);
         };
       }
     };
