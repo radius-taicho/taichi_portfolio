@@ -112,6 +112,9 @@ export default function Footer() {
 
         setIsTransitioning(true);
 
+        // iOS対応：即座にウィンドウを開く（ユーザージェスチャーのコンテキストを保持）
+        const newWindow = window.open('', '_blank', 'noopener,noreferrer');
+        
         // 背景画像を変更
         changeBackgroundWithPosition(
           backgroundElement,
@@ -119,30 +122,42 @@ export default function Footer() {
           isXBackground
         );
 
-        // 1秒後に画面遷移
+        // 1秒後に実際のURLに遷移
         setTimeout(() => {
-          window.open(url, "_blank", "noopener,noreferrer");
+          if (newWindow) {
+            newWindow.location.href = url;
+          } else {
+            // fallback: 新しいウィンドウが開けない場合は現在のタブで開く
+            window.location.href = url;
+          }
           setIsTransitioning(false);
           // クリックしたアイコンに対応する背景を保持（元に戻さない）
         }, 1000);
       };
 
-      const handleTouchStart = (e: Event) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleClick(e);
-      };
-
-      // マウスとタッチの両方に対応
-      iconElement.addEventListener("click", handleClick);
-      iconElement.addEventListener("touchstart", handleTouchStart, {
-        passive: false,
-      });
-
-      return () => {
-        iconElement.removeEventListener("click", handleClick);
-        iconElement.removeEventListener("touchstart", handleTouchStart);
-      };
+      // タッチデバイス判定
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      if (isTouchDevice) {
+        // タッチデバイスではtouchendイベントのみを使用
+        const handleTouchEnd = (e: Event) => {
+          e.preventDefault();
+          handleClick(e);
+        };
+        
+        iconElement.addEventListener('touchend', handleTouchEnd, { passive: false });
+        
+        return () => {
+          iconElement.removeEventListener('touchend', handleTouchEnd);
+        };
+      } else {
+        // デスクトップではclickイベントを使用
+        iconElement.addEventListener('click', handleClick);
+        
+        return () => {
+          iconElement.removeEventListener('click', handleClick);
+        };
+      }
     };
 
     // 初期背景画像を設定（一度だけ）
