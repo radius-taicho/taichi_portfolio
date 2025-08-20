@@ -20,7 +20,7 @@
 
   // 🎯 バランス版：iOS Safari タップハイライト無効化（画像最適化と両立）
   -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -33,7 +33,7 @@
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
   -webkit-tap-highlight: none !important;
-  
+
   // スクロール最適化
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
@@ -43,7 +43,7 @@
   *::before,
   *::after {
     -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -63,7 +63,7 @@
   [data-nimg],
   [data-nimg] img {
     -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -75,10 +75,10 @@
     -webkit-focus-ring-color: transparent !important;
     -webkit-highlight: none !important;
     -webkit-tap-highlight: none !important;
-    
+
     // 画像のタッチイベントのみ無効化（読み込み処理は維持）
     pointer-events: none !important;
-    
+
     // GPU加速で安定化（軽量版）
     -webkit-transform: translateZ(0);
     will-change: auto;
@@ -204,7 +204,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; // 長いテキストは省略記号で処理
-  
+
   // 完全な青いハイライト無効化（超強化版）
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none !important;
@@ -216,7 +216,7 @@
   -moz-appearance: none !important;
   touch-action: none !important;
   outline: none !important;
-  
+
   // パフォーマンス最適化
   will-change: opacity, transform, visibility;
   backface-visibility: hidden;
@@ -321,45 +321,22 @@
   justify-content: center;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  // 🎯 モバイルでもポインター強制表示
+  cursor: pointer !important;
+  -webkit-cursor: pointer !important;
+  -moz-cursor: pointer !important;
   z-index: 1;
   position: relative;
 
-  // 🎯 クリッカブル要素のタップハイライト完全無効化（これが根本的な原因）
-  cursor: pointer;
-  z-index: 1;
-  position: relative;
+  // 🎯 タッチデバイス向けポインター設定
+  @media (hover: none) and (pointer: coarse) {
+    cursor: pointer !important;
+    -webkit-cursor: pointer !important;
+  }
 
-  // 🚨 重要：クリッカブルな親要素のハイライト無効化
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  
-  // タッチアクション最適化
-  touch-action: manipulation !important;
-  
-  // iOS Safari特有の問題を解決（超強化版）
-  -webkit-background-clip: padding-box !important;
-  background-clip: padding-box !important;
-  -webkit-focus-ring-color: transparent !important;
-  outline: none !important;
-  -webkit-highlight: none !important;
-  -webkit-tap-highlight: none !important;
-  
-  // フォーカス時も完全無効化
-  &:focus,
-  &:active,
-  &:hover {
-    -webkit-tap-highlight-color: transparent !important;
-    outline: none !important;
-    -webkit-focus-ring-color: transparent !important;
+  @media (max-width: 767px) {
+    cursor: pointer !important;
+    -webkit-cursor: pointer !important;
   }
 
   // パフォーマンス最適化
@@ -369,9 +346,8 @@
   transform: translateZ(0);
 
   // クリック時のスケールアニメーション（改良版）
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              box-shadow 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              z-index 0s ease-out;
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), z-index 0s ease-out;
 
   &.clicked {
     transform: scale(1.12) translateZ(0) !important;
@@ -379,46 +355,7 @@
     z-index: 25 !important;
   }
 
-  // 子要素への強制適用（完全版）
-  *,
-  *::before,
-  *::after {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    touch-action: none !important;
-    outline: none !important;
-    -webkit-focus-ring-color: transparent !important;
-    -webkit-highlight: none !important;
-  }
-
   // 画像への強制適用（Next.js Image対応）
-  img,
-  [data-nimg],
-  [data-nimg] img {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    touch-action: none !important;
-    pointer-events: none !important;
-    outline: none !important;
-    -webkit-focus-ring-color: transparent !important;
-    -webkit-highlight: none !important;
-    -webkit-border-radius: 0 !important;
-    border-radius: 0 !important;
-  }
 
   // ===== 小モバイル（375px～575px） =====
   @media screen and (min-width: 376px) and (max-width: 575px) {
@@ -474,33 +411,6 @@
   }
 }
 
-// Ruby用の特別行コンテナ（現在は使用していない - 統一された構造を使用）
-/*
-.skillsRubyRowContainer {
-  display: flex;
-  flex-direction: row;
-  gap: clamp(4px, 2vw, 8px);
-  align-items: center;
-  justify-content: center; // モバイルでは中央配置に変更
-  width: 100%;
-  flex-shrink: 0;
-  position: relative;
-  flex-wrap: nowrap;
-  margin-top: clamp(12px, 3vw, 20px);
-  // パディングをリセットして中央配置のための余白を確保
-  padding: 0 8px; // 左右に少しの余白を保持
-
-  // 325px-375px範囲での特別対応
-  @media screen and (min-width: 325px) and (max-width: 375px) {
-    padding: 0 6px;
-  }
-
-  @include max-width(micro) {
-    padding: 0 4px;
-  }
-}
-*/
-
 .rubyImageOnly {
   // ===== ベースサイズ（375px以下） =====
   width: clamp(52px, 11vw, 72px) !important;
@@ -512,43 +422,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  // 🎯 モバイルでもポインター強制表示（Ruby用）
+  cursor: pointer !important;
+  -webkit-cursor: pointer !important;
+  -moz-cursor: pointer !important;
   z-index: 1;
 
-  // 🎯 クリッカブル要素のタップハイライト完全無効化（Ruby用）
-  cursor: pointer;
-  z-index: 1;
-  
-  // 🚨 重要：クリッカブルな親要素のハイライト無効化
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  
-  // タッチアクション最適化
-  touch-action: manipulation !important;
-  
-  // iOS Safari特有の問題を解決（超強化版）
-  -webkit-background-clip: padding-box !important;
-  background-clip: padding-box !important;
-  -webkit-focus-ring-color: transparent !important;
-  outline: none !important;
-  -webkit-highlight: none !important;
-  -webkit-tap-highlight: none !important;
-  
-  // フォーカス時も完全無効化
-  &:focus,
-  &:active,
-  &:hover {
-    -webkit-tap-highlight-color: transparent !important;
-    outline: none !important;
-    -webkit-focus-ring-color: transparent !important;
+  // 🎯 タッチデバイス向けポインター設定
+  @media (hover: none) and (pointer: coarse) {
+    cursor: pointer !important;
+    -webkit-cursor: pointer !important;
+  }
+
+  @media (max-width: 767px) {
+    cursor: pointer !important;
+    -webkit-cursor: pointer !important;
   }
 
   // パフォーマンス最適化
@@ -558,31 +446,12 @@
   transform: translateZ(0);
 
   // クリック時のスケールアニメーション（改良版）
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              z-index 0s ease-out;
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    z-index 0s ease-out;
 
   &.clicked {
     transform: scale(1.15) translateZ(0) !important;
     z-index: 25 !important;
-  }
-
-  // 子要素への強制適用（完全版）
-  *,
-  *::before,
-  *::after {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    touch-action: none !important;
-    outline: none !important;
-    -webkit-focus-ring-color: transparent !important;
-    -webkit-highlight: none !important;
   }
 
   // ===== 小モバイル（375px～575px） =====
@@ -646,25 +515,7 @@
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.25));
-    
-    // 超強化版：タップハイライト完全無効化（画像専用）
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    touch-action: none !important;
-    pointer-events: none !important;
-    outline: none !important;
-    -webkit-focus-ring-color: transparent !important;
-    -webkit-highlight: none !important;
-    -webkit-border-radius: 0 !important;
-    border-radius: 0 !important;
-    
+
     // パフォーマンス最適化
     will-change: filter;
     backface-visibility: hidden;
@@ -805,6 +656,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Illustrator
@@ -814,6 +666,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Photoshop
@@ -823,6 +676,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Next.js
@@ -831,6 +685,7 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Rails
@@ -840,6 +695,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Swift
@@ -849,6 +705,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // HTML/CSS/JS
@@ -858,6 +715,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.1),
     inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Sass
@@ -867,6 +725,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Tailwind
@@ -876,6 +735,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // GitHub
@@ -885,6 +745,7 @@
     inset 0 -2px 4px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
   z-index: 1;
+  cursor: pointer;
 }
 
 // Ruby（円形画像のためスタイル不要）
@@ -902,53 +763,32 @@
 .skillCircleGrid,
 .rubyImageOnly {
   cursor: pointer;
-  
-  // 完全なタッチハイライト無効化（超強化版）
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
 
-  // タッチイベントの安定性向上（強化版）
-  touch-action: manipulation !important;
-  
-  // iOS Safari特有の問題を解決（強化版）
-  -webkit-background-clip: padding-box !important;
-  background-clip: padding-box !important;
-  -webkit-focus-ring-color: transparent !important;
-  outline: none !important;
-  
-  // フォーカス時の無効化
-  &:focus {
-    outline: none !important;
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-focus-ring-color: transparent !important;
+  // 🎯 モバイルでもポインターを強制表示（修正版）
+  @media (hover: none) and (pointer: coarse) {
+    cursor: pointer !important;
+    -webkit-cursor: pointer !important;
+    -moz-cursor: pointer !important;
+    transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      filter 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
-  
-  // アクティブ時の無効化
-  &:active {
-    -webkit-tap-highlight-color: transparent !important;
-    outline: none !important;
-  }
-  
-  // 疑似要素でのハイライト無効化
-  &::before,
-  &::after {
+
+  // 🎯 タッチデバイス向けの追加対策
+  @media (max-width: 767px) {
+    cursor: pointer !important;
+    -webkit-cursor: pointer !important;
     -webkit-tap-highlight-color: transparent !important;
     -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    user-select: none !important;
   }
 
-  // タッチデバイスでのスムーズなアニメーション（改良版）
-  @media (hover: none) and (pointer: coarse) {
-    transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                filter 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  // 🎯 すべてのタッチ状態でポインター維持
+  &:hover,
+  &:active,
+  &:focus,
+  &:touched {
+    cursor: pointer !important;
+    -webkit-cursor: pointer !important;
   }
 }
 
@@ -968,62 +808,5 @@
 
   @media (hover: none) and (pointer: coarse) {
     max-width: calc(100vw - 16px);
-  }
-}
-
-/* 🚨 最終タップハイライト防止強化ルール（スクロール修正版） */
-.skillCircleGrid,
-.rubyImageOnly {
-  /* iOS Safari タップハイライト最終防止 */
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
-  
-  /* タッチアクションはmanipulation（スクロールは維持）*/
-  touch-action: manipulation !important;
-  
-  /* アウトライン無効化 */
-  outline: 0 !important;
-  outline: none !important;
-  
-  /* 🚨 重要：cursor:pointerがあるとハイライトが残るため一時的に削除 */
-  cursor: default !important;
-  
-  /* 全ステートでの無効化 */
-  &:active,
-  &:focus,
-  &:hover,
-  &:visited,
-  &:link {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-    outline: none !important;
-    cursor: default !important;
-    /* touch-action: none を削除！スクロール保護のため */
-  }
-  
-  /* 子要素への強制適用（スクロールは維持） */
-  *,
-  *:before,
-  *:after {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-    /* touch-action: none を削除！スクロール保護のため */
-    outline: none !important;
-    cursor: default !important;
-  }
-  
-  /* 🚨 重要：画像要素の完全無効化 */
-  img,
-  [data-nimg] {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    user-select: none !important;
-    outline: none !important;
-    cursor: default !important;
-    /* 🚨 重要：pointer-events: none で画像のタップハイライトを完全無効化 */
-    pointer-events: none !important;
   }
 }

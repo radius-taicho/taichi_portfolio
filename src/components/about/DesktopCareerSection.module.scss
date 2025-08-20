@@ -11,7 +11,7 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  
+
   // 統一幅管理システムを適用
   @include about-section-container;
 }
@@ -61,17 +61,17 @@
   flex-shrink: 0;
   position: relative;
   padding: 40px 0;
-  
+
   // タブレット横向き以下でのパディング調整
   @include max-width(md) {
     padding: 32px 0;
   }
-  
+
   // タブレット縦向き以下でのパディング調整
   @include max-width(sm) {
     padding: 24px 0;
   }
-  
+
   // ========== モバイル(575px未満)専用設定 ==========
   // コンパクトなパディングでより多くのコンテンツを表示
   @include max-width(xs) {
@@ -86,7 +86,7 @@
   gap: 0;
   width: 100%;
   position: relative;
-  
+
   // セクション内コンテンツ幅を適用
   @include about-section-content;
 }
@@ -101,21 +101,21 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 12px;
-  
+
   &:hover {
     background: rgba(248, 250, 252, 0.5);
   }
-  
+
   &.active {
     background: rgba(230, 88, 83, 0.05);
-    
+
     .timelineStep {
-      background: #E65853;
+      background: #e65853;
       color: #ffffff;
       transform: scale(1.1);
     }
   }
-  
+
   // タブレット横向き以下での調整
   @include max-width(md) {
     grid-template-columns: 55px 1fr 180px;
@@ -123,7 +123,7 @@
     padding: 20px 14px;
     border-radius: 10px;
   }
-  
+
   // タブレット縦向き以下での調整
   @include max-width(sm) {
     grid-template-columns: 50px 1fr 160px;
@@ -131,7 +131,7 @@
     padding: 16px 12px;
     border-radius: 8px;
   }
-  
+
   // モバイル専用設定
   @include max-width(xs) {
     grid-template-columns: 45px 1fr 140px;
@@ -149,17 +149,17 @@
   gap: 0;
   width: 60px;
   grid-column: 1; // グリッドの1列目に配置
-  
+
   // タブレット横向き以下での幅調整
   @include max-width(md) {
     width: 55px;
   }
-  
+
   // タブレット縦向き以下での幅調整
   @include max-width(sm) {
     width: 50px;
   }
-  
+
   // モバイル専用設定
   @include max-width(xs) {
     width: 45px;
@@ -181,27 +181,27 @@
   transition: all 0.3s ease;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
   z-index: 2;
-  
+
   &.active {
-    background: #E65853;
+    background: #e65853;
     transform: scale(1.1);
     box-shadow: 0 8px 32px rgba(230, 88, 83, 0.3);
   }
-  
+
   // タブレット横向き以下でのサイズ調整
   @include max-width(md) {
     width: 55px;
     height: 55px;
     font-size: 22px;
   }
-  
+
   // タブレット縦向き以下でのサイズ調整
   @include max-width(sm) {
     width: 50px;
     height: 50px;
     font-size: 20px;
   }
-  
+
   // モバイル専用設定
   @include max-width(xs) {
     width: 45px;
@@ -213,10 +213,11 @@
 .timelineLine {
   width: 3px;
   height: 200px; // 画像サイズの拡大に合わせて調整
-  background: linear-gradient(to bottom, #E65853, rgba(226, 232, 240, 0.5));
+  background: linear-gradient(to bottom, #e65853, rgba(226, 232, 240, 0.5));
   margin-top: 8px;
   position: relative;
   z-index: 1;
+  border-radius: 24px;
 }
 
 // 中央: テキストコンテンツ
@@ -243,7 +244,7 @@
   background: #ffffff;
   grid-column: 3; // グリッドの3列目に配置
   align-self: center; // 縦方向中央寄せ
-  
+
   img {
     max-width: 100%;
     max-height: 100%;
@@ -251,26 +252,26 @@
     height: auto;
     object-fit: contain;
   }
-  
+
   .timelineItem:hover & {
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   }
-  
+
   // タブレット横向き以下でのサイズ調整
   @include max-width(md) {
     width: 180px;
     height: 180px;
     border-radius: 14px;
   }
-  
+
   // タブレット縦向き以下でのサイズ調整
   @include max-width(sm) {
     width: 160px;
     height: 160px;
     border-radius: 12px;
   }
-  
+
   // モバイル専用設定
   @include max-width(xs) {
     width: 140px;

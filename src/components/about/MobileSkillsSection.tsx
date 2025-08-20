@@ -362,7 +362,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     return (skillId: string) => classNameMap[skillId] || "";
   }, []);
 
-  // メモ化された画像コンポーネント（青いプレースホルダー完全除去版）
+  // メモ化された画像コンポーネント（チカチカ防止・最適化版）
   const MemoizedSkillImage = React.memo<{ skill: SkillData }>(({ skill }) => {
     return (
       <Image
@@ -370,10 +370,9 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         alt={skill.name}
         width={60}
         height={60}
-        loading="eager"
-        priority
-        quality={90}
-        sizes="60px"
+        loading="lazy"  // 🎯 遅延読み込みでチカチキを防止
+        priority={false}  // 🎯 優先読み込みを無効化
+        quality={75}  // 🎯 品質を下げて読み込み速度向上
         style={{ 
           objectFit: "contain",
           // 🎯 重要：青いプレースホルダー完全除去
@@ -383,10 +382,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center"
         }}
-        // 🚨 重要：placeholder="blur"を完全に削除！
-        // placeholder="blur" <- この行を削除
-        // blurDataURL も削除
-        unoptimized={false}
+        // 🎯 最適化をスキップして安定した表示
+        unoptimized={true}
         onLoad={(e) => {
           // 画像読み込み完了時に青い背景を確実に除去
           const imgElement = e.currentTarget;

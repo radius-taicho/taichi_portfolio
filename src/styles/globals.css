@@ -1,50 +1,4 @@
-/* 🎯 iOS Safari特殊対策 - バランス版 */
-/* スキルセクション専用のタップハイライト禁止 */
-[class*="skill"],
-[class*="skill"] *,
-[class*="MobileSkillsSection"] *,
-.skillsContentContainer,
-.skillsContentContainer * {
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  touch-action: manipulation !important;
-  outline: none !important;
-  -webkit-focus-ring-color: transparent !important;
-  -webkit-highlight: none !important;
-  -webkit-tap-highlight: none !important;
-}
-
-/* 画像専用の特別対策（バランス版） */
-.skillsContentContainer img,
-.skillsContentContainer [data-nimg],
-.skillsContentContainer [data-nimg] img {
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  outline: none !important;
-  -webkit-focus-ring-color: transparent !important;
-  -webkit-highlight: none !important;
-  -webkit-tap-highlight: none !important;
-  pointer-events: none !important;
-  
-  /* GPU加速で安定化（軽量版） */
-  -webkit-transform: translateZ(0);
-  will-change: auto;
-}@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -74,11 +28,11 @@ html {
   scroll-padding-top: 80px;
   margin: 0;
   padding: 0;
-  
+
   /* 🎯 iOS Safari タップハイライト完全無効化 - 複数の方法を併用 */
   -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -98,11 +52,11 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  
+
   /* 🎯 iOS Safari タップハイライト完全無効化 - body層でも適用 */
   -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -287,96 +241,6 @@ img[src*=".gif"] {
   color: inherit !important;
 }
 
-/* 🚨 最終解決策：iOS Safari タップハイライト根絶（統合版） */
-*,
-*::before,
-*::after {
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  outline: none !important;
-  -webkit-focus-ring-color: transparent !important;
-  -webkit-highlight: none !important;
-  /* touch-action は削除！スクロールを阻害するため */
-}
-
-/* 🎯 クリッカブル要素専用の完全無効化（CSS Modules対応版） */
-[class*="skillCircle"],
-[class*="rubyImage"],
-[class*="skillCircleGrid"],
-[class*="rubyImageOnly"] {
-  /* iOS Safari タップハイライト根絶 */
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  
-  /* 重要：タッチアクションはmanipulation（スクロールは維持）*/
-  touch-action: manipulation !important;
-  
-  /* 🚨 重要：cursor:pointerがハイライト原因のため一時的に削除 */
-  cursor: default !important;
-  
-  /* 重要：アウトラインとフォーカスの完全無効化 */
-  outline: 0 !important;
-  outline: none !important;
-  -webkit-focus-ring-color: transparent !important;
-  -webkit-highlight: none !important;
-  -webkit-tap-highlight: none !important;
-  
-  /* 重要：疑似クラスでの無効化 */
-  &:active,
-  &:focus,
-  &:hover,
-  &:visited {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    outline: none !important;
-    cursor: default !important;
-    -webkit-focus-ring-color: transparent !important;
-  }
-  
-  /* 重要：子要素も完全無効化（ただしスクロールは維持）*/
-  *,
-  *::before,
-  *::after {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    user-select: none !important;
-    /* touch-action: none を削除！スクロール阻害のため */
-    outline: none !important;
-    cursor: default !important;
-  }
-  
-  /* 🚨 画像要素の特別対策：pointer-events で完全無効化 */
-  img,
-  [data-nimg],
-  [data-nimg] img {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    user-select: none !important;
-    outline: none !important;
-    cursor: default !important;
-    pointer-events: none !important;
-  }
-}
-
 /* Next.js Imageコンポーネント専用対策 - 青いプレースホルダー完全除去版 */
 img,
 [data-nimg],
@@ -386,8 +250,8 @@ img,
 [data-nimg="intrinsic"],
 [data-nimg="fixed"] {
   -webkit-tap-highlight-color: transparent !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -399,7 +263,7 @@ img,
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
   -webkit-tap-highlight: none !important;
-  
+
   /* 🎯 重要：青いプレースホルダー完全除去 */
   background-color: transparent !important;
   background-image: none !important;
