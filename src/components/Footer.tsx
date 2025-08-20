@@ -255,8 +255,7 @@ export default function Footer() {
       }
     };
 
-    // 現在のページがトップページの場合はスクロールのみ
-    if (router.pathname === "/") {
+    if (pathname === "/") {
       scrollToElement();
     } else {
       // 他のページからの場合はトップページに遷移してからスクロール
