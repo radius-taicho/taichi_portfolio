@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "@/styles/components/header.module.scss";
 import menuStyles from "@/styles/components/hamburgerMenu.module.scss";

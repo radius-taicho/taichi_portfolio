@@ -2,7 +2,8 @@
 
 import { useRef, useEffect, useState } from "react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import styles from "@/styles/components/footer.module.scss";
@@ -10,7 +11,6 @@ import styles from "@/styles/components/footer.module.scss";
 export default function Footer() {
   const { language, setLanguage } = useLanguage();
   const router = useRouter();
-  const pathname = usePathname();
   const mobileBackgroundRef = useRef<HTMLDivElement>(null);
   const desktopBackgroundRef = useRef<HTMLDivElement>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -244,6 +244,7 @@ export default function Footer() {
     e.preventDefault();
 
     const scrollToElement = () => {
+      // モバイルサイズかどうかを判定（768px以下をモバイルとする）
       const isMobile = window.innerWidth < 768;
       const elementId = isMobile ? "works-section-mobile" : "works-section";
       const element = document.getElementById(elementId);
@@ -255,17 +256,15 @@ export default function Footer() {
       }
     };
 
-    if (pathname === "/") {
+    // 現在のページがトップページの場合はスクロールのみ
+    if (router.pathname === "/") {
       scrollToElement();
     } else {
-      // ページ遷移を実行
-      router.push("/");
-
-      // ページ遷移後に少し待ってからスクロール
-      // 修正: .then() を削除し、setTimeout を直接呼び出す
-      setTimeout(() => {
-        scrollToElement();
-      }, 100);
+      // 他のページからの場合はトップページに遷移してからスクロール
+      router.push("/").then(() => {
+        // ページ遷移後に少し待ってからスクロール
+        setTimeout(scrollToElement, 100);
+      });
     }
   };
 
