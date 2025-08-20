@@ -37,6 +37,13 @@
     gap: var(--footer-space-md);
   }
 
+  // モバイルでの追加タッチ改善
+  @include max-width(sm) {
+    // タッチ後のハイライトを無効化
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-touch-callout: none;
+  }
+
   @include mq(xs) {
     display: none;
   }
@@ -79,6 +86,8 @@
   transform: translateZ(0);
   will-change: auto;
   line-height: 1.2;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 
   &::before {
     content: attr(data-text);
@@ -427,6 +436,7 @@
     /* アニメーションのためのGPU加速 */
     transform: translateZ(0);
     will-change: auto;
+    user-select: none;
 
     &::before {
       content: attr(data-text);
@@ -724,6 +734,8 @@
   justify-content: center;
   overflow: visible;
   cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 
   // 背景画像の基本設定
   background-size: contain;
@@ -762,6 +774,17 @@
   // 位置変更をスムーズにアニメーション
   transition: all 0.4s ease, top 0.4s ease, left 0.4s ease, right 0.4s ease;
   z-index: 2; // 背景よりも前面に表示（背景はz-index: 1）
+  
+  // モバイルでのタッチターゲット改善
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
+  }
 
   // タブレットサイズ（768px~1023px）- 中間サイズでも十分大きく
   @include max-width(lg) {
@@ -773,11 +796,27 @@
   @include max-width(sm) {
     width: 18px;
     height: 18px;
+    
+    // モバイルでのタッチエリア拡大
+    &::before {
+      top: -12px;
+      left: -12px;
+      right: -12px;
+      bottom: -12px;
+    }
   }
 
   @include max-width(xs) {
     width: 18px;
     height: 18px;
+    
+    // モバイルでのタッチエリア拡大
+    &::before {
+      top: -12px;
+      left: -12px;
+      right: -12px;
+      bottom: -12px;
+    }
   }
 }
 

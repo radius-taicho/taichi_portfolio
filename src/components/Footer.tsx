@@ -105,6 +105,7 @@ export default function Footer() {
 
       const handleClick = (e: Event) => {
         e.preventDefault();
+        e.stopPropagation();
         
         // すでに遷移中の場合は何もしない
         if (isTransitioning) return;
@@ -126,10 +127,19 @@ export default function Footer() {
         }, 1000);
       };
 
+      const handleTouchStart = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleClick(e);
+      };
+
+      // マウスとタッチの両方に対応
       iconElement.addEventListener("click", handleClick);
+      iconElement.addEventListener("touchstart", handleTouchStart, { passive: false });
 
       return () => {
         iconElement.removeEventListener("click", handleClick);
+        iconElement.removeEventListener("touchstart", handleTouchStart);
       };
     };
 
@@ -272,6 +282,12 @@ export default function Footer() {
     router.push("/about");
   };
 
+  // トップページに遷移する関数
+  const navigateToHome = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push("/");
+  };
+
   return (
     <footer className={styles.footer}>
       {/* モバイル版レイアウト */}
@@ -280,7 +296,15 @@ export default function Footer() {
         <div className={styles.mobileHeader}>
           <div className={styles.mobileBrandSection}>
             <div className={styles.mobileBrandContainer}>
-              <div className={styles.mobileBrandName} data-text="TAICHI">
+              <div 
+                className={styles.mobileBrandName} 
+                data-text="TAICHI"
+                onClick={navigateToHome}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  navigateToHome(e as any);
+                }}
+              >
                 TAICHI
               </div>
             </div>
@@ -365,7 +389,11 @@ export default function Footer() {
           {/* 上部：ブランドセクション */}
           <div className={styles.desktopBrandSection}>
             <div className={styles.desktopBrandContainer}>
-              <div className={styles.desktopBrandName} data-text="TAICHI">
+              <div 
+                className={styles.desktopBrandName} 
+                data-text="TAICHI"
+                onClick={navigateToHome}
+              >
                 TAICHI
               </div>
             </div>
