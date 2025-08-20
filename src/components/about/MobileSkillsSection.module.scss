@@ -970,3 +970,40 @@
     max-width: calc(100vw - 16px);
   }
 }
+
+/* 🚨 最終タップハイライト防止強化ルール（追加版） */
+.skillCircleGrid,
+.rubyImageOnly {
+  /* iOS Safari タップハイライト最終防止 */
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
+  
+  /* タッチアクション完全制御 */
+  touch-action: none !important;
+  
+  /* アウトライン無効化 */
+  outline: 0 !important;
+  outline: none !important;
+  
+  /* 全ステートでの無効化 */
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+    touch-action: none !important;
+  }
+  
+  /* 子要素への強制適用 */
+  *,
+  *:before,
+  *:after {
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: none !important;
+    outline: none !important;
+    pointer-events: none !important;
+  }
+}

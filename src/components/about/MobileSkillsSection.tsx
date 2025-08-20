@@ -117,28 +117,68 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // コンポーネントマウント時にiOS Safariタップハイライト完全無効化を適用
+  // 🚨 根本的解決：iOS Safari タップハイライト完全無効化（最終版）
   useEffect(() => {
-    // 🎯 iOS Safariタップハイライト完全無効化 - 軽量版（画像処理を最小限に）
+    // Step 1: 強力なグローバル無効化
     const disableTapHighlight = () => {
-      // グローバルなタップハイライト無効化（setPropertyを使用してTypeScriptエラーを回避）
-      document.documentElement.style.setProperty('-webkit-tap-highlight-color', 'transparent');
-      document.body.style.setProperty('-webkit-tap-highlight-color', 'transparent');
-      document.body.style.setProperty('-webkit-touch-callout', 'none');
-      document.body.style.setProperty('-webkit-user-select', 'none');
+      const elements = [document.documentElement, document.body];
+      const properties = [
+        ['-webkit-tap-highlight-color', 'transparent'],
+        ['-webkit-tap-highlight-color', 'rgba(0,0,0,0)'],
+        ['-webkit-touch-callout', 'none'],
+        ['-webkit-user-select', 'none'],
+        ['touch-action', 'none'],
+        ['outline', 'none'],
+        ['-webkit-focus-ring-color', 'transparent']
+      ];
+      
+      elements.forEach(element => {
+        properties.forEach(([prop, value]) => {
+          element.style.setProperty(prop, value, 'important');
+        });
+      });
     };
     
-    // touchstartイベントリスナーを追加（:activeスタイルを有効化）
-    const enableActiveStyles = () => {
-      document.addEventListener('touchstart', () => {}, { passive: true });
+    // Step 2: クリッカブル要素の完全無効化
+    const disableClickableElements = () => {
+      const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
+      skillElements.forEach(element => {
+        const htmlElement = element as HTMLElement;
+        htmlElement.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
+        htmlElement.style.setProperty('touch-action', 'none', 'important');
+        htmlElement.style.setProperty('outline', 'none', 'important');
+        
+        // 🎯 重要：イベント委譲を防ぐため直接無効化
+        const preventHighlight = (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          return false;
+        };
+        
+        // 複数のイベントで無効化
+        ['touchstart', 'touchmove', 'touchend', 'mousedown'].forEach(eventType => {
+          htmlElement.addEventListener(eventType, preventHighlight, {
+            passive: false,
+            capture: true  // 🎯 重要：キャプチャフェーズで早期にキャッチ
+          });
+        });
+      });
     };
     
-    disableTapHighlight();
-    enableActiveStyles();
+    // Step 3: 遅延実行で確実に適用
+    const applyFixes = () => {
+      disableTapHighlight();
+      setTimeout(disableClickableElements, 100); // DOM構築後に実行
+    };
     
-    // 初回のみ実行（MutationObserverを削除してパフォーマンス向上）
+    applyFixes();
+    
+    // touchstart を無効化してアクティブスタイルを維持
+    document.addEventListener('touchstart', () => {}, { passive: true });
+    
     return () => {
-      // クリーンアップ不要
+      // 必要に応じてクリーンアップ（基本的には不要）
     };
   }, []);
 
