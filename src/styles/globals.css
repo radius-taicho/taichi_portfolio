@@ -1,44 +1,21 @@
-/* 🎯 iOS Safari特殊対策 - 超強化版 */
+/* 🎯 iOS Safari特殊対策 - 軽量版 */
 /* スキルセクション専用のタップハイライト禁止 */
 [class*="skill"],
 [class*="skill"] *,
-[class*="skill"] img,
-[class*="skill"] [data-nimg],
 [class*="MobileSkillsSection"] *,
 .skillsContentContainer,
-.skillsContentContainer *,
-.skillsContentContainer img,
-.skillsContentContainer [data-nimg] {
+.skillsContentContainer * {
   -webkit-tap-highlight-color: transparent !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
-  -webkit-tap-highlight-color: inherit !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
   touch-action: manipulation !important;
   outline: none !important;
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
-  -webkit-tap-highlight: none !important;
-  
-  /* 背景色の問題を防ぐ */
-  background-attachment: scroll !important;
-}
-
-/* 画像専用の超強化対策 */
-.skillsContentContainer img,
-.skillsContentContainer [data-nimg],
-.skillsContentContainer [data-nimg] img {
-  touch-action: none !important;
-  pointer-events: none !important;
-  -webkit-user-drag: none !important;
-  -webkit-transform: translateZ(0) !important;
-  transform: translateZ(0) !important;
 }@tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -300,7 +277,7 @@ img[src*=".gif"] {
   -webkit-highlight: none !important;
 }
 
-/* Next.js Imageコンポーネント専用対策 - 超強化版 */
+/* Next.js Imageコンポーネント専用対策 - 軽量版 */
 img,
 [data-nimg],
 [data-nimg] img,
@@ -310,26 +287,12 @@ img,
 [data-nimg="fixed"] {
   -webkit-tap-highlight-color: transparent !important;
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  touch-action: none !important;
-  pointer-events: none !important;
   outline: none !important;
   -webkit-focus-ring-color: transparent !important;
   -webkit-highlight: none !important;
-  -webkit-border-radius: 0 !important;
-  border-radius: 0 !important;
-  
-  /* 背景色の透明化問題を解決 */
-  background: transparent !important;
-  background-color: transparent !important;
-  
-  /* transition中の問題を解決 */
-  transition: none !important;
 }

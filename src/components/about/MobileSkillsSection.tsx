@@ -119,25 +119,13 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
   // コンポーネントマウント時にiOS Safariタップハイライト完全無効化を適用
   useEffect(() => {
-    // 🎯 iOS Safariタップハイライト完全無効化 - JavaScriptでも強制適用
+    // 🎯 iOS Safariタップハイライト完全無効化 - 軽量版（画像処理を最小限に）
     const disableTapHighlight = () => {
       // グローバルなタップハイライト無効化（setPropertyを使用してTypeScriptエラーを回避）
       document.documentElement.style.setProperty('-webkit-tap-highlight-color', 'transparent');
       document.body.style.setProperty('-webkit-tap-highlight-color', 'transparent');
       document.body.style.setProperty('-webkit-touch-callout', 'none');
       document.body.style.setProperty('-webkit-user-select', 'none');
-      
-      // すべてのimg要素とNext.js Imageコンポーネントへの強制適用
-      const images = document.querySelectorAll('img, [data-nimg], [data-nimg] img');
-      images.forEach(img => {
-        if (img instanceof HTMLElement) {
-          img.style.setProperty('-webkit-tap-highlight-color', 'transparent');
-          img.style.setProperty('-webkit-touch-callout', 'none');
-          img.style.setProperty('-webkit-user-select', 'none');
-          img.style.setProperty('pointer-events', 'none');
-          img.style.setProperty('touch-action', 'none');
-        }
-      });
     };
     
     // touchstartイベントリスナーを追加（:activeスタイルを有効化）
@@ -148,18 +136,9 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     disableTapHighlight();
     enableActiveStyles();
     
-    // MutationObserverで新しい画像要素を監視
-    const observer = new MutationObserver(() => {
-      disableTapHighlight();
-    });
-    
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-    
+    // 初回のみ実行（MutationObserverを削除してパフォーマンス向上）
     return () => {
-      observer.disconnect();
+      // クリーンアップ不要
     };
   }, []);
 
