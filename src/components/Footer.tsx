@@ -10,6 +10,7 @@ import styles from "@/styles/components/footer.module.scss";
 export default function Footer() {
   const { language, setLanguage } = useLanguage();
   const router = useRouter();
+  const pathname = usePathname();
   const mobileBackgroundRef = useRef<HTMLDivElement>(null);
   const desktopBackgroundRef = useRef<HTMLDivElement>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
