@@ -121,21 +121,21 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   useEffect(() => {
     // 🎯 iOS Safariタップハイライト完全無効化 - JavaScriptでも強制適用
     const disableTapHighlight = () => {
-      // グローバルなタップハイライト無効化
-      document.documentElement.style.webkitTapHighlightColor = 'transparent';
-      document.body.style.webkitTapHighlightColor = 'transparent';
-      document.body.style.webkitTouchCallout = 'none';
-      document.body.style.webkitUserSelect = 'none';
+      // グローバルなタップハイライト無効化（setPropertyを使用してTypeScriptエラーを回避）
+      document.documentElement.style.setProperty('-webkit-tap-highlight-color', 'transparent');
+      document.body.style.setProperty('-webkit-tap-highlight-color', 'transparent');
+      document.body.style.setProperty('-webkit-touch-callout', 'none');
+      document.body.style.setProperty('-webkit-user-select', 'none');
       
       // すべてのimg要素とNext.js Imageコンポーネントへの強制適用
       const images = document.querySelectorAll('img, [data-nimg], [data-nimg] img');
       images.forEach(img => {
         if (img instanceof HTMLElement) {
-          img.style.webkitTapHighlightColor = 'transparent';
-          img.style.webkitTouchCallout = 'none';
-          img.style.webkitUserSelect = 'none';
-          img.style.pointerEvents = 'none';
-          img.style.touchAction = 'none';
+          img.style.setProperty('-webkit-tap-highlight-color', 'transparent');
+          img.style.setProperty('-webkit-touch-callout', 'none');
+          img.style.setProperty('-webkit-user-select', 'none');
+          img.style.setProperty('pointer-events', 'none');
+          img.style.setProperty('touch-action', 'none');
         }
       });
     };
