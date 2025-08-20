@@ -986,6 +986,9 @@
   outline: 0 !important;
   outline: none !important;
   
+  /* 🚨 重要：cursor:pointerがあるとハイライトが残るため一時的に削除 */
+  cursor: default !important;
+  
   /* 全ステートでの無効化 */
   &:active,
   &:focus,
@@ -993,7 +996,9 @@
   &:visited,
   &:link {
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
     outline: none !important;
+    cursor: default !important;
     /* touch-action: none を削除！スクロール保護のため */
   }
   
@@ -1002,8 +1007,23 @@
   *:before,
   *:after {
     -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
     /* touch-action: none を削除！スクロール保護のため */
     outline: none !important;
+    cursor: default !important;
+  }
+  
+  /* 🚨 重要：画像要素の完全無効化 */
+  img,
+  [data-nimg] {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    outline: none !important;
+    cursor: default !important;
+    /* 🚨 重要：pointer-events: none で画像のタップハイライトを完全無効化 */
     pointer-events: none !important;
   }
 }

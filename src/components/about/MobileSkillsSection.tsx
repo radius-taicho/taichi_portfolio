@@ -117,7 +117,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🚨 根本的解決：iOS Safari タップハイライト完全無効化（スクロール修正版）
+  // 🚨 根本的解決：iOS Safari タップハイライト完全無効化（cursor:pointer対応版）
   useEffect(() => {
     // Step 1: 強力なグローバル無効化（スクロールは維持）
     const disableTapHighlight = () => {
@@ -139,30 +139,29 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       });
     };
     
-    // Step 2: クリッカブル要素の完全無効化（スクロールは維持）
+    // Step 2: クリッカブル要素の完全無効化（cursor:pointer対応）
     const disableClickableElements = () => {
       const skillElements = document.querySelectorAll('.skillCircleGrid, .rubyImageOnly');
       skillElements.forEach(element => {
         const htmlElement = element as HTMLElement;
+        // 強力なハイライト無効化
         htmlElement.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
+        htmlElement.style.setProperty('-webkit-tap-highlight-color', 'rgba(0,0,0,0)', 'important');
         // touch-action: manipulation でスクロールは維持
         htmlElement.style.setProperty('touch-action', 'manipulation', 'important');
         htmlElement.style.setProperty('outline', 'none', 'important');
+        // 🚨 cursor:pointerを一時的に除去（ハイライト原因のため）
+        htmlElement.style.setProperty('cursor', 'default', 'important');
         
-        // 🎯 重要：イベント委譲を防ぐため直接無効化（スクロールは維持）
-        const preventHighlight = (e: Event) => {
-          // preventDefaultをしつつ、スクロールは阻害しない
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-          // return false を削除（スクロール阻害の可能性）
-        };
-        
-        // 複数のイベントで無効化（ただしスクロールは維持）
-        ['touchstart', 'mousedown'].forEach(eventType => {
-          htmlElement.addEventListener(eventType, preventHighlight, {
-            passive: true,  // passive: true でスクロールパフォーマンス向上
-            capture: false  // capture: false でスクロールとの競合を回避
-          });
+        // 画像要素の完全無効化
+        const images = htmlElement.querySelectorAll('img, [data-nimg]');
+        images.forEach(img => {
+          const imgElement = img as HTMLElement;
+          imgElement.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
+          imgElement.style.setProperty('-webkit-tap-highlight-color', 'rgba(0,0,0,0)', 'important');
+          imgElement.style.setProperty('pointer-events', 'none', 'important');
+          imgElement.style.setProperty('cursor', 'default', 'important');
+          imgElement.style.setProperty('outline', 'none', 'important');
         });
       });
     };
@@ -171,6 +170,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const applyFixes = () => {
       disableTapHighlight();
       setTimeout(disableClickableElements, 100); // DOM構築後に実行
+      setTimeout(disableClickableElements, 500); // 念のためさらに遅延実行
     };
     
     applyFixes();
