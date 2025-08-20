@@ -3,6 +3,13 @@ import Image from "next/image";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
 
+// WebKit vendor prefix styles interface
+interface WebkitCSSProperties extends CSSStyleDeclaration {
+  webkitTapHighlightColor?: string;
+  webkitTouchCallout?: string;
+  webkitUserSelect?: string;
+}
+
 // スキルデータの型定義
 interface SkillData {
   id: string;
@@ -119,50 +126,52 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
   // コンポーネントマウント時にグローバルなタップハイライト対策を適用
   useEffect(() => {
+    const bodyStyle = document.body.style as WebkitCSSProperties;
+    const htmlStyle = document.documentElement.style as WebkitCSSProperties;
+    
     const originalStyles = {
-      webkitTapHighlightColor: document.body.style.webkitTapHighlightColor,
-      webkitTouchCallout: document.body.style.webkitTouchCallout,
-      webkitUserSelect: document.body.style.webkitUserSelect,
-      userSelect: document.body.style.userSelect,
-      touchAction: document.body.style.touchAction
+      webkitTapHighlightColor: bodyStyle.webkitTapHighlightColor || '',
+      webkitTouchCallout: bodyStyle.webkitTouchCallout || '',
+      webkitUserSelect: bodyStyle.webkitUserSelect || '',
+      userSelect: bodyStyle.userSelect || '',
+      touchAction: bodyStyle.touchAction || ''
+    };
+
+    const originalHtmlStyles = {
+      webkitTapHighlightColor: htmlStyle.webkitTapHighlightColor || '',
+      webkitTouchCallout: htmlStyle.webkitTouchCallout || '',
+      webkitUserSelect: htmlStyle.webkitUserSelect || '',
+      userSelect: htmlStyle.userSelect || '',
+      touchAction: htmlStyle.touchAction || ''
     };
 
     // グローバルなタップハイライト無効化を適用
-    document.body.style.webkitTapHighlightColor = 'transparent';
-    document.body.style.webkitTouchCallout = 'none';
-    document.body.style.webkitUserSelect = 'none';
-    document.body.style.userSelect = 'none';
-    document.body.style.touchAction = 'manipulation';
+    bodyStyle.webkitTapHighlightColor = 'transparent';
+    bodyStyle.webkitTouchCallout = 'none';
+    bodyStyle.webkitUserSelect = 'none';
+    bodyStyle.userSelect = 'none';
+    bodyStyle.touchAction = 'manipulation';
 
     // HTMLエレメントにも適用
-    const htmlElement = document.documentElement;
-    const originalHtmlStyles = {
-      webkitTapHighlightColor: htmlElement.style.webkitTapHighlightColor,
-      webkitTouchCallout: htmlElement.style.webkitTouchCallout,
-      webkitUserSelect: htmlElement.style.webkitUserSelect,
-      userSelect: htmlElement.style.userSelect,
-      touchAction: htmlElement.style.touchAction
-    };
-
-    htmlElement.style.webkitTapHighlightColor = 'transparent';
-    htmlElement.style.webkitTouchCallout = 'none';
-    htmlElement.style.webkitUserSelect = 'none';
-    htmlElement.style.userSelect = 'none';
-    htmlElement.style.touchAction = 'manipulation';
+    htmlStyle.webkitTapHighlightColor = 'transparent';
+    htmlStyle.webkitTouchCallout = 'none';
+    htmlStyle.webkitUserSelect = 'none';
+    htmlStyle.userSelect = 'none';
+    htmlStyle.touchAction = 'manipulation';
 
     // クリーンアップ
     return () => {
-      document.body.style.webkitTapHighlightColor = originalStyles.webkitTapHighlightColor;
-      document.body.style.webkitTouchCallout = originalStyles.webkitTouchCallout;
-      document.body.style.webkitUserSelect = originalStyles.webkitUserSelect;
-      document.body.style.userSelect = originalStyles.userSelect;
-      document.body.style.touchAction = originalStyles.touchAction;
+      bodyStyle.webkitTapHighlightColor = originalStyles.webkitTapHighlightColor || '';
+      bodyStyle.webkitTouchCallout = originalStyles.webkitTouchCallout || '';
+      bodyStyle.webkitUserSelect = originalStyles.webkitUserSelect || '';
+      bodyStyle.userSelect = originalStyles.userSelect || '';
+      bodyStyle.touchAction = originalStyles.touchAction || '';
 
-      htmlElement.style.webkitTapHighlightColor = originalHtmlStyles.webkitTapHighlightColor;
-      htmlElement.style.webkitTouchCallout = originalHtmlStyles.webkitTouchCallout;
-      htmlElement.style.webkitUserSelect = originalHtmlStyles.webkitUserSelect;
-      htmlElement.style.userSelect = originalHtmlStyles.userSelect;
-      htmlElement.style.touchAction = originalHtmlStyles.touchAction;
+      htmlStyle.webkitTapHighlightColor = originalHtmlStyles.webkitTapHighlightColor || '';
+      htmlStyle.webkitTouchCallout = originalHtmlStyles.webkitTouchCallout || '';
+      htmlStyle.webkitUserSelect = originalHtmlStyles.webkitUserSelect || '';
+      htmlStyle.userSelect = originalHtmlStyles.userSelect || '';
+      htmlStyle.touchAction = originalHtmlStyles.touchAction || '';
     };
   }, []);
 
