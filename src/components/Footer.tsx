@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState } from "react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import styles from "@/styles/components/footer.module.scss";
