@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -106,22 +106,22 @@ export default function Footer() {
       const handleClick = (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         // すでに遷移中の場合は何もしない
         if (isTransitioning) return;
-        
+
         setIsTransitioning(true);
-        
+
         // 背景画像を変更
         changeBackgroundWithPosition(
           backgroundElement,
           imagePath,
           isXBackground
         );
-        
+
         // 1秒後に画面遷移
         setTimeout(() => {
-          window.open(url, '_blank', 'noopener,noreferrer');
+          window.open(url, "_blank", "noopener,noreferrer");
           setIsTransitioning(false);
           // クリックしたアイコンに対応する背景を保持（元に戻さない）
         }, 1000);
@@ -135,7 +135,9 @@ export default function Footer() {
 
       // マウスとタッチの両方に対応
       iconElement.addEventListener("click", handleClick);
-      iconElement.addEventListener("touchstart", handleTouchStart, { passive: false });
+      iconElement.addEventListener("touchstart", handleTouchStart, {
+        passive: false,
+      });
 
       return () => {
         iconElement.removeEventListener("click", handleClick);
@@ -296,8 +298,8 @@ export default function Footer() {
         <div className={styles.mobileHeader}>
           <div className={styles.mobileBrandSection}>
             <div className={styles.mobileBrandContainer}>
-              <div 
-                className={styles.mobileBrandName} 
+              <div
+                className={styles.mobileBrandName}
                 data-text="TAICHI"
                 onClick={navigateToHome}
                 onTouchStart={(e) => {
@@ -389,8 +391,8 @@ export default function Footer() {
           {/* 上部：ブランドセクション */}
           <div className={styles.desktopBrandSection}>
             <div className={styles.desktopBrandContainer}>
-              <div 
-                className={styles.desktopBrandName} 
+              <div
+                className={styles.desktopBrandName}
                 data-text="TAICHI"
                 onClick={navigateToHome}
               >
