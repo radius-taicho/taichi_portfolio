@@ -1,3 +1,80 @@
+// ⚡️ iOS Safariタップハイライト完全無効化 - 終極版
+.skillsContentContainer {
+  // イベント委譲の問題を解決
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
+  -webkit-tap-highlight-color: inherit !important;
+  
+  // グローバルな無効化設定
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+    -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
+    -webkit-tap-highlight-color: inherit !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: manipulation !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
+    -webkit-tap-highlight: none !important;
+    
+    // 背景色の問題を解決
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: transparent !important;
+      -webkit-tap-highlight-color: transparent !important;
+    }
+  }
+  
+  // 画像専用の追加対策
+  img,
+  [data-nimg],
+  [data-nimg] img {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+    -webkit-tap-highlight-color: rgba(255,255,255,0) !important;
+    -webkit-tap-highlight-color: inherit !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    touch-action: none !important;
+    pointer-events: none !important;
+    outline: none !important;
+    -webkit-focus-ring-color: transparent !important;
+    -webkit-highlight: none !important;
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+    -webkit-user-drag: none !important;
+    
+    // GPU加速でハイライトを無力化
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    will-change: auto !important;
+    
+    // ステート変化時の無効化
+    &:active,
+    &:focus,
+    &:hover,
+    &:target {
+      -webkit-tap-highlight-color: transparent !important;
+      background-color: transparent !important;
+      outline: none !important;
+    }
+  }
+}
+
 @use "../../styles/common/_variables.scss" as *;
 
 // ===== MOBILE SKILLS SECTION STYLES =====

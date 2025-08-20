@@ -117,9 +117,50 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // コンポーネントマウント時にグローバルなタップハイライト対策を適用
+  // コンポーネントマウント時にiOS Safariタップハイライト完全無効化を適用
   useEffect(() => {
-    // スタイルシートで処理するため、この関数は不要
+    // 🎯 iOS Safariタップハイライト完全無効化 - JavaScriptでも強制適用
+    const disableTapHighlight = () => {
+      // グローバルなタップハイライト無効化
+      document.documentElement.style.webkitTapHighlightColor = 'transparent';
+      document.body.style.webkitTapHighlightColor = 'transparent';
+      document.body.style.webkitTouchCallout = 'none';
+      document.body.style.webkitUserSelect = 'none';
+      
+      // すべてのimg要素とNext.js Imageコンポーネントへの強制適用
+      const images = document.querySelectorAll('img, [data-nimg], [data-nimg] img');
+      images.forEach(img => {
+        if (img instanceof HTMLElement) {
+          img.style.webkitTapHighlightColor = 'transparent';
+          img.style.webkitTouchCallout = 'none';
+          img.style.webkitUserSelect = 'none';
+          img.style.pointerEvents = 'none';
+          img.style.touchAction = 'none';
+        }
+      });
+    };
+    
+    // touchstartイベントリスナーを追加（:activeスタイルを有効化）
+    const enableActiveStyles = () => {
+      document.addEventListener('touchstart', () => {}, { passive: true });
+    };
+    
+    disableTapHighlight();
+    enableActiveStyles();
+    
+    // MutationObserverで新しい画像要素を監視
+    const observer = new MutationObserver(() => {
+      disableTapHighlight();
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   const getSkillData = (id: string) =>
@@ -233,14 +274,19 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     ]
   );
 
-  // タッチイベントハンドラー（強化版）
+  // タッチイベントハンドラー（超強化版）
   const handleTouchStart = useCallback(
     (skillId: string, e: React.TouchEvent) => {
-      // タップハイライトを完全に防ぐためのpreventDefault
+      // 🎯 iOS Safariタップハイライトを完全に防ぐための強力な処理
       e.preventDefault();
       e.stopPropagation();
       e.nativeEvent.preventDefault();
       e.nativeEvent.stopImmediatePropagation();
+      
+      // returnValueを使用した追加のブロック（非推奨だが効果的）
+      if ('returnValue' in e.nativeEvent) {
+        (e.nativeEvent as any).returnValue = false;
+      }
       
       const touch = e.touches[0];
       const clientX = touch?.clientX || 0;
