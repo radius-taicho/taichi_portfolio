@@ -1,5 +1,4 @@
 import React, { useMemo, useCallback, useEffect } from "react";
-import Image from "next/image";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
 
@@ -117,22 +116,46 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🎯 画像の安定性向上用フック（簡略化版）
+  // 🎯 画像プリロードとモバイル安定性向上用フック（強化版）
   useEffect(() => {
-    // 画像の青い背景問題を軽量に対応
-    const handleImageLoad = () => {
-      const images = document.querySelectorAll('[data-nimg]');
-      images.forEach((img) => {
-        const element = img as HTMLElement;
-        element.style.backgroundColor = 'transparent';
+    // 画像を事前にプリロードして、チカチカを完全に防ぐ
+    const preloadImages = () => {
+      skillsData.forEach((skill) => {
+        const img = new Image();
+        img.src = skill.image;
+        // 画像をキャッシュに保存
+        img.onload = () => {
+          // プリロード完了後の安定化処理
+          const existingImages = document.querySelectorAll(`img[src="${skill.image}"]`);
+          existingImages.forEach((element) => {
+            const imgEl = element as HTMLImageElement;
+            imgEl.style.backgroundColor = 'transparent';
+            imgEl.style.opacity = '1';
+          });
+        };
       });
     };
 
-    // 即座に実行
+    // 画像の青い背景問題を軽量に対応
+    const handleImageLoad = () => {
+      const images = document.querySelectorAll('img[src*="/images/"]');
+      images.forEach((img) => {
+        const element = img as HTMLElement;
+        element.style.backgroundColor = 'transparent';
+        element.style.opacity = '1';
+      });
+    };
+
+    // 即座にプリロードを開始
+    preloadImages();
+
+    // DOM画像も処理
     handleImageLoad();
 
-    // 画像読み込み完了後に再実行（1回のみ）
-    const timeout = setTimeout(handleImageLoad, 200);
+    // 短時間後に再処理（確実性向上）
+    const timeout = setTimeout(() => {
+      handleImageLoad();
+    }, 100);
 
     return () => {
       clearTimeout(timeout);
@@ -331,31 +354,40 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     return (skillId: string) => classNameMap[skillId] || "";
   }, []);
 
-  // メモ化された画像コンポーネント（モバイル安定性重視版）
+  // メモ化された画像コンポーネント（通常imgタグ版 - チカチカ完全解決）
   const MemoizedSkillImage = React.memo<{ skill: SkillData }>(({ skill }) => {
     return (
-      <Image
+      <img
         src={skill.image}
         alt={skill.name}
-        width={60}
-        height={60}
-        loading="eager" // 🎯 即座に読み込みでチラつき防止
-        priority={true} // 🎯 優先読み込みでモバイル安定性向上
-        quality={85} // 🎯 品質を上げて描画安定性向上
         style={{
+          width: "100%",
+          height: "100%",
+          maxWidth: "100%",
+          maxHeight: "100%",
           objectFit: "contain",
           backgroundColor: "transparent",
-          // GPUアクセラレーションを使って描画安定性向上
+          // モバイル描画安定性最適化
           transform: "translateZ(0)",
-          // iOS Safariでの描画問題を防ぐ
           WebkitBackfaceVisibility: "hidden",
           backfaceVisibility: "hidden",
+          // チカチカ防止のための安定性向上
+          imageRendering: "auto",
+          WebkitImageSmoothing: "auto",
         }}
-        // 🎯 Next.jsの最適化を有効にしてモバイル描画安定性向上
+        // プリロードで即座表示
+        loading="eager"
+        // キャッシュを有効化
+        decoding="auto"
         onLoad={(e) => {
-          // 画像読み込み完了時に背景を透明に設定
+          // 読み込み完了時の安定性確保
           const imgElement = e.currentTarget;
           imgElement.style.backgroundColor = "transparent";
+          imgElement.style.opacity = "1";
+        }}
+        onError={(e) => {
+          // エラー時のフォールバック
+          console.warn(`Failed to load image: ${skill.image}`);
         }}
       />
     );
