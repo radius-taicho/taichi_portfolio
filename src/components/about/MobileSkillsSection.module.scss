@@ -172,6 +172,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible;
 }
 
 .skillsRowContainer {
@@ -184,6 +185,7 @@
   flex-shrink: 0;
   position: relative;
   flex-wrap: nowrap;
+  overflow: visible;
 
   // ===== 小モバイル（375px～575px） =====
   @media screen and (min-width: 376px) and (max-width: 575px) {
@@ -229,6 +231,7 @@
   width: clamp(52px, 11vw, 72px) !important;
   height: clamp(52px, 11vw, 72px) !important;
   margin: 3px;
+  overflow: visible;
 
   // 基本スタイル
   border-radius: 50%;
@@ -238,29 +241,8 @@
   justify-content: center;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  // 🎯 モバイルでもポインター強制表示
-  cursor: pointer !important;
-  -webkit-cursor: pointer !important;
-  -moz-cursor: pointer !important;
   z-index: 1;
   position: relative;
-
-  // 🎯 タッチデバイス向けポインター設定
-  @media (hover: none) and (pointer: coarse) {
-    cursor: pointer !important;
-    -webkit-cursor: pointer !important;
-  }
-
-  @media (max-width: 767px) {
-    cursor: pointer !important;
-    -webkit-cursor: pointer !important;
-  }
-
-  // パフォーマンス最適化
-  will-change: transform, box-shadow, z-index;
-  backface-visibility: hidden;
-  contain: layout style;
-  transform: translateZ(0);
 
   // クリック時のスケールアニメーション（改良版）
   transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -339,28 +321,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // 🎯 モバイルでもポインター強制表示（Ruby用）
-  cursor: pointer !important;
-  -webkit-cursor: pointer !important;
-  -moz-cursor: pointer !important;
-  z-index: 1;
-
-  // 🎯 タッチデバイス向けポインター設定
-  @media (hover: none) and (pointer: coarse) {
-    cursor: pointer !important;
-    -webkit-cursor: pointer !important;
-  }
-
-  @media (max-width: 767px) {
-    cursor: pointer !important;
-    -webkit-cursor: pointer !important;
-  }
-
-  // パフォーマンス最適化
-  will-change: transform, z-index;
-  backface-visibility: hidden;
-  contain: layout style;
-  transform: translateZ(0);
+  overflow: visible;
 
   // クリック時のスケールアニメーション（改良版）
   transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
