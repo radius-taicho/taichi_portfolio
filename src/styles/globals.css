@@ -4,8 +4,8 @@
 
 /* 🎯 カスタムフォントの読み込み */
 @font-face {
-  font-family: 'PixelMplus12-Regular';
-  src: url('/fonts/PixelMplus12-Regular.ttf') format('truetype');
+  font-family: "PixelMplus12-Regular";
+  src: url("/fonts/PixelMplus12-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -50,11 +50,11 @@ img[loading="eager"],
 img[data-priority="true"] {
   /* 読み込み時のスムーズ表示 */
   transition: opacity 0.2s ease, filter 0.2s ease;
-  
+
   /* 重要画像用：即座に表示開始 */
   opacity: 1;
   filter: blur(0);
-  
+
   /* チラつき完全防止 */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimizeQuality;
@@ -64,7 +64,7 @@ img[data-priority="true"] {
 [data-nimg]:not(.navText *):not(.logoText *):not(.mobileLogoText *) {
   /* 重要画像用：高速表示 */
   transition: opacity 0.1s ease, filter 0.1s ease;
-  
+
   /* 即座に表示開始（重要画像） */
   opacity: 1;
   filter: blur(0);
@@ -80,12 +80,14 @@ img[data-priority="true"] {
 }
 
 /* 作品カードの最適化 */
-.workCard, .mobileWorkCard {  
+.workCard,
+.mobileWorkCard {
   /* ホバー時の滑らかな変化 */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.workCard:hover, .mobileWorkCard:hover {
+.workCard:hover,
+.mobileWorkCard:hover {
   transform: translateY(-2px);
 }
 
@@ -104,13 +106,13 @@ img[data-priority="true"] {
 .workImageContainer {
   /* 画像コンテナの最適化 */
   animation: smoothFadeIn 0.2s ease forwards;
-  
+
   /* 画像のアスペクト比固定でレイアウトシフト防止 */
   aspect-ratio: 440 / 320;
   overflow: hidden;
   position: relative;
   background-color: #f5f5f5;
-  
+
   img {
     position: absolute;
     top: 0;
@@ -131,7 +133,8 @@ img[data-priority="true"] {
 }
 
 /* GIF画像最適化 */
-img[src*=".GIF"], img[src*=".gif"] {
+img[src*=".GIF"],
+img[src*=".gif"] {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
@@ -140,7 +143,12 @@ img[src*=".GIF"], img[src*=".gif"] {
 .heroImageWrapper {
   /* 画像再読み込み時の安定性確保 */
   position: relative;
-  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%) !important;
+  background: linear-gradient(
+    135deg,
+    #f1f3f4 0%,
+    #e8eaed 50%,
+    #dadce0 100%
+  ) !important;
 }
 
 .heroImageWrapper img {
@@ -148,14 +156,14 @@ img[src*=".GIF"], img[src*=".gif"] {
   opacity: 1 !important;
   visibility: visible !important;
   display: block !important;
-  
+
   /* 再読み込み防止の強力な設定 */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimizeQuality;
-  
+
   /* 即座に表示 */
   filter: none !important;
-  
+
   /* Next.js Imageのデフォルトスタイルを強制上書き */
   position: relative !important;
   z-index: 2 !important;
@@ -199,4 +207,13 @@ img[src*=".GIF"], img[src*=".gif"] {
 .gridFrame a[href]:focus {
   text-decoration: none !important;
   color: inherit !important;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
 }

@@ -3,16 +3,6 @@ import Image from "next/image";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
 
-// タップハイライトを無効化するユーティリティ関数
-const disableTapHighlight = (element: HTMLElement | null) => {
-  if (!element) return;
-  element.style.webkitTapHighlightColor = 'transparent';
-  element.style.webkitUserSelect = 'none';
-  element.style.webkitTouchCallout = 'none';
-  element.style.userSelect = 'none';
-  element.style.touchAction = 'manipulation';
-};
-
 // スキルデータの型定義
 interface SkillData {
   id: string;
@@ -129,43 +119,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
   // コンポーネントマウント時にグローバルなタップハイライト対策を適用
   useEffect(() => {
-    const bodyStyle = document.body.style;
-    const htmlStyle = document.documentElement.style;
-    
-    const originalStyles = {
-      webkitTapHighlightColor: bodyStyle.webkitTapHighlightColor || '',
-      webkitTouchCallout: bodyStyle.webkitTouchCallout || '',
-      webkitUserSelect: bodyStyle.webkitUserSelect || '',
-      userSelect: bodyStyle.userSelect || '',
-      touchAction: bodyStyle.touchAction || ''
-    };
-
-    const originalHtmlStyles = {
-      webkitTapHighlightColor: htmlStyle.webkitTapHighlightColor || '',
-      webkitTouchCallout: htmlStyle.webkitTouchCallout || '',
-      webkitUserSelect: htmlStyle.webkitUserSelect || '',
-      userSelect: htmlStyle.userSelect || '',
-      touchAction: htmlStyle.touchAction || ''
-    };
-
-    // グローバルなタップハイライト無効化を適用
-    disableTapHighlight(document.body);
-    disableTapHighlight(document.documentElement);
-
-    // クリーンアップ
-    return () => {
-      bodyStyle.webkitTapHighlightColor = originalStyles.webkitTapHighlightColor || '';
-      bodyStyle.webkitTouchCallout = originalStyles.webkitTouchCallout || '';
-      bodyStyle.webkitUserSelect = originalStyles.webkitUserSelect || '';
-      bodyStyle.userSelect = originalStyles.userSelect || '';
-      bodyStyle.touchAction = originalStyles.touchAction || '';
-
-      htmlStyle.webkitTapHighlightColor = originalHtmlStyles.webkitTapHighlightColor || '';
-      htmlStyle.webkitTouchCallout = originalHtmlStyles.webkitTouchCallout || '';
-      htmlStyle.webkitUserSelect = originalHtmlStyles.webkitUserSelect || '';
-      htmlStyle.userSelect = originalHtmlStyles.userSelect || '';
-      htmlStyle.touchAction = originalHtmlStyles.touchAction || '';
-    };
+    // スタイルシートで処理するため、この関数は不要
   }, []);
 
   const getSkillData = (id: string) =>
@@ -176,15 +130,14 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   const secondRow = ["nextjs", "html", "sass", "tailwind"]; // 4個
   const thirdRow = ["rails", "github", "swift", "ruby"]; // 4個（railsを移動、rubyも通常アイコン）
 
-    // デバイス種別を判定する関数（改良版）
+  // デバイス種別を判定する関数（改良版）
   const isTouchDevice = useCallback(() => {
     // 開発環境では画面サイズも考慮した判定
-    const hasTouch = "ontouchstart" in window ||
-      navigator.maxTouchPoints > 0;
-    
+    const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
     // 768px以下の場合はモバイルとして扱う（開発環境対応）
     const isMobileSize = window.innerWidth <= 768;
-    
+
     return hasTouch || isMobileSize;
   }, []);
 
@@ -201,7 +154,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     clearTooltipTimeout();
     // 2秒で統一
     const timeoutDuration = 2000;
-    
+
     timeoutRef.current = setTimeout(() => {
       setActiveTooltip(null);
       setClickedSkill(null);
@@ -213,8 +166,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     (skillId: string, clientX: number, clientY: number) => {
       // 既存のタイマーをクリア
       clearTooltipTimeout();
-
-
 
       // ビューポートサイズを取得
       const viewportWidth = window.innerWidth;
@@ -282,67 +233,62 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     ]
   );
 
-  // タッチイベントハンドラー（メモ化）- ハイライト対策強化
+  // タッチイベントハンドラー（メモ化）
   const handleTouchStart = useCallback(
     (skillId: string, e: React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      // stopImmediatePropagation is not available in React synthetic events
-
-      // タップハイライトを完全に無効化
-      disableTapHighlight(e.currentTarget as HTMLElement);
-
       const touch = e.touches[0];
       const clientX = touch?.clientX || 0;
       const clientY = touch?.clientY || 0;
-      
+
       handleSkillInteraction(skillId, clientX, clientY);
     },
     [handleSkillInteraction]
   );
 
-  // クリックイベントハンドラー（改良版PC対応）（メモ化）- ハイライト対策強化
+  // クリックイベントハンドラー（改良版PC対応）（メモ化）
   const handleClick = useCallback(
     (skillId: string, e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      // stopImmediatePropagation is not available in React synthetic events
-
-      // マウスイベントでもハイライト対策
-      disableTapHighlight(e.currentTarget as HTMLElement);
-      
       const clientX = e.clientX;
       const clientY = e.clientY;
-      
+
       handleSkillInteraction(skillId, clientX, clientY);
     },
     [handleSkillInteraction]
   );
 
-  // 背景クリックでツールチップを閉じる（メモ化）- ハイライト対策強化
-  const handleBackgroundClick = useCallback((e: React.MouseEvent) => {
-    // イベントのターゲットが背景の場合のみ処理
-    if (e.target === e.currentTarget) {
-      e.preventDefault();
-      e.stopPropagation();
-      clearTooltipTimeout();
-      setActiveTooltip(null);
-      setClickedSkill(null);
-    }
-  }, [clearTooltipTimeout, setActiveTooltip, setClickedSkill]);
+  // 背景クリックでツールチップを閉じる（メモ化）
+  const handleBackgroundClick = useCallback(
+    (e: React.MouseEvent) => {
+      // イベントのターゲットが背景の場合のみ処理
+      if (e.target === e.currentTarget) {
+        e.preventDefault();
+        e.stopPropagation();
+        clearTooltipTimeout();
+        setActiveTooltip(null);
+        setClickedSkill(null);
+      }
+    },
+    [clearTooltipTimeout, setActiveTooltip, setClickedSkill]
+  );
 
   // 背景タッチイベントハンドラー追加
-  const handleBackgroundTouchStart = useCallback((e: React.TouchEvent) => {
-    // イベントのターゲットが背景の場合のみ処理
-    if (e.target === e.currentTarget) {
-      e.preventDefault();
-      e.stopPropagation();
-      // stopImmediatePropagation is not available in React synthetic events
-      clearTooltipTimeout();
-      setActiveTooltip(null);
-      setClickedSkill(null);
-    }
-  }, [clearTooltipTimeout, setActiveTooltip, setClickedSkill]);
+  const handleBackgroundTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      // イベントのターゲットが背景の場合のみ処理
+      if (e.target === e.currentTarget) {
+        e.preventDefault();
+        e.stopPropagation();
+        clearTooltipTimeout();
+        setActiveTooltip(null);
+        setClickedSkill(null);
+      }
+    },
+    [clearTooltipTimeout, setActiveTooltip, setClickedSkill]
+  );
 
   // メモ化されたスキルクラス名取得関数（Rubyは除外）
   const getSkillClassName = useMemo(() => {
@@ -388,7 +334,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const skill = getSkillData(skillId);
     if (!skill) return null;
 
-    // 統一されたイベントハンドラー（再レンダリング防止）- ハイライト対策強化
+    // 統一されたイベントハンドラー（再レンダリング防止）
     const handleSkillTouchStart = useCallback(
       (e: React.TouchEvent) => {
         handleTouchStart(skillId, e);
@@ -404,25 +350,17 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       [skillId, handleClick]
     );
 
-    // タッチエンドイベントでもハイライト対策
-    const handleSkillTouchEnd = useCallback(
-      (e: React.TouchEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        // stopImmediatePropagation is not available in React synthetic events
-      },
-      []
-    );
+    // タッチエンドイベント
+    const handleSkillTouchEnd = useCallback((e: React.TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, []);
 
-    // タッチキャンセルイベントでもハイライト対策
-    const handleSkillTouchCancel = useCallback(
-      (e: React.TouchEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        // stopImmediatePropagation is not available in React synthetic events
-      },
-      []
-    );
+    // タッチキャンセルイベント
+    const handleSkillTouchCancel = useCallback((e: React.TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, []);
 
     // Ruby画像はシンプルな画像表示のみ（円形スタイルなし）
     if (skillId === "ruby") {
@@ -430,21 +368,14 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       return (
         <div className={skillStyles.skillWrapper}>
           <div
-          className={`${skillStyles.rubyImageOnly} ${
-          isClicked ? skillStyles.clicked : ""
-          }`}
-          onTouchStart={handleSkillTouchStart}
-          onTouchEnd={handleSkillTouchEnd}
-          onTouchCancel={handleSkillTouchCancel}
-          onMouseDown={handleSkillClick}
-          onContextMenu={(e) => e.preventDefault()}
-          style={{
-            WebkitTapHighlightColor: 'transparent',
-            WebkitUserSelect: 'none',
-            WebkitTouchCallout: 'none',
-            userSelect: 'none',
-            touchAction: 'manipulation'
-          }}
+            className={`${skillStyles.rubyImageOnly} ${
+              isClicked ? skillStyles.clicked : ""
+            }`}
+            onTouchStart={handleSkillTouchStart}
+            onTouchEnd={handleSkillTouchEnd}
+            onTouchCancel={handleSkillTouchCancel}
+            onMouseDown={handleSkillClick}
+            onContextMenu={(e) => e.preventDefault()}
           >
             <MemoizedSkillImage skill={skill} />
           </div>
@@ -467,13 +398,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           onTouchCancel={handleSkillTouchCancel}
           onMouseDown={handleSkillClick}
           onContextMenu={(e) => e.preventDefault()}
-          style={{
-            WebkitTapHighlightColor: 'transparent',
-            WebkitUserSelect: 'none',
-            WebkitTouchCallout: 'none',
-            userSelect: 'none',
-            touchAction: 'manipulation'
-          }}
         >
           <div className={skillStyles.skillIcon}>
             <MemoizedSkillImage skill={skill} />
@@ -486,18 +410,11 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   MobileSkillIcon.displayName = "MobileSkillIcon";
 
   return (
-  <div 
-        className={styles.sectionContainer} 
-        onClick={handleBackgroundClick}
-        onTouchStart={handleBackgroundTouchStart}
-        style={{
-          WebkitTapHighlightColor: 'transparent',
-          WebkitUserSelect: 'none',
-          WebkitTouchCallout: 'none',
-          userSelect: 'none',
-          touchAction: 'manipulation'
-        }}
-      >
+    <div
+      className={styles.sectionContainer}
+      onClick={handleBackgroundClick}
+      onTouchStart={handleBackgroundTouchStart}
+    >
       <div className={styles.sectionHeader}>
         <div className={styles.sectionTitleContainer}>
           <h2 className={styles.sectionTitle}>Skills</h2>
