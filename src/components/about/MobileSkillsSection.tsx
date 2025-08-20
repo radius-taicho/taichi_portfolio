@@ -296,7 +296,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     (skillId: string, e: React.TouchEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      e.stopImmediatePropagation();
+      // stopImmediatePropagation is not available in React synthetic events
 
       // タップハイライトを完全に無効化
       const target = e.currentTarget as HTMLElement;
@@ -320,7 +320,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     (skillId: string, e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      e.stopImmediatePropagation();
+      // stopImmediatePropagation is not available in React synthetic events
 
       // マウスイベントでもハイライト対策
       const target = e.currentTarget as HTMLElement;
@@ -356,7 +356,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     if (e.target === e.currentTarget) {
       e.preventDefault();
       e.stopPropagation();
-      e.stopImmediatePropagation();
+      // stopImmediatePropagation is not available in React synthetic events
       clearTooltipTimeout();
       setActiveTooltip(null);
       setClickedSkill(null);
@@ -428,7 +428,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       (e: React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        e.stopImmediatePropagation();
+        // stopImmediatePropagation is not available in React synthetic events
       },
       []
     );
@@ -438,7 +438,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       (e: React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        e.stopImmediatePropagation();
+        // stopImmediatePropagation is not available in React synthetic events
       },
       []
     );
