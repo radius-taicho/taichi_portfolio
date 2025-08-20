@@ -3,14 +3,15 @@ import Image from "next/image";
 import styles from "@/styles/aboutme.module.scss";
 import skillStyles from "./MobileSkillsSection.module.scss";
 
-// WebKit vendor prefix styles type
-interface WebkitStyle {
-  webkitTapHighlightColor?: string;
-  webkitTouchCallout?: string;
-  webkitUserSelect?: string;
-  userSelect?: string;
-  touchAction?: string;
-}
+// タップハイライトを無効化するユーティリティ関数
+const disableTapHighlight = (element: HTMLElement | null) => {
+  if (!element) return;
+  element.style.webkitTapHighlightColor = 'transparent';
+  element.style.webkitUserSelect = 'none';
+  element.style.webkitTouchCallout = 'none';
+  element.style.userSelect = 'none';
+  element.style.touchAction = 'manipulation';
+};
 
 // スキルデータの型定義
 interface SkillData {
@@ -128,10 +129,10 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
   // コンポーネントマウント時にグローバルなタップハイライト対策を適用
   useEffect(() => {
-    const bodyStyle = document.body.style as any;
-    const htmlStyle = document.documentElement.style as any;
+    const bodyStyle = document.body.style;
+    const htmlStyle = document.documentElement.style;
     
-    const originalStyles: WebkitStyle = {
+    const originalStyles = {
       webkitTapHighlightColor: bodyStyle.webkitTapHighlightColor || '',
       webkitTouchCallout: bodyStyle.webkitTouchCallout || '',
       webkitUserSelect: bodyStyle.webkitUserSelect || '',
@@ -139,7 +140,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       touchAction: bodyStyle.touchAction || ''
     };
 
-    const originalHtmlStyles: WebkitStyle = {
+    const originalHtmlStyles = {
       webkitTapHighlightColor: htmlStyle.webkitTapHighlightColor || '',
       webkitTouchCallout: htmlStyle.webkitTouchCallout || '',
       webkitUserSelect: htmlStyle.webkitUserSelect || '',
@@ -148,18 +149,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     };
 
     // グローバルなタップハイライト無効化を適用
-    bodyStyle.webkitTapHighlightColor = 'transparent';
-    bodyStyle.webkitTouchCallout = 'none';
-    bodyStyle.webkitUserSelect = 'none';
-    bodyStyle.userSelect = 'none';
-    bodyStyle.touchAction = 'manipulation';
-
-    // HTMLエレメントにも適用
-    htmlStyle.webkitTapHighlightColor = 'transparent';
-    htmlStyle.webkitTouchCallout = 'none';
-    htmlStyle.webkitUserSelect = 'none';
-    htmlStyle.userSelect = 'none';
-    htmlStyle.touchAction = 'manipulation';
+    disableTapHighlight(document.body);
+    disableTapHighlight(document.documentElement);
 
     // クリーンアップ
     return () => {
@@ -299,12 +290,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       // stopImmediatePropagation is not available in React synthetic events
 
       // タップハイライトを完全に無効化
-      const target = e.currentTarget as HTMLElement;
-      if (target) {
-        target.style.webkitTapHighlightColor = 'transparent';
-        target.style.webkitUserSelect = 'none';
-        target.style.webkitTouchCallout = 'none';
-      }
+      disableTapHighlight(e.currentTarget as HTMLElement);
 
       const touch = e.touches[0];
       const clientX = touch?.clientX || 0;
@@ -323,12 +309,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       // stopImmediatePropagation is not available in React synthetic events
 
       // マウスイベントでもハイライト対策
-      const target = e.currentTarget as HTMLElement;
-      if (target) {
-        target.style.webkitTapHighlightColor = 'transparent';
-        target.style.webkitUserSelect = 'none';
-        target.style.webkitTouchCallout = 'none';
-      }
+      disableTapHighlight(e.currentTarget as HTMLElement);
       
       const clientX = e.clientX;
       const clientY = e.clientY;
@@ -461,9 +442,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             WebkitTapHighlightColor: 'transparent',
             WebkitUserSelect: 'none',
             WebkitTouchCallout: 'none',
-            MozUserSelect: 'none',
-            msUserSelect: 'none',
-            userSelect: 'none'
+            userSelect: 'none',
+            touchAction: 'manipulation'
           }}
           >
             <MemoizedSkillImage skill={skill} />
@@ -491,9 +471,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             WebkitTapHighlightColor: 'transparent',
             WebkitUserSelect: 'none',
             WebkitTouchCallout: 'none',
-            MozUserSelect: 'none',
-            msUserSelect: 'none',
-            userSelect: 'none'
+            userSelect: 'none',
+            touchAction: 'manipulation'
           }}
         >
           <div className={skillStyles.skillIcon}>
@@ -515,8 +494,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           WebkitTapHighlightColor: 'transparent',
           WebkitUserSelect: 'none',
           WebkitTouchCallout: 'none',
-          MozUserSelect: 'none',
-          msUserSelect: 'none',
           userSelect: 'none',
           touchAction: 'manipulation'
         }}
