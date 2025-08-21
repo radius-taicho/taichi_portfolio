@@ -165,41 +165,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   const secondRow = ["nextjs", "html", "sass", "tailwind"]; // 4個
   const thirdRow = ["rails", "github", "swift", "ruby"]; // 4個（railsを移動、rubyも通常アイコン）
 
-  // 🎉 Step4成功パターン: 高速タップ防止機能付きのタッチハンドラー
-  const handleSkillTouch = useCallback((skillId: string, e: React.TouchEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // 🔥 高速タップ防止（300ms以内の連続タップを無視）
-    const currentTime = Date.now();
-    const timeSinceLastTap = currentTime - lastTapTime.current;
-    
-    if (timeSinceLastTap < 300) {
-      return; // 高速タップを無視
-    }
-    
-    lastTapTime.current = currentTime;
-    
-    // ツールチップ位置の計算と状態更新
-    const touch = e.touches[0];
-    const clientX = touch?.clientX || 0;
-    const clientY = touch?.clientY || 0;
-    
-    handleSkillInteraction(skillId, clientX, clientY);
-  }, [lastTapTime, handleSkillInteraction]);
-
-  // 🎉 Step4成功パターン: デスクトップ用クリックハンドラー
-  const handleSkillClick = useCallback((skillId: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const clientX = e.clientX;
-    const clientY = e.clientY;
-    
-    handleSkillInteraction(skillId, clientX, clientY);
-  }, [handleSkillInteraction]);
-
-  // 🎉 Step4成功パターン: 統一されたシンプルなイベントハンドラー
+  // 🎉 Step4成功パターン: 統一されたシンプルなイベントハンドラー（最初に定義）
   const handleSkillInteraction = useCallback(
     (skillId: string, clientX: number, clientY: number) => {
       // 既存のタイマーをクリア
@@ -251,6 +217,40 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       resetSkillWithTimer,
     ]
   );
+
+  // 🎉 Step4成功パターン: 高速タップ防止機能付きのタッチハンドラー
+  const handleSkillTouch = useCallback((skillId: string, e: React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // 🔥 高速タップ防止（300ms以内の連続タップを無視）
+    const currentTime = Date.now();
+    const timeSinceLastTap = currentTime - lastTapTime.current;
+    
+    if (timeSinceLastTap < 300) {
+      return; // 高速タップを無視
+    }
+    
+    lastTapTime.current = currentTime;
+    
+    // ツールチップ位置の計算と状態更新
+    const touch = e.touches[0];
+    const clientX = touch?.clientX || 0;
+    const clientY = touch?.clientY || 0;
+    
+    handleSkillInteraction(skillId, clientX, clientY);
+  }, [lastTapTime, handleSkillInteraction]);
+
+  // 🎉 Step4成功パターン: デスクトップ用クリックハンドラー
+  const handleSkillClick = useCallback((skillId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    
+    handleSkillInteraction(skillId, clientX, clientY);
+  }, [handleSkillInteraction]);
 
   // 🎉 Step4成功パターン: シンプルな背景クリックハンドラー
   const handleBackgroundClick = useCallback(
