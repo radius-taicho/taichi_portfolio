@@ -1,16 +1,21 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import styles from "@/styles/aboutme.module.scss";
-import skillStyles from "./MobileSkillsSection.module.scss";
 
-// スキルデータの型定義
-interface SkillData {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-}
+// スキルデータ
+const skillsData = [
+  { id: "figma", name: "Figma", image: "/images/figma_img.png" },
+  { id: "illustrator", name: "Illustrator", image: "/images/illustrator_img.png" },
+  { id: "photoshop", name: "Photoshop", image: "/images/photoshop_img.png" },
+  { id: "nextjs", name: "Next.js", image: "/images/Next.js_img.png" },
+  { id: "rails", name: "Rails", image: "/images/rails_img.png" },
+  { id: "html", name: "HTML/CSS/JS", image: "/images/htmlcssjs_img.png" },
+  { id: "sass", name: "Sass", image: "/images/sass_img.png" },
+  { id: "tailwind", name: "Tailwind CSS", image: "/images/tailwind_img.png" },
+  { id: "github", name: "GitHub", image: "/images/github_img.png" },
+  { id: "swift", name: "Swift", image: "/images/swift_img.png" },
+  { id: "ruby", name: "Ruby", image: "/images/img_ruby-skill.PNG" },
+];
 
-// Skills Stateの型定義
 interface SkillsState {
   activeTooltip: string | null;
   setActiveTooltip: (tooltip: string | null) => void;
@@ -25,75 +30,6 @@ interface Props {
   skillsState: SkillsState;
 }
 
-const skillsData: SkillData[] = [
-  {
-    id: "figma",
-    name: "Figma",
-    description: "UI/UXデザインツール。プロトタイプ作成やデザインシステム構築が得意です。",
-    image: "/images/figma_img.png",
-  },
-  {
-    id: "illustrator",
-    name: "Illustrator",
-    description: "ベクターグラフィックスツール。ロゴやアイコン、イラスト作成に使用しています。",
-    image: "/images/illustrator_img.png",
-  },
-  {
-    id: "photoshop",
-    name: "Photoshop",
-    description: "ラスターグラフィックスツール。写真加工やバナー作成に活用しています。",
-    image: "/images/photoshop_img.png",
-  },
-  {
-    id: "nextjs",
-    name: "Next.js",
-    description: "Reactベースのフルスタックフレームワーク。SSRやSSGを活用した高速なWebアプリを開発します。",
-    image: "/images/Next.js_img.png",
-  },
-  {
-    id: "rails",
-    name: "Ruby on Rails",
-    description: "Ruby製のWebアプリケーションフレームワーク。API開発やバックエンド構築が得意です。",
-    image: "/images/rails_img.png",
-  },
-  {
-    id: "html",
-    name: "HTML/CSS/JS",
-    description: "Web開発の基礎技術。セマンティックHTML、モダンCSS、ES6+を使った開発が可能です。",
-    image: "/images/htmlcssjs_img.png",
-  },
-  {
-    id: "sass",
-    name: "Sass",
-    description: "CSSプリプロセッサ。変数やミックスイン、ネストを活用した保守性の高いCSS設計を実践します。",
-    image: "/images/sass_img.png",
-  },
-  {
-    id: "tailwind",
-    name: "Tailwind CSS",
-    description: "ユーティリティファーストのCSSフレームワーク。高速なプロトタイピングと一貫したデザインが得意です。",
-    image: "/images/tailwind_img.png",
-  },
-  {
-    id: "github",
-    name: "GitHub",
-    description: "バージョン管理システム。Gitフローを理解し、チーム開発でのコラボレーションに活用しています。",
-    image: "/images/github_img.png",
-  },
-  {
-    id: "swift",
-    name: "Swift",
-    description: "Apple製のプログラミング言語。iOSアプリ開発でSwiftUIやUIKitを使ったネイティブアプリを作成します。",
-    image: "/images/swift_img.png",
-  },
-  {
-    id: "ruby",
-    name: "Ruby",
-    description: "日本生まれのプログラミング言語。美しいコードとプログラマーの幸福を重視した設計思想が魅力です。",
-    image: "/images/img_ruby-skill.PNG",
-  },
-];
-
 const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
   const {
     activeTooltip,
@@ -105,11 +41,10 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // 🎯 Step4確実パターン: デバイス判定と高速タップ防止
+  // Step4テスト完全再現：デバイス判定
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const lastTapTime = useRef<number>(0);
 
-  // デバイス判定（マウント時のみ実行）
   useEffect(() => {
     const checkDevice = () => {
       const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -120,7 +55,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     setIsTouchDevice(checkDevice());
   }, []);
 
-  // 🎯 Step4確実パターン: タイマー管理
+  // Step4テスト完全再現：タイマー管理
   const clearTimer = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -137,25 +72,15 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     }, delay);
   }, [clearTimer, setActiveTooltip, setClickedSkill, timeoutRef]);
 
-  // クリーンアップ
   useEffect(() => {
     return () => clearTimer();
   }, [clearTimer]);
 
-  const getSkillData = (id: string) =>
-    skillsData.find((skill) => skill.id === id);
-
-  // 3-4-4配置
-  const firstRow = ["figma", "illustrator", "photoshop"];
-  const secondRow = ["nextjs", "html", "sass", "tailwind"];
-  const thirdRow = ["rails", "github", "swift", "ruby"];
-
-  // 🎯 Step4確実パターン: 高速タップ防止機能付きハンドラー
+  // Step4テスト完全再現：高速タップ防止付きハンドラー
   const handleSkillTouch = useCallback((skillId: string, e: React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
-    // 高速タップ防止
     const currentTime = Date.now();
     const timeSinceLastTap = currentTime - lastTapTime.current;
     
@@ -165,13 +90,38 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     
     lastTapTime.current = currentTime;
     
-    // シンプルなツールチップ表示
     const touch = e.touches[0];
     const clientX = touch?.clientX || 0;
     const clientY = touch?.clientY || 0;
     
-    handleSkillInteraction(skillId, clientX, clientY);
-  }, [lastTapTime]);
+    // シンプルなツールチップ表示
+    const viewportWidth = window.innerWidth;
+    const TOOLTIP_HEIGHT = 40;
+    const MARGIN = 16;
+
+    let tooltipX = clientX;
+    let tooltipY = clientY - TOOLTIP_HEIGHT - MARGIN;
+
+    if (tooltipY < MARGIN) {
+      tooltipY = clientY + MARGIN;
+    }
+    if (tooltipX < MARGIN) {
+      tooltipX = MARGIN;
+    }
+    if (tooltipX > viewportWidth - MARGIN) {
+      tooltipX = viewportWidth - MARGIN;
+    }
+
+    if (activeTooltip === skillId && clickedSkill === skillId) {
+      setActiveTooltip(null);
+      setClickedSkill(null);
+    } else {
+      setClickedSkill(skillId);
+      setActiveTooltip(skillId);
+      setTooltipPosition({ x: tooltipX, y: tooltipY });
+      resetSkillWithTimer(1000);
+    }
+  }, [lastTapTime, activeTooltip, clickedSkill, setActiveTooltip, setClickedSkill, setTooltipPosition, resetSkillWithTimer]);
 
   const handleSkillClick = useCallback((skillId: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -180,196 +130,298 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const clientX = e.clientX;
     const clientY = e.clientY;
     
-    handleSkillInteraction(skillId, clientX, clientY);
-  }, []);
+    // 同じロジック
+    const viewportWidth = window.innerWidth;
+    const TOOLTIP_HEIGHT = 40;
+    const MARGIN = 16;
 
-  // 🎯 Step4確実パターン: シンプルな位置計算
-  const handleSkillInteraction = useCallback(
-    (skillId: string, clientX: number, clientY: number) => {
-      clearTimer();
+    let tooltipX = clientX;
+    let tooltipY = clientY - TOOLTIP_HEIGHT - MARGIN;
 
-      const viewportWidth = window.innerWidth;
-      const TOOLTIP_HEIGHT = 40;
-      const MARGIN = 16;
+    if (tooltipY < MARGIN) {
+      tooltipY = clientY + MARGIN;
+    }
+    if (tooltipX < MARGIN) {
+      tooltipX = MARGIN;
+    }
+    if (tooltipX > viewportWidth - MARGIN) {
+      tooltipX = viewportWidth - MARGIN;
+    }
 
-      let tooltipX = clientX;
-      let tooltipY = clientY - TOOLTIP_HEIGHT - MARGIN;
-
-      // 簡単な境界調整
-      if (tooltipY < MARGIN) {
-        tooltipY = clientY + MARGIN;
-      }
-      if (tooltipX < MARGIN) {
-        tooltipX = MARGIN;
-      }
-      if (tooltipX > viewportWidth - MARGIN) {
-        tooltipX = viewportWidth - MARGIN;
-      }
-
-      // 状態更新
-      if (activeTooltip === skillId && clickedSkill === skillId) {
-        setActiveTooltip(null);
-        setClickedSkill(null);
-      } else {
-        setClickedSkill(skillId);
-        setActiveTooltip(skillId);
-        setTooltipPosition({ x: tooltipX, y: tooltipY });
-        resetSkillWithTimer(1000);
-      }
-    },
-    [activeTooltip, clickedSkill, setActiveTooltip, setClickedSkill, setTooltipPosition, clearTimer, resetSkillWithTimer]
-  );
-
-  // 🎯 Step4確実パターン: シンプル画像コンポーネント（チカチカ防止）
-  const SkillImage = React.memo<{ skill: SkillData }>(({ skill }) => (
-    <img
-      src={skill.image}
-      alt={skill.name}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "contain",
-        display: "block",
-        // チカチカ防止の核心部分
-        backgroundColor: "transparent",
-        WebkitTapHighlightColor: "transparent",
-        WebkitTouchCallout: "none",
-        WebkitUserSelect: "none",
-        userSelect: "none",
-        pointerEvents: "none", // 重要：画像自体はイベントを受けない
-      }}
-      loading="eager"
-      onLoad={(e) => {
-        // 安定化処理
-        e.currentTarget.style.backgroundColor = "transparent";
-      }}
-    />
-  ));
-  SkillImage.displayName = "SkillImage";
-
-  // 🎯 Step4確実パターン: シンプルスキルアイコン
-  const SkillIcon = React.memo<{ skillId: string }>(({ skillId }) => {
-    const skill = getSkillData(skillId);
-    if (!skill) return null;
-
-    const isClicked = clickedSkill === skillId;
-    
-    // イベントハンドラー（最適化済み）
-    const handleTouchStart = useCallback((e: React.TouchEvent) => {
-      handleSkillTouch(skillId, e);
-    }, [skillId]);
-
-    const handleClick = useCallback((e: React.MouseEvent) => {
-      handleSkillClick(skillId, e);
-    }, [skillId]);
-
-    return (
-      <div className={skillStyles.skillWrapper}>
-        <div
-          className={`${skillStyles.skillCircleGrid} ${
-            isClicked ? skillStyles.clicked : ""
-          }`}
-          // 🎯 Step4確実パターン: 完全なイベント分離
-          {...(isTouchDevice 
-            ? { onTouchStart: handleTouchStart }
-            : { onClick: handleClick }
-          )}
-          style={{
-            // チカチカ防止の重要なスタイル
-            WebkitTapHighlightColor: "transparent",
-            WebkitTouchCallout: "none",
-            WebkitUserSelect: "none",
-            userSelect: "none",
-            cursor: "pointer",
-          }}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <div className={skillStyles.skillIcon}>
-            <SkillImage skill={skill} />
-          </div>
-        </div>
-      </div>
-    );
-  });
-  SkillIcon.displayName = "SkillIcon";
-
-  // 背景クリックハンドラー
-  const handleBackgroundClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      e.preventDefault();
-      e.stopPropagation();
-      clearTimer();
+    if (activeTooltip === skillId && clickedSkill === skillId) {
       setActiveTooltip(null);
       setClickedSkill(null);
+    } else {
+      setClickedSkill(skillId);
+      setActiveTooltip(skillId);
+      setTooltipPosition({ x: tooltipX, y: tooltipY });
+      resetSkillWithTimer(1000);
     }
-  }, [clearTimer, setActiveTooltip, setClickedSkill]);
+  }, [activeTooltip, clickedSkill, setActiveTooltip, setClickedSkill, setTooltipPosition, resetSkillWithTimer]);
 
-  const handleBackgroundTouchStart = useCallback((e: React.TouchEvent) => {
-    if (e.target === e.currentTarget) {
-      e.preventDefault();
-      e.stopPropagation();
-      clearTimer();
-      setActiveTooltip(null);
-      setClickedSkill(null);
-    }
-  }, [clearTimer, setActiveTooltip, setClickedSkill]);
+  // 配置パターン
+  const firstRow = ["figma", "illustrator", "photoshop"];
+  const secondRow = ["nextjs", "html", "sass", "tailwind"];
+  const thirdRow = ["rails", "github", "swift", "ruby"];
 
   return (
-    <div
-      className={styles.sectionContainer}
-      onClick={handleBackgroundClick}
-      onTouchStart={handleBackgroundTouchStart}
-    >
+    <div className={styles.sectionContainer}>
       <div className={styles.sectionHeader}>
         <div className={styles.sectionTitleContainer}>
           <h2 className={styles.sectionTitle}>Skills</h2>
         </div>
       </div>
       
-      <div className={skillStyles.skillsContentContainer}>
+      {/* Step4テスト完全再現：インラインスタイルのみ */}
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        padding: "40px 20px",
+        alignItems: "center"
+      }}>
         {/* 1行目: 3個 */}
-        <div className={skillStyles.skillsRowContainer}>
-          {firstRow.map((skillId) => (
-            <SkillIcon key={skillId} skillId={skillId} />
-          ))}
+        <div style={{
+          display: "flex",
+          gap: "20px",
+          justifyContent: "center",
+          flexWrap: "wrap"
+        }}>
+          {firstRow.map((skillId) => {
+            const skill = skillsData.find(s => s.id === skillId);
+            if (!skill) return null;
+
+            const isClicked = clickedSkill === skillId;
+            
+            return (
+              <div 
+                key={skillId} 
+                // Step4テスト完全再現：デバイス判定によるイベント分離
+                {...(isTouchDevice 
+                  ? {
+                      onTouchStart: (e: React.TouchEvent) => handleSkillTouch(skillId, e)
+                    }
+                  : {
+                      onClick: (e: React.MouseEvent) => handleSkillClick(skillId, e)
+                    }
+                )}
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  border: isClicked ? "3px solid red" : "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: isClicked ? "#ffe0e0" : "#f9f9f9",
+                  cursor: "pointer",
+                  // Step4テスト完全再現：チカチカ防止スタイル
+                  WebkitTapHighlightColor: "transparent",
+                  WebkitTouchCallout: "none",
+                  WebkitUserSelect: "none",
+                  userSelect: "none",
+                  transform: isClicked ? "scale(1.05)" : "scale(1)",
+                  transition: "all 0.15s ease-out",
+                }}
+              >
+                <img 
+                  src={skill.image}
+                  alt={skill.name}
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    objectFit: "contain",
+                    // Step4テスト完全再現：画像がイベントを妨害しないように
+                    pointerEvents: "none",
+                  }}
+                />
+                <div style={{
+                  fontSize: "10px",
+                  marginTop: "4px",
+                  textAlign: "center",
+                  pointerEvents: "none",
+                  color: isClicked ? "#d00" : "#333",
+                  fontWeight: isClicked ? "bold" : "normal",
+                }}>
+                  {skill.name}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* 2行目: 4個 */}
-        <div className={skillStyles.skillsRowContainer}>
-          {secondRow.map((skillId) => (
-            <SkillIcon key={skillId} skillId={skillId} />
-          ))}
+        <div style={{
+          display: "flex",
+          gap: "20px",
+          justifyContent: "center",
+          flexWrap: "wrap"
+        }}>
+          {secondRow.map((skillId) => {
+            const skill = skillsData.find(s => s.id === skillId);
+            if (!skill) return null;
+
+            const isClicked = clickedSkill === skillId;
+            
+            return (
+              <div 
+                key={skillId} 
+                {...(isTouchDevice 
+                  ? {
+                      onTouchStart: (e: React.TouchEvent) => handleSkillTouch(skillId, e)
+                    }
+                  : {
+                      onClick: (e: React.MouseEvent) => handleSkillClick(skillId, e)
+                    }
+                )}
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  border: isClicked ? "3px solid red" : "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: isClicked ? "#ffe0e0" : "#f9f9f9",
+                  cursor: "pointer",
+                  WebkitTapHighlightColor: "transparent",
+                  WebkitTouchCallout: "none",
+                  WebkitUserSelect: "none",
+                  userSelect: "none",
+                  transform: isClicked ? "scale(1.05)" : "scale(1)",
+                  transition: "all 0.15s ease-out",
+                }}
+              >
+                <img 
+                  src={skill.image}
+                  alt={skill.name}
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    objectFit: "contain",
+                    pointerEvents: "none",
+                  }}
+                />
+                <div style={{
+                  fontSize: "10px",
+                  marginTop: "4px",
+                  textAlign: "center",
+                  pointerEvents: "none",
+                  color: isClicked ? "#d00" : "#333",
+                  fontWeight: isClicked ? "bold" : "normal",
+                }}>
+                  {skill.name}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* 3行目: 4個 */}
-        <div className={skillStyles.skillsRowContainer}>
-          {thirdRow.map((skillId) => (
-            <SkillIcon key={skillId} skillId={skillId} />
-          ))}
+        <div style={{
+          display: "flex",
+          gap: "20px",
+          justifyContent: "center",
+          flexWrap: "wrap"
+        }}>
+          {thirdRow.map((skillId) => {
+            const skill = skillsData.find(s => s.id === skillId);
+            if (!skill) return null;
+
+            const isClicked = clickedSkill === skillId;
+            
+            return (
+              <div 
+                key={skillId} 
+                {...(isTouchDevice 
+                  ? {
+                      onTouchStart: (e: React.TouchEvent) => handleSkillTouch(skillId, e)
+                    }
+                  : {
+                      onClick: (e: React.MouseEvent) => handleSkillClick(skillId, e)
+                    }
+                )}
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  border: isClicked ? "3px solid red" : "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: isClicked ? "#ffe0e0" : "#f9f9f9",
+                  cursor: "pointer",
+                  WebkitTapHighlightColor: "transparent",
+                  WebkitTouchCallout: "none",
+                  WebkitUserSelect: "none",
+                  userSelect: "none",
+                  transform: isClicked ? "scale(1.05)" : "scale(1)",
+                  transition: "all 0.15s ease-out",
+                }}
+              >
+                <img 
+                  src={skill.image}
+                  alt={skill.name}
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    objectFit: "contain",
+                    pointerEvents: "none",
+                  }}
+                />
+                <div style={{
+                  fontSize: "10px",
+                  marginTop: "4px",
+                  textAlign: "center",
+                  pointerEvents: "none",
+                  color: isClicked ? "#d00" : "#333",
+                  fontWeight: isClicked ? "bold" : "normal",
+                }}>
+                  {skill.name}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      {/* アクティブスキル表示 */}
+      {clickedSkill && (
+        <div style={{ 
+          textAlign: "center", 
+          marginTop: "20px",
+          fontSize: "14px",
+          color: "red",
+          fontWeight: "bold"
+        }}>
+          🎯 Active: {clickedSkill}
+        </div>
+      )}
 
       {/* ツールチップ */}
       {activeTooltip && (
         <div
-          className={`${skillStyles.skillTooltipCursor} ${skillStyles.active}`}
           style={{
+            position: "fixed",
             left: tooltipPosition.x,
             top: tooltipPosition.y,
             transform: "translate(-50%, 0)",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            color: "white",
+            padding: "8px 12px",
+            borderRadius: "4px",
+            fontSize: "12px",
+            zIndex: 1000,
+            pointerEvents: "none",
           }}
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={(e) => e.preventDefault()}
-          onTouchStart={(e) => e.preventDefault()}
         >
-          {getSkillData(activeTooltip)?.name}
+          {skillsData.find(s => s.id === activeTooltip)?.name}
         </div>
       )}
     </div>
