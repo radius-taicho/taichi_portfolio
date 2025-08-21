@@ -3,17 +3,17 @@ import styles from "@/styles/aboutme.module.scss";
 
 // スキルデータ
 const skillsData = [
-  { id: "figma", name: "Figma", image: "/images/figma_img.png" },
-  { id: "illustrator", name: "Illustrator", image: "/images/illustrator_img.png" },
-  { id: "photoshop", name: "Photoshop", image: "/images/photoshop_img.png" },
-  { id: "nextjs", name: "Next.js", image: "/images/Next.js_img.png" },
-  { id: "rails", name: "Rails", image: "/images/rails_img.png" },
-  { id: "html", name: "HTML/CSS/JS", image: "/images/htmlcssjs_img.png" },
-  { id: "sass", name: "Sass", image: "/images/sass_img.png" },
-  { id: "tailwind", name: "Tailwind CSS", image: "/images/tailwind_img.png" },
-  { id: "github", name: "GitHub", image: "/images/github_img.png" },
-  { id: "swift", name: "Swift", image: "/images/swift_img.png" },
-  { id: "ruby", name: "Ruby", image: "/images/img_ruby-skill.PNG" },
+  { id: "figma", name: "Figma", image: "/images/figma_img.png", bgColor: "#F24E1E" },
+  { id: "illustrator", name: "Illustrator", image: "/images/illustrator_img.png", bgColor: "#FF9A00" },
+  { id: "photoshop", name: "Photoshop", image: "/images/photoshop_img.png", bgColor: "#31A8FF" },
+  { id: "nextjs", name: "Next.js", image: "/images/Next.js_img.png", bgColor: "#000000" },
+  { id: "rails", name: "Rails", image: "/images/rails_img.png", bgColor: "#CC0000" },
+  { id: "html", name: "HTML/CSS/JS", image: "/images/htmlcssjs_img.png", bgColor: "#E34F26" },
+  { id: "sass", name: "Sass", image: "/images/sass_img.png", bgColor: "#CF649A" },
+  { id: "tailwind", name: "Tailwind CSS", image: "/images/tailwind_img.png", bgColor: "#06B6D4" },
+  { id: "github", name: "GitHub", image: "/images/github_img.png", bgColor: "#181717" },
+  { id: "swift", name: "Swift", image: "/images/swift_img.png", bgColor: "#FA7343" },
+  { id: "ruby", name: "Ruby", image: "/images/img_ruby-skill.PNG", bgColor: "#CC342D" },
 ];
 
 interface SkillsState {
@@ -41,7 +41,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     timeoutRef,
   } = skillsState;
 
-  // Step4テスト完全再現：デバイス判定
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const lastTapTime = useRef<number>(0);
 
@@ -55,7 +54,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     setIsTouchDevice(checkDevice());
   }, []);
 
-  // Step4テスト完全再現：タイマー管理
   const clearTimer = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -76,7 +74,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     return () => clearTimer();
   }, [clearTimer]);
 
-  // Step4テスト完全再現：高速タップ防止付きハンドラー
   const handleSkillTouch = useCallback((skillId: string, e: React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -94,34 +91,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const clientX = touch?.clientX || 0;
     const clientY = touch?.clientY || 0;
     
-    // シンプルなツールチップ表示
-    const viewportWidth = window.innerWidth;
-    const TOOLTIP_HEIGHT = 40;
-    const MARGIN = 16;
-
-    let tooltipX = clientX;
-    let tooltipY = clientY - TOOLTIP_HEIGHT - MARGIN;
-
-    if (tooltipY < MARGIN) {
-      tooltipY = clientY + MARGIN;
-    }
-    if (tooltipX < MARGIN) {
-      tooltipX = MARGIN;
-    }
-    if (tooltipX > viewportWidth - MARGIN) {
-      tooltipX = viewportWidth - MARGIN;
-    }
-
-    if (activeTooltip === skillId && clickedSkill === skillId) {
-      setActiveTooltip(null);
-      setClickedSkill(null);
-    } else {
-      setClickedSkill(skillId);
-      setActiveTooltip(skillId);
-      setTooltipPosition({ x: tooltipX, y: tooltipY });
-      resetSkillWithTimer(1000);
-    }
-  }, [lastTapTime, activeTooltip, clickedSkill, setActiveTooltip, setClickedSkill, setTooltipPosition, resetSkillWithTimer]);
+    handleTooltip(skillId, clientX, clientY);
+  }, [lastTapTime]);
 
   const handleSkillClick = useCallback((skillId: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -130,7 +101,10 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     const clientX = e.clientX;
     const clientY = e.clientY;
     
-    // 同じロジック
+    handleTooltip(skillId, clientX, clientY);
+  }, []);
+
+  const handleTooltip = useCallback((skillId: string, clientX: number, clientY: number) => {
     const viewportWidth = window.innerWidth;
     const TOOLTIP_HEIGHT = 40;
     const MARGIN = 16;
@@ -159,6 +133,131 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     }
   }, [activeTooltip, clickedSkill, setActiveTooltip, setClickedSkill, setTooltipPosition, resetSkillWithTimer]);
 
+  // 🎯 元のデザイン再現：円形スキルアイコンコンポーネント
+  const SkillIcon = React.memo<{ skillId: string }>(({ skillId }) => {
+    const skill = skillsData.find(s => s.id === skillId);
+    if (!skill) return null;
+
+    const isClicked = clickedSkill === skillId;
+    const isRuby = skillId === "ruby";
+    
+    const handleTouchStart = useCallback((e: React.TouchEvent) => {
+      handleSkillTouch(skillId, e);
+    }, [skillId]);
+
+    const handleClick = useCallback((e: React.MouseEvent) => {
+      handleSkillClick(skillId, e);
+    }, [skillId]);
+
+    // 🎯 元のデザイン再現：Ruby専用スタイル vs 通常の円形スタイル
+    if (isRuby) {
+      return (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}>
+          <div
+            {...(isTouchDevice 
+              ? { onTouchStart: handleTouchStart }
+              : { onClick: handleClick }
+            )}
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "50%",
+              overflow: "hidden",
+              cursor: "pointer",
+              border: isClicked ? "3px solid #ff4444" : "2px solid transparent",
+              transform: isClicked ? "scale(1.1)" : "scale(1)",
+              transition: "all 0.2s ease-out",
+              boxShadow: isClicked ? "0 4px 12px rgba(255, 68, 68, 0.3)" : "0 2px 8px rgba(0,0,0,0.1)",
+              // 🔥 チカチカ防止
+              WebkitTapHighlightColor: "transparent",
+              WebkitTouchCallout: "none",
+              WebkitUserSelect: "none",
+              userSelect: "none",
+            }}
+          >
+            <img 
+              src={skill.image}
+              alt={skill.name}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                pointerEvents: "none",
+              }}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    // 🎯 元のデザイン再現：通常の円形カラー背景
+    return (
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+      }}>
+        <div
+          {...(isTouchDevice 
+            ? { onTouchStart: handleTouchStart }
+            : { onClick: handleClick }
+          )}
+          style={{
+            width: "70px",
+            height: "70px",
+            borderRadius: "50%",
+            backgroundColor: skill.bgColor,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            border: isClicked ? "3px solid #ff4444" : "2px solid rgba(255,255,255,0.2)",
+            transform: isClicked ? "scale(1.1)" : "scale(1)",
+            transition: "all 0.2s ease-out",
+            boxShadow: isClicked 
+              ? `0 6px 20px ${skill.bgColor}40, 0 2px 8px rgba(255, 68, 68, 0.3)` 
+              : `0 4px 12px ${skill.bgColor}30`,
+            // 🔥 チカチカ防止
+            WebkitTapHighlightColor: "transparent",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
+            userSelect: "none",
+          }}
+        >
+          <div style={{
+            width: "45px",
+            height: "45px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "50%",
+            backgroundColor: "rgba(255,255,255,0.1)",
+          }}>
+            <img 
+              src={skill.image}
+              alt={skill.name}
+              style={{
+                width: "35px",
+                height: "35px",
+                objectFit: "contain",
+                pointerEvents: "none",
+                filter: skillId === "nextjs" || skillId === "github" ? "invert(1)" : "none",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  });
+
+  SkillIcon.displayName = "SkillIcon";
+
   // 配置パターン
   const firstRow = ["figma", "illustrator", "photoshop"];
   const secondRow = ["nextjs", "html", "sass", "tailwind"];
@@ -172,237 +271,55 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         </div>
       </div>
       
-      {/* Step4テスト完全再現：インラインスタイルのみ */}
+      {/* 🎯 元のデザイン再現：グリッドレイアウト */}
       <div style={{
         display: "flex",
         flexDirection: "column",
-        gap: "20px",
+        gap: "30px",
         padding: "40px 20px",
-        alignItems: "center"
+        alignItems: "center",
+        maxWidth: "400px",
+        margin: "0 auto",
       }}>
         {/* 1行目: 3個 */}
         <div style={{
-          display: "flex",
-          gap: "20px",
-          justifyContent: "center",
-          flexWrap: "wrap"
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "25px",
+          width: "100%",
+          justifyItems: "center",
         }}>
-          {firstRow.map((skillId) => {
-            const skill = skillsData.find(s => s.id === skillId);
-            if (!skill) return null;
-
-            const isClicked = clickedSkill === skillId;
-            
-            return (
-              <div 
-                key={skillId} 
-                // Step4テスト完全再現：デバイス判定によるイベント分離
-                {...(isTouchDevice 
-                  ? {
-                      onTouchStart: (e: React.TouchEvent) => handleSkillTouch(skillId, e)
-                    }
-                  : {
-                      onClick: (e: React.MouseEvent) => handleSkillClick(skillId, e)
-                    }
-                )}
-                style={{
-                  width: "80px",
-                  height: "80px",
-                  border: isClicked ? "3px solid red" : "1px solid #ddd",
-                  borderRadius: "8px",
-                  padding: "10px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: isClicked ? "#ffe0e0" : "#f9f9f9",
-                  cursor: "pointer",
-                  // Step4テスト完全再現：チカチカ防止スタイル
-                  WebkitTapHighlightColor: "transparent",
-                  WebkitTouchCallout: "none",
-                  WebkitUserSelect: "none",
-                  userSelect: "none",
-                  transform: isClicked ? "scale(1.05)" : "scale(1)",
-                  transition: "all 0.15s ease-out",
-                }}
-              >
-                <img 
-                  src={skill.image}
-                  alt={skill.name}
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "contain",
-                    // Step4テスト完全再現：画像がイベントを妨害しないように
-                    pointerEvents: "none",
-                  }}
-                />
-                <div style={{
-                  fontSize: "10px",
-                  marginTop: "4px",
-                  textAlign: "center",
-                  pointerEvents: "none",
-                  color: isClicked ? "#d00" : "#333",
-                  fontWeight: isClicked ? "bold" : "normal",
-                }}>
-                  {skill.name}
-                </div>
-              </div>
-            );
-          })}
+          {firstRow.map((skillId) => (
+            <SkillIcon key={skillId} skillId={skillId} />
+          ))}
         </div>
 
         {/* 2行目: 4個 */}
         <div style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
           gap: "20px",
-          justifyContent: "center",
-          flexWrap: "wrap"
+          width: "100%",
+          justifyItems: "center",
         }}>
-          {secondRow.map((skillId) => {
-            const skill = skillsData.find(s => s.id === skillId);
-            if (!skill) return null;
-
-            const isClicked = clickedSkill === skillId;
-            
-            return (
-              <div 
-                key={skillId} 
-                {...(isTouchDevice 
-                  ? {
-                      onTouchStart: (e: React.TouchEvent) => handleSkillTouch(skillId, e)
-                    }
-                  : {
-                      onClick: (e: React.MouseEvent) => handleSkillClick(skillId, e)
-                    }
-                )}
-                style={{
-                  width: "80px",
-                  height: "80px",
-                  border: isClicked ? "3px solid red" : "1px solid #ddd",
-                  borderRadius: "8px",
-                  padding: "10px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: isClicked ? "#ffe0e0" : "#f9f9f9",
-                  cursor: "pointer",
-                  WebkitTapHighlightColor: "transparent",
-                  WebkitTouchCallout: "none",
-                  WebkitUserSelect: "none",
-                  userSelect: "none",
-                  transform: isClicked ? "scale(1.05)" : "scale(1)",
-                  transition: "all 0.15s ease-out",
-                }}
-              >
-                <img 
-                  src={skill.image}
-                  alt={skill.name}
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "contain",
-                    pointerEvents: "none",
-                  }}
-                />
-                <div style={{
-                  fontSize: "10px",
-                  marginTop: "4px",
-                  textAlign: "center",
-                  pointerEvents: "none",
-                  color: isClicked ? "#d00" : "#333",
-                  fontWeight: isClicked ? "bold" : "normal",
-                }}>
-                  {skill.name}
-                </div>
-              </div>
-            );
-          })}
+          {secondRow.map((skillId) => (
+            <SkillIcon key={skillId} skillId={skillId} />
+          ))}
         </div>
 
         {/* 3行目: 4個 */}
         <div style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
           gap: "20px",
-          justifyContent: "center",
-          flexWrap: "wrap"
+          width: "100%",
+          justifyItems: "center",
         }}>
-          {thirdRow.map((skillId) => {
-            const skill = skillsData.find(s => s.id === skillId);
-            if (!skill) return null;
-
-            const isClicked = clickedSkill === skillId;
-            
-            return (
-              <div 
-                key={skillId} 
-                {...(isTouchDevice 
-                  ? {
-                      onTouchStart: (e: React.TouchEvent) => handleSkillTouch(skillId, e)
-                    }
-                  : {
-                      onClick: (e: React.MouseEvent) => handleSkillClick(skillId, e)
-                    }
-                )}
-                style={{
-                  width: "80px",
-                  height: "80px",
-                  border: isClicked ? "3px solid red" : "1px solid #ddd",
-                  borderRadius: "8px",
-                  padding: "10px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: isClicked ? "#ffe0e0" : "#f9f9f9",
-                  cursor: "pointer",
-                  WebkitTapHighlightColor: "transparent",
-                  WebkitTouchCallout: "none",
-                  WebkitUserSelect: "none",
-                  userSelect: "none",
-                  transform: isClicked ? "scale(1.05)" : "scale(1)",
-                  transition: "all 0.15s ease-out",
-                }}
-              >
-                <img 
-                  src={skill.image}
-                  alt={skill.name}
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "contain",
-                    pointerEvents: "none",
-                  }}
-                />
-                <div style={{
-                  fontSize: "10px",
-                  marginTop: "4px",
-                  textAlign: "center",
-                  pointerEvents: "none",
-                  color: isClicked ? "#d00" : "#333",
-                  fontWeight: isClicked ? "bold" : "normal",
-                }}>
-                  {skill.name}
-                </div>
-              </div>
-            );
-          })}
+          {thirdRow.map((skillId) => (
+            <SkillIcon key={skillId} skillId={skillId} />
+          ))}
         </div>
       </div>
-
-      {/* アクティブスキル表示 */}
-      {clickedSkill && (
-        <div style={{ 
-          textAlign: "center", 
-          marginTop: "20px",
-          fontSize: "14px",
-          color: "red",
-          fontWeight: "bold"
-        }}>
-          🎯 Active: {clickedSkill}
-        </div>
-      )}
 
       {/* ツールチップ */}
       {activeTooltip && (
@@ -412,13 +329,16 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             left: tooltipPosition.x,
             top: tooltipPosition.y,
             transform: "translate(-50%, 0)",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
             color: "white",
             padding: "8px 12px",
-            borderRadius: "4px",
+            borderRadius: "6px",
             fontSize: "12px",
+            fontWeight: "500",
             zIndex: 1000,
             pointerEvents: "none",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+            whiteSpace: "nowrap",
           }}
         >
           {skillsData.find(s => s.id === activeTooltip)?.name}
