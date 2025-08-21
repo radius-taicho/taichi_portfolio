@@ -450,7 +450,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
                 }
               : {
                   // デスクトップ: onClick のみ
-                  onClick: handleSkillClickLocalLocal
+                  onClick: handleSkillClickLocal
                 }
             )}
             onMouseDown={(e) => {
@@ -491,9 +491,9 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
                 onTouchStart: handleSkillTouchStart
               }
             : {
-                // デスクトップ: onClick のみ
-                onClick: handleSkillClick
-              }
+            // デスクトップ: onClick のみ
+            onClick: handleSkillClickLocal
+            }
           )}
           onMouseDown={(e) => {
             e.preventDefault();
