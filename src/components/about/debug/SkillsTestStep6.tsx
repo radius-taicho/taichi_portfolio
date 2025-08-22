@@ -100,20 +100,18 @@ const SkillsTestStep6: React.FC = () => {
     }, [skillId]);
 
     // 🔥 スクロール最適化の共通スタイル
-    const baseOptimizedStyle = {
+    const baseOptimizedStyle: React.CSSProperties = {
       // イベント処理最適化
       WebkitTapHighlightColor: "transparent",
-      WebkitTouchCallout: "none",
-      WebkitUserSelect: "none",
+      WebkitTouchCallout: "none" as any,
+      WebkitUserSelect: "none" as any,
       userSelect: "none",
       // 🚀 スクロール最適化追加
-      WebkitBackfaceVisibility: "hidden",
-      backfaceVisibility: "hidden",
-      WebkitPerspective: "1000px",
-      perspective: "1000px",
+      WebkitBackfaceVisibility: "hidden" as any,
+      backfaceVisibility: "hidden" as any,
       // GPU加速最適化
       transform: "translateZ(0)",
-      willChange: "auto", // will-change: transform は削除
+      willChange: "auto",
     };
 
     // 🎯 Ruby専用処理（角丸度を抑制）
