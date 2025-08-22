@@ -133,7 +133,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     }
   }, [activeTooltip, clickedSkill, setActiveTooltip, setClickedSkill, setTooltipPosition, resetSkillWithTimer]);
 
-  // 🎯 元のデザイン再現：円形スキルアイコンコンポーネント
+  // ✨ 元のデザイン完全再現 + CSS mask-image最適化：円形スキルアイコンコンポーネント
   const SkillIcon = React.memo<{ skillId: string }>(({ skillId }) => {
     const skill = skillsData.find(s => s.id === skillId);
     if (!skill) return null;
@@ -149,7 +149,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       handleSkillClick(skillId, e);
     }, [skillId]);
 
-    // 🎯 元のデザイン再現：Ruby専用スタイル vs 通常の円形スタイル
+    // ✨ 元のデザイン再現：Ruby専用スタイル（CSS mask-image最適化）
     if (isRuby) {
       return (
         <div style={{
@@ -166,14 +166,20 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             style={{
               width: "60px",
               height: "60px",
-              borderRadius: "50%",
+              // 🔥 チカチカ原因を完全除去
+              borderRadius: "0px", // 50% → 0px
+              // ✨ CSS mask-image で完全円形を実現
+              maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+              WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+              
               overflow: "hidden",
               cursor: "pointer",
               border: isClicked ? "3px solid #ff4444" : "2px solid transparent",
               transform: isClicked ? "scale(1.1)" : "scale(1)",
               transition: "all 0.2s ease-out",
               boxShadow: isClicked ? "0 4px 12px rgba(255, 68, 68, 0.3)" : "0 2px 8px rgba(0,0,0,0.1)",
-              // 🔥 チカチカ防止
+              
+              // 🛡️ パフォーマンス最適化（元の機能維持）
               WebkitTapHighlightColor: "transparent",
               WebkitTouchCallout: "none",
               WebkitUserSelect: "none",
@@ -195,7 +201,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
       );
     }
 
-    // 🎯 元のデザイン再現：通常の円形カラー背景
+    // ✨ 元のデザイン完全再現：通常の円形カラー背景（CSS mask-image最適化）
     return (
       <div style={{
         display: "flex",
@@ -211,7 +217,13 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
           style={{
             width: "70px",
             height: "70px",
-            borderRadius: "50%",
+            
+            // 🔥 チカチカ原因を完全除去  
+            borderRadius: "0px", // 50% → 0px
+            // ✨ CSS mask-image で完全円形を実現
+            maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+            WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+            
             backgroundColor: skill.bgColor,
             display: "flex",
             justifyContent: "center",
@@ -223,7 +235,8 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             boxShadow: isClicked 
               ? `0 6px 20px ${skill.bgColor}40, 0 2px 8px rgba(255, 68, 68, 0.3)` 
               : `0 4px 12px ${skill.bgColor}30`,
-            // 🔥 チカチカ防止
+            
+            // 🛡️ パフォーマンス最適化（元の機能維持）
             WebkitTapHighlightColor: "transparent",
             WebkitTouchCallout: "none",
             WebkitUserSelect: "none",
@@ -236,7 +249,13 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "50%",
+            
+            // ✨ 内側円形も最適化
+            borderRadius: "0px", // 50% → 0px
+            // ✨ CSS mask-image で完全円形を実現
+            maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+            WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+            
             backgroundColor: "rgba(255,255,255,0.1)",
           }}>
             <img 
@@ -258,7 +277,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
 
   SkillIcon.displayName = "SkillIcon";
 
-  // 配置パターン
+  // 元のデザイン配置パターン完全維持
   const firstRow = ["figma", "illustrator", "photoshop"];
   const secondRow = ["nextjs", "html", "sass", "tailwind"];
   const thirdRow = ["rails", "github", "swift", "ruby"];
@@ -271,7 +290,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         </div>
       </div>
       
-      {/* 🎯 元のデザイン再現：グリッドレイアウト */}
+      {/* ✨ 元のデザイン完全再現：グリッドレイアウト（3-4-4配置） */}
       <div style={{
         display: "flex",
         flexDirection: "column",
@@ -321,7 +340,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         </div>
       </div>
 
-      {/* ツールチップ */}
+      {/* ツールチップ（元の機能完全維持） */}
       {activeTooltip && (
         <div
           style={{

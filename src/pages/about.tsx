@@ -9,8 +9,8 @@ import DesktopCareerSection from "@/components/about/DesktopCareerSection";
 import MobileProfileSection from "@/components/about/MobileProfileSection";
 import DesktopProfileSection from "@/components/about/DesktopProfileSection";
 
-import SkillsTestStep15_MaskCircle from "@/components/about/debug/SkillsTestStep15_MaskCircle";
-// import SkillsTestStep11 from "@/components/about/debug/SkillsTestStep11";
+import MobileSkillsSection from "@/components/about/MobileSkillsSection";
+// import SkillsTestStep15_MaskCircle from "@/components/about/debug/SkillsTestStep15_MaskCircle";
 import DesktopSkillsSection from "@/components/about/DesktopSkillsSection";
 import MobileStrengthSection from "@/components/about/MobileStrengthSection";
 import DesktopStrengthSection from "@/components/about/DesktopStrengthSection";
@@ -190,8 +190,8 @@ export default function AboutPage() {
             {/* Profile セクション - モバイル版カード型コンポーネント */}
             <MobileProfileSection />
 
-            {/* Skills セクション - Step15テスト版（CSS mask-image円形、borderRadius不使用） */}
-            <SkillsTestStep15_MaskCircle />
+            {/* Skills セクション - 元デザイン完全再現 + CSS mask-image最適化版 */}
+            <MobileSkillsSection skillsState={skillsState} />
 
             {/* Strength セクション - モバイル版コンポーネント */}
             <MobileStrengthSection />
