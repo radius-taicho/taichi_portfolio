@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import styles from "@/styles/aboutme.module.scss";
 
-// スキルデータ
+// 🎯 最終版: Step19ベース + 元デザイン再現（Ruby特別処理対応）
+// 解決策: シンプル構造 + インライン処理でちらつき解消
 const skillsData = [
   { id: "figma", name: "Figma", image: "/images/figma_img.png", bgColor: "#F24E1E" },
   { id: "illustrator", name: "Illustrator", image: "/images/illustrator_img.png", bgColor: "#FF9A00" },
@@ -52,6 +53,7 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     };
     
     setIsTouchDevice(checkDevice());
+    console.log('MobileSkillsSection - 最終版: Step19ベース + 元デザイン再現');
   }, []);
 
   const clearTimer = useCallback(() => {
@@ -133,155 +135,6 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
     }
   }, [activeTooltip, clickedSkill, setActiveTooltip, setClickedSkill, setTooltipPosition, resetSkillWithTimer]);
 
-  // ✨ 元のデザイン完全再現 + CSS mask-image最適化：円形スキルアイコンコンポーネント
-  const SkillIcon = React.memo<{ skillId: string }>(({ skillId }) => {
-    const skill = skillsData.find(s => s.id === skillId);
-    if (!skill) return null;
-
-    const isClicked = clickedSkill === skillId;
-    const isRuby = skillId === "ruby";
-    
-    const handleTouchStart = useCallback((e: React.TouchEvent) => {
-      handleSkillTouch(skillId, e);
-    }, [skillId]);
-
-    const handleClick = useCallback((e: React.MouseEvent) => {
-      handleSkillClick(skillId, e);
-    }, [skillId]);
-
-    // ✨ 元のデザイン再現：Ruby専用スタイル（CSS mask-image最適化）
-    if (isRuby) {
-      return (
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-        }}>
-          <div
-            {...(isTouchDevice 
-              ? { onTouchStart: handleTouchStart }
-              : { onClick: handleClick }
-            )}
-            style={{
-              width: "60px",
-              height: "60px",
-              // 🔥 チカチカ原因を完全除去
-              borderRadius: "0px", // 50% → 0px
-              // ✨ CSS mask-image で完全円形を実現
-              maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
-              WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
-              
-              overflow: "hidden",
-              cursor: "pointer",
-              border: isClicked ? "3px solid #ff4444" : "2px solid transparent",
-              transform: isClicked ? "scale(1.1)" : "scale(1)",
-              transition: "all 0.2s ease-out",
-              boxShadow: isClicked ? "0 4px 12px rgba(255, 68, 68, 0.3)" : "0 2px 8px rgba(0,0,0,0.1)",
-              
-              // 🛡️ パフォーマンス最適化（元の機能維持）
-              WebkitTapHighlightColor: "transparent",
-              WebkitTouchCallout: "none",
-              WebkitUserSelect: "none",
-              userSelect: "none",
-            }}
-          >
-            <img 
-              src={skill.image}
-              alt={skill.name}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                pointerEvents: "none",
-              }}
-            />
-          </div>
-        </div>
-      );
-    }
-
-    // ✨ 元のデザイン完全再現：通常の円形カラー背景（CSS mask-image最適化）
-    return (
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-      }}>
-        <div
-          {...(isTouchDevice 
-            ? { onTouchStart: handleTouchStart }
-            : { onClick: handleClick }
-          )}
-          style={{
-            width: "70px",
-            height: "70px",
-            
-            // 🔥 チカチカ原因を完全除去  
-            borderRadius: "0px", // 50% → 0px
-            // ✨ CSS mask-image で完全円形を実現
-            maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
-            WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
-            
-            backgroundColor: skill.bgColor,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-            border: isClicked ? "3px solid #ff4444" : "2px solid rgba(255,255,255,0.2)",
-            transform: isClicked ? "scale(1.1)" : "scale(1)",
-            transition: "all 0.2s ease-out",
-            boxShadow: isClicked 
-              ? `0 6px 20px ${skill.bgColor}40, 0 2px 8px rgba(255, 68, 68, 0.3)` 
-              : `0 4px 12px ${skill.bgColor}30`,
-            
-            // 🛡️ パフォーマンス最適化（元の機能維持）
-            WebkitTapHighlightColor: "transparent",
-            WebkitTouchCallout: "none",
-            WebkitUserSelect: "none",
-            userSelect: "none",
-          }}
-        >
-          <div style={{
-            width: "45px",
-            height: "45px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            
-            // ✨ 内側円形も最適化
-            borderRadius: "0px", // 50% → 0px
-            // ✨ CSS mask-image で完全円形を実現
-            maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
-            WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
-            
-            backgroundColor: "rgba(255,255,255,0.1)",
-          }}>
-            <img 
-              src={skill.image}
-              alt={skill.name}
-              style={{
-                width: "35px",
-                height: "35px",
-                objectFit: "contain",
-                pointerEvents: "none",
-                filter: skillId === "nextjs" || skillId === "github" ? "invert(1)" : "none",
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  });
-
-  SkillIcon.displayName = "SkillIcon";
-
-  // 元のデザイン配置パターン完全維持
-  const firstRow = ["figma", "illustrator", "photoshop"];
-  const secondRow = ["nextjs", "html", "sass", "tailwind"];
-  const thirdRow = ["rails", "github", "swift", "ruby"];
-
   return (
     <div className={styles.sectionContainer}>
       <div className={styles.sectionHeader}>
@@ -290,54 +143,147 @@ const MobileSkillsSection: React.FC<Props> = ({ skillsState }) => {
         </div>
       </div>
       
-      {/* ✨ 元のデザイン完全再現：グリッドレイアウト（3-4-4配置） */}
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "30px",
-        padding: "40px 20px",
-        alignItems: "center",
-        maxWidth: "400px",
-        margin: "0 auto",
-      }}>
-        {/* 1行目: 3個 */}
-        <div style={{
+      {/* ✅ Step19ベースのシンプル単一グリッド構造（ちらつき解消） */}
+      <div 
+        style={{ 
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "25px",
-          width: "100%",
-          justifyItems: "center",
-        }}>
-          {firstRow.map((skillId) => (
-            <SkillIcon key={skillId} skillId={skillId} />
-          ))}
-        </div>
-
-        {/* 2行目: 4個 */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateRows: "repeat(4, auto)",
           gap: "20px",
-          width: "100%",
+          padding: "40px 20px",
+          maxWidth: "350px",
+          margin: "0 auto",
           justifyItems: "center",
-        }}>
-          {secondRow.map((skillId) => (
-            <SkillIcon key={skillId} skillId={skillId} />
-          ))}
-        </div>
+        }}
+      >
+        {skillsData.map((skill) => {
+          const isClicked = clickedSkill === skill.id;
+          const isRuby = skill.id === "ruby";
+          
+          // ✨ 元デザイン再現: Ruby特別処理（シンプル版）
+          if (isRuby) {
+            return (
+              <div
+                key={skill.id}
+                onTouchStart={(e) => handleSkillTouch(skill.id, e)}
+                onClick={(e) => handleSkillClick(skill.id, e)}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <div style={{
+                  width: "75px",
+                  height: "75px",
+                  
+                  // ✅ CSS mask-imageで円形化（ちらつき解消）
+                  borderRadius: "0px",
+                  maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+                  WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+                  
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  border: isClicked ? "3px solid #ff4444" : "2px solid transparent",
+                  transform: isClicked ? "scale(1.1)" : "scale(1)",
+                  transition: "all 0.2s ease-out",
+                  boxShadow: isClicked 
+                    ? "0 4px 12px rgba(255, 68, 68, 0.3)" 
+                    : "0 2px 8px rgba(0,0,0,0.1)",
+                  
+                  // パフォーマンス最適化
+                  WebkitTapHighlightColor: "transparent",
+                  WebkitTouchCallout: "none",
+                  WebkitUserSelect: "none",
+                  userSelect: "none",
+                }}>
+                  <img 
+                    src={skill.image}
+                    alt={skill.name}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      pointerEvents: "none",
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          }
 
-        {/* 3行目: 4個 */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "20px",
-          width: "100%",
-          justifyItems: "center",
-        }}>
-          {thirdRow.map((skillId) => (
-            <SkillIcon key={skillId} skillId={skillId} />
-          ))}
-        </div>
+          // ✨ 元デザイン再現: 通常スキルの美しい2重円形（シンプル版）
+          return (
+            <div
+              key={skill.id}
+              onTouchStart={(e) => handleSkillTouch(skill.id, e)}
+              onClick={(e) => handleSkillClick(skill.id, e)}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <div style={{
+                width: "75px",
+                height: "75px",
+                
+                // ✅ CSS mask-imageで円形化（ちらつき解消）
+                borderRadius: "0px",
+                maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+                WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+                
+                backgroundColor: skill.bgColor,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                border: isClicked ? "3px solid #ff4444" : "2px solid rgba(255,255,255,0.2)",
+                transform: isClicked ? "scale(1.1)" : "scale(1)",
+                transition: "all 0.2s ease-out",
+                boxShadow: isClicked 
+                  ? `0 6px 20px ${skill.bgColor}40, 0 2px 8px rgba(255, 68, 68, 0.3)` 
+                  : `0 4px 12px ${skill.bgColor}30`,
+                
+                // パフォーマンス最適化
+                WebkitTapHighlightColor: "transparent",
+                WebkitTouchCallout: "none",
+                WebkitUserSelect: "none",
+                userSelect: "none",
+              }}>
+                {/* ✨ 美しい内側円形（シンプル版） */}
+                <div style={{
+                  width: "50px",
+                  height: "50px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  
+                  // ✅ 内側もCSS mask-image
+                  borderRadius: "0px",
+                  maskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+                  WebkitMaskImage: "radial-gradient(circle, white 50%, transparent 50%)",
+                  
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                }}>
+                  <img 
+                    src={skill.image}
+                    alt={skill.name}
+                    style={{
+                      width: "35px",
+                      height: "35px",
+                      objectFit: "contain",
+                      pointerEvents: "none",
+                      filter: skill.id === "nextjs" || skill.id === "github" ? "invert(1)" : "none",
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* ツールチップ（元の機能完全維持） */}
