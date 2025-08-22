@@ -9,7 +9,7 @@ import DesktopCareerSection from "@/components/about/DesktopCareerSection";
 import MobileProfileSection from "@/components/about/MobileProfileSection";
 import DesktopProfileSection from "@/components/about/DesktopProfileSection";
 
-import SkillsTestStep5 from "@/components/about/debug/SkillsTestStep5";
+import SkillsTestStep6 from "@/components/about/debug/SkillsTestStep6";
 import DesktopSkillsSection from "@/components/about/DesktopSkillsSection";
 import MobileStrengthSection from "@/components/about/MobileStrengthSection";
 import DesktopStrengthSection from "@/components/about/DesktopStrengthSection";
@@ -189,8 +189,8 @@ export default function AboutPage() {
             {/* Profile セクション - モバイル版カード型コンポーネント */}
             <MobileProfileSection />
 
-            {/* Skills セクション - Step5テスト版（円形デザイン追加） */}
-            <SkillsTestStep5 />
+            {/* Skills セクション - Step6テスト版（スクロール最適化） */}
+            <SkillsTestStep6 />
 
             {/* Strength セクション - モバイル版コンポーネント */}
             <MobileStrengthSection />
