@@ -9,8 +9,8 @@ import DesktopCareerSection from "@/components/about/DesktopCareerSection";
 import MobileProfileSection from "@/components/about/MobileProfileSection";
 import DesktopProfileSection from "@/components/about/DesktopProfileSection";
 
-import SkillsTestStep18_IndependentState from "@/components/about/debug/SkillsTestStep18_IndependentState";
-// import SkillsTestStep17_Simplified from "@/components/about/debug/SkillsTestStep17_Simplified";
+import SkillsTestStep19_ExactCopy from "@/components/about/debug/SkillsTestStep19_ExactCopy";
+// import SkillsTestStep18_IndependentState from "@/components/about/debug/SkillsTestStep18_IndependentState";
 import DesktopSkillsSection from "@/components/about/DesktopSkillsSection";
 import MobileStrengthSection from "@/components/about/MobileStrengthSection";
 import DesktopStrengthSection from "@/components/about/DesktopStrengthSection";
@@ -190,8 +190,8 @@ export default function AboutPage() {
             {/* Profile セクション - モバイル版カード型コンポーネント */}
             <MobileProfileSection />
 
-            {/* Skills セクション - Step18テスト版（skillsState完全除去 + Step15独立状態管理） */}
-            <SkillsTestStep18_IndependentState />
+            {/* Skills セクション - Step19テスト版（Step15完全移植版） */}
+            <SkillsTestStep19_ExactCopy />
 
             {/* Strength セクション - モバイル版コンポーネント */}
             <MobileStrengthSection />
