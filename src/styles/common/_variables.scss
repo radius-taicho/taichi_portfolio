@@ -196,6 +196,13 @@ $hero-max-height: 824px;
   }
 }
 
+// テキストホバーアニメーション設定
+$text-hover-duration: 0.5s; // 通常のアニメーション速度
+$text-hover-duration-hamburger: 0.5s; // ハンバーガーメニュー専用（視覚的調整）
+$text-hover-duration-hamburger-nav: 1s; // ハンバーガーメニューのWorks, About, Contact専用
+$text-hover-timing: ease-in-out; // イージング関数
+$text-hover-color: #e65853; // ホバー時の赤色
+
 // モバイル専用設定
 $mobile-max-width: 375px;
 $mobile-header-height: 72px;

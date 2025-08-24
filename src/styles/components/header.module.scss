@@ -152,31 +152,24 @@
   transform: translateZ(0);
   will-change: auto;
 
-  &::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    color: #E65853;
-    overflow: hidden;
-    transition: width 0.6s ease-in-out;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    z-index: 1;
-    /* 疾似要素の安定性確保 */
-    transform: translateZ(0);
-    will-change: width;
-    /* 左から赤くなるアニメーションの位置修正 */
-    text-align: left;
-    padding-left: 0;
-  }
+  /* テキストグラデーションアニメーション（左から右） */
+  background: linear-gradient(
+    90deg,
+    $text-hover-color 0%,
+    $text-hover-color 50%,
+    $text-color 50%,
+    $text-color 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;  /* 初期位置：通常色表示 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position $text-hover-duration $text-hover-timing;
 
-  &:hover::before {
-    width: 100%;
+  &:hover {
+    background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
   }
 
   // 狭いデスクトップではフォントサイズを小さく
@@ -223,31 +216,24 @@
   transform: translateZ(0);
   will-change: auto;
 
-  &::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    color: #E65853;
-    overflow: hidden;
-    transition: width 0.6s ease-in-out;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    z-index: 1;
-    /* 痾似要素の安定性確保 */
-    transform: translateZ(0);
-    will-change: width;
-    /* 左から赤くなるアニメーションの位置修正 */
-    text-align: left;
-    padding-left: 0;
-  }
+  /* テキストグラデーションアニメーション（左から右） */
+  background: linear-gradient(
+    90deg,
+    $text-hover-color 0%,
+    $text-hover-color 50%,
+    $text-color 50%,
+    $text-color 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;  /* 初期位置：通常色表示 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position $text-hover-duration $text-hover-timing;
 
-  &:hover::before {
-    width: 100%;
+  &:hover {
+    background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
   }
 
   // 狭いデスクトップではフォントサイズを小さく
@@ -311,31 +297,24 @@
   transform: translateZ(0);
   will-change: auto;
 
-  &::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    color: #E65853;
-    overflow: hidden;
-    transition: width 0.6s ease-in-out;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    z-index: 1;
-    /* 痾似要素の安定性確保 */
-    transform: translateZ(0);
-    will-change: width;
-    /* 左から赤くなるアニメーションの位置修正 */
-    text-align: left;
-    padding-left: 0;
-  }
+  /* テキストグラデーションアニメーション（左から右） */
+  background: linear-gradient(
+    90deg,
+    $text-hover-color 0%,
+    $text-hover-color 50%,
+    $text-color 50%,
+    $text-color 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;  /* 初期位置：通常色表示 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position $text-hover-duration $text-hover-timing;
 
-  &:hover::before {
-    width: 100%;
+  &:hover {
+    background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
   }
 }
 

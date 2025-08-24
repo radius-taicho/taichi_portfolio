@@ -76,9 +76,9 @@
 
 .mobileBrandName {
   color: #ffffff;
-  text-align: left; // 左寄せに統一
+  text-align: left;
   font-family: $font-rubik !important;
-  font-size: clamp(28px, 7vw, 36px); // レスポンシブサイズ
+  font-size: clamp(28px, 7vw, 36px);
   font-weight: 700;
   position: relative;
   cursor: pointer;
@@ -89,28 +89,24 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 
-  &::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    color: #e65853;
-    overflow: hidden;
-    transition: width 0.6s ease-in-out;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    z-index: 1;
-    transform: translateZ(0);
-    will-change: width;
-    line-height: inherit;
-  }
+  /* テキストグラデーションアニメーション（左から右） */
+  background: linear-gradient(
+    90deg,
+    $text-hover-color 0%,
+    $text-hover-color 50%,
+    #ffffff 50%,
+    #ffffff 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;  /* 初期位置：通常色表示 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position $text-hover-duration $text-hover-timing;
 
-  &:hover::before {
-    width: 100%;
+  &:hover {
+    background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
   }
 }
 
@@ -158,14 +154,14 @@
 .mobileNavLink:is(a),
 .mobileNavLink:is(button) {
   color: #ffffff;
-  text-align: left; // 左揃えに変更
+  text-align: left;
   font-family: $font-rubik !important;
   font-size: 20px;
   font-weight: 600;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start; // 左配置に変更
+  justify-content: flex-start;
   text-decoration: none;
   background: none;
   border: none;
@@ -176,28 +172,24 @@
   transform: translateZ(0);
   will-change: auto;
 
-  &::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    color: #e65853;
-    overflow: hidden;
-    transition: width 0.6s ease-in-out;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    z-index: 1;
-    /* 痾似要素の安定性確保 */
-    transform: translateZ(0);
-    will-change: width;
-  }
+  /* テキストグラデーションアニメーション（左から右） */
+  background: linear-gradient(
+    90deg,
+    $text-hover-color 0%,
+    $text-hover-color 50%,
+    #ffffff 50%,
+    #ffffff 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;  /* 初期位置：通常色表示 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position $text-hover-duration $text-hover-timing;
 
-  &:hover::before {
-    width: 100%;
+  &:hover {
+    background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
   }
 
   &:focus {
@@ -289,47 +281,40 @@
 
 .mobileSettingOption {
   color: #ffffff;
-  text-align: left; // 左寄せに変更
+  text-align: left;
   font-family: $font-japanese;
   font-size: clamp(12px, 3vw, 14px);
   font-weight: 400;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start; // 左寄せに変更
+  justify-content: flex-start;
   cursor: pointer;
-  width: auto; // 幅を自動に
+  width: auto;
   overflow: hidden;
   transform: translateZ(0);
   will-change: auto;
   opacity: 0.8;
 
-  &::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0; // 左から開始
-    transform: none; // transformをリセット
-    width: 0;
-    height: 100%;
-    color: #e65853;
-    overflow: hidden;
-    transition: width 0.4s ease-in-out;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; // 左寄せに変更
-    z-index: 1;
-    transform: translateZ(0); // GPU加速のみ
-    will-change: width;
-  }
+  /* テキストグラデーションアニメーション（左から右） */
+  background: linear-gradient(
+    90deg,
+    $text-hover-color 0%,
+    $text-hover-color 50%,
+    #ffffff 50%,
+    #ffffff 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;  /* 初期位置：通常色表示 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position $text-hover-duration $text-hover-timing;
 
   &:hover {
     opacity: 1;
-
-    &::before {
-      width: 100%;
-    }
+    background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
   }
 }
 
@@ -438,28 +423,24 @@
     will-change: auto;
     user-select: none;
 
-    &::before {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 100%;
-      color: #e65853;
-      overflow: hidden;
-      transition: width 0.6s ease-in-out;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      z-index: 1;
-      /* 痾似要素の安定性確保 */
-      transform: translateZ(0);
-      will-change: width;
-    }
+    /* テキストグラデーションアニメーション（左から右） */
+    background: linear-gradient(
+      90deg,
+      $text-hover-color 0%,
+      $text-hover-color 50%,
+      #ffffff 50%,
+      #ffffff 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;  /* 初期位置：通常色表示 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transition: background-position $text-hover-duration $text-hover-timing;
 
-    &:hover::before {
-      width: 100%;
+    &:hover {
+      background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
     }
   }
 }
@@ -557,28 +538,24 @@
     transform: translateZ(0);
     will-change: auto;
 
-    &::before {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 100%;
-      color: #e65853;
-      overflow: hidden;
-      transition: width 0.6s ease-in-out;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      z-index: 1;
-      /* 痾似要素の安定性確保 */
-      transform: translateZ(0);
-      will-change: width;
-    }
+    /* テキストグラデーションアニメーション（左から右） */
+    background: linear-gradient(
+      90deg,
+      $text-hover-color 0%,
+      $text-hover-color 50%,
+      #ffffff 50%,
+      #ffffff 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;  /* 初期位置：通常色表示 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transition: background-position $text-hover-duration $text-hover-timing;
 
-    &:hover::before {
-      width: 100%;
+    &:hover {
+      background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
     }
 
     &:focus {
@@ -671,28 +648,24 @@
     transform: translateZ(0);
     will-change: auto;
 
-    &::before {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 100%;
-      color: #e65853;
-      overflow: hidden;
-      transition: width 0.6s ease-in-out;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      z-index: 1;
-      /* 痾似要素の安定性確保 */
-      transform: translateZ(0);
-      will-change: width;
-    }
+    /* テキストグラデーションアニメーション（左から右） */
+    background: linear-gradient(
+      90deg,
+      $text-hover-color 0%,
+      $text-hover-color 50%,
+      #ffffff 50%,
+      #ffffff 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;  /* 初期位置：通常色表示 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transition: background-position $text-hover-duration $text-hover-timing;
 
-    &:hover::before {
-      width: 100%;
+    &:hover {
+      background-position: 0% 0;  /* ホバー時：赤色表示（左から右へ） */
     }
   }
 }
