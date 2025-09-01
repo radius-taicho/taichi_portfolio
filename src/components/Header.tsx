@@ -37,22 +37,27 @@ export default function Header() {
       const isMobile = window.innerWidth < 768;
       const elementId = isMobile ? "works-section-mobile" : "works-section";
       const element = document.getElementById(elementId);
+      
       if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
+        // ヘッダーが固定されていないので、単純にWorksタイトルの位置にスクロール
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        
+        window.scrollTo({
+          top: elementPosition,
+          behavior: "smooth"
         });
       }
     };
 
     // 現在のページがトップページの場合はスクロールのみ
     if (router.pathname === "/") {
-      scrollToElement();
+      // メニューが開いている場合は閉じるまで少し待つ
+      setTimeout(scrollToElement, isMobileMenuOpen ? 150 : 0);
     } else {
       // 他のページからの場合はトップページに遷移してからスクロール
       router.push("/").then(() => {
-        // ページ遷移後に少し待ってからスクロール
-        setTimeout(scrollToElement, 100);
+        // ページ遷移完了後に十分な時間を待ってからスクロール
+        setTimeout(scrollToElement, 300);
       });
     }
   };
